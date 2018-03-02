@@ -1,0 +1,22 @@
+@charset "utf-8";
+/* CSS Document */
+
+#page-wrapper {padding: 0; height:auto;}
+/*.wrapper-content {float:left;padding: 0;}*/
+.clsbreadcrumb{float:left; margin:25px 0; width:100%; padding-left:2%;}
+.clsaddnewvendorform {float: left;height: auto;width: 100%;}
+.clsheaderbanner {padding: 0;}
+.clsheaderbanner img {width: 100%;height: auto;}
+.clsformelements {float: left;width: 100%;margin-bottom: 0px;}
+.clsformelements label {float: left; text-align: right; padding: 5px 0;font-weight: 400;/*font-size: 16px;*/ color:#111;}
+.form-control, .single-line {padding: 0px 12px;}
+.clsformelements input {border:solid 1px #515151;}
+.clsformelements select {border:solid 1px #515151;}
+.clsformelements h3{font-size:21px; font-weight:600; color:#353535;}
+.clsformelements button {float: left; width: 20%; margin: 0 2.5%;}
+.clsbutton {display:inline-block;padding:6px 25px;font-size:12px;cursor:pointer;text-align:center;text-decoration:none;outline:none;color:#fff;background-color:#00ADEF;border:none;border-radius:5px;box-shadow: 0 2px #999;}
+.clsbutton:hover {background-color: #00ADEF}
+.clsbutton:active {background-color: #3e8e41;box-shadow: 0 5px #666;transform: translateY(4px);}
+
+.form-control {height: 26px;margin:0;}
+.form-group input {margin: 0;}

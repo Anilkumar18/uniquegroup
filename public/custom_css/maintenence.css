@@ -1,0 +1,446 @@
+.dashboard-mainimg {
+
+    width: 100%;
+
+    height: auto;
+
+}
+
+.dropbtn {
+
+    background-color: #00AEEF;
+
+    color: white;
+
+    padding: 4px;
+
+    font-size: 13px;
+
+    border: none;
+
+    cursor: pointer;
+
+	width: 160px;
+
+	height:32px;
+
+	border-radius: 5px;
+
+	padding: 4px;
+
+	margin-top: 12px;
+
+}
+
+
+
+.dropdown {
+
+    position: relative;
+
+    display: inline-block;
+
+}
+
+
+
+.dropdown-content {
+
+    display: none;
+
+    position: absolute;
+
+    background-color: #0095cd;
+
+    min-width: 160px;
+
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+
+    z-index: 1;
+
+	color:white;
+
+}
+
+
+
+.dropdown-content a {
+
+    color: black;
+
+    padding: 4px 16px;
+
+    text-decoration: none;
+
+    display: block;
+
+	font-size: 13px;
+
+}
+
+
+
+.dropdown-content a:hover {background-color: #00AEEF}
+
+
+
+.dropdown:hover .dropdown-content {
+
+    display: block;
+
+}
+
+
+
+.dropdown:hover .dropbtn {
+
+    background-color: #00AEEF;
+
+}
+
+.dropdown-content.drop a {
+
+    color: #fff;
+
+}
+
+.dropdown-content.drop a:hover{
+
+	background-color:#457093;
+
+}
+
+.button {
+
+  display: inline-block;
+
+  padding: 6px 25px;
+
+  font-size: 12px;
+
+  cursor: pointer;
+
+  text-align: center;
+
+  text-decoration: none;
+
+  outline: none;
+
+  color: #fff;
+
+  background-color: #00ADEF;
+
+  border: none;
+
+  border-radius: 5px;
+
+ /* box-shadow: 0 9px #999;*/
+
+}
+table .customer_th
+{
+  width: 50px; 
+  text-align: center; 
+}
+.contact_first_th
+{
+    width: 130px;
+    text-align: center;
+}
+table .last_th
+{
+    width: 125px;
+    text-align: center;
+}
+table .phone_th
+{
+    width: 100px;
+    text-align: center;
+}
+table .email_th
+{
+    width: 70px;
+    text-align: center;
+}
+table .country_th
+{
+    width: 50px;
+    text-align: center;
+}
+table .action_th
+{
+    width: 100px;
+    text-align: center;
+}
+.logoutSuccdiv
+{
+  margin-top: 10px !imporatant;
+}
+
+
+
+.dropbtn {
+    background-color: #00AEEF;
+    color: white;
+    padding: 4px;
+    font-size: 13px;
+    border: none;
+    cursor: pointer;
+  width: 160px;
+  height:32px;
+  border-radius: 5px;
+  padding: 4px;
+  margin-top: 12px;
+}
+
+
+
+.dropdown:hover .dropbtn {
+    background-color: #00AEEF;
+}
+.dropdown-content.drop a {
+    color: #fff;
+}
+.dropdown-content.drop a:hover{
+  background-color:#457093;
+}
+
+
+/*.button:hover {background-color: #00ADEF}
+
+.button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}*/
+
+table .customer_user_table
+{
+  border-top: solid 2px #212121; border-bottom: solid 2px #212121;
+}
+.table_user
+{
+  background-color:#CCCCCC;
+}
+.customers_print_p
+{
+  float:right; cursor:pointer; z-index:1; position:relative; font-size:10px;
+}
+.customer_detail_tabl
+{
+  width:47%;border-bottom: solid 2px #212121;float:left;
+}
+.customer_thead
+{
+  border-top: solid 2px #212121; border-bottom: solid 2px #212121;
+}
+.customer_page_row
+{
+  float: left;
+}
+
+table .customer_user_table
+{
+  border-top: solid 2px #212121; border-bottom: solid 2px #212121;
+}
+.table_user_detail
+{
+  width:47%;border-bottom: solid 2px #212121;float:left;
+}
+.customer_user_p
+{
+  float:right; cursor:pointer; z-index:1; position:relative; font-size:10px;
+}
+.gradeC
+{
+  color:#FF0000; text-align:center;
+}
+.logoutSucc
+{
+  margin-top: 10px;
+}
+.user_backgrd_color
+{
+  background-color:#CCCCCC;
+}
+.customer_edit_btn
+{
+  float: left;
+}
+.customer_backgrd
+{
+  background-color:#CCCCCC;
+}
+
+
+.custom_user_h5
+{
+  font-size:11px;
+}
+
+
+.mandatory_fields {
+    color: #FF0000;
+  }
+.opbtn { width: 44% !important; }
+
+.button_vendor
+{
+   margin-bottom: 15%;
+}
+.vendor_users_p
+{
+  float:right; cursor:pointer; z-index:1; position:relative; font-size:10px;
+}
+.vendor_user_div
+{
+  float: left;
+}
+.vendor_user_table
+{
+   width:47%;
+   border-bottom: solid 2px #212121;
+   float:left;
+}
+.vendor_user_thead
+{
+  border-top: solid 2px #212121;
+   border-bottom: solid 2px #212121;
+}
+.vendors_detail_table
+{
+  width:47%;border-bottom: solid 2px #212121;float:left;
+}
+.vendor_btn
+{
+  margin-bottom: 3%;
+}
+
+input[type=radio] {
+    margin: 11px 15px 5px;
+    margin-top: 1px\9;
+    line-height: normal;
+  width:25px;
+}
+.customradio{
+width:50px;}
+
+table th
+{
+  text-align: center;
+}
+.unique_facility_p
+{
+  float:right; cursor:pointer; z-index:1; position:relative; font-size:10px;
+}
+.unique_facility_div
+{
+  float:left;padding:0;
+}
+.unique_facility_table
+{
+  width:47%;border-bottom: solid 2px #212121;float:left;
+}
+.unique_facility_thead
+{
+  border-top: solid 2px #212121; border-bottom: solid 2px #212121;
+}
+.unique_table_backgrd
+{
+  background-color:#CCCCCC;
+}
+.unique_user_detail_p
+{
+  float:right; cursor:pointer; z-index:1; position:relative; font-size:10px;
+}
+.unique_user_detail_div
+{
+  float:left;padding:0;
+}
+.unique_user_detail_table
+{
+  width:47%;border-bottom: solid 2px #212121;float:left;
+}
+.unique_user_detail_thead
+{
+  border-top: solid 2px #212121; border-bottom: solid 2px #212121;
+}
+.unique_user_detail_bgclr
+{
+  background-color:#CCCCCC;
+}
+.user_facility_btn
+{
+  margin-bottom: 3%;
+}
+.buttons-copy
+{
+display: inline-block;
+    padding: 6px 25px;
+    font-size: 12px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #00ADEF;
+    border: none;
+    border-radius: 5px;
+}
+.buttons-csv
+{
+display: inline-block;
+    padding: 6px 25px;
+    font-size: 12px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #00ADEF;
+    border: none;
+    border-radius: 5px;
+}
+.buttons-excel
+{
+display: inline-block;
+    padding: 6px 25px;
+    font-size: 12px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #00ADEF;
+    border: none;
+    border-radius: 5px;	
+	
+}
+.buttons-pdf
+{
+	display: inline-block;
+    padding: 6px 25px;
+    font-size: 12px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #00ADEF;
+    border: none;
+    border-radius: 5px;	
+}
+.buttons-print
+{
+	display: inline-block;
+    padding: 6px 25px;
+    font-size: 12px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #00ADEF;
+    border: none;
+    border-radius: 5px;	
+}

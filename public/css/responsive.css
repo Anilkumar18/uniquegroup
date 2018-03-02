@@ -1,0 +1,50 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+@media only screen and (max-width:359px){
+.clsaddnewvendorform row {float: left; width: 100%; padding-left: 0 !important; padding-right: 0 !important;}
+.clsaddnewvendorform .col-md-12 {float: left; width: 100%; padding: 0;}	
+.clsformelements .col-md-3 {padding: 0;}
+.clsformelements button {float: left; width: 95%; margin: 20px 2.5%; padding: 8px 5px !important;}
+}
+
+@media only screen and (min-width:360px) and (max-width:480px){
+.clsaddnewvendorform {width: 90%; margin: 0 5%;}
+.clsformelements label{text-align:left;}
+.clsaddnewvendorform row {float: left; width: 100%; padding-left: 0 !important; padding-right: 0 !important;}
+.clsaddnewvendorform .col-md-12 {float: left; width: 100%; padding: 0;}	
+.clsformelements .col-md-3 {padding: 0;}
+.clsformelements button {float: left; width: 95%; margin: 20px 2.5%; padding: 8px 5px !important;}
+}
+
+@media only screen and (min-width:481px) and (max-width:768px){
+.clsaddnewvendorform {width: 70%; margin: 0 15%;}
+.clsformelements label{text-align:left;}
+.clsaddnewvendorform row {float: left; width: 100%; padding-left: 0 !important; padding-right: 0 !important;}
+.clsaddnewvendorform .col-md-12 {float: left; width: 100%; padding: 0;}	
+.clsformelements .col-md-3 {padding: 0;}
+.clsformelements button {float: left; width: 95%; margin: 20px 2.5%; padding: 8px 5px !important;}
+}
+
+@media only screen and (min-width:769px) and (max-width:991px){
+.clsaddnewvendorform {width: 70%; margin: 0 15%;}
+.clsaddnewvendorform row {float: left; width: 100%; padding-left: 0 !important; padding-right: 0 !important;}
+.clsaddnewvendorform .col-md-12 {float: left; width: 100%; padding: 0;}	
+.clsformelements .col-md-3 {padding: 0;}
+.clsformelements button {float: left; width: 95%; margin: 20px 2.5%; padding: 8px 5px !important;}
+}
+
+@media only screen and (min-width:992px) and (max-width:1199px){
+.clsformelements .col-md-3 {width:30%;}
+.clsformelements button {width: 25% !important;}
+}
+
+@media only screen and (min-width:1200px) and (max-width:1365px){
+.clsformelements label {font-size: 13px;}
+.clsformelements h3 {font-size: 16px;}
+}
+
+@media only screen and (min-width:1366px) and (max-width:1600px){
+.clsformelements h3 {font-size: 16px;}
+}

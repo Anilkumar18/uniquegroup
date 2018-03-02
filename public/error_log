@@ -1,0 +1,21 @@
+[21-Dec-2017 05:07:17 UTC] PHP Fatal error:  Class 'App\UniqueOffices' not found in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/Admin/VendorsController.php on line 45
+[21-Dec-2017 13:35:50 UTC] PHP Parse error:  syntax error, unexpected ':' in /home2/aitechin/public_html/laravel/uniquegroup/storage/framework/views/494d91e30a1e986573f16f75adc93b9642b5a47f.php on line 79
+[22-Dec-2017 10:02:32 UTC] PHP Parse error:  syntax error, unexpected '>' in /home2/aitechin/public_html/laravel/uniquegroup/storage/framework/views/81e9dd6f9e60369a2c62c7a2040cdbfdbff3e012.php on line 4
+[27-Dec-2017 10:30:36 UTC] PHP Fatal error:  Class 'App\Http\Controllers\Controller' not found in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/Controller.php on line 41
+[27-Dec-2017 14:02:57 UTC] PHP Parse error:  syntax error, unexpected ',' in /home2/aitechin/public_html/laravel/uniquegroup/storage/framework/views/4592f55e1e50752b13648d283fcea353ef05032c.php on line 177
+[05-Jan-2018 14:53:05 UTC] PHP Parse error:  syntax error, unexpected ''.$tablename.'' (T_CONSTANT_ENCAPSED_STRING), expecting ',' or ';' in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/Admin/ProductDetailsController.php on line 134
+[05-Jan-2018 14:54:00 UTC] PHP Parse error:  syntax error, unexpected ''.$tablename.'' (T_CONSTANT_ENCAPSED_STRING), expecting ',' or ';' in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/Admin/ProductDetailsController.php on line 134
+[08-Jan-2018 14:44:42 UTC] PHP Fatal error:  Class 'App\ProductDevelopmentFields' not found in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/Admin/ProductDevelopmentController.php on line 57
+[22-Jan-2018 13:49:40 UTC] PHP Fatal error:  Class 'App\ProductDetail' not found in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/ProductsController.php on line 468
+[22-Jan-2018 13:59:43 UTC] PHP Fatal error:  Class 'App\ProductDetail' not found in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/ProductsController.php on line 468
+[22-Jan-2018 14:01:26 UTC] PHP Fatal error:  Class 'App\ProductDetail' not found in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/ProductsController.php on line 468
+[22-Jan-2018 14:02:18 UTC] PHP Fatal error:  Class 'App\ProductDetail' not found in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/ProductsController.php on line 468
+[22-Jan-2018 14:16:45 UTC] PHP Fatal error:  Class 'App\ProductDetail' not found in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/ProductsController.php on line 468
+[22-Jan-2018 14:24:40 UTC] PHP Fatal error:  Class 'App\ProductDetail' not found in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/ProductsController.php on line 468
+[30-Jan-2018 12:43:34 UTC] PHP Fatal error:  Class 'App\Quote' not found in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/ProductsController.php on line 465
+[02-Feb-2018 13:48:57 UTC] PHP Fatal error:  Class 'App\Http\Controllers\ProductDetail' not found in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/ProductsController.php on line 687
+[08-Feb-2018 14:11:00 UTC] PHP Fatal error:  Class 'App\Http\Controllers\ProductDetail' not found in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/ProductsController.php on line 1111
+[09-Feb-2018 15:23:24 UTC] PHP Fatal error:  Class 'App\Http\Controllers\ProductDetail' not found in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/ProductsController.php on line 1111
+[13-Feb-2018 04:50:33 UTC] PHP Fatal error:  Class 'App\Http\Controllers\ProductDetail' not found in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/ProductsController.php on line 1125
+[13-Feb-2018 04:53:02 UTC] PHP Fatal error:  Class 'App\Http\Controllers\ProductDetail' not found in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/ProductsController.php on line 1125
+[19-Feb-2018 15:28:09 UTC] PHP Parse error:  syntax error, unexpected 'if' (T_IF), expecting function (T_FUNCTION) in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/ProductGroupsController.php on line 871

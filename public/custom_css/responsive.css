@@ -1,0 +1,217 @@
+@charset "utf-8";
+
+/* CSS Document */
+
+
+
+
+
+@media only screen and (max-width:359px){
+.clsaddnewvendorform {width: 100%;margin: 0;padding: 0;}
+.clsaddnewvendorform row {float: left; width: 100%; padding-left: 0 !important; padding-right: 0 !important;}
+.clsaddnewvendorform .col-md-12 {float: left; width: 100%; padding: 0;}	
+.clsformelements .col-md-3 {padding: 0;}
+.clsformelements button {float: left; width: 95%; margin: 20px 2.5%; padding: 8px 5px !important;}
+
+.form-group {text-align: center;padding-bottom: 15px;}
+.clsheaderbanner {margin: 10px 0;}
+.table-responsive .row {overflow-x: scroll;}
+.gradeX.odd .button{margin: 5px 0 !important; width: 100% !important;}
+.gradeX.even .button{margin: 5px 0 !important; width: 100% !important;}
+.table-responsive h5 {padding-right: 5px;}
+.footer {bottom: 0;left: 0; position: relative; right: 0; float: left; width: 100%;}
+table.dataTable tbody td {padding: 8px 2px;}
+
+.gradeX.odd td .selectcustomers {padding: 1px !important;}
+.gradeX.even td .selectcustomers {padding: 1px !important;}
+.gradeX.odd td .delete {padding: 1px !important;}
+.gradeX.even td .delete {padding: 1px !important;}
+}
+
+
+
+@media only screen and (min-width:360px) and (max-width:480px){
+
+.clsaddnewvendorform {width: 100%;margin: 0;padding: 0;}
+.clsformelements label{text-align:left;}
+.clsaddnewvendorform row {float: left; width: 100%; padding-left: 0 !important; padding-right: 0 !important;}
+.clsaddnewvendorform .col-md-12 {float: left; width: 100%; padding: 0;}	
+.clsformelements .col-md-3 {padding: 0;}
+.clsformelements button {float: left; width: 95%; margin: 20px 2.5%; padding: 8px 5px !important;}
+
+.form-group {text-align: center;padding-bottom: 15px;}
+.clsheaderbanner {margin: 10px 0;}
+.table-responsive .row {overflow-x: scroll;}
+.gradeX.odd .button{margin: 5px 0 !important; width: 100% !important;}
+.gradeX.even .button{margin: 5px 0 !important; width: 100% !important;}
+.table-responsive h5 {padding-right: 5px;}
+.footer {bottom: 0;left: 0; position: relative; right: 0; float: left; width: 100%;}
+table.dataTable tbody td {padding: 8px 2px;}
+
+.gradeX.odd td .selectcustomers {padding: 1px !important;}
+.gradeX.even td .selectcustomers {padding: 1px !important;}
+.gradeX.odd td .delete {padding: 1px !important;}
+.gradeX.even td .delete {padding: 1px !important;}
+}
+
+
+
+@media only screen and (min-width:481px) and (max-width:768px){
+
+.clsaddnewvendorform {width: 100%;margin: 0;}
+.clsformelements label{text-align:left;}
+.clsaddnewvendorform row {float: left; width: 100%; padding-left: 0 !important; padding-right: 0 !important;}
+.clsaddnewvendorform .col-md-12 {float: left; width: 100%; padding: 0;}	
+.clsformelements .col-md-3 {padding: 0;}
+.clsformelements button {float: left; width: 95%; margin: 20px 2.5%; padding: 8px 5px !important;}
+
+.form-group {text-align: center;padding-bottom: 15px;}
+.clsheaderbanner {margin: 10px 0;}
+.table-responsive h5 {padding-right: 5px;}
+.table-responsive .row {margin-left: 0 !important;margin-right: 0 !important;}
+.dataTables_length label {width: 100%;}
+.dataTables_length select.input-sm {width: 80%;margin: 0 10%;}
+.dataTables_wrapper .dataTables_filter input {width: 80%;margin: 0 10%;}
+.table-responsive .row {overflow-x: scroll;}
+.gradeX.odd .button{margin: 5px 0 !important; width: 100% !important;}
+.gradeX.even .button{margin: 5px 0 !important; width: 100% !important;}
+.footer {bottom: 0;left: 0; position: relative; right: 0; float: left; width: 100%;}
+table.dataTable tbody td {padding: 8px 2px;}
+
+.gradeX.odd td .selectcustomers {padding: 1px !important;}
+.gradeX.even td .selectcustomers {padding: 1px !important;}
+.gradeX.odd td .delete {padding: 1px !important;}
+.gradeX.even td .delete {padding: 1px !important;}
+}
+
+@media only screen and (min-width:650px) and (max-width:769px){
+.dataTables_wrapper .col-sm-6 {float: left;width: 50%;}
+.dataTables_length{width:100%;}
+.dataTables_length select.input-sm {width: 100%;margin: 0;}
+.dataTables_wrapper .dataTables_filter input {width: 100%;margin: 0;}
+}
+
+
+@media only screen and (min-width:769px) and (max-width:991px){
+
+.clsaddnewvendorform {width: 100%; margin: 0;padding: 0;}
+.clsaddnewvendorform row {float: left; width: 100%; padding-left: 0 !important; padding-right: 0 !important;}
+.clsaddnewvendorform .col-md-12 {float: left; width: 100%; padding: 0;}	
+.clsformelements .col-md-3 {padding: 0;}
+.clsformelements button {float: left; width: 95%; margin: 20px 2.5%; padding: 8px 5px !important;}
+
+.row.border-bottom {margin-right: 0;margin-left: 0;}
+.form-group {text-align: center;padding-bottom: 15px;}
+.clsheaderbanner {margin: 10px 0;}
+
+.gradeX.odd .button{margin: 5px 0 !important; width: 100% !important;}
+.gradeX.even .button{margin: 5px 0 !important; width: 100% !important;}
+.table-responsive .row {overflow-x: scroll;}
+.footer {bottom: 0;left: 0; position: relative; right: 0; float: left; width: 100%;}
+table.dataTable tbody td {padding: 8px 2px;}
+.gradeX.odd td .selectcustomers {padding: 1px !important;}
+.gradeX.even td .selectcustomers {padding: 1px !important;}
+.gradeX.odd td .delete {padding: 1px !important;}
+.gradeX.even td .delete {padding: 1px !important;}
+}
+
+
+
+@media only screen and (min-width:992px) and (max-width:1199px){
+
+.clsformelements .col-md-3 {width:30%;}
+.clsformelements button {width: 25% !important;}
+
+.row.border-bottom {margin-right: 0;margin-left: 0;}
+.form-group {text-align: center;padding-bottom: 15px;}
+.clsheaderbanner {margin: 10px 0;}
+.gradeX.odd .button{margin: 5px 0 !important; width: 100% !important;}
+.gradeX.even .button{margin: 5px 0 !important; width: 100% !important;}
+
+/*.dataTables_wrapper {transform: scale(0.95);}*/
+.button.addnewcustomerusers{float: left;}
+.footer {bottom: 0;left: 0; position: relative; right: 0; float: left; width: 100%;}
+.dataTables_wrapper {transform: scale(0.95); overflow-x: scroll;}
+table.dataTable tbody td {padding: 8px 2px;}
+.gradeX.odd td span {padding: 1px !important;}
+.gradeX.odd td .selectcustomers {padding: 1px !important;}
+.gradeX.even td .selectcustomers {padding: 1px !important;}
+.gradeX.odd td .delete {padding: 1px !important;}
+.gradeX.even td .delete {padding: 1px !important;}
+
+}
+
+
+
+@media only screen and (min-width:1200px) and (max-width:1365px){
+
+.clsformelements label {font-size: 13px;}
+.clsformelements h3 {font-size: 16px;}
+
+.row.border-bottom {margin-right: 0;margin-left: 0;}
+.form-group {text-align: center;padding-bottom: 15px;float: left;width: 100%;}
+.form-group .dropdown {width: 17%;margin: 0 1.5%;padding: 0;}
+.form-group .dropbtn {width: 100%;}
+.form-group .dropdown-content {min-width: 100%;}
+.clsheaderbanner {margin: 10px 0;}
+.ibox-title {min-height: 56px;}
+.gradeX.odd .button{margin: 5px 0 !important; width: 100% !important;}
+.gradeX.even .button{margin: 5px 0 !important; width: 100% !important;}
+
+.clsaddnewvendorform table.dataTable tbody td {padding: 8px 2px;}
+.dataTables_wrapper {transform: scale(0.95);}
+/*.clsaddnewvendorform .gradeX .button {padding: 6px 6px; width: 60% !important; float:right; margin-top:0 !important;}*/
+.button.addnewvendor{margin: 10px;}
+.gradeX.odd td .selectcustomers {padding: 1px !important;}
+.gradeX.even td .selectcustomers {padding: 1px !important;}
+.gradeX.odd td .delete {padding: 1px !important;}
+.gradeX.even td .delete {padding: 1px !important;}
+}
+
+
+
+@media only screen and (min-width:1366px) and (max-width:1599px){
+
+.clsformelements h3 {font-size: 16px;}
+
+.row.border-bottom {margin-right: 0;margin-left: 0;}
+.form-group {text-align: center;padding-bottom: 15px;float: left;width: 100%;}
+.form-group .dropdown {width: 14%;margin: 0 3%;padding: 0;}
+.form-group .dropbtn {width: 100%;}
+.form-group .dropdown-content {min-width: 100%;}
+.clsheaderbanner {margin: 10px 0;}
+.ibox-title {min-height: 56px;}
+
+.gradeX.odd .button{padding: 6px 0 !important;}
+.gradeX.even .button{padding: 6px 0 !important;}
+
+.clsaddnewvendorform table.dataTable tbody td {padding: 8px 2px;}
+.clsaddnewvendorform {padding: 0;}
+.wrapper-content .col-lg-12 {padding: 0;}
+.selectcustomers {padding: 5px !important;}
+.deletevendors {padding: 5px !important;}
+/*.clsaddnewvendorform .gradeX .button {padding: 6px 6px; width: 60% !important; float:right; margin-top:0 !important;}*/
+.button.addnewvendor{margin: 10px;}
+.clsaddnewvendorform .row{margin-left:0 !important; margin-right:0 !important;}
+.clsaddnewvendorform .table .button{padding: 6px 15px;width: 70% !important;margin: 5px 15%;}
+
+.gradeX.odd td .selectcustomers {padding: 1px !important;}
+.gradeX.even td .selectcustomers {padding: 1px !important;}
+.gradeX.odd td .delete {padding: 1px !important;}
+.gradeX.even td .delete {padding: 1px !important;}
+}
+
+@media only screen and (min-width:1600px){
+.row.border-bottom {margin-right: 0;margin-left: 0;}
+.form-group {text-align: center;padding-bottom: 15px;float: left;width: 100%;}
+.form-group .dropdown {width: 14%;margin: 0 3%;padding: 0;}
+.form-group .dropbtn {width: 100%;}
+.form-group .dropdown-content {min-width: 100%;}
+.clsheaderbanner {margin: 10px 0;}
+.ibox-title {min-height: 56px;}
+/*.clsaddnewvendorform .gradeX .button {padding: 6px 6px; width: 60% !important; float:right; margin-top:0 !important;}*/
+.button.addnewvendor{margin: 10px;}
+.clsaddnewvendorform .table .button{padding: 6px 15px;width: 60% !important;margin: 5px 20%;}
+
+
+}

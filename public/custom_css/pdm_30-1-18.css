@@ -1,0 +1,228 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*product development*/
+.productibox-title{float:left; /*background-color:#CCCCCC;*/ width:100%;}
+.clsdropbtn_productgroup {
+     background-color: #00AEEF;
+    color: white;
+    padding: 4px;
+    font-size: 13px;
+    border: none;
+    cursor: pointer;
+	width: 92px;
+	height:27px;
+	border-radius: 5px;
+	padding: 4px;
+	margin-top: 12px;
+}
+
+.clsprodhomedd_productgroup {
+    float: left;
+    width: 100%;
+    text-align: center;
+}
+.headerlink
+{
+ width:100%;
+ float:left;
+}
+span.fa.fa-chevron-down {
+    float: right;
+    margin-right: 2px;
+}
+.statusimagewidthedit
+{
+width:9%;
+}
+.productdevelopmentdelete
+{
+width:9%;
+}
+.notification
+{
+margin-top: 10px;
+}
+.deletemaingroupdelete
+{
+padding-left: 25px;
+}
+.nocolumnfound
+{
+color:#FF0000; text-align:center;
+}
+.tablegroupleft
+{
+width: 50%;float: left;
+}
+.tablecontent
+{
+width:64%;
+}
+.editcontent
+{
+width:9%; cursor:pointer;
+}
+.deletecontent
+{
+width:9%; cursor:pointer;
+}
+.updatecontent
+{
+width:9%; cursor:pointer;
+}
+.deletedropdownoptions
+{
+padding-left: 25px;
+}
+.updatedropdownoptions
+{
+padding-left: 25px;
+}
+.tablecontent1
+{
+width:126%;
+}
+.addcontentbtns
+{
+   padding-left: 47px;
+}
+
+/*product details*/
+
+.showfieldnames
+{
+ width:9%;
+}
+.pdmfieldlist
+{
+width:9%;
+}
+.productgroupdiv
+{
+border:1; color:#333333; width:100%; height:100%;
+}
+.cleardiv
+{
+clear:both; height:10px;
+}
+
+.tablegroupright
+{
+width: 50%;float: right;
+}
+.subgroupnamewidth
+{
+min-width:128px;
+}
+.maingroupnamewidth
+{
+min-width:196px;
+}
+.maingroupnamewidth1
+{
+min-width:166px;
+}
+.column12
+{
+padding:0;
+}
+.productgrouplabel
+{
+padding:0;text-align:left;min-width:194px;padding-top: 10px;
+}
+.productsubgrouplabel
+{
+padding:0;text-align:left;min-width:194px;padding-top: 11px;
+}
+.productgroupbtn
+{
+text-align: left;position: relative;left: 2px;
+}
+.productsubgroupbtn
+{
+text-align: left;position: relative;left: 2px;
+}
+.columns12
+{
+padding:0;
+}
+.clsdropbtn_pdm {
+     background-color: #00AEEF;
+    color: white;
+    padding: 4px;
+    font-size: 13px;
+    border: none;
+    cursor: pointer;
+	width: 185px;
+	height:32px;
+	border-radius: 5px;
+	padding: 4px;
+	margin-top: 12px;
+}
+
+.clsprodhomedd_pdm {
+    float: left;
+    width: 100%;
+    text-align: center;
+}
+
+.clsdropbtn {
+     background-color: #00AEEF;
+    color: white;
+    padding: 4px;
+    font-size: 13px;
+    border: none;
+    cursor: pointer;
+	width: 183px;
+	height:32px;
+	border-radius: 5px;
+	padding: 4px;
+	margin-top: 12px;
+}
+
+.clsdropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.clsdropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #0095cd;
+    min-width: 183px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+	color:white;
+}
+
+.clsdropdown-content a {
+   color: #fff;
+    padding: 4px 16px;
+    text-decoration: none;
+    display: block;
+	font-size: 13px;
+}
+
+.clsdropdown-content a:hover {background-color: #457093}
+
+.clsdropdown:hover .clsdropdown-content {
+    display: block;
+}
+
+.clsdropdown:hover .clsdropbtn {
+    background-color: #00AEEF;
+}
+
+
+.clsprodhomedd {
+    float: left;
+    width: 100%;
+    text-align: center;
+}
+
+span.fa.fa-chevron-down {
+    float: right;
+    margin-right: 2px;
+}
+.clsdropbtn a{color:#fff;}

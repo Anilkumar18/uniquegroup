@@ -1,0 +1,92 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*product development*/
+.productibox-title{float:left; /*background-color:#CCCCCC;*/ width:100%;}
+.clsdropbtn_productgroup {
+     background-color: #00AEEF;
+    color: white;
+    padding: 4px;
+    font-size: 13px;
+    border: none;
+    cursor: pointer;
+	width: 92px;
+	height:27px;
+	border-radius: 5px;
+	padding: 4px;
+	margin-top: 12px;
+}
+
+.clsprodhomedd_productgroup {
+    float: left;
+    width: 100%;
+    text-align: center;
+}
+.headerlink
+{
+ width:100%;
+ float:left;
+}
+span.fa.fa-chevron-down {
+    float: right;
+    margin-right: 2px;
+}
+.statusimagewidthedit
+{
+width:9%;
+}
+.productdevelopmentdelete
+{
+width:9%;
+}
+.notification
+{
+margin-top: 10px;
+}
+.deletemaingroupdelete
+{
+padding-left: 25px;
+}
+.nocolumnfound
+{
+color:#FF0000; text-align:center;
+}
+.tablegroupleft
+{
+width: 50%;float: left;
+}
+.tablecontent
+{
+width:64%;
+}
+.editcontent
+{
+width:9%; cursor:pointer;
+}
+.deletecontent
+{
+width:9%; cursor:pointer;
+}
+.updatecontent
+{
+width:9%; cursor:pointer;
+}
+.deletedropdownoptions
+{
+padding-left: 25px;
+}
+.updatedropdownoptions
+{
+padding-left: 25px;
+}
+.tablecontent1
+{
+width:126%;
+}
+.addcontentbtns
+{
+   padding-left: 47px;
+}
+
+/*product details*/
+
