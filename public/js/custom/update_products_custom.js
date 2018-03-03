@@ -1977,8 +1977,11 @@ function readURL3(input) {
 						//alert("newproductionregionsselections-products_custom.js");
             var ProductionRegions = $('#Hooks_ProductionRegions1').val();
 			//alert(ProductionRegions);
+			
+			var href=$("#region_url").val();
+			
 		  $.ajax({
-                    url: 'add_productsdetails/ajax/'+ProductionRegions,
+                    url: href+'/add_productsdetails/ajax/'+ProductionRegions,
                     type: "GET",
                     dataType: "json",
                     success:function(data) {
@@ -2040,7 +2043,7 @@ function readURL3(input) {
             var ProductionRegions = $('#Hooks_ProductionRegions2').val();
 			//alert(ProductionRegions);
 		  $.ajax({
-                    url: 'add_productsdetails/ajax/'+ProductionRegions,
+                    url: href+'/add_productsdetails/ajax/'+ProductionRegions,
                     type: "GET",
                     dataType: "json",
                     success:function(data) {
@@ -2100,8 +2103,10 @@ function readURL3(input) {
 						//alert("newproductionregionsselections-products_custom.js");
             var ProductionRegions = $('#Hooks_ProductionRegions3').val();
 			//alert(ProductionRegions);
+			var href=$("#region_url").val();
+			
 		  $.ajax({
-                    url: 'add_productsdetails/ajax/'+ProductionRegions,
+                    url: href+'/add_productsdetails/ajax/'+ProductionRegions,
                     type: "GET",
                     dataType: "json",
                     success:function(data) {
@@ -2157,14 +2162,21 @@ function readURL3(input) {
 												 
 												 });		
 												 
+											
+												 
 												 
 			/*TissuePaper when Production region change*/	
 		$('select[name="TissuePaper_ProductionRegions1"]').on('change', function() {
+			
+			//alert("Tissuepaper production regions");
 						//alert("newproductionregionsselections-products_custom.js");
             var ProductionRegions = $('#TissuePaper_ProductionRegions1').val();
 			//alert(ProductionRegions);
+			var href=$("#region_url").val();
+			
+			
 		  $.ajax({
-                    url: 'add_productsdetails/ajax/'+ProductionRegions,
+                   url: href+'/add_productsdetails/ajax/'+ProductionRegions,
                     type: "GET",
                     dataType: "json",
                     success:function(data) {
@@ -2224,8 +2236,11 @@ function readURL3(input) {
 						//alert("newproductionregionsselections-products_custom.js");
             var ProductionRegions = $('#TissuePaper_ProductionRegions2').val();
 			//alert(ProductionRegions);
+			var href=$("#region_url").val();
+			
+			
 		  $.ajax({
-                    url: 'add_productsdetails/ajax/'+ProductionRegions,
+                   url: href+'/add_productsdetails/ajax/'+ProductionRegions,
                     type: "GET",
                     dataType: "json",
                     success:function(data) {
@@ -2285,8 +2300,10 @@ function readURL3(input) {
 						//alert("newproductionregionsselections-products_custom.js");
             var ProductionRegions = $('#TissuePaper_ProductionRegions3').val();
 			//alert(ProductionRegions);
+			var href=$("#region_url").val();
+			
 		  $.ajax({
-                    url: 'add_productsdetails/ajax/'+ProductionRegions,
+                    url: href+'/add_productsdetails/ajax/'+ProductionRegions,
                     type: "GET",
                     dataType: "json",
                     success:function(data) {
@@ -2349,8 +2366,10 @@ function readURL3(input) {
 						//alert("newproductionregionsselections-products_custom.js");
             var ProductionRegions = $('#PackagingStickers_ProductionRegions1').val();
 			//alert(ProductionRegions);
+			var href=$("#region_url").val();
+			
 		  $.ajax({
-                    url: 'add_productsdetails/ajax/'+ProductionRegions,
+                   url: href+'/add_productsdetails/ajax/'+ProductionRegions,
                     type: "GET",
                     dataType: "json",
                     success:function(data) {
@@ -2405,8 +2424,10 @@ function readURL3(input) {
 						//alert("newproductionregionsselections-products_custom.js");
             var ProductionRegions = $('#PackagingStickers_ProductionRegions2').val();
 			//alert(ProductionRegions);
+			var href=$("#region_url").val();
+			
 		  $.ajax({
-                    url: 'add_productsdetails/ajax/'+ProductionRegions,
+                   url: href+'/add_productsdetails/ajax/'+ProductionRegions,
                     type: "GET",
                     dataType: "json",
                     success:function(data) {
@@ -2461,8 +2482,11 @@ function readURL3(input) {
 						//alert("newproductionregionsselections-products_custom.js");
             var ProductionRegions = $('#PackagingStickers_ProductionRegions3').val();
 			//alert(ProductionRegions);
+			var href=$("#region_url").val();
+			
+			
 		  $.ajax({
-                    url: 'add_productsdetails/ajax/'+ProductionRegions,
+                   url: href+'/add_productsdetails/ajax/'+ProductionRegions,
                     type: "GET",
                     dataType: "json",
                     success:function(data) {
@@ -2518,7 +2542,7 @@ function readURL3(input) {
 									 
 											 
 	  
-	  $("#seasonsubmit").click(function(){
+	               $("#seasonsubmit").click(function(){
 										//alert("seasontesting");
 												  var season=$("#season").val();
 													//alert(season);
@@ -2584,7 +2608,7 @@ function readURL3(input) {
 												 
 												 /*boxes insertions*/	
 												 
-			 $("#addboxesdetails").click(function(){
+			      $("#addboxesdetails").click(function(){
 										//alert("updateboxdetails-update_products.js");
 										
 										$('#imgcpy').html('');
@@ -2816,7 +2840,7 @@ function readURL3(input) {
 								
 								var href=$("#addboxurl").val();
 								//alert(href);
-								if(RawMaterial!="" && Thickness!="" && Width!="" && Height!="" && Length!="" && PrintType!="" && CuttingName!="")
+				if(RawMaterial!="" && Thickness!="" && Width!="" && Height!="" && Length!="" && PrintType!="" && CuttingName!="")
 								{
 									//alert("ok");
 									debugger;
@@ -2851,7 +2875,7 @@ function readURL3(input) {
 					//alert("yes tissuepaper");
 				 
 				 $("#tissuepaperform").css("display","block");
-				  test1();
+				  test();
 				
 				}
 				if($("#PackagingStickers").is(':checked'))
@@ -2859,7 +2883,7 @@ function readURL3(input) {
 					//alert("yes packaging stickers");	
 				 
 				 $("#Packagingstickersform").css("display","block");
-				 test2();
+				 test();
 				 
 				 
 				}
@@ -3148,6 +3172,13 @@ $('#Width').on('keyup',function(e){
 			$('#Hook_Width').val(tokens+suffix);
 			
 		});
+		$('#Height').on('keyup',function(e){
+			var oldstr=$('#Height').val();
+			var tokens = oldstr.split('mm');
+            var suffix = tokens.pop() + 'mm';
+			$('#Height').val(tokens+suffix);
+			
+		});
 		
 		$('#Hook_Length').on('keyup',function(e){
 			var oldstr=$('#Hook_Length').val();
@@ -3187,8 +3218,9 @@ $('#Width').on('keyup',function(e){
 			$('#package_Length').val(tokens+suffix);
 			
 		});
+			// Rajesh Ends 01032018
 		
-			function test()
+		/*function test()
 		{
 		//alert("validate");	
 		var hookdetails =$("#hooksadd").validate({
@@ -3330,4 +3362,341 @@ $('#Width').on('keyup',function(e){
 });
 		
 			
+		}*/
+		
+		//Defect:
+         //Name: bala-Uniquegroup Team
+         //Desc. validation for hooks,tissuepaper and packaging stickers
+		
+		function test()
+		{
+		//alert("validate");	
+		var hookdetails =$("#hooksadd").validate({
+		  /*rules: {
+			 HooksMaterial : {
+			required: true
+		  },
+		  
+	
+  }*/
+  
+   rules: {
+	HooksMaterial: {
+      required: true,
+      HooksMaterial: {
+        depends: function(element) {
+          return $("#HooksMaterial").is(":selected");
+        }
+      }
+    },
+    Color: {
+      required: true,
+      HooksMaterial: {
+        depends: function(element) {
+          return $("#HooksMaterial").is(":selected");
+        }
+      }
+    },
+	 Thickness: {
+      required: true,
+      HooksMaterial: {
+        depends: function(element) {
+          return $("#HooksMaterial").is(":selected");
+        }
+      }
+    },
+	 Hook_Width: {
+      required: true,
+      HooksMaterial: {
+        depends: function(element) {
+          return $("#HooksMaterial").is(":selected");
+        }
+      }
+    },
+	 Hook_Length: {
+      required: true,
+      HooksMaterial: {
+        depends: function(element) {
+          return $("#HooksMaterial").is(":selected");
+        }
+      }
+    },
+	Hook_UniqueProductCode: {
+      required: true,
+      HooksMaterial: {
+        depends: function(element) {
+          return $("#HooksMaterial").is(":selected");
+        }
+      }
+    },
+	Hooks_ProductionRegions1: {
+      required: true,
+      HooksMaterial: {
+        depends: function(element) {
+          return $("#HooksMaterial").is(":selected");
+        }
+      }
+    },
+	uniquefactory_hooks1: {
+      required: true,
+      HooksMaterial: {
+        depends: function(element) {
+          return $("#HooksMaterial").is(":selected");
+        }
+      }
+    },
+	Hook_StatusName: {
+      required: true,
+      HooksMaterial: {
+        depends: function(element) {
+          return $("#HooksMaterial").is(":selected");
+        }
+      }
+    },
+	
+	
+	
+	
+	Tissuepaper_RawMaterial: {
+      required: true,
+      Tissuepaper_RawMaterial: {
+        depends: function(element) {
+          return $("#Tissuepaper_RawMaterial").is(":selected");
+        }
+      }
+    },
+	Tissuepaper_Thickness: {
+      required: true,
+      Tissuepaper_RawMaterial: {
+        depends: function(element) {
+          return $("#Tissuepaper_RawMaterial").is(":selected");
+        }
+      }
+    },
+	tissuepaper_Width: {
+      required: true,
+      Tissuepaper_RawMaterial: {
+        depends: function(element) {
+          return $("#Tissuepaper_RawMaterial").is(":selected");
+        }
+      }
+    },
+	tissuepaper_Length: {
+      required: true,
+      Tissuepaper_RawMaterial: {
+        depends: function(element) {
+          return $("#Tissuepaper_RawMaterial").is(":selected");
+        }
+      }
+    },
+	GroundPaperColor: {
+      required: true,
+      Tissuepaper_RawMaterial: {
+        depends: function(element) {
+          return $("#Tissuepaper_RawMaterial").is(":selected");
+        }
+      }
+    },
+	Tissuepaper_PrintType: {
+      required: true,
+      Tissuepaper_RawMaterial: {
+        depends: function(element) {
+          return $("#Tissuepaper_RawMaterial").is(":selected");
+        }
+      }
+    },
+	tissueprintcolor: {
+      required: true,
+      Tissuepaper_RawMaterial: {
+        depends: function(element) {
+          return $("#Tissuepaper_RawMaterial").is(":selected");
+        }
+      }
+    },
+	tissuepaper_print_color1: {
+      required: true,
+      Tissuepaper_RawMaterial: {
+        depends: function(element) {
+          return $("#Tissuepaper_RawMaterial").is(":selected");
+        }
+      }
+    },
+	TissuePaper_ProductionRegions1: {
+      required: true,
+      Tissuepaper_RawMaterial: {
+        depends: function(element) {
+          return $("#Tissuepaper_RawMaterial").is(":selected");
+        }
+      }
+    },
+	uniquefactory_tissuepaper1: {
+      required: true,
+      Tissuepaper_RawMaterial: {
+        depends: function(element) {
+          return $("#Tissuepaper_RawMaterial").is(":selected");
+        }
+      }
+    },
+	Tissuepaper_Cutting: {
+      required: true,
+      Tissuepaper_RawMaterial: {
+        depends: function(element) {
+          return $("#Tissuepaper_RawMaterial").is(":selected");
+        }
+      }
+    },
+	Tissuepaper_UniqueProductCode: {
+      required: true,
+      Tissuepaper_RawMaterial: {
+        depends: function(element) {
+          return $("#Tissuepaper_RawMaterial").is(":selected");
+        }
+      }
+    },
+	Tissuepaper_factoryName: {
+      required: true,
+      Tissuepaper_RawMaterial: {
+        depends: function(element) {
+          return $("#Tissuepaper_RawMaterial").is(":selected");
+        }
+      }
+    },
+	Tissuepaper_StatusName: {
+      required: true,
+      Tissuepaper_RawMaterial: {
+        depends: function(element) {
+          return $("#Tissuepaper_RawMaterial").is(":selected");
+        }
+      }
+    },
+	
+	
+	
+	PackagingStickersTypes: {
+      required: true,
+      PackagingStickersTypes: {
+        depends: function(element) {
+          return $("#PackagingStickersTypes").is(":selected");
+        }
+      }
+    },
+	PackagingStickersTypes: {
+      required: true,
+      PackagingStickersTypes: {
+        depends: function(element) {
+          return $("#PackagingStickersTypes").is(":selected");
+        }
+      }
+    },
+	PackageThickness: {
+      required: true,
+      PackagingStickersTypes: {
+        depends: function(element) {
+          return $("#PackagingStickersTypes").is(":selected");
+        }
+      }
+    },
+	package_Width: {
+      required: true,
+      PackagingStickersTypes: {
+        depends: function(element) {
+          return $("#PackagingStickersTypes").is(":selected");
+        }
+      }
+    },
+	package_Length: {
+      required: true,
+      PackagingStickersTypes: {
+        depends: function(element) {
+          return $("#PackagingStickersTypes").is(":selected");
+        }
+      }
+    },
+	TypeofAdhesive: {
+      required: true,
+      PackagingStickersTypes: {
+        depends: function(element) {
+          return $("#PackagingStickersTypes").is(":selected");
+        }
+      }
+    },
+	Shape: {
+      required: true,
+      PackagingStickersTypes: {
+        depends: function(element) {
+          return $("#PackagingStickersTypes").is(":selected");
+        }
+      }
+    },
+	Package_PrintType: {
+      required: true,
+      PackagingStickersTypes: {
+        depends: function(element) {
+          return $("#PackagingStickersTypes").is(":selected");
+        }
+      }
+    },
+	packageprintcolor: {
+      required: true,
+      PackagingStickersTypes: {
+        depends: function(element) {
+          return $("#PackagingStickersTypes").is(":selected");
+        }
+      }
+    },
+	packageprint_color1: {
+      required: true,
+      PackagingStickersTypes: {
+        depends: function(element) {
+          return $("#PackagingStickersTypes").is(":selected");
+        }
+      }
+    },
+	Package_Cutting: {
+      required: true,
+      PackagingStickersTypes: {
+        depends: function(element) {
+          return $("#PackagingStickersTypes").is(":selected");
+        }
+      }
+    },
+	Package_UniqueProductCode: {
+      required: true,
+      PackagingStickersTypes: {
+        depends: function(element) {
+          return $("#PackagingStickersTypes").is(":selected");
+        }
+      }
+    },
+	PackagingStickers_ProductionRegions1: {
+      required: true,
+      PackagingStickersTypes: {
+        depends: function(element) {
+          return $("#PackagingStickersTypes").is(":selected");
+        }
+      }
+    },
+	uniquefactory_packagingstickers1: {
+      required: true,
+      PackagingStickersTypes: {
+        depends: function(element) {
+          return $("#PackagingStickersTypes").is(":selected");
+        }
+      }
+    },
+	Package_StatusName: {
+      required: true,
+      PackagingStickersTypes: {
+        depends: function(element) {
+          return $("#PackagingStickersTypes").is(":selected");
+        }
+      }
+    },
+	
+	
+	
+	
+	
+  }
+});
 		}
