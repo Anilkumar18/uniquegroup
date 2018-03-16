@@ -419,27 +419,10 @@
 
                         </row>
 
-                   <row class="col-md-12">
-
-                          
-
-                            <div class="form-group clsformelements">
-
-                  <label for="Warehouse_city" class="col-md-3">Warehouse City<span class="mandatory_fields">*</span></label>
-
-                                
-
-                                <div class="col-md-3">
-
-                          <input type="text" name="Warehouse_city" id="Warehouse_city" placeholder="City" class="form-control" value="@if($edit_val==1){{$customers->Warehouse_city}}@endif"/>
-
-                                </div>
-
-                </div>
-
-                            
-
-                        </row>
+         <!--  //Defect: New_pdf no:1
+         //Name: Vidhya-php Team
+         //change country, city order -->
+         
 
                   <row class="col-md-12">
 
@@ -504,6 +487,27 @@
 
                                 </div>
                         </div>        
+
+                </div>
+
+                            
+
+                        </row>
+                        <row class="col-md-12">
+
+                          
+
+                            <div class="form-group clsformelements">
+
+                  <label for="Warehouse_city" class="col-md-3">Warehouse City<span class="mandatory_fields">*</span></label>
+
+                                
+
+                                <div class="col-md-3">
+
+                          <input type="text" name="Warehouse_city" id="Warehouse_city" placeholder="City" class="form-control" value="@if($edit_val==1){{$customers->Warehouse_city}}@endif"/>
+
+                                </div>
 
                 </div>
 

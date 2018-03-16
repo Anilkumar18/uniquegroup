@@ -2,28 +2,43 @@
 
 @section('content')
 
-        
-            
-        <header>
-            <div class="request_more"><a href="http://www.theuniquegroup.com/contact-us/" target="_blank"><img src="{{ asset("/loginimages/request_button_image.png")}}"> </a></div>
-            <div class="sociallinks">
-                <a href="https://www.linkedin.com/company/theuniquegroup" target="_blank"> <img src="{{ asset("/loginimages/linked-in.png")}}" /> </a>
-                <a href="https://www.facebook.com/theuniquegroup" target="_blank"> <img src="{{ asset("/loginimages/fb.png")}}" /></a>
-                <a href="https://twitter.com/theunqpackaging" target="_blank"> <img src="{{ asset("/loginimages/twitter.png")}}" /> </a>
-                <a href="https://instagram.com/theuniquegroup/" target="_blank"> <img src="{{ asset("/loginimages/instagram.png")}}" /> </a>
-            </div>
-        </header>
-      
-        <div class="container">
+        <link href="{{ asset("/custom_css/animate.css")}}" rel="stylesheet">
+  <link href="{{ asset("/custom_css/custom_style.css")}}" rel="stylesheet">
+    
 
-        <section class="logo"><img src="{{ asset("/loginimages/logo_image.png")}}" /></section>
-        <section class="maincontent">
-            <img src="{{ asset("/loginimages/heloo_image.png")}}" />
-            <p>Welcome to <span>The Unique Group</span> online order system.<br> Using our system you can place and track orders for all our products.</p>
-        
-            <div class="feat_images">
-            <img src="{{asset("loginimages/featured_img_001.png")}}"> <img src="{{asset("loginimages/featured_img_002.png")}}"> <img src="{{asset("loginimages/featured_img_003.png")}}"> <img src="{{asset("loginimages/featured_img_004.png")}}"></div>
+ <script src="{{ asset('/js/bootstrap.min.js') }}"></script>
             
+        <header class="clsheader">
+            <div class="request_more"><a href="http://www.theuniquegroup.com/contact-us/" target="_blank"><img src="{{ asset("/loginimages/UNIQUE_LOGO.png")}}"> </a></div>
+            <div class="clsseprator"></div>
+            <div class="clssitelink">
+          <p> <a href="#"> UNIQUE.COM </a> </p>
+        </div>
+
+        <div class="clsmaillink">
+          <a href="#"><img src="{{ asset("/loginimages/email.png")}}" /></a>
+        </div>
+            
+        </header>
+      <div class="banner_img">
+            <img src="{{asset("loginimages/image003.png")}}"></div>
+        <div class="container">
+          
+        <section class="logo"><img src="" /></section>
+        
+        <section class="maincontent">
+                               
+            @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+            @endif
+             @if (session('email'))
+            <div class="alert alert-danger">
+                {{ session('email') }}
+            </div>
+            @endif
+
             <div class="login_form">
            @if ($errors->has('userName'))<div class="errmsg">{{ $errors->first('userName') }}</div>@endif
            @if ($errors->has('password'))<div class="errmsg">{{ $errors->first('password') }}</div>@endif
@@ -46,29 +61,19 @@
            
        <div class="form-container">
 
-        <!-- <div class="usernamelog" style="width: 100%; height: 40px;">
-            <label for="inputUsername" style="width: 27%;">Chain</label>         
-           <select name="chainID" id="chainID" class="txtbox" style="width: 60%;">
-            <option value="">Please select a user type</option>
-            // @foreach ($customers as $chain_list)
-              <option value="{{$chain_list->id}}"> {{ $chain_list->chainName}}</option>
-             // @endforeach
-            </select>
-            </div>-->
-       
+         
             <div class="usernamelog">
-            <label for="inputUsername">Username</label>         
-           <input type="text" id="userName" name="userName" class="txtbox" placeholder="Username" autocomplete="on" value="{{ old('userName') }}" required autofocus>
+            <label for="inputUsername" class="font-noraml">USERNAME</label>         
+           <input type="text" id="userName" name="userName" class="txtbox" placeholder="" autocomplete="on" value="{{ old('userName') }}" required autofocus>
             </div>
             
             <div class="psw">
-            <label for="inputPassword">Password</label>
-            <input type="password" id="password" name="password" class="txtbox" placeholder="Password" required>
+            <label for="inputPassword" class="font-noraml">PASSWORD</label>
+            <input type="password" id="password" name="password" class="txtbox" placeholder="" required>
             </div>
-            
-            <div class="checkbtn">
+            <!-- <div class="checkbtn">
             <input type="checkbox" id="remember_me" name="remember_me" > <label for="remember_me">Remember Me</label>
-            </div>
+            </div> -->
             
             <div class="frmbtn">
              <button type="submit" name="submitlogin" id="submitlogin" >Login</button>
@@ -79,8 +84,9 @@
       </form>
        <input type="hidden" value="" id="chainidstatus" name="chainidstatus">
              <div class="register">
-                 <p> <a href="" data-toggle="modal" data-target="#myModalRegister">Register Username and Password! &nbsp;&nbsp;<span>/</span></a>
-                     <a href="" data-toggle="modal" data-target="#myModalForgot">&nbsp;&nbsp;Forgotten password?</a>
+                 <p> <!-- <a href="" data-toggle="modal" data-target="#myModalRegister">Register Username and Password! &nbsp;&nbsp;<span>/</span></a> -->
+                     <a href="" data-toggle="modal" data-target="#myModalForgot">&nbsp;&nbsp;Forgot Password?</a>
+                     
                  </p>
             </div>
           
@@ -90,41 +96,53 @@
     </section>
 
 </div>
+<div class="modal inmodal" id="myModalForgot" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog">
+                                <div class="modal-content animated bounceInRight popupwindowwidth">
+                                
+                                		<div class="chain_bg">
+                                
+                                        <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" onclick="close_form()">
+                                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                            <h4 class="modal-title title_bar">Forget Password</h4>
+                                           <p>Just fill in your Quantity details and we'll help you..</p>
+                                            <small class="font-bold"></small>
+                                        </div>
+                      <form name="forgetpassword" id="forgetpassword" method="post" action="{{ url('/password/email') }}"  
+                      class="form-horizontal" enctype="multipart/form-data"> 
+    {{ csrf_field() }}
+                                        <div class="modal-body">
+                                        
+                                       
+                                       <div class="row otherquantitydiv">
+                                        <div class="col-sm-12">
+                                         <label class="col-lg-2 control-label font-noraml text-left">Email ID:</label>
+                                         <div class="col-lg-5">
+                                         <input type="email" name="email" id="email" class="form-control" required />
+                                        </div>
+                                        
+                                     </div>
+                                       
+                                       </div>
+                                       
+                          
+                              
+                               </div>
+                               <div class="modal-footer">
+                                
+                               <button type="button" class="btn closebtn" data-dismiss="modal" onclick="close_form()">Close</button>
+                             
+                                <input type="submit" class="btn savebtn" name="forgetpassword" id="forgetpassword" value="submit"/>
+                              
+                               </div>
+                               </form>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+   
           
-          
-          <footer class="footerflags">
-          <div class="flagone" style="margin-left:10%;">
-            <img src="loginimages/canada_flag_image.png"/><p>CANADA</p>
-          </div>
-        
-          <div class="flagone">
-            <img src="loginimages/china_flag_image.png"/><p>CHINA</p>
-          </div>
-        
-          <div class="flagone">
-            <img src="loginimages/hongkjong_flag_image.png"/><p>HONG KONG</p>
-          </div>
-        
-          <div class="flagone">
-            <img src="loginimages/india_flag_image.png"/><p>INDIA</p>
-          </div>
-        
-          <div class="flagone">
-            <img src="loginimages/mexico_flag_image.png"/><p>MEXICO</p>
-          </div>
-        
-          <div class="flagone">
-             <img src="loginimages/turku_flag_image.png"/><p>TURKEY</p>
-          </div>
-        
-         <div class="flagone">
-            <img src="loginimages/uk_flag_image.png"/><p>UK</p>
-         </div>
-        
-         <div class="flagone">
-            <img src="loginimages/usa_flag_image.png"/><p>USA</p>
-         </div>
-    
-    </footer>
+         
       
 @endsection

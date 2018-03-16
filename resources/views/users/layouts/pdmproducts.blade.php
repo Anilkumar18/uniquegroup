@@ -1,3 +1,4 @@
+@include('validateuser')
 <!DOCTYPE html>
 
 

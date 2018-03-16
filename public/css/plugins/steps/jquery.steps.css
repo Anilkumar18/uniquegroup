@@ -5,9 +5,12 @@
 .wizard,
 .tabcontrol
 {
-    display: block;
-    width: 100%;
-    overflow: hidden;
+display: block;
+width: 100%;
+overflow: hidden;
+margin-bottom: 7px;
+border-bottom: solid 1px #eee;
+padding-bottom: 15px;
 }
 
 .wizard a,
@@ -68,7 +71,11 @@
 
 .wizard > .steps > ul > li
 {
-    width: 12%;
+    width: auto; min-width:12%;
+}
+
+#productsadd li a {
+    padding: 8px 16px;
 }
 
 .wizard > .steps > ul > li,
@@ -103,8 +110,8 @@
 .wizard > .steps .disabled a:hover,
 .wizard > .steps .disabled a:active
 {
-    background: #eee;
-    color: #aaa;
+    background: #a29d9d;
+    color: #fff;
     cursor: default;
 }
 
@@ -112,7 +119,7 @@
 .wizard > .steps .current a:hover,
 .wizard > .steps .current a:active
 {
-    background: #1AB394;
+    background: #50cc49;
     color: #fff;
     cursor: default;
 }
@@ -121,7 +128,7 @@
 .wizard > .steps .done a:hover,
 .wizard > .steps .done a:active
 {
-    background: #6fd1bd;
+    background: #50cc49;
     color: #fff;
 }
 
@@ -162,7 +169,7 @@
 .wizard > .content > .body
 {
     float: left;
-    position: absolute;
+    
     width: 95%;
     height: 95%;
     padding: 2.5%;
@@ -189,7 +196,38 @@
 {
     display: block;
     border: 1px solid #ccc;
+	float: left;
 }
+
+fieldset .row {margin-right: 0; margin-left: 0;}
+.productdetailsblock label {padding:0;}
+.checkboxdiv input[type="checkbox"], input[type="radio"] {margin: 1px 2px;}
+.cmykwidthdiv {padding-top: 7px;}
+#cmykno {margin-top: 7px;}
+.printcolorhidden .col-lg-12 {padding: 0;}
+.printcolorhidden input[type="checkbox"], input[type="radio"] {margin: 5px 0;}
+.printcolorhidden .spanval {margin-top: 3px;}
+.productdetailsblock .row {margin: 0;}
+#hookform .spanval {margin-top: 0px;}
+#uniquefactory1 {width: 245px !important;}
+.quantitychkdiv.inventorypricechk {padding: 10px 0;}
+.quantitychkdiv.inventorypricechk .quantitychk {width: 15px !important;margin-right: 10px !important;}
+.quantitychksec {padding: 0;}
+.quantitychksec .quantitychkdiv {margin-bottom: 12px;}
+.b-r h4 {margin-left: -15px;}
+.quantitychk3 {width: 15px !important; margin-right: 10px !important;}
+.form-group.calculate {float: left; margin-top: 10px; border-top: solid 1px #ddd; padding-top: 10px;}
+.quantitychkblock .quantitychkdiv {padding: 10px 0;}
+.Thicknessdiv {width: 17%;}
+#Thickness {width:100%;	}
+.checkboxdiv {top: 3px !important;}
+#Minordervalue, #samplecost {float: left; width: 85%; height: 24px;}
+
+
+
+.input-group-addon.currencytype {height: 24px;padding: 4px;float: left;width: 15%;border: solid 1px #ddd;}
+.multiple.quantitychk1.cost {float: left; width: 75% !important; padding-left:5%;}
+
 
 .wizard > .content > .body input[type="checkbox"]
 {
@@ -207,6 +245,7 @@
 {
     display: inline-block;
     margin-bottom: 0.5em;
+	padding: 0;
 }
 
 .wizard > .content > .body label.error
@@ -252,7 +291,7 @@
 .wizard > .actions a:hover,
 .wizard > .actions a:active
 {
-    background: #1AB394;
+    background: #397bd0;
     color: #fff;
     display: block;
     padding: 0.5em 1em;
@@ -379,3 +418,8 @@
 {
     display: list-item;
 }
+.hideblock{
+    display: none;
+}
+.wizard > .steps .current a{background: #00adef;}
+.wizard > .steps .current.error a{background: #ED5565;}

@@ -54,7 +54,7 @@ error_reporting(0);
 
                   <center></center></div></div></br>
 
-                  <div class="col-lg-12"> > Development List View</div></br></br>
+                  <div class="col-lg-12">  Development List View</div></br></br>
 
                                    
 
@@ -151,13 +151,18 @@ error_reporting(0);
 
                     $hooklist =App\Hook::where('id','=',$list->HookID)->first();
 
+//sathish 15-03-2018
+$uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
+
                   
                     $concatimg = $path .'/'. $list->Artworkupload;
                    
 						   $developmentid = str_pad($list->id, 4, '0',STR_PAD_LEFT);
 						 
-                                             ?>
- <?php  $str = ltrim($developmentid, '0'); ?>
+                ?>
+                <!-- Vidhya:box display -->
+                    @if($list->BoxID!="" && $list->BoxID <> 0)
+                      <?php  $str = ltrim($developmentid, '0'); ?>
                       <tr class="gradeX" id="{{$str.'_'.'0'}}">
 
                         <td class="processdetails">{{$developmentid}}</td>
@@ -189,23 +194,25 @@ error_reporting(0);
 
                         <td>{{$list->SampleRequestedDate}}</td>
 
-                        <td></td>
+                        <td>{{$uniqueoffices->OfficeFactoryName}}</td>
+<!-- sathish 15-03-2018 -->
+                        <td>
+                          <?php 
+                        if($list->SampleandQuote =='1'){echo "Sample and Quote"; }else{echo "Only Quote" ;} ?> </td>
 
-                        <td>{{$list->QuoteRequired}}</td>
-
-                        <td>{{$list->SampleRequestNumber}}</td>
+                        <td>{{$list->NumberOfSamplesRequired}}</td>
 
                         <td>{{$list->created_at}}</td>
 
                         <td>
-                        
+                        {{$list->Remarks}}
                        
                         </td>
 
 
                         <td class="processdetails">
 <!-- For only edit link by Rajesh -->
-                        <a class="edituniqueusers" href="{{ url(route('user.editdevelopmentitemproductdetails', ['id' => $list->id.'/'.'0'.'/'.'0'])) }}" ><img  src="{{ asset('/img/edit.png') }}" border="0"  title="Edit"/></a>  
+                        <a class="edituniqueusers" href="{{ url(route('user.editdevelopmentitemproductdetails', ['id' => $list->id.'/'.'0'])) }}" ><img  src="{{ asset('/img/edit.png') }}" border="0"  title="Edit"/></a>  
 
                     <span class="developmentitemduplicate" data-href="{{ url(route('user.developmentitemlistduplicate', ['id' => $list->id.'/'.'0'.'/'.$list->BoxID])) }}" onclick="duplicate_develop(this)" ><a href="javascript:;"><img  src="{{ asset('/img/file.png') }}" border="0"  title="Duplicate"/></a></span>                      
 
@@ -214,9 +221,11 @@ error_reporting(0);
                         <span class="deletedevelopmentitemlist" data-href="{{ url(route('user.developmentitemlistdelete', ['id' => $list->id])) }}"><a href="javascript:;"><img  src="{{ asset('/img/delete.png') }}" border="0"  title="Delete"/></a></span>
                         </td>
 
-                        
+                     <!-- Vidhya:box display -->   
 
                     </tr>
+                    @endif
+
                      @if($list->HookID!="" && $list->HookID <> 0)
                       <?php  $str = ltrim($developmentid, '0'); ?>
                       @foreach(explode(',',$list->HookID) as $vv)
@@ -256,22 +265,25 @@ error_reporting(0);
 
                         <td>{{$list->SampleRequestedDate}}</td>
 
-                        <td></td>
+                       <td>{{$uniqueoffices->OfficeFactoryName}}</td>
+<!-- sathish 15-03-2018 -->
+                        <td>
+                          <?php 
+                        if($list->SampleandQuote =='1'){echo "Sample and Quote"; }else{echo "Only Quote" ;} ?> </td>
 
-                        <td>{{$list->QuoteRequired}}</td>
-
-                        <td>{{$list->SampleRequestNumber}}</td>
+                        <td>{{$list->NumberOfSamplesRequired}}</td>
 
                         <td>{{$list->created_at}}</td>
 
                         <td>
+                        {{$list->Remarks}}
                        
                         </td>
 
 
                         <td class="processdetails">
 <!-- For only edit link by Rajesh -->
-                        <a class="edituniqueusers" href="{{ url(route('user.editdevelopmentitemproductdetails', ['id' => $list->id.'/'.'1'.'/'.$vv])) }}" ><img  src="{{ asset('/img/edit.png') }}" border="0"  title="Edit"/></a>  
+                        <a class="edituniqueusers" href="{{ url(route('user.editdevelopmentitemproductdetails', ['id' => $list->id.'/'.'1'])) }}" ><img  src="{{ asset('/img/edit.png') }}" border="0"  title="Edit"/></a>  
 
                         <span class="developmentitemduplicate" data-href="{{ url(route('user.developmentitemlistduplicate', ['id' => $list->id.'/'.'1'.'/'.$vv])) }}" onclick="duplicate_develop(this)" ><a href="javascript:;"><img  src="{{ asset('/img/file.png') }}" border="0"  title="Duplicate"/></a></span>                      
 
@@ -328,20 +340,25 @@ error_reporting(0);
 
                         <td>{{$list->SampleRequestedDate}}</td>
 
-                        <td></td>
+                        <td>{{$uniqueoffices->OfficeFactoryName}}</td>
+<!-- sathish 15-03-2018 -->
+                        <td>
+                          <?php 
+                        if($list->SampleandQuote =='1'){echo "Sample and Quote"; }else{echo "Only Quote" ;} ?> </td>
 
-                        <td>{{$list->QuoteRequired}}</td>
-
-                        <td>{{$list->SampleRequestNumber}}</td>
+                        <td>{{$list->NumberOfSamplesRequired}}</td>
 
                         <td>{{$list->created_at}}</td>
 
-                        <td></td>
+                        <td>
+                        {{$list->Remarks}}
+                       
+                        </td>
 
 
                         <td class="processdetails">
 <!-- For only edit link by Rajesh -->
-                        <a class="edituniqueusers" href="{{ url(route('user.editdevelopmentitemproductdetails', ['id' => $list->id.'/'.'2'.'/'.$vt])) }}" ><img  src="{{ asset('/img/edit.png') }}" border="0"  title="Edit"/></a>  
+                        <a class="edituniqueusers" href="{{ url(route('user.editdevelopmentitemproductdetails', ['id' => $list->id.'/'.'2'])) }}" ><img  src="{{ asset('/img/edit.png') }}" border="0"  title="Edit"/></a>  
 
                         <span class="developmentitemduplicate" data-href="{{ url(route('user.developmentitemlistduplicate', ['id' => $list->id.'/'.'2'.'/'.$vt])) }}" onclick="duplicate_develop(this)" ><a href="javascript:;"><img  src="{{ asset('/img/file.png') }}" border="0"  title="Duplicate"/></a></span>                      
 
@@ -398,20 +415,25 @@ error_reporting(0);
 
                         <td>{{$list->SampleRequestedDate}}</td>
 
-                        <td></td>
+                        <td>{{$uniqueoffices->OfficeFactoryName}}</td>
+<!-- sathish 15-03-2018 -->
+                        <td>
+                          <?php 
+                        if($list->SampleandQuote =='1'){echo "Sample and Quote"; }else{echo "Only Quote" ;} ?> </td>
 
-                        <td>{{$list->QuoteRequired}}</td>
-
-                        <td>{{$list->SampleRequestNumber}}</td>
+                        <td>{{$list->NumberOfSamplesRequired}}</td>
 
                         <td>{{$list->created_at}}</td>
 
-                        <td></td>
+                        <td>
+                        {{$list->Remarks}}
+                       
+                        </td>
 
 
                         <td class="processdetails">
 <!-- For only edit link by Rajesh -->
-                        <a class="edituniqueusers" href="{{ url(route('user.editdevelopmentitemproductdetails', ['id' => $list->id.'/'.'3'.'/'.$vp])) }}" ><img  src="{{ asset('/img/edit.png') }}" border="0"  title="Edit"/></a>  
+                        <a class="edituniqueusers" href="{{ url(route('user.editdevelopmentitemproductdetails', ['id' => $list->id.'/'.'3'])) }}" ><img  src="{{ asset('/img/edit.png') }}" border="0"  title="Edit"/></a>  
 
                         <span class="developmentitemduplicate" data-href="{{ url(route('user.developmentitemlistduplicate', ['id' => $list->id.'/'.'3'.'/'.$vp])) }}" onclick="duplicate_develop(this)" ><a href="javascript:;"><img  src="{{ asset('/img/file.png') }}" border="0"  title="Duplicate"/></a></span>                      
 

@@ -213,33 +213,64 @@ error_reporting(0);
                         <div class="col-lg-5 productsubgroupnotification"></div>
                         </div>
                         @endif
+                        
+                        <!-- //Defect: newpdf no:6
+                       //Name: Vidhya-PHP Team
+                        //Working for the list of particular customers -->
                      @elseif($fieldname=="CustomerName")
                      <div class="form-group">
                       <label class="col-lg-3 control-label font-noraml text-left label_font">{{$list->fieldname}}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
                  
                           
                          <div class="col-lg-5 productsubgroup">
-                        <select id="{{$fieldname}}" name="{{$fieldname}}" class="form-control dropdownwidth">
+                        <select id="CustomerName" name="CustomerName" class="form-control dropdownwidth" onchange="CustomerChange();">
                         <option value="">Please Select</option>
-                         @foreach ($fielddetailslist as $fielddetails)
-                         <option value="{{$fielddetails->id}}">{{ $fielddetails->$fieldname }}</option>
-                           @endforeach                                    
+                         
+                         <?php
+                             if($user->userTypeID==9)
+                            {
+                              $customerdetails=App\Customers::where('id','=',$user->customerID)->get();
+                            }else
+                            $customerdetails=App\Customers::all();
+                          foreach($customerdetails as $customers)
+                          {
+                          ?>
+                            <option value="{{$customers->id}}" drop-data="{{url(route('user.selectcustomer', ['id' => $customers->id]))}}">{{ $customers->CustomerName }}</option>
+                           <?php
+                           }
+                           ?>
+                         
+                                                        
                         </select>
                         </div>
                         </div>
                          @elseif($fieldname=="Warehouse_Name")
                      <div class="form-group">
                       <label class="col-lg-3 control-label font-noraml text-left label_font">{{$list->fieldname}}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
-                 
+                        <div class="statedisplay">
                           
                          <div class="col-lg-5 productsubgroup">
-                        <select id="{{$fieldname}}" name="{{$fieldname}}" class="form-control dropdownwidth">
+                        <select id="Warehouse_Name" name="Warehouse_Name" class="form-control dropdownwidth">
                         <option value="">Please Select</option>
-                         @foreach ($fielddetailslist as $fielddetails)
-                         <option value="{{$fielddetails->id}}">{{ $fielddetails->$fieldname }}</option>
-                           @endforeach                                    
+                        
+                         <?php
+                             if($user->userTypeID==9)
+                            {
+                              $customerdetails=App\Customers::where('id','=',$user->customerID)->get();
+                            }else
+                            $customerdetails=App\Customers::all();
+                          foreach($customerdetails as $customers)
+                          {
+                          ?>
+                            <option value="{{$customers->id}}">{{ $customers->Warehouse_Name }}</option>
+                           <?php
+                           }
+                           ?>
+                         
+                                                              
                         </select>
                         </div>
+                      </div>
                         </div>
                         
                

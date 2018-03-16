@@ -260,62 +260,34 @@ if (Mail::failures()) {
 public function deletehook(Request $request ,$id, $productid)
 {
     
-       $user = Auth::user();
-       $product_hook = ProductDetails::where('id','=',$productid)->first();
-       $deleteproduct = $product_hook->HookID;
-       $result= explode(",", $deleteproduct);
-       $store = '';
-       foreach($result as $val)
-       {
-            if($val == $id)
-            {
-                
-            }else
-            {
-
-                $store.=$val.',';
-                echo "flase";
-            }
-       }
-       $processhookid = rtrim($store,',');
-       
-       $development_update = DB::table('productdetails')->where('id', $productid)->update(array('HookID' => $processhookid));
+        $user = Auth::user();
+       $development_update = DB::table('productdetails')->where('HookID', $id)->update(['HookID' => 'NULL']);
        $developmentlist_delete = Hook::where('id','=',$id)->first();
-   
+       
+       
+      //$customer_delete = Customers::find($id);
+
       $developmentlist_delete->delete();
+
+
+
 
         $request->session()->flash('failure', 'Development Product deleted successfully.');     
 
-        return redirect(url(route('user.developmentlistview')));   
+        return redirect(url(route('user.developmentlistview'))); 
 }
 
 public function deletetissue(Request $request ,$id, $producttid)
 {
     
   
-       $user = Auth::user();
-
-       $product_tissue = ProductDetails::where('id','=',$producttid)->first();
-       $deleteproduct = $product_tissue->TissuePaperID;
-       $result= explode(",", $deleteproduct);
-       $store = '';
-       foreach($result as $val)
-       {
-            if($val == $id)
-            {
-                
-            }else
-            {
-
-                $store.=$val.',';
-                echo "flase";
-            }
-       }
-       $processtissueid = rtrim($store,',');
-       $development_update = DB::table('productdetails')->where('id', $producttid)->update(array('TissuePaperID' => $processtissueid));
+      $user = Auth::user();
+       $development_update = DB::table('productdetails')->where('TissuePaperID', $id)->update(['TissuePaperID' => 'NULL']);
        $developmentlist_delete = Tissuepaper::where('id','=',$id)->first();
        
-     
+       
+      //$customer_delete = Customers::find($id);
+
       $developmentlist_delete->delete();
 
 
@@ -323,31 +295,14 @@ public function deletetissue(Request $request ,$id, $producttid)
 
         $request->session()->flash('failure', 'Development Product Tissuepaper deleted successfully.');     
 
-        return redirect(url(route('user.developmentlistview')));   
+        return redirect(url(route('user.developmentlistview')));  
 }
 public function deletepackage(Request $request ,$id, $productpid)
 {
     //echo "dfghg";exit;
   
        $user = Auth::user();
-       $product_pack = ProductDetails::where('id','=',$productpid)->first();
-       $deleteproduct = $product_pack->PackagingStickersID;
-       $result= explode(",", $deleteproduct);
-       $store = '';
-       foreach($result as $val)
-       {
-            if($val == $id)
-            {
-                
-            }else
-            {
-
-                $store.=$val.',';
-                echo "flase";
-            }
-       }
-       $processpackid = rtrim($store,',');
-       $development_update = DB::table('productdetails')->where('id', $productpid)->update(array('PackagingStickersID' => $processpackid));
+       $development_update = DB::table('productdetails')->where('PackagingStickersID', $id)->update(['PackagingStickersID' => 'NULL']);
        $developmentlist_delete = PackagingStickers::where('id','=',$id)->first();
        
        
@@ -360,7 +315,7 @@ public function deletepackage(Request $request ,$id, $productpid)
 
         $request->session()->flash('failure', 'Development Product Tissuepaper deleted successfully.');     
 
-        return redirect(url(route('user.developmentlistview')));   
+        return redirect(url(route('user.developmentlistview')));      
 }
 
 public function viewdevelopmentitemlist(Request $request, $id, $typeid, $productid)
@@ -391,61 +346,23 @@ public function viewdevelopmentitemlist(Request $request, $id, $typeid, $product
    return view('users.view_developmentitemlist', compact('user','productdevlopmentlist','customers','status','usertype','producttype','productview'));    
 
    }
-
-/* Rajesh:01032018  */
-   public function editdevelopmentitemlist(Request $request, $id, $typeid, $processproductid)
+   /* Rajesh:01032018  */
+   public function editdevelopmentitemlist(Request $request, $id, $typeid)
 
    {
-    $producttype = $typeid;
-    $productview = $processproductid;
-  
-  $data[]=$id;
-    //print_r($producttype);exit;
-
-   $user = Auth::user();
-
-   $usertype = UserType::where('id', '=', $user->userTypeID)->first();
-
-   $productid=$id;
-
-  // echo "test".$vendorid;exit;
-
-   $productdevlopmentlist = ProductDetails::where('id','=',$id)->first();
-
-   $productgroupid=$productdevlopmentlist->ProductGroupID;
-   $productsubgroupid=$productdevlopmentlist->ProductSubGroupID;
-
-   //print_r($productdevlopmentlist->CustomerID);exit;
-    $customers=App\Customers::where('id','=',$productdevlopmentlist->CustomerID)->first();
-
-    $status=App\Status::where('id','=',$productdevlopmentlist->status)->first();
-
-    $productfields=ProductDevelopmentFields::where('status','=',1)->get();
-  $isfound=0;
-  foreach($productfields as $products)
-  {
-  if($productgroupid == $products->ProductGroupID)
-  {
     
-  $productdevelopmentfields=ProductDevelopmentFields::where('ProductGroupID','=',$productgroupid)->get();
-  $isfound=1;
-  }
-  
-  }
-  
-  if($isfound ==0)
-  {
+    $user = Auth::user();
+    $usertype = UserType::where('id', '=', $user->userTypeID)->first();
     
-  //$productdevelopmentfields=ProductDevelopmentFields::where('ProductSubGroupID','=',$productsubgroupid)->get();
-  $productdevelopmentfields=ProductDevelopmentFields::where('ProductSubGroupID','=',$productsubgroupid)->where('ProductGroupID','=',0)->where('status','=',1)->get();
-  
-  }
+    $productfielddetails=ProductDetailFields::where('status','=',1)->where('categoryID','<',3)->where('hide','=',0)->get();
+    
+    
+    $productdetails = ProductDetails::where('id','=',$id)->first();
 
     $productgrouphookdetails="Hooks";
     $hookproductsubgroupdetails="Tissue Paper";
     $packagingstickersproductsubgroupdetails="Packaging Stickers";
-    
-    
+
     //hook details
     
     $productgrouphookdetails=ProductGroup::where('status','=',1)
@@ -469,29 +386,66 @@ public function viewdevelopmentitemlist(Request $request, $id, $typeid, $product
       
       $packagingstickersdetails=ProductSubGroup::where('status','=',1)
     ->where('ProductSubGroupName', 'like', '%' . $packagingstickersproductsubgroupdetails. '%')->first();
-    
-          
-    
-    
-      $prddevsubgrouppackagingdetails=ProductDevelopmentFields::where('status','=',1)->where('ProductSubGroupID','=',$packagingstickersdetails->id)->get();
+
+    $prddevsubgrouppackagingdetails=ProductDevelopmentFields::where('status','=',1)->where('ProductSubGroupID','=',$packagingstickersdetails->id)->get();
+
+$inven_productfielddetails=ProductDetailFields::where('status','=',1)->where('categoryID','=',3)->get();
+      $inventorydetails=Inventory::where('status','=',1)->get();
+
+      $invendetails_productfielddetails=ProductDetailFields::where('status','=',1)->where('categoryID','=',2)->where('hide','=',1)->get();
       
-    
-    $boxesdetails=Boxes::where('ProductID','=',$productid)->where('status','=',1)->first();
-   
-    
-    
-    //$hookdetails=Hook::where('ProductID','=',$productid)->where('status','=',1)->first();
-    $hookdetails=Hook::where('ProductID','=',$productid)->where('status','=',1)->first();
-   
+    $quantitydetails=Quote::where('status','=',1)->get();
+
+    $cost_productfielddetails=ProductDetailFields::where('status','=',1)->where('categoryID','=',4)->where('hide','=',0)->get();
+
+    //$productgroupid=$request->ProductGroup;
   
-    $tissuepaperdetails=Tissuepaper::where('ProductID','=',$productid)->where('status','=',1)->first();
+                //$productsubgroupid=$request->ProductSubGroupName;
+      
+  
+
+   $productgroupid=$productdetails->ProductGroupID;
+  
+                 $productsubgroupid=$productdetails->ProductSubGroupID;
+
+                $isfound=0;
+                $productfields=ProductDevelopmentFields::where('status','=',1)->get();
+  foreach($productfields as $products)
+  {
+  if($productgroupid == $products->ProductGroupID)
+  {
+  
+  $productdevelopmentfields=ProductDevelopmentFields::where('ProductGroupID','=',$productgroupid)->get();
+  $isfound=1;
+  }
+  
+  }
+  
+  if($isfound ==0)
+  {
+  //$productdevelopmentfields=ProductDevelopmentFields::where('ProductSubGroupID','=',$productsubgroupid)->get();
+  $productdevelopmentfields=ProductDevelopmentFields::where('ProductSubGroupID','=',$productsubgroupid)->where('ProductGroupID','=',0)->where('status','=',1)->get();
+  
+  }
+
+  $boxesdetails=Boxes::where('ProductID','=',$id)->where('status','=',1)->first();
     
-    $packagingstickersdetails=PackagingStickers::where('ProductID','=',$productid)->where('status','=',1)->first();
+    //print_r($request->editID);exit;
+    
+    
+    $hookdetails=Hook::where('ProductID','=',$id)->where('status','=',1)->first();
+    
+    $tissuepaperdetails=Tissuepaper::where('ProductID','=',$id)->where('status','=',1)->first();
+    
+    $packagingstickersdetails=PackagingStickers::where('ProductID','=',$id)->where('status','=',1)->first();
 
+$productquotedetails=ProductDetails::where('id','=',$id)->where('status','=',1)->first();
 
-
-   return view('users.edit_developmentitemlist', compact('user','productdevlopmentlist','customers','status','usertype','producttype','productview','producthookfields','productdevelopmentsubgroupdetails','prddevsubgrouppackagingdetails','boxesdetails','hookdetails','tissuepaperdetails','packagingstickersdetails','productdevelopmentfields','productid'));    
-
+        return view('users.edit_developmentitemlist', compact('user','usertype','productfielddetails','producthookfields','productdevelopmentsubgroupdetails','prddevsubgrouppackagingdetails','inventorydetails','inven_productfielddetails','invendetails_productfielddetails','quantitydetails','cost_productfielddetails','productdetails','productdevelopmentfields','boxesdetails','hookdetails','tissuepaperdetails','productinventorydetails','packagingstickersdetails','productquotedetails','typeid'));
+   
+    
+    
+  
    }
 
 public function updateitemlist(Request $request)
@@ -499,18 +453,25 @@ public function updateitemlist(Request $request)
      
      $user = Auth::user();
      $usertype = UserType::where('id', '=', $user->userTypeID)->first();
-    $customerid=$request->customerid;
+     $customerid=$request->customerid;
      $productid=$request->productID;
      $productgroupid=$request->ProductGroupID;
      $productsubgroupid=$request->ProductSubGroupID;
    
-   
-    //echo "productgroupid".$productgroupid;exit;
+  
     
     //echo "hooks".$request->HooksMaterial;
     //echo "tissuepaper".$request->GroundPaperColor;
     
     //echo "tissuepapereditid".$request->tissuepapereditID;
+	
+	
+	
+	echo "customerid".$customerid; echo "<br>";
+	echo "productid".$productid; echo "<br>";
+	echo "productgroupid".$productgroupid; echo "<br>";
+	echo "productsubgroupid".$productsubgroupid; echo "<br>";
+	//exit;
     
     
     
@@ -549,7 +510,7 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
         else
         {
           if($request->editID!=''){
-              $imgInp_filename=$request->existingimage;
+              $imgInp_filename=$request->existingboximage;
           }else{
               $imgInp_filename= '';
           }
@@ -688,7 +649,34 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
       {
         $MoldCosting=0;
       }
-      
+      if($request->hook_thickness!="")
+			{
+			   $hook_thickenss=$request->hook_thickness;
+			   if($hook_thickenss=="pt")
+			   {
+				 $hook_pt="pt";
+				 $hook_gms="";
+				 $hook_mm="";
+				 
+				   
+			   }
+			   elseif($hook_thickenss=="gms")
+			   {
+				 $hook_pt="";
+				 $hook_gms="gms";
+				 $hook_mm="";
+				   
+			   }
+			  elseif($hook_thickenss=="mm")
+			   {
+				 $hook_pt="";
+				 $hook_gms="";
+				 $hook_mm="mm";
+				   
+			   }
+			 	
+				
+			}
        
        
       if($request->editID!="")
@@ -703,9 +691,9 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
      '.$qty_chk.',
      "'.$request->Color.'",
      "'.$request->Thickness.'",
-     "'.$request->pt.'",
-    "'.$request->gms.'",
-    "'.$request->mm.'",
+     "'.$hook_pt.'",
+    "'.$hook_gms.'",
+    "'.$hook_mm.'",
      "'.$request->Hook_Width.'",
      "'.$request->Hook_Length.'",
      "'.$Currency.'",
@@ -722,9 +710,7 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
      "'.$imgInp_filename.'",0)');
     // print_r($hooksupdations);
      //exit;
-     
-    
-      
+       
       }
       
      
@@ -850,14 +836,46 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
       {
         $uniquefactory_tissuepaper3details=0;
       }
-      if($request->Tissuepaper_PrintingFinishingProcess!="")
-      {
-      $Tissuepaper_PrintingFinishingProcess=$request->Tissuepaper_PrintingFinishingProcess; 
-      }
-      else
-      {
-      $Tissuepaper_PrintingFinishingProcess=0;  
-      }
+     if($request->Tissuepaper_PrintingFinishingProcess!="")
+			{
+			$Tissuepaper_PrintingFinishingProcess=$request->Tissuepaper_PrintingFinishingProcess;	
+			 $checkBoxValue = implode(",", $Tissuepaper_PrintingFinishingProcess);
+			$Tissuepaper_PrintingFinishingProcess=$checkBoxValue;
+			$Tissuepaper_PrintingFinishingProcess;
+			
+			}
+			else
+			{
+			$Tissuepaper_PrintingFinishingProcess=0;	
+			}
+	   if($request->tissue_thickness!="")
+			{
+			   $tissue_thickness=$request->tissue_thickness;
+			   if($tissue_thickness=="pt")
+			   {
+				 $tissue_pt="pt";
+				 $tissue_gms="";
+				 $tissue_mm="";
+				 
+				   
+			   }
+			   elseif($tissue_thickness=="gms")
+			   {
+				 $tissue_pt="";
+				 $tissue_gms="gms";
+				 $tissue_mm="";
+				   
+			   }
+			  elseif($tissue_thickness=="mm")
+			   {
+				 $tissue_pt="";
+				 $tissue_gms="";
+				 $tissue_mm="mm";
+				   
+			   }
+			 	
+				
+			}
       
       
       if($request->tissuepapereditID!="")
@@ -870,11 +888,11 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
      '.$request->Tissuepaper_RawMaterial.',
      '.$request->Tissuepaper_PrintType.',
      '.$request->Tissuepaper_Cutting.',
-     '.$Tissuepaper_PrintingFinishingProcess.',
+     "'.$Tissuepaper_PrintingFinishingProcess.'",
      "'.$request->Tissuepaper_Thickness.'",
-      "'.$request->pt.'",
-    "'.$request->gms.'",
-    "'.$request->mm.'",
+      "'.$tissue_pt.'",
+	  "'.$tissue_gms.'",
+	  "'.$tissue_mm.'",
      "'.$request->Tissuepaper_QualityReference.'",
      '.$qty_chk.',
      "'.$request->tissuepaper_Width.'",
@@ -1071,6 +1089,47 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
         $Package_PrintingFinishingProcess=0;
       }
       
+	  if($request->Package_PrintingFinishingProcess!="")
+			{
+				//$Package_PrintingFinishingProcess=$request->Package_PrintingFinishingProcess;
+			$Package_PrintingFinishingProcess=$request->Package_PrintingFinishingProcess;	
+			$checkpackageValue = implode(",",$Package_PrintingFinishingProcess);
+			$Package_PrintingFinishingProcess=$checkpackageValue;
+			}
+			else
+			{
+				$Package_PrintingFinishingProcess=0;
+			}
+			
+			//echo "factory1details".$uniquefactory_packagingstickers1details;
+			 if($request->package_thickness!="")
+			{
+			   $package_thickness=$request->package_thickness;
+			   if($package_thickness=="pt")
+			   {
+				 $package_pt="pt";
+				 $package_gms="";
+				 $package_mm="";
+				 
+				   
+			   }
+			   elseif($package_thickness=="gms")
+			   {
+				 $package_pt="";
+				 $package_gms="gms";
+				 $package_mm="";
+				   
+			   }
+			  elseif($package_thickness=="mm")
+			   {
+				 $package_pt="";
+				 $package_gms="";
+				 $package_mm="mm";
+				   
+			   }
+			 	
+				
+			}
       //echo "factory1details".$uniquefactory_packagingstickers1details;
   
   if($request->packagingeditID!="")
@@ -1087,13 +1146,13 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
   "'.$request->Package_RawMaterial.'",
   '.$request->Package_PrintType.',
   "'.$request->Package_Cutting.'",
-  '.$Package_PrintingFinishingProcess.',
+  "'.$Package_PrintingFinishingProcess.'",
   "'.$request->Package_QualityReference.'",
   '.$qty_chk.',
   '.$request->PackageThickness.',
-   "'.$request->pt.'",
-     "'.$request->gms.'",
-     "'.$request->mm.'",
+   "'.$package_pt.'",
+     "'.$package_gms.'",
+     "'.$package_mm.'",
   "'.$request->package_Width.'",
   "'.$request->package_Length.'",
   "'.$request->TypeofAdhesive.'",
@@ -1182,9 +1241,13 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
     {
       $uniquefactory1=0;
     }
+	//Defect: 
+         //Name: Bala-Uniquegroup Team
+         //Desc. uniqe factory2 details can not array to stirng issue using implode to send data
     if($request->uniquefactory2!="")
     {
     $uniquefactory2=$request->uniquefactory2;
+	 $uniquefactory2=implode(",",$uniquefactory2);
     }
     else
     {
@@ -1193,13 +1256,15 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
     if($request->uniquefactory3!="")
     {
     $uniquefactory3=$request->uniquefactory3;
+	 $uniquefactory3=implode(",",$uniquefactory3);
     }
     else
     {
       $uniquefactory3=0;
     }
   
-  
+  //echo "uniquefactory2".$request->uniquefactory2; exit;
+  //print_r($request->uniquefactory2); exit;
   //echo $imgInp = Input::all();
   //echo $imgInp = Input::file('imgInp3');
   
@@ -1211,31 +1276,39 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
 
         File::isDirectory($path) or File::makeDirectory($path, 0777, true, true);
 
-     
+     //Defect: 
+         //Name: Bala-Uniquegroup Team
+         //Desc. add and edit upload Image.
+	 
+	 
       $imgInp = Input::file('imgInp3');
       //$imgInp=$request->imgInp3;
 
       
-       if($imgInp!='')
+		  if($imgInp!='')
                 {
-                $destinationPath = $path;
-              $imgInp_filename=$imgInp->storeAs($destinationPath,$imgInp->getClientOriginalName());             
+             		$destinationPath = $path;
+      				$imgInp_filename=$imgInp->storeAs($destinationPath,$imgInp->getClientOriginalName());      				
 
-        }
-        else{
-        if($request->selectimage3 !='')
-        {
+				}
+				else{
+				if($request->selectimage !='')
+				{
                 
-                $imgInp_filename= $request->selectimage3;
+                $imgInp_filename=$request->selectimage;
                 
                 }
-        else
-        {
-        $imgInp_filename=0;
-        }
-      } 
+				else
+				{
+					if($request->editID!=''){
+							$imgInp_filename=$request->existingboximage;
+					}else{
+							$imgInp_filename= '';
+					}
+				}
+			}
     
-    
+   // echo $imgInp_filename; exit;
    //echo $request->qty_chk;exit;
    //echo $request->Hook;exit;
   // echo $cmyk=$request->printcolor; exit;
@@ -1359,6 +1432,51 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
   $Currency=0;
   }
   
+  /*Defect: 
+          Name: Bala-Uniquegroup Team
+          Desc.Client meeting(02-03-18) updations*/
+  
+  if($request->boxes_thickness!="")
+			{
+			   $boxes_thickness=$request->boxes_thickness;
+			   if($boxes_thickness=="pt")
+			   {
+				 $boxes_pt="pt";
+				 $boxes_gms="";
+				 $boxes_mm="";
+				 
+				   
+			   }
+			   elseif($boxes_thickness=="gms")
+			   {
+				 $boxes_pt="";
+				 $boxes_gms="gms";
+				 $boxes_mm="";
+				   
+			   }
+			  elseif($boxes_thickness=="mm")
+			   {
+				 $boxes_pt="";
+				 $boxes_gms="";
+				 $boxes_mm="mm";
+				   
+			   }
+			 	
+				
+			}
+		  
+        
+			if($request->boxes_PrintingFinishingProcess!="")
+			{
+			$boxes_PrintingFinishingProcess=$request->boxes_PrintingFinishingProcess;	
+			 $checkBoxValue = implode(",", $boxes_PrintingFinishingProcess);
+			$boxes_PrintingFinishingProcess=$checkBoxValue;
+			
+			}
+			else
+			{
+			$Tissuepaper_PrintingFinishingProcess=0;	
+			}
   
   
   if($request->editID!='')
@@ -1372,7 +1490,7 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
   '.$request->RawMaterial.',
   '.$request->PrintType.',
   '.$request->CuttingName.',
-  '.$printingfinishingprocess.',
+  "'.$boxes_PrintingFinishingProcess.'",
   '.$productid.',
   "'.$hook.'",
   "'.$tissue_paper.'",
@@ -1381,9 +1499,9 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
   '.$UnitofMeasurement.',
   '.$Currency.',
   '.$request->Thickness.',
-  "'.$request->pt.'",
-  "'.$request->gms.'",
-  "'.$request->mm.'",
+  "'.$boxes_pt.'",
+  "'.$boxes_gms.'",
+  "'.$boxes_mm.'",
   "'.$request->qty_ref.'",
   '.$qty_chk.',
   "'.$request->Width.'",
@@ -1418,8 +1536,10 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
   }
 
    /* Rajesh:01032018 End */
+   
+   /*vidhya:duplicate records*/
 
-   public function developmentitemlistduplicate(Request $request, $id, $duplicateid, $hookid)
+  public function developmentitemlistduplicate(Request $request, $id, $duplicateid, $hookid)
 
     {
 
@@ -1443,26 +1563,134 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
 
 
          $duplicaterecord = ProductDetails::where('id','=',$id)->first();
-        $boxduplicatedrecord=DB::select('call sp_CRUDboxes(4,'.$duplicaterecord->BoxID.',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)');
+
+        $boxduplicatedrecord=DB::select('call sp_CRUDboxes(4,'.$duplicaterecord->BoxID.','.$duplicaterecord->CustomerID.',0,0,0,0,'.$duplicaterecord->id.',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)');
+		
         $boxlastduplicateid = Boxes::orderby('id','desc')->first();
         $boxduplicateid= $boxlastduplicateid->id; 
-        $data['boxid'][] = $boxduplicateid;
+
 
          if($producttypeid==0)
          {
             
+          
             $hookduplicateid= 0;
             $tissueduplicateid= 0;
             $packduplicateid= 0;
+        
 
             $data['boxduplicate'][]=0;
-          $productdetails_insert = ProductDetails::create(['CustomerID'=>$duplicaterecord->CustomerID,
+          $productdetails_insert = ProductDetails::create([
+     'CustomerID'=>$duplicaterecord->CustomerID,
+     'CustomerWareHouseID'=>$duplicaterecord->CustomerWareHouseID,
         'ProductGroupID' => $duplicaterecord->ProductGroupID,
         'ProductSubGroupID'=>$duplicaterecord->ProductSubGroupID,
         'HookID' =>$hookduplicateid,
         'TissuePaperID' =>$tissueduplicateid,
         'PackagingStickersID' =>$packduplicateid,
-		'BoxID' => $boxduplicateid,
+        'BoxID' => $boxduplicateid,
+        'SeasonID'=>NULL,
+        'ProductStatusID'=>1,
+        'ProductProcessID'=>$duplicaterecord->ProductProcessID,
+        'ProductionRegionID1'=>$duplicaterecord->ProductionRegionID1,
+        'ProductionRegionID2'=>$duplicaterecord->ProductionRegionID2,
+        'ProductionRegionID3'=>$duplicaterecord->ProductionRegionID3,
+        'ProductionRegionID4'=>$duplicaterecord->ProductionRegionID4,
+        'ProductionRegionID5'=>$duplicaterecord->ProductionRegionID5,
+        'ProductionRegionID6'=>$duplicaterecord->ProductionRegionID6,
+        'ProductionRegionID7'=>$duplicaterecord->ProductionRegionID7,
+        'ProductionRegionID8'=>$duplicaterecord->ProductionRegionID8,
+        'PricingMethod'=>NULL,
+        'CurrencyID'=>NULL,
+        'UnitofMeasurementID'=>NULL,
+        'InventoryID'=>$duplicaterecord->InventoryID,
+        'InventoryName'=>$duplicaterecord->InventoryName,
+        'UniqueFactory1'=>$duplicaterecord->UniqueFactory1,
+        'UniqueFactory2'=>$duplicaterecord->UniqueFactory2,
+        'UniqueFactory3'=>$duplicaterecord->UniqueFactory3,
+        'UniqueFactory4'=>$duplicaterecord->UniqueFactory4,
+        'UniqueFactory5'=>$duplicaterecord->UniqueFactory5,
+        'UniqueFactory6'=>$duplicaterecord->UniqueFactory6,
+        'UniqueFactory7'=>$duplicaterecord->UniqueFactory7,
+        'UniqueFactory8'=>$duplicaterecord->UniqueFactory8,
+        'Brand'=>$duplicaterecord->Brand,
+        'ProgramName'=>$duplicaterecord->ProgramName,
+        'CustomerProductName'=>NULL,
+        'CustomerProductCode'=>NULL,
+        'UniqueProductCode'=>NULL,
+                'Description'=>NULL,
+                'StyleNumber'=>NULL,
+                'Version'=>1,
+        'SampleandQuote'=>$duplicaterecord->SampleandQuote,
+                'MinimumOrderQuantity'=>NULL,
+                'MinimumOrderValue'=>NULL,
+                'PackSize'=>NULL,
+                'SellingPrice'=>NULL,
+                'SampleRequestedDate' =>NULL,
+                'SampleRequestNumber' =>$duplicaterecord->SampleRequestNumber,
+                'NumberOfSamplesRequired' =>NULL,
+        'QuantityMOQ'=>NULL,
+        'Cost'=>NULL,
+        'Suggested_price'=>NULL,
+        'Margin'=>NULL,
+                'Artworkupload' =>$duplicaterecord->Artworkupload,
+                'QuoteRequiredchk' =>$duplicaterecord->QuoteRequiredchk,
+                'QuoteRequired' =>$duplicaterecord->QuoteRequired,
+                'SampleLeadTime' =>NULL,
+                'ProductionLeadTime'=>NULL,
+                'RemarksInstructions' =>$duplicaterecord->RemarksInstructions,
+                'QuoteRequired' =>$duplicaterecord->QuoteRequired,
+                'ReferenceFileUpload' =>$duplicaterecord->ReferenceFileUpload,
+                'QualityReference' =>$duplicaterecord->QualityReference,
+                'Projection' =>NULL,
+                'UniqueFactory1Inventory' =>$duplicaterecord->UniqueFactory1Inventory,
+                'UniqueFactory2Inventory' =>$duplicaterecord->UniqueFactory2Inventory,
+                'Maximumpiecesonstock' =>$duplicaterecord->Maximumpiecesonstock,
+                'Minimumpiecesonstock' =>$duplicaterecord->Minimumpiecesonstock,
+        'ExWorks'=>NULL,
+        'FOB'=>NULL,
+                'status'=>1
+                ]);
+          $version_old=$duplicaterecord->Version;
+          $version_new=$productdetails_insert->Version;
+
+         }
+         elseif($producttypeid==1)
+         {
+
+            
+            if($duplicaterecord->HookID!= "")
+         {
+         if($duplicaterecord->HookID != null && $duplicaterecord->HookID <> 0)
+         {
+          $produ = Hook::where('id','=',$hookid)->first();
+            $versihook = 1;
+			
+			//$productdetails = Boxes::where('id','=',$duplicaterecord->HookID)->first();
+
+       /* $hookduplicatedrecord=DB::select('call sp_CRUDhooks(4,"'.$duplicaterecord->HookID.'",'.$duplicaterecord->CustomerID.','.$duplicaterecord->CustomerID.',0,'.$duplicaterecord->ProductGroupID.','.$duplicaterecord->ProductSubGroupID.',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'.$versihook.'",0,0,0)');*/
+	   
+	    $hookduplicatedrecord=DB::select('call sp_CRUDhooks(4,"'.$duplicaterecord->HookID.'",'.$duplicaterecord->CustomerID.',0,'.$duplicaterecord->ProductGroupID.','.$duplicaterecord->ProductSubGroupID.',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'.$versihook.'",0,0,0)');
+		
+		
+		
+        $hooklastduplicateid = Hook::orderby('id','desc')->first();
+        $hookduplicateid=$hooklastduplicateid->id;
+        $tissueduplicateid = 0;
+        $packduplicateid = 0;
+
+         }else
+         {
+            $hookduplicateid=0;
+         }
+     }
+            $data['boxduplicate'][]=1;
+          $productdetails_insert = ProductDetails::create(['CustomerID'=>$duplicaterecord->CustomerID,
+		  'CustomerWareHouseID'=>$duplicaterecord->CustomerWareHouseID,
+        'ProductGroupID' => $duplicaterecord->ProductGroupID,
+        'ProductSubGroupID'=>$duplicaterecord->ProductSubGroupID,
+        'HookID' =>$hookduplicateid,
+        'BoxID' => 0,
         'SeasonID'=>$duplicaterecord->SeasonID,
         'ProductStatusID'=>$duplicaterecord->ProductStatusID,
         'ProductProcessID'=>$duplicaterecord->ProductProcessID,
@@ -1494,7 +1722,7 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
         'UniqueProductCode'=>$duplicaterecord->UniqueProductCode,
                 'Description'=>$duplicaterecord->Description,
                 'StyleNumber'=>$duplicaterecord->StyleNumber,
-                'Version'=>$duplicaterecord->Version+1,
+                'Version'=>$duplicaterecord->Version,
                 'MinimumOrderQuantity'=>$duplicaterecord->MinimumOrderQuantity,
                 'MinimumOrderValue'=>$duplicaterecord->MinimumOrderValue,
                 'PackSize'=>$duplicaterecord->PackSize,
@@ -1502,6 +1730,10 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
                 'SampleRequestedDate' =>$duplicaterecord->SampleRequestedDate,
                 'SampleRequestNumber' =>$duplicaterecord->SampleRequestNumber,
                 'NumberOfSamplesRequired' =>$duplicaterecord->NumberOfSamplesRequired,
+				'QuantityMOQ'=>$duplicaterecord->QuantityMOQ,
+				'Cost'=>$duplicaterecord->Cost,
+				'Suggested_price'=>$duplicaterecord->Suggested_price,
+				'Margin'=>$duplicaterecord->Margin,
                 'Artworkupload' =>$duplicaterecord->Artworkupload,
                 'QuoteRequiredchk' =>$duplicaterecord->QuoteRequiredchk,
                 'SampleLeadTime' =>$duplicaterecord->SampleLeadTime,
@@ -1517,54 +1749,9 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
                 'Minimumpiecesonstock' =>$duplicaterecord->Minimumpiecesonstock,
                 'status'=>1
                 ]);
-          $version_old=$duplicaterecord->Version;
-          $version_new=$productdetails_insert->Version;
-          $duplicate_id=$productdetails_insert->id;
-         }
-         elseif($producttypeid==1)
-         {
-
-            
-            if($duplicaterecord->HookID!= "")
-         {
-         if($duplicaterecord->HookID != null && $duplicaterecord->HookID <> 0)
-         {
-            $produ = Hook::where('id','=',$hookid)->first();
-            $versihook = $produ->Version+1;
-           
-        $hookduplicatedrecord=DB::select('call sp_CRUDhooks(4,"'.$duplicaterecord->HookID.'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'.$versihook.'",0,0,0)');
-        
-
-        $hooklastduplicateid = Hook::orderby('id','desc')->first();
-        
-        $hookduplicateid= $hooklastduplicateid->id;
-        $tissueduplicateid = 0;
-        $packduplicateid = 0;
-
-         }else
-         {
-            $hookduplicateid= 0;
-         }
-     }
-            $data['boxduplicate'][]=1;
-
-            $mulitple_id = $duplicaterecord->HookID.','.$hookduplicateid;
-            /*$explo = explode(",", $duplicaterecord->Version);
-            echo end($explo);*/
-            $new_version = $hooklastduplicateid->Version+1;
-            $mulitple_version = $duplicaterecord->Version.','.$new_version;
-            $productdetails_insert11 = DB::table('productdetails')->where('id', $id)->update(['HookID' => $mulitple_id]);
-            $productdetails_insert = ProductDetails::orderby('id','desc')->first();
-         $version_old=$produ->Version;
+          $version_old=$produ->Version;
          $version_new=$hooklastduplicateid->Version;
-         $duplicate_id=$id;
          }
-
-
-
-
-
-
          elseif ($producttypeid==2) {
 
              if($duplicaterecord->TissuePaperID!= "")
@@ -1573,8 +1760,9 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
        if($duplicaterecord->TissuePaperID!= null && $duplicaterecord->TissuePaperID<> 0)
          {
           $tissprod = Tissuepaper::where('id','=',$hookid)->first();
-          $hookve = $tissprod->Version+1;
-        $tissueduplicatedrecord=DB::select('call sp_CRUDtissuepaper(4,"'.$duplicaterecord->TissuePaperID.'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'.$hookve.'",0,0)');
+          $hookve = 1;
+
+        $tissueduplicatedrecord=DB::select('call sp_CRUDtissuepaper(4,"'.$duplicaterecord->TissuePaperID.'",'.$duplicaterecord->CustomerID.',0,'.$duplicaterecord->ProductGroupID.','.$duplicaterecord->ProductSubGroupID.',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'.$hookve.'",0,0)');
         $tissuealastduplicateid = Tissuepaper::orderby('id','desc')->first();
         $tissueduplicateid= $tissuealastduplicateid->id;
         $packduplicateid = 0;
@@ -1587,17 +1775,73 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
 
 
             $data['boxduplicate'][]=2;
-            $hook_multi = $duplicaterecord->TissuePaperID.','.$tissueduplicateid;
-            $hookproduct = DB::table('productdetails')->where('id', $id)->update(['TissuePaperID' => $hook_multi]);
-            $productdetails_insert = ProductDetails::orderby('id','desc')->first();
-
-         $version_old=$tissprod->Version;
+          $productdetails_insert = ProductDetails::create(['CustomerID'=>$duplicaterecord->CustomerID,
+		  'CustomerWareHouseID'=>$duplicaterecord->CustomerWareHouseID,
+        'ProductGroupID' => $duplicaterecord->ProductGroupID,
+        'ProductSubGroupID'=>$duplicaterecord->ProductSubGroupID,
+        'TissuePaperID' =>$tissueduplicateid,
+        'BoxID' => 0,
+        'SeasonID'=>$duplicaterecord->SeasonID,
+        'ProductStatusID'=>$duplicaterecord->ProductStatusID,
+        'ProductProcessID'=>$duplicaterecord->ProductProcessID,
+        'ProductionRegionID1'=>$duplicaterecord->ProductionRegionID1,
+        'ProductionRegionID2'=>$duplicaterecord->ProductionRegionID2,
+        'ProductionRegionID3'=>$duplicaterecord->ProductionRegionID3,
+        'ProductionRegionID4'=>$duplicaterecord->ProductionRegionID4,
+        'ProductionRegionID5'=>$duplicaterecord->ProductionRegionID5,
+        'ProductionRegionID6'=>$duplicaterecord->ProductionRegionID6,
+        'ProductionRegionID7'=>$duplicaterecord->ProductionRegionID7,
+        'ProductionRegionID8'=>$duplicaterecord->ProductionRegionID8,
+        'PricingMethodID'=>$duplicaterecord->PricingMethodID,
+        'CurrencyID'=>$duplicaterecord->CurrencyID,
+        'UnitofMeasurementID'=>$duplicaterecord->UnitofMeasurementID,
+        'InventoryID'=>$duplicaterecord->InventoryID,
+        'InventoryName'=>$duplicaterecord->InventoryName,
+        'UniqueFactory1'=>$duplicaterecord->UniqueFactory1,
+        'UniqueFactory2'=>$duplicaterecord->UniqueFactory2,
+        'UniqueFactory3'=>$duplicaterecord->UniqueFactory3,
+        'UniqueFactory4'=>$duplicaterecord->UniqueFactory4,
+        'UniqueFactory5'=>$duplicaterecord->UniqueFactory5,
+        'UniqueFactory6'=>$duplicaterecord->UniqueFactory6,
+        'UniqueFactory7'=>$duplicaterecord->UniqueFactory7,
+        'UniqueFactory8'=>$duplicaterecord->UniqueFactory8,
+        'Brand'=>$duplicaterecord->Brand,
+        'ProgramName'=>$duplicaterecord->ProgramName,
+        'CustomerProductName'=>$duplicaterecord->CustomerProductName,
+        'CustomerProductCode'=>$duplicaterecord->CustomerProductCode,
+        'UniqueProductCode'=>$duplicaterecord->UniqueProductCode,
+                'Description'=>$duplicaterecord->Description,
+                'StyleNumber'=>$duplicaterecord->StyleNumber,
+                'Version'=>$duplicaterecord->Version,
+                'MinimumOrderQuantity'=>$duplicaterecord->MinimumOrderQuantity,
+                'MinimumOrderValue'=>$duplicaterecord->MinimumOrderValue,
+                'PackSize'=>$duplicaterecord->PackSize,
+                'SellingPrice'=>$duplicaterecord->SellingPrice,
+                'SampleRequestedDate' =>$duplicaterecord->SampleRequestedDate,
+                'SampleRequestNumber' =>$duplicaterecord->SampleRequestNumber,
+                'NumberOfSamplesRequired' =>$duplicaterecord->NumberOfSamplesRequired,
+				'QuantityMOQ'=>$duplicaterecord->QuantityMOQ,
+				'Cost'=>$duplicaterecord->Cost,
+				'Suggested_price'=>$duplicaterecord->Suggested_price,
+				'Margin'=>$duplicaterecord->Margin,
+                'Artworkupload' =>$duplicaterecord->Artworkupload,
+                'QuoteRequiredchk' =>$duplicaterecord->QuoteRequiredchk,
+                'SampleLeadTime' =>$duplicaterecord->SampleLeadTime,
+                'ProductionLeadTime'=>$duplicaterecord->ProductionLeadTime,
+                'RemarksInstructions' =>$duplicaterecord->RemarksInstructions,
+                'QuoteRequired' =>$duplicaterecord->QuoteRequired,
+                'ReferenceFileUpload' =>$duplicaterecord->ReferenceFileUpload,
+                'QualityReference' =>$duplicaterecord->QualityReference,
+                'Projection' =>$duplicaterecord->Projection,
+                'UniqueFactory1Inventory' =>$duplicaterecord->UniqueFactory1Inventory,
+                'UniqueFactory2Inventory' =>$duplicaterecord->UniqueFactory2Inventory,
+                'Maximumpiecesonstock' =>$duplicaterecord->Maximumpiecesonstock,
+                'Minimumpiecesonstock' =>$duplicaterecord->Minimumpiecesonstock,
+                'status'=>1
+                ]);
+          $version_old=$tissprod->Version;
          $version_new=$tissuealastduplicateid->Version;
-         $duplicate_id=$id;
          }
-
-
-
          elseif ($producttypeid==3) {
 
             if($duplicaterecord->PackagingStickersID!= "")
@@ -1607,8 +1851,11 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
          if($duplicaterecord->PackagingStickersID!= null && $duplicaterecord->PackagingStickersID <> 0)
          {
           $packprod = PackagingStickers::where('id','=',$hookid)->first();
-          $hookve = $packprod->Version+1;
-            $packduplicatedrecord=DB::select('call sp_CRUDpackagingstickers(4,"'.$duplicaterecord->PackagingStickersID.'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'.$hookve.'",0,0)');
+          $hookve = 1;
+
+        $packduplicatedrecord=DB::select('call sp_CRUDpackagingstickers(4,"'.$duplicaterecord->PackagingStickersID.'",'.$duplicaterecord->CustomerID.',0,'.$duplicaterecord->ProductGroupID.','.$duplicaterecord->ProductSubGroupID.','.$packprod->TypeofStickerID.','.$packprod->MaterialID.','.$packprod->PrintTypeID.','.$packprod->CuttingID.',"'.$packprod->PrintingFinishingProcessID.'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'.$hookve.'",0,0)');
+		
+		
         $packalastduplicateid = PackagingStickers::orderby('id','desc')->first();
         $packduplicateid= $packalastduplicateid->id;
         $tissueduplicateid = 0;
@@ -1619,30 +1866,143 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
          }
      }
             $data['boxduplicate'][]=3;
-            $pack_multi = $duplicaterecord->PackagingStickersID.','.$packduplicateid;
-            $hookproduct = DB::table('productdetails')->where('id', $id)->update(['PackagingStickersID' => $pack_multi]);
-            $productdetails_insert = ProductDetails::orderby('id','desc')->first();
-
-          $version_old=$packprod->Version;
+           $productdetails_insert = ProductDetails::create(['CustomerID'=>$duplicaterecord->CustomerID,
+		    'CustomerWareHouseID'=>$duplicaterecord->CustomerWareHouseID,
+        'ProductGroupID' => $duplicaterecord->ProductGroupID,
+        'ProductSubGroupID'=>$duplicaterecord->ProductSubGroupID,
+        'PackagingStickersID' =>$packduplicateid,
+        'BoxID' => 0,
+        'SeasonID'=>$duplicaterecord->SeasonID,
+        'ProductStatusID'=>$duplicaterecord->ProductStatusID,
+        'ProductProcessID'=>$duplicaterecord->ProductProcessID,
+        'ProductionRegionID1'=>$duplicaterecord->ProductionRegionID1,
+        'ProductionRegionID2'=>$duplicaterecord->ProductionRegionID2,
+        'ProductionRegionID3'=>$duplicaterecord->ProductionRegionID3,
+        'ProductionRegionID4'=>$duplicaterecord->ProductionRegionID4,
+        'ProductionRegionID5'=>$duplicaterecord->ProductionRegionID5,
+        'ProductionRegionID6'=>$duplicaterecord->ProductionRegionID6,
+        'ProductionRegionID7'=>$duplicaterecord->ProductionRegionID7,
+        'ProductionRegionID8'=>$duplicaterecord->ProductionRegionID8,
+        'PricingMethodID'=>$duplicaterecord->PricingMethodID,
+        'CurrencyID'=>$duplicaterecord->CurrencyID,
+        'UnitofMeasurementID'=>$duplicaterecord->UnitofMeasurementID,
+        'InventoryID'=>$duplicaterecord->InventoryID,
+        'InventoryName'=>$duplicaterecord->InventoryName,
+        'UniqueFactory1'=>$duplicaterecord->UniqueFactory1,
+        'UniqueFactory2'=>$duplicaterecord->UniqueFactory2,
+        'UniqueFactory3'=>$duplicaterecord->UniqueFactory3,
+        'UniqueFactory4'=>$duplicaterecord->UniqueFactory4,
+        'UniqueFactory5'=>$duplicaterecord->UniqueFactory5,
+        'UniqueFactory6'=>$duplicaterecord->UniqueFactory6,
+        'UniqueFactory7'=>$duplicaterecord->UniqueFactory7,
+        'UniqueFactory8'=>$duplicaterecord->UniqueFactory8,
+        'Brand'=>$duplicaterecord->Brand,
+        'ProgramName'=>$duplicaterecord->ProgramName,
+        'CustomerProductName'=>$duplicaterecord->CustomerProductName,
+        'CustomerProductCode'=>$duplicaterecord->CustomerProductCode,
+        'UniqueProductCode'=>$duplicaterecord->UniqueProductCode,
+                'Description'=>$duplicaterecord->Description,
+                'StyleNumber'=>$duplicaterecord->StyleNumber,
+                'Version'=>$duplicaterecord->Version,
+                'MinimumOrderQuantity'=>$duplicaterecord->MinimumOrderQuantity,
+                'MinimumOrderValue'=>$duplicaterecord->MinimumOrderValue,
+                'PackSize'=>$duplicaterecord->PackSize,
+                'SellingPrice'=>$duplicaterecord->SellingPrice,
+                'SampleRequestedDate' =>$duplicaterecord->SampleRequestedDate,
+                'SampleRequestNumber' =>$duplicaterecord->SampleRequestNumber,
+                'NumberOfSamplesRequired' =>$duplicaterecord->NumberOfSamplesRequired,
+				'QuantityMOQ'=>$duplicaterecord->QuantityMOQ,
+				'Cost'=>$duplicaterecord->Cost,
+				'Suggested_price'=>$duplicaterecord->Suggested_price,
+				'Margin'=>$duplicaterecord->Margin,
+                'Artworkupload' =>$duplicaterecord->Artworkupload,
+                'QuoteRequiredchk' =>$duplicaterecord->QuoteRequiredchk,
+                'SampleLeadTime' =>$duplicaterecord->SampleLeadTime,
+                'ProductionLeadTime'=>$duplicaterecord->ProductionLeadTime,
+                'RemarksInstructions' =>$duplicaterecord->RemarksInstructions,
+                'QuoteRequired' =>$duplicaterecord->QuoteRequired,
+                'ReferenceFileUpload' =>$duplicaterecord->ReferenceFileUpload,
+                'QualityReference' =>$duplicaterecord->QualityReference,
+                'Projection' =>$duplicaterecord->Projection,
+                'UniqueFactory1Inventory' =>$duplicaterecord->UniqueFactory1Inventory,
+                'UniqueFactory2Inventory' =>$duplicaterecord->UniqueFactory2Inventory,
+                'Maximumpiecesonstock' =>$duplicaterecord->Maximumpiecesonstock,
+                'Minimumpiecesonstock' =>$duplicaterecord->Minimumpiecesonstock,
+                'status'=>1
+                ]);
+           $version_old=$packprod->Version;
           $version_new=$packalastduplicateid->Version;
-          $duplicate_id=$id;
-         }
-       
-
-         $data[] = ['duplicate_id'=>$duplicate_id,'edit_id'=>$id,'version_new'=>$version_new,'version_old'=>$version_old];
-         if($producttypeid == 0)
-         {
-            $data['processid'][] = '0';
-         }
-         else{
-            $data['processid'][] = '0'.','.$producttypeid;
-         }
-         $data['processrecord'][] = $productdetails_insert->id.','.'0';
+		  
+		  
+		 
+		 
         
+		 
+		 
+		 
+         }
+		  //Defect:
+         //Name: Bala-Uniquegroup Team
+         //Desc. Update the Product id to box, hook,tissuepaper and packagingstickers
+		 
+		  $productdetails_get = ProductDetails::orderby('id','desc')->first();
+		   $hooklastduplicateid = Hook::orderby('id','desc')->first();
+		   if($hooklastduplicateid!="")
+		   {
+           $hookduplicateid=$hooklastduplicateid->id;
+		   }
+		   $packalastduplicateid = PackagingStickers::orderby('id','desc')->first();
+		   if($packalastduplicateid!="")
+		   {
+           $packduplicateid= $packalastduplicateid->id;
+		   }
+		   
+		  
+		  if($boxduplicateid!="" || $boxduplicateid!=NULL || $boxduplicateid<>0)
+		  {
+		 $productdetailsupdate=DB::table('boxes')
+            ->where('id',$boxduplicateid)
+            ->update(['ProductID' =>$productdetails_get->id,
+			]);
+		  }
+           //hook updations
+		    if($hookduplicateid!="" || $hookduplicateid!=NULL || $hookduplicateid<>0)
+		  {
+			 
+		   $productdetailsupdate=DB::table('hooks')
+            ->where('id',$hookduplicateid)
+            ->update(['ProductID' =>$productdetails_get->id,
+			]);
+		  }
+		  //tissuepaper
+		   if($tissueduplicateid!="" || $tissueduplicateid!=NULL || $tissueduplicateid<>0)
+		  {
+		   $productdetailsupdate=DB::table('tissuepaper')
+            ->where('id',$tissueduplicateid)
+            ->update(['ProductID' =>$productdetails_get->id,
+			]);
+		  }
+		  //packagingstickers
+		    if($packduplicateid!="" || $packduplicateid!=NULL || $packduplicateid<>0)
+		  {
+		   $productdetailsupdate=DB::table('packagingstickers')
+            ->where('id',$packduplicateid)
+            ->update(['ProductID' =>$productdetails_get->id,
+			]);
+		  }
+         
+
+        
+
+         $data[] = ['duplicate_id'=>$productdetails_insert->id,'edit_id'=>$id,'version_new'=>$version_new,'version_old'=>$version_old];
+         $data['processid'][] = '0'.','.$producttypeid;
+         $data['processrecord'][] = $productdetails_insert->id.','.'0';
+                
         return Response::json($data);
 
        
     }
+    /*vidhya:duplicate records*/
  
 
   

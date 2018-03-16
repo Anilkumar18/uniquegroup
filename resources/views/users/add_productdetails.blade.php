@@ -132,6 +132,25 @@ error_reporting(0);
 				
 				$y++;
 				?>
+                 @elseif($fieldname=="PrintingFinishingProcessName")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                   
+                           
+                       
+                         @foreach ($fielddetailslist as $fielddetails)
+                         <div class="col-lg-12">
+              <input type="checkbox" name="{{$fielddetails->$fieldname}}" id="{{$fielddetails->id}}" value="{{$fielddetails->id}}" class="thicknesschkbox printing"/><p class="spanval label_font"> {{$fielddetails->$fieldname}}</p>
+              </div>
+                         @endforeach
+                         
+                         
+                       
+                </div>   
+                 
+                </div>
+                  
                 @else
                  <div class="printcolorhidden">
                  <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
@@ -200,7 +219,10 @@ error_reporting(0);
 				  $chkvalexp=explode(",",$chkval);
 				  ?>
                   @foreach($chkvalexp as $chkbox)
-                  <input type="checkbox" name="{{$chkbox}}" id="{{$chkbox}}" value="{{$chkbox}}" @if($chkbox=='pt') checked="checked" @endif class="thicknesschkbox"/><p class="spanval"> {{$chkbox}}</p>
+                 <!-- <input type="checkbox" name="{{$chkbox}}" id="{{$chkbox}}" value="{{$chkbox}}" @if($chkbox=='pt') checked="checked" @endif class="thicknesschkbox"/><p class="spanval"> {{$chkbox}}</p>-->
+                 
+                 <input type="radio" name="box_thickness" id="{{$chkbox}}" value="{{$chkbox}}" @if($chkbox=='pt') checked="checked" @endif class="thicknesschkbox"/><p class="spanval"> {{$chkbox}}</p>
+                 
                   @endforeach
                   @endif
                   </div>
@@ -552,7 +574,7 @@ error_reporting(0);
 				  $chkvalexp=explode(",",$chkval);
 				  ?>
                   @foreach($chkvalexp as $chkbox)
-                  <input type="checkbox" name="{{$chkbox}}" id="{{$chkbox}}" value="{{$chkbox}}" @if($chkbox=='pt') checked="checked" @endif class="thicknesschkbox"/><p class="spanval"> {{$chkbox}}</p>
+                  <input type="radio" name="hook_thickness" id="{{$chkbox}}" value="{{$chkbox}}" class="thicknesschkbox" @if($chkbox=='pt') checked="checked" @endif /><p class="spanval"> {{$chkbox}}</p>
                   @endforeach
                   @endif
                   </div>
@@ -760,14 +782,11 @@ error_reporting(0);
                  <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
                    <div class="col-lg-5">
                 
-                        <select id="Tissuepaper_PrintingFinishingProcess" name="Tissuepaper_PrintingFinishingProcess" class="form-control dropdownwidth">
-                        <option value="">Please Select</option>
-                         @foreach ($fielddetailslist as $fielddetails)
-                           
-                         <option value="{{$fielddetails->id}}">{{ $fielddetails->$fieldname }}</option>
-                           @endforeach
-                                            
-                        </select>
+                        @foreach ($fielddetailslist as $fielddetails)
+                         <div class="col-lg-12">
+              <input type="checkbox" name="Tissuepaper_PrintingFinishingProcess[]" id="Tissuepaper_PrintingFinishingProcess" value="{{$fielddetails->id}}" class="thicknesschkbox printing"/><p class="spanval label_font"> {{$fielddetails->$fieldname}}</p>
+              </div>
+                         @endforeach
                        
                 </div>   
                  
@@ -804,6 +823,10 @@ error_reporting(0);
                  
                 </div>
                 </div>
+         <!-- Defect: 
+         Name: Bala-Uniquegroup Team
+         Desc. Update thickness checkbox to radio button requirement of the the client Meeting-->
+        
                 
                    @elseif($list->checkbox!="" && $list->columnfieldname=="Thickness")
                  <div class="printcolorhidden">
@@ -821,7 +844,7 @@ error_reporting(0);
 				  $chkvalexp=explode(",",$chkval);
 				  ?>
                   @foreach($chkvalexp as $chkbox)
-                  <input type="checkbox" name="{{$chkbox}}" id="{{$chkbox}}" value="{{$chkbox}}" @if($chkbox=='pt') checked="checked" @endif class="thicknesschkbox"/><p class="spanval"> {{$chkbox}}</p>
+                  <input type="radio" name="tissue_thickness" id="{{$chkbox}}" value="{{$chkbox}}"  class="thicknesschkbox" @if($chkbox=='pt') checked="checked" @endif/><p class="spanval"> {{$chkbox}}</p>
                   @endforeach
                   @endif
                   </div>
@@ -1081,14 +1104,11 @@ error_reporting(0);
                  <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
                    <div class="col-lg-5">
                 
-                        <select id="Package_PrintingFinishingProcess" name="Package_PrintingFinishingProcess" class="form-control dropdownwidth">
-                        <option value="">Please Select</option>
-                         @foreach ($fielddetailslist as $fielddetails)
-                           
-                         <option value="{{$fielddetails->id}}">{{ $fielddetails->$fieldname }}</option>
-                           @endforeach
-                                            
-                        </select>
+                        @foreach ($fielddetailslist as $fielddetails)
+                         <div class="col-lg-12">
+              <input type="checkbox" name="Package_PrintingFinishingProcess[]" id="Package_PrintingFinishingProcess" value="{{$fielddetails->id}}" class="thicknesschkbox printing"/><p class="spanval label_font"> {{$fielddetails->$fieldname}}</p>
+              </div>
+                         @endforeach
                        
                 </div>   
                  
@@ -1143,7 +1163,7 @@ error_reporting(0);
           $chkvalexp=explode(",",$chkval);
           ?>
                   @foreach($chkvalexp as $chkbox)
-                  <input type="checkbox" name="{{$chkbox}}" id="{{$chkbox}}" value="{{$chkbox}}" @if($chkbox=='pt') checked="checked" @endif class="thicknesschkbox"/><p class="spanval"> {{$chkbox}}</p>
+                  <input  type="radio" name="package_thickness" id="{{$chkbox}}" value="{{$chkbox}}" @if($chkbox=='pt') checked="checked" @endif class="thicknesschkbox"/><p class="spanval"> {{$chkbox}}</p>
                   @endforeach
                   @endif
                   </div>

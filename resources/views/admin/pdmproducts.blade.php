@@ -7,6 +7,7 @@ error_reporting(0);
 
 <div class="headerlink">
 <h5> >PDM Maintenance-Product Development-<?php echo $productgroupdetails->ProductGroup;?>-<?php echo $productsubgroupdetails->ProductSubGroupName;?> Table</h5>
+
 </div>
 
 
@@ -29,10 +30,18 @@ error_reporting(0);
 
                     <div class="ibox-title">
 
-                        
+                     <!--  //Defect: 18-1
+                            //Name: Vidhya-PHP Team
+                            //Phone number validation-accept 11 digit -->
 
+
+                      <div>
+                        <div class="col-lg-2" style="float: right;"> 
+                          <button class="button" onclick="location.href='{{ url(route('admin.productdevelopmenthome'))}}'">Home</button>
+                        </div>
+                      </div>
+                      <!-- //Defect: 24 END -->
                     </div>
-
                     <div class="ibox-content">
 
                         <form name="thisForm" id="thisForm" method="post" action="">

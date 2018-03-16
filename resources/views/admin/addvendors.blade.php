@@ -227,18 +227,9 @@
                             
                         </row>
                         
-                        <row class="col-md-12">
-                          
-                            <div class="form-group clsformelements">
-    							<label for="city" class="col-md-3">City<span class="mandatory_fields">*</span></label>
-                                
-                                <div class="col-md-3">
-                                
-                                 <input type="text" name="city" id="city" class="form-control" placeholder="City" value="@if($edit_val==1){{$vendors->City}}@endif" />
-                                </div>
-  							</div>
-                            
-                        </row>   
+         <!-- //Defect: pdf_new no:2
+         //Name: Vidhya-php Team
+         //change country, city order  -->  
                         
                          <row class="col-md-12">
 
@@ -308,7 +299,19 @@
                             
 
                         </row>
-                        
+                         <row class="col-md-12">
+                          
+                            <div class="form-group clsformelements">
+                  <label for="city" class="col-md-3">City<span class="mandatory_fields">*</span></label>
+                                
+                                <div class="col-md-3">
+                                
+                                 <input type="text" name="city" id="city" class="form-control" placeholder="City" value="@if($edit_val==1){{$vendors->City}}@endif" />
+                                </div>
+                </div>
+                            
+                        </row>
+
                          <row class="col-md-12">
                           
                             <div class="form-group clsformelements">

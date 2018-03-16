@@ -71,12 +71,12 @@ width:50px;}
                         <input type="hidden" name="editID" id="editID" value="@if($edit_val==1) {{ $uniqueoffices->id }} @endif"/>
                         
                         <row class="col-md-12">
-                          
+                                                    
                             <div class="form-group clsformelements">
     							<label for="pwdcompany_name" class="col-md-3">Office / Factory Name<span class="mandatory_fields">*</span></label>
                                 
                                 <div class="col-md-3">
-                                 <input type="text" name="factoryname" id="factoryname" class="form-control" placeholder="Office / Factory Name" value="@if($edit_val==1) {{ $uniqueoffices->Factory1OfficeFactoryName }} @endif" />
+                                 <input type="text" name="factoryname" id="factoryname" class="form-control" placeholder="Office / Factory Name" value="@if($edit_val==1) {{ $uniqueoffices->OfficeFactoryName }} @endif" />
                                 </div>
   							</div>
                             
@@ -91,13 +91,13 @@ width:50px;}
                                  <label> Marketing</label>
                                  </div>
                                  <div class="col-md-1">
-                                 <input type="radio" class="regions" name="regions" id="regions" value="1"/>
+                                 <input type="radio" class="regions" name="regions" id="regions" value="1" />
                                  </div>
                                  <div class="col-md-1 customradio">
                                  <label> Production</label>
                                  </div>
                                  <div class="col-md-1">
-                                  <input type="radio" class="regions" name="regions" id="regions" value="2"/>
+                                  <input type="radio" class="regions" name="regions" id="regions" value="2" />
                                  </div>
                                  
                           <?php /*?>  <div class="col-md-3">
@@ -122,7 +122,7 @@ width:50px;}
                               <select  id="marketingregions" name="marketingregions" class="form-control regions-group">
                                  <option value="">Please select Marketing Region</option>
                                  @foreach($marketingregions as $marketingregionslist)
-                                 <option value="{{$marketingregionslist->id}}" "@if($edit_val==1) {{ $uniqueoffices->Factory1MarketingRegionID==$marketingregionslist->id ? 'selected' : '' }} @endif">{{$marketingregionslist->MarketingRegions}}</option>
+                                 <option value="{{$marketingregionslist->id}}" "@if($edit_val==1) {{ $uniqueoffices->MarketingRegionID==$marketingregionslist->id ? 'selected' : '' }} @endif">{{$marketingregionslist->MarketingRegions}}</option>
                                  @endforeach
                                  </select>
                                </div>
@@ -130,12 +130,12 @@ width:50px;}
                               <select  id="productionregions" name="productionregions" class="form-control regions-group">
                                  <option value="">Please select Production Region</option>
                                 @foreach($productionregions as $productionregionslist)
-                                 <option value="{{$productionregionslist->id}}" "@if($edit_val==1) {{ $uniqueoffices->Factory1ProductionRegionID==$productionregionslist->id ? 'selected' : '' }} @endif">{{$productionregionslist->ProductionRegions}}</option>
+                                 <option value="{{$productionregionslist->id}}" "@if($edit_val==1) {{ $uniqueoffices->ProductionRegionID==$productionregionslist->id ? 'selected' : '' }} @endif">{{$productionregionslist->ProductionRegions}}</option>
                                  @endforeach
                                  </select>
                                  </div>
                                 </div>
-  							</div>
+  							             </div>
                             
                         </row>  
                             
@@ -147,7 +147,7 @@ width:50px;}
                                 
                                 <div class="col-md-3">
                                 
-                                 <input type="text" name="firstName" id="firstName" class="form-control" placeholder="Main Contact First Name" value="@if($edit_val==1) {{ $uniqueoffices->Factory1MainContactFirstName }} @endif" />
+                                 <input type="text" name="firstName" id="firstName" class="form-control" placeholder="Main Contact First Name" value="@if($edit_val==1) {{ $uniqueoffices->MainContactFirstName }} @endif" />
                                 </div>
   							</div>
                             
@@ -160,7 +160,7 @@ width:50px;}
                                 
                                 <div class="col-md-3">
                                 
-                                <input type="text" name="lastName" id="lastName" class="form-control" placeholder="Main Contact Last Name" value="@if($edit_val==1) {{ $uniqueoffices->Factory1MainContactLastName }} @endif" />
+                                <input type="text" name="lastName" id="lastName" class="form-control" placeholder="Main Contact Last Name" value="@if($edit_val==1) {{ $uniqueoffices->MainContactLastName }} @endif" />
                                 </div>
   							</div>
                             
@@ -195,7 +195,7 @@ width:50px;}
                                 
                                 <div class="col-md-3">
                                 
-                                  <input type="text" name="email" id="email"  class="form-control" placeholder="E-Mail" value="@if($edit_val==1) {{ $uniqueoffices->Factory1Email }} @endif" />
+                                  <input type="text" name="email" id="email"  class="form-control" placeholder="E-Mail" value="@if($edit_val==1){{ $uniqueoffices->Email }}@endif" />
                                 </div>
   							</div>
                             
@@ -218,7 +218,7 @@ width:50px;}
                                 
                                 <div class="col-md-3">
                                 
-                                  <input type="text" name="suite" id="suite" class="form-control" placeholder="Suite / Unit" value="@if($edit_val==1) {{ $uniqueoffices->Factory1Suite }} @endif" />
+                                  <input type="text" name="suite" id="suite" class="form-control" placeholder="Suite / Unit" value="@if($edit_val==1) {{ $uniqueoffices->Suite }} @endif" />
                                 </div>
   							</div>
                             
@@ -231,7 +231,7 @@ width:50px;}
                                 
                                 <div class="col-md-3">
                                 
-                                 <input type="text" name="street" id="street" class="form-control" placeholder="Street" value="@if($edit_val==1) {{ $uniqueoffices->Factory1Street }} @endif" />
+                                 <input type="text" name="street" id="street" class="form-control" placeholder="Street" value="@if($edit_val==1) {{ $uniqueoffices->Street }} @endif" />
                                 </div>
   							</div>
                             
@@ -244,7 +244,7 @@ width:50px;}
                                 
                                 <div class="col-md-3">
                                 
-                                 <input type="text" name="city" id="city" class="form-control" placeholder="City" value="@if($edit_val==1) {{ $uniqueoffices->Factory1City }} @endif" />
+                                 <input type="text" name="city" id="city" class="form-control" placeholder="City" value="@if($edit_val==1) {{ $uniqueoffices->City }} @endif" />
                                 </div>
   							</div>
                             
@@ -326,50 +326,12 @@ width:50px;}
                                 
                                 <div class="col-md-3">
                                 
-                                <input type="text" name="zipcode" id="zipcode"  class="form-control" maxlength="7" placeholder="ZIP Code" value="@if($edit_val==1) {{ $uniqueoffices->Factory1ZIPcode }} @endif" />
+                                <input type="text" name="zipcode" id="zipcode"  class="form-control" maxlength="7" placeholder="ZIP Code" value="@if($edit_val==1) {{ $uniqueoffices->ZIPcode }} @endif" />
                                 </div>
   							</div>
                             
                         </row>
-                          <row class="col-md-12">
-                          
-                            <div class="form-group clsformelements">
-    							<label for="state" class="col-md-3">Factory1</label>
-                                
-                                <div class="col-md-3 addr_field">
-    							<select id="factory1" name="factory1" class="form-control">
-                                  <option value=""> Please Select Factory1</option>
-                                   @foreach($officeAddress as $officelist)
-                                   <option value="{{$officelist->id}}" "@if($edit_val==1) {{ $vendors->Factory1ID==$officelist->id ? 'selected' : '' }} @endif">{{$officelist->factoryName}}</option>
-                                   @endforeach
-                                </select>
-                                </div>
-                                <div class="col-md-3">
-                                <!--  <input type="button" name="addinvoiceaddress" id="addinvoiceaddress" value="Add Invoice Address" class="clsbutton"/>-->
-                                  </div>
-  							</div>
-                            
-                        </row>  
-                         <row class="col-md-12">
-                          
-                            <div class="form-group clsformelements">
-    							<label for="state" class="col-md-3">Factory2</label>
-                                
-                                <div class="col-md-3 addr_field">
-    							<select id="factory2" name="factory2" class="form-control">
-                                  <option value=""> Please Select Factory2</option>
-                                   @foreach($officeAddress as $officelist)
-                                   <option value="{{$officelist->id}}" "@if($edit_val==1) {{ $vendors->Factory2ID==$officelist->id ? 'selected' : '' }} @endif">{{$officelist->factoryName}}</option>
-                                   @endforeach
-                                </select>
-                                </div>
-                                <div class="col-md-3">
-                                <!--  <input type="button" name="addinvoiceaddress" id="addinvoiceaddress" value="Add Invoice Address" class="clsbutton"/>-->
-                                  </div>
-  							</div>
-                            
-                        </row>  
-                                            
+                                  
                          <row class="col-md-12">
                           
                             <div class="form-group clsformelements">

@@ -123,6 +123,9 @@ class ProductGroupsController extends Controller
 		$productsubgroupid=Session::get('productsubgroupid');
 		$lastinsertedproductid=Session::get('productlastrecordid');
 		
+		
+		
+		
 		//echo "productgroupid".$productgroupid;exit;
 		
 		//echo "hooks".$request->HooksMaterial;
@@ -307,6 +310,34 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
 				$MoldCosting=0;
 			}
 			
+			if($request->hook_thickness!="")
+			{
+			   $hook_thickenss=$request->hook_thickness;
+			   if($hook_thickenss=="pt")
+			   {
+				 $hook_pt="pt";
+				 $hook_gms="";
+				 $hook_mm="";
+				 
+				   
+			   }
+			   elseif($hook_thickenss=="gms")
+			   {
+				 $hook_pt="";
+				 $hook_gms="gms";
+				 $hook_mm="";
+				   
+			   }
+			  elseif($hook_thickenss=="mm")
+			   {
+				 $hook_pt="";
+				 $hook_gms="";
+				 $hook_mm="mm";
+				   
+			   }
+			 	
+				
+			}
 		   
 		   
 			if($request->editID!="")
@@ -321,9 +352,9 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
 	   '.$qty_chk.',
 	   "'.$request->Color.'",
 	   "'.$request->Thickness.'",
-	   "'.$request->pt.'",
-		"'.$request->gms.'",
-		"'.$request->mm.'",
+	   "'.$hook_pt.'",
+		"'.$hook_gms.'",
+		"'.$hook_mm.'",
 	   "'.$request->Hook_Width.'",
 	   "'.$request->Hook_Length.'",
 	   "'.$Currency.'",
@@ -359,9 +390,9 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
 				   '.$qty_chk.',
 				   "'.$request->Color.'",
 				   "'.$request->Thickness.'",
-				   "'.$request->pt.'",
-					"'.$request->gms.'",
-					"'.$request->mm.'",
+				   "'.$hook_pt.'",
+					"'.$hook_gms.'",
+					"'.$hook_mm.'",
 				   "'.$request->Hook_Width.'",
 				   "'.$request->Hook_Length.'",
 				   "'.$Currency.'",
@@ -516,12 +547,44 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
 			if($request->Tissuepaper_PrintingFinishingProcess!="")
 			{
 			$Tissuepaper_PrintingFinishingProcess=$request->Tissuepaper_PrintingFinishingProcess;	
+			 $checkBoxValue = implode(",", $Tissuepaper_PrintingFinishingProcess);
+			$Tissuepaper_PrintingFinishingProcess=$checkBoxValue;
+			$Tissuepaper_PrintingFinishingProcess;
+			
 			}
 			else
 			{
 			$Tissuepaper_PrintingFinishingProcess=0;	
 			}
 			
+		     if($request->tissue_thickness!="")
+			{
+			   $tissue_thickness=$request->tissue_thickness;
+			   if($tissue_thickness=="pt")
+			   {
+				 $tissue_pt="pt";
+				 $tissue_gms="";
+				 $tissue_mm="";
+				 
+				   
+			   }
+			   elseif($tissue_thickness=="gms")
+			   {
+				 $tissue_pt="";
+				 $tissue_gms="gms";
+				 $tissue_mm="";
+				   
+			   }
+			  elseif($tissue_thickness=="mm")
+			   {
+				 $tissue_pt="";
+				 $tissue_gms="";
+				 $tissue_mm="mm";
+				   
+			   }
+			 	
+				
+			}
 			
 			if($request->tissuepapereditID!="")
 			{
@@ -533,11 +596,11 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
 	   '.$request->Tissuepaper_RawMaterial.',
 	   '.$request->Tissuepaper_PrintType.',
 	   '.$request->Tissuepaper_Cutting.',
-	   '.$Tissuepaper_PrintingFinishingProcess.',
+	   "'.$Tissuepaper_PrintingFinishingProcess.'",
 	   "'.$request->Tissuepaper_Thickness.'",
-	    "'.$request->pt.'",
-		"'.$request->gms.'",
-		"'.$request->mm.'",
+	    "'.$tissue_pt.'",
+		"'.$tissue_gms.'",
+		"'.$tissue_mm.'",
 	   "'.$request->Tissuepaper_QualityReference.'",
 	   '.$qty_chk.',
 	   "'.$request->tissuepaper_Width.'",
@@ -576,11 +639,11 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
 	   '.$request->Tissuepaper_RawMaterial.',
 	   '.$request->Tissuepaper_PrintType.',
 	   '.$request->Tissuepaper_Cutting.',
-	   '.$Tissuepaper_PrintingFinishingProcess.',
+	   "'.$Tissuepaper_PrintingFinishingProcess.'",
 	   "'.$request->Tissuepaper_Thickness.'",
-	    "'.$request->pt.'",
-		"'.$request->gms.'",
-		"'.$request->mm.'",
+	    "'.$tissue_pt.'",
+		"'.$tissue_gms.'",
+		"'.$tissue_mm.'",
 	   "'.$request->Tissuepaper_QualityReference.'",
 	   '.$qty_chk.',
 	   "'.$request->tissuepaper_Width.'",
@@ -776,7 +839,10 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
 			}
 			if($request->Package_PrintingFinishingProcess!="")
 			{
-				$Package_PrintingFinishingProcess=$request->Package_PrintingFinishingProcess;
+				//$Package_PrintingFinishingProcess=$request->Package_PrintingFinishingProcess;
+			$Package_PrintingFinishingProcess=$request->Package_PrintingFinishingProcess;	
+			$checkpackageValue = implode(",",$Package_PrintingFinishingProcess);
+			$Package_PrintingFinishingProcess=$checkpackageValue;
 			}
 			else
 			{
@@ -784,6 +850,38 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
 			}
 			
 			//echo "factory1details".$uniquefactory_packagingstickers1details;
+			 if($request->package_thickness!="")
+			{
+			   $package_thickness=$request->package_thickness;
+			   if($package_thickness=="pt")
+			   {
+				 $package_pt="pt";
+				 $package_gms="";
+				 $package_mm="";
+				 
+				   
+			   }
+			   elseif($package_thickness=="gms")
+			   {
+				 $package_pt="";
+				 $package_gms="gms";
+				 $package_mm="";
+				   
+			   }
+			  elseif($package_thickness=="mm")
+			   {
+				 $package_pt="";
+				 $package_gms="";
+				 $package_mm="mm";
+				   
+			   }
+			 	
+				
+			}
+			
+			
+			
+			
 	
 	if($request->packagingeditID!="")
 	{
@@ -799,13 +897,13 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
 	"'.$request->Package_RawMaterial.'",
 	'.$request->Package_PrintType.',
 	"'.$request->Package_Cutting.'",
-	'.$Package_PrintingFinishingProcess.',
+	"'.$Package_PrintingFinishingProcess.'",
 	"'.$request->Package_QualityReference.'",
 	'.$qty_chk.',
 	'.$request->PackageThickness.',
-	 "'.$request->pt.'",
-     "'.$request->gms.'",
-     "'.$request->mm.'",
+	 "'.$package_pt.'",
+     "'.$package_gms.'",
+     "'.$package_mm.'",
 	"'.$request->package_Width.'",
 	"'.$request->package_Length.'",
 	"'.$request->TypeofAdhesive.'",
@@ -845,13 +943,13 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
 	"'.$request->Package_RawMaterial.'",
 	'.$request->Package_PrintType.',
 	"'.$request->Package_Cutting.'",
-	'.$Package_PrintingFinishingProcess.',
+	"'.$Package_PrintingFinishingProcess.'",
 	"'.$request->Package_QualityReference.'",
 	'.$qty_chk.',
 	'.$request->PackageThickness.',
-	 "'.$request->pt.'",
-     "'.$request->gms.'",
-     "'.$request->mm.'",
+	 "'.$package_pt.'",
+     "'.$package_gms.'",
+     "'.$package_mm.'",
 	"'.$request->package_Width.'",
 	"'.$request->package_Length.'",
 	"'.$request->TypeofAdhesive.'",

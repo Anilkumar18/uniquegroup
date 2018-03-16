@@ -74,8 +74,9 @@ public function customerList() {
 
 $user = Auth::user();
 $usertype = UserType::where('id', '=', $user->userTypeID)->first();
-
-$customers = DB::select('call sp_selectCustomers(2,0,1)');
+$accountmanagerID=$user->id;
+$usertypeID=$user->userTypeID;
+$customers = DB::select('call sp_selectCustomers(2,0,1,'.$accountmanagerID.','.$usertypeID.')');
 
 return view('admin.customers', compact('user','customers','usertype'));	                                   
 
@@ -94,9 +95,10 @@ public function customerviewlist(Request $request)
    $customerid=$request->id;
 
    $usertype = UserType::where('id', '=', $user->userTypeID)->first();
-
-    $customerviewlist = DB::select('call sp_selectCustomers(1,'.$customerid.',1)');
-
+$accountmanagerID=$user->id;
+$usertypeID=$user->userTypeID;
+    //$customerviewlist = DB::select('call sp_selectCustomers(2,0,1,'.$accountmanagerID.')');
+$customerviewlist = DB::select('call sp_selectCustomers(1,'.$customerid.',1,'.$accountmanagerID.','.$usertypeID.')');
 	
 
    return view('admin.customersdetails', compact('user','customerviewlist','usertype'));	
@@ -139,7 +141,7 @@ public function viewcustomers(Request $request)
 
 	$user = Auth::user();
 
-	
+	$accountmanagerID=$user->id;
 
 	 if($request->editID!='')
 
@@ -201,7 +203,7 @@ public function viewcustomers(Request $request)
 
 	 
 
-	 $customers_update=DB::select('call sp_CRUDcustomers(2,'.$request->editID.','.$request->country.','.$request->state.',"'.$request->customername.'","'.$filename.'","'.$request->firstName.'","'.$request->lastName.'","'.$request->phoneNumber.'","'.$request->email.'","'.$request->suite.'","'.$request->street.'","'.$request->city.'","'.$request->zipcode.'","'.$request->Warehouse_Name.'","'.$request->Warehouse_Suite.'","'.$request->Warehouse_street.'","'.$request->Warehouse_city.'",'.$request->Warehouse_CountryID.','.$request->Warehouse_StateID.',"'.$request->Warehouse_Zipcode.'",1)');
+	 $customers_update=DB::select('call sp_CRUDcustomers(2,'.$request->editID.','.$request->country.','.$request->state.',"'.$request->customername.'","'.$filename.'","'.$accountmanagerID.'","'.$request->firstName.'","'.$request->lastName.'","'.$request->phoneNumber.'","'.$request->email.'","'.$request->suite.'","'.$request->street.'","'.$request->city.'","'.$request->zipcode.'","'.$request->Warehouse_Name.'","'.$request->Warehouse_Suite.'","'.$request->Warehouse_street.'","'.$request->Warehouse_city.'",'.$request->Warehouse_CountryID.','.$request->Warehouse_StateID.',"'.$request->Warehouse_Zipcode.'",1)');
 
 
 
@@ -265,8 +267,7 @@ public function viewcustomers(Request $request)
             }
 
 
-
-	$customers_insert=DB::select('call sp_CRUDcustomers(1,0,'.$request->country.','.$request->state.',"'.$request->customername.'","'.$filename.'","'.$request->firstName.'","'.$request->lastName.'","'.$request->phoneNumber.'","'.$request->email.'","'.$request->suite.'","'.$request->street.'","'.$request->city.'","'.$request->zipcode.'","'.$request->Warehouse_Name.'","'.$request->Warehouse_Suite.'","'.$request->Warehouse_street.'","'.$request->Warehouse_city.'",'.$request->Warehouse_CountryID.','.$request->Warehouse_StateID.',"'.$request->Warehouse_Zipcode.'",1)');
+	$customers_insert=DB::select('call sp_CRUDcustomers(1,0,'.$request->country.','.$request->state.',"'.$request->customername.'","'.$filename.'","'.$accountmanagerID.'","'.$request->firstName.'","'.$request->lastName.'","'.$request->phoneNumber.'","'.$request->email.'","'.$request->suite.'","'.$request->street.'","'.$request->city.'","'.$request->zipcode.'","'.$request->Warehouse_Name.'","'.$request->Warehouse_Suite.'","'.$request->Warehouse_street.'","'.$request->Warehouse_city.'",'.$request->Warehouse_CountryID.','.$request->Warehouse_StateID.',"'.$request->Warehouse_Zipcode.'",1)');
 
 	
 

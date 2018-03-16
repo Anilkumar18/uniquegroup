@@ -164,17 +164,29 @@ error_reporting(0);
                         <!-- <td>{{$list->CustomerProductCode}}</td> -->
 
                         <td>{{$list->UniqueProductCode}}</td>
-
+<!-- vidhya:02032018 -->
                         <td>
                        <?php
               if($list->BoxID!="" && $list->BoxID<>0)
-             echo "Boxes";echo "<br>";         
+              {
+
+             echo "Boxes"; echo "<br>";       
+              }
 					   if($list->HookID!="" && $list->HookID<>0)
+             {
+
 					   echo "Hook";echo "<br>";
+             }
 					   if($list->TissuePaperID!="" && $list->TissuePaperID<>0)
+             {
+
 					   echo "Tissue Paper";echo "<br>";
+             }
 					   if($list->PackagingStickersID!="" && $list->PackagingStickersID<>0)
+             {
+
 					   echo "Packaging Stickers";echo "<br>";
+             }
 					   ?>
                         </td>
 
@@ -192,7 +204,7 @@ error_reporting(0);
 
                         <td class="processdetails">
 
-                       <a href="{{ url(route('product.productdetailsedit', ['id' => $list->id])) }}" class="editrawmaterial"><img  src="{{ asset('/img/edit.png') }}" border="0"  title="Edit"/></a>  
+                       <a href="{{ url(route('product.productlistdetailsedit', ['id' => $list->id])) }}" class="editrawmaterial"><img  src="{{ asset('/img/edit.png') }}" border="0"  title="Edit"/></a>  
 
                          <span class="developmentduplicate" data-href="{{ url(route('user.developmentlistduplicate', ['id' => $list->id])) }}" ><a href="javascript:;"><img  src="{{ asset('/img/file.png') }}" border="0"  title="Duplicate"/></a></span>                     
 
@@ -201,7 +213,7 @@ error_reporting(0);
                         <span class="deletedevelopmentlist" data-href="{{ url(route('user.developmentlistdelete', ['id' => $list->id])) }}"><a href="javascript:;"><img  src="{{ asset('/img/delete.png') }}" border="0"  title="Delete"/></a></span>
                         </td>
 
-                        
+         <!-- vidhya:02032018 -->               
 
                     </tr>
 

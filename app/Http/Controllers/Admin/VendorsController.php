@@ -100,8 +100,10 @@ class VendorsController extends Controller
 
 	 
 
-	  $customerlist=DB::select('call sp_selectCustomers(4,0,1)');
-
+	  //$customerlist=DB::select('call sp_selectCustomers(4,0,1)');
+$accountmanagerID=$user->id;
+$usertypeID=$user->userTypeID;
+$customerlist = DB::select('call sp_selectCustomers(2,0,1,'.$accountmanagerID.','.$usertypeID.')');
 	 
 
 	  $state=State::where('status','=',1)->get();
@@ -245,9 +247,11 @@ $request->session()->flash('failure', 'Vendors company name already exits!');
 
 			
 
-	 $customerlist=DB::select('call sp_selectCustomers(4,0,1)');			
+	 //$customerlist=DB::select('call sp_selectCustomers(4,0,1)');			
 
-			
+		$accountmanagerID=$user->id;
+		$usertypeID=$user->userTypeID;
+		$customerlist = DB::select('call sp_selectCustomers(2,0,1,'.$accountmanagerID.','.$usertypeID.')');
 
 	 $countryofoperations=Country::all();
 

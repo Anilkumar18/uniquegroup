@@ -2,18 +2,28 @@
  
  inventoryregiontrigger();
 							
-
+/*Defect: 16-6
+         //Name: bala-Uniquegroup Team
+         //Desc.uniquegroup/public/addproductgroups
+           Inventory information page validation not working*/
+		   
 var productinventorydetails =$("#productinventoryadd").validate({
   rules: {
-     factoryName : {
+     Inventory : {
     required: true
   },
- Maximumpiecesonstock: {
-	  required: true
- },
-Minimumpiecesonstock:{
-	required:true
-},
+  ProductionRegions1:{
+	required:true  
+  },
+  uniquefactory1: {
+	required:true  
+  },
+  Maximumpiecesonstock : {
+	 required:true  
+  },
+  Minimumpiecesonstock:{
+	  required:true 
+  }
 	
   }
 });

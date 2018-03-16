@@ -10,8 +10,8 @@ class Vendors extends Model
   
   protected $fillable=[
 					  'CustomerID',
-					  'Countryofoperation1',
-					  'Countryofoperation2',
+					  'Countryofoperation',
+					  /*'Countryofoperation2',*/
 					  'CountryID',
 					  'StateID',
 					  'CourierCompanyID',

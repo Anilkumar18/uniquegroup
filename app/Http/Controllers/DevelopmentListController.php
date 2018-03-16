@@ -155,7 +155,7 @@ class DevelopmentListController extends Controller
      public function developmentlistduplicate(Request $request, $id)
 
     {
-        //echo "hhfgj"; exit;
+       /*vidhya:duplicate records*/
         $user = Auth::user();
 
         $productlist=DB::Select('call sp_selectproductdetails(1,0,0)');
@@ -175,43 +175,44 @@ class DevelopmentListController extends Controller
          $productid=Session::get('productlastrecordid');
          $duplicaterecord = ProductDetails::where('id','=',$id)->first();
 
-          /*$boxduplicatedrecord=DB::select('call sp_CRUDboxes(4,'.$duplicaterecord->BoxID.',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)');*/
-		   $boxduplicatedrecord=DB::select('call sp_CRUDboxes(4,'.$duplicaterecord->BoxID.','.$duplicaterecord->CustomerID.',0,0,0,0,'.$duplicaterecord->id.',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)');
-		   
+          $boxduplicatedrecord=DB::select('call sp_CRUDboxes(4,'.$duplicaterecord->BoxID.',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)');
         $boxlastduplicateid = Boxes::orderby('id','desc')->first();
         $boxduplicateid= $boxlastduplicateid->id; 
         $data['boxid'][] = $boxduplicateid;
 
 
 
-         if($duplicaterecord->HookID!= "")
-         {
+         
          if($duplicaterecord->HookID != null && $duplicaterecord->HookID <> 0)
          {
             $produ = Hook::where('id','=',$duplicaterecord->HookID)->first();
             $versihook =1;
         /*$hookduplicatedrecord=DB::select('call sp_CRUDhooks(4,"'.$duplicaterecord->HookID.'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'.$versihook.'",0,0,0)');*/
-		$productdetails = Boxes::where('id','=',$duplicaterecord->HookID)->first();
-	   
-		$hookduplicatedrecord=DB::select('call sp_CRUDhooks(4,"'.$duplicaterecord->HookID.'",'.$duplicaterecord->CustomerID.','.$duplicaterecord->CustomerID.','.$productdetails->ProductID.','.$duplicaterecord->ProductGroupID.','.$duplicaterecord->ProductSubGroupID.',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'.$versihook.'",0,0,0)');
-		
+        $productdetails = Boxes::where('id','=',$duplicaterecord->HookID)->first();
+       
+        $hookduplicatedrecord=DB::select('call sp_CRUDhooks(4,"'.$duplicaterecord->HookID.'",'.$duplicaterecord->CustomerID.','.$duplicaterecord->CustomerID.','.$productdetails->ProductID.','.$duplicaterecord->ProductGroupID.','.$duplicaterecord->ProductSubGroupID.',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'.$versihook.'",0,0,0)');
+        
         $hooklastduplicateid = Hook::orderby('id','desc')->first();
         $hookduplicateid= $hooklastduplicateid->id;
        $tissueduplicateid= 0;
             $packduplicateid= 0;
-            $boxduplicateid=$boxduplicateid;
+            if($duplicaterecord->BoxID!= null && $duplicaterecord->BoxID<> 0)
+            {
+                $boxduplicateid=$boxduplicateid;
+
+            }
+            else
+            {
+                $boxduplicateid=0;
+            }
 
          }else
          {
             $hookduplicateid= 0;
          }
-     }
 
-       
-
-     if($duplicaterecord->TissuePaperID!= "")
-     {
-
+      
+     
        if($duplicaterecord->TissuePaperID!= null && $duplicaterecord->TissuePaperID<> 0)
          {
             $tissprod = Tissuepaper::where('id','=',$duplicaterecord->TissuePaperID)->first();
@@ -219,50 +220,56 @@ class DevelopmentListController extends Controller
         $tissueduplicatedrecord=DB::select('call sp_CRUDtissuepaper(4,"'.$duplicaterecord->TissuePaperID.'",'.$duplicaterecord->CustomerID.',0,'.$duplicaterecord->ProductGroupID.','.$duplicaterecord->ProductSubGroupID.',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'.$hookve.'",0,0)');
         $tissuealastduplicateid = Tissuepaper::orderby('id','desc')->first();
         $tissueduplicateid= $tissuealastduplicateid->id;
-        $hookduplicateid= 0;
+        $hookduplicateid= $hookduplicateid;
         $packduplicateid= 0;
-        $boxduplicateid=$boxduplicateid;
+        if($duplicaterecord->BoxID!= null && $duplicaterecord->BoxID<> 0)
+            {
+                $boxduplicateid=$boxduplicateid;
+
+            }
+            else
+            {
+                $boxduplicateid=0;
+            }
          }else
          {
             $tissueduplicateid= 0;
          }
-     }
+     
 
 
-      if($duplicaterecord->PackagingStickersID!= "")
-        {
-
-
+      
          if($duplicaterecord->PackagingStickersID!= null && $duplicaterecord->PackagingStickersID <> 0)
          {
             $packprod = PackagingStickers::where('id','=',$duplicaterecord->PackagingStickersID)->first();
           $hookve =1;
 		  
-       $packduplicatedrecord=DB::select('call sp_CRUDpackagingstickers(4,"'.$duplicaterecord->PackagingStickersID.'",'.$duplicaterecord->CustomerID.',0,'.$duplicaterecord->ProductGroupID.','.$duplicaterecord->ProductSubGroupID.','.$packprod->TypeofStickerID.','.$packprod->MaterialID.','.$packprod->PrintTypeID.','.$packprod->CuttingID.','.$packprod->PrintingFinishingProcessID.',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'.$hookve.'",0,0)');
+       $packduplicatedrecord=DB::select('call sp_CRUDpackagingstickers(4,"'.$duplicaterecord->PackagingStickersID.'",'.$duplicaterecord->CustomerID.',0,'.$duplicaterecord->ProductGroupID.','.$duplicaterecord->ProductSubGroupID.','.$packprod->TypeofStickerID.','.$packprod->MaterialID.','.$packprod->PrintTypeID.','.$packprod->CuttingID.',"'.$packprod->PrintingFinishingProcessID.'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'.$hookve.'",0,0)');
 	   
-	   /* $packduplicatedrecord=DB::select('call sp_CRUDpackagingstickers(4,
-		"'.$duplicaterecord->PackagingStickersID.'",
-		'.$duplicaterecord->CustomerID.',
-		0,
-		'.$duplicaterecord->ProductGroupID.',
-		'.$duplicaterecord->ProductSubGroupID.',
-		'.$duplicaterecord->TypeofStickerID.',
-		'.$duplicaterecord->MaterialID.',
-		'.$duplicaterecord->PrintTypeID.',
-		'.$duplicaterecord->CuttingID.',
-		'.$duplicaterecord->PrintingFinishingProcessID.',
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'.$hookve.'",0,0)');*/
-		
+	   
         $packalastduplicateid = PackagingStickers::orderby('id','desc')->first();
         $packduplicateid=$packalastduplicateid->id;
-        $hookduplicateid= 0;
-            $tissueduplicateid= 0;
-            $boxduplicateid=$boxduplicateid;
+        $hookduplicateid= $hookduplicateid;
+            $tissueduplicateid= $tissueduplicateid;
+            if($duplicaterecord->BoxID!= null && $duplicaterecord->BoxID<> 0)
+            {
+                $boxduplicateid=$boxduplicateid;
+
+            }
+            else
+            {
+                $boxduplicateid=0;
+            }
          }else
          {
             $packduplicateid= 0;
          }
-     }
+     
+        /*print_r($hookduplicateid);echo "<br>";
+     print_r($tissueduplicateid);echo "<br>";
+     print_r($packduplicateid);echo "<br>";
+     print_r($boxduplicateid);echo "<br>";
+     exit;*/
 
           if(($duplicaterecord->HookID != "" &&$duplicaterecord->HookID <>0) && ($duplicaterecord->TissuePaperID!= "" &&$duplicaterecord->TissuePaperID<>0) && ($duplicaterecord->PackagingStickersID!= "" && $duplicaterecord->PackagingStickersID<>0))
          {
@@ -292,11 +299,12 @@ class DevelopmentListController extends Controller
             
          }
     
+            //Defect: PDF march05
+         //Name: Vidhya-uniquegroup Team
+         //Duplicate Development list fields change
 
 
-
-
-          $productdetails_insert = ProductDetails::create([
+         $productdetails_insert = ProductDetails::create([
 		 'CustomerID'=>$duplicaterecord->CustomerID,
 		 'CustomerWareHouseID'=>$duplicaterecord->CustomerWareHouseID,
         'ProductGroupID' => $duplicaterecord->ProductGroupID,
@@ -305,8 +313,8 @@ class DevelopmentListController extends Controller
         'TissuePaperID' =>$tissueduplicateid,
         'PackagingStickersID' =>$packduplicateid,
         'BoxID' => $boxduplicateid,
-        'SeasonID'=>$duplicaterecord->SeasonID,
-        'ProductStatusID'=>$duplicaterecord->ProductStatusID,
+        'SeasonID'=>NULL,
+        'ProductStatusID'=>1,
         'ProductProcessID'=>$duplicaterecord->ProductProcessID,
         'ProductionRegionID1'=>$duplicaterecord->ProductionRegionID1,
         'ProductionRegionID2'=>$duplicaterecord->ProductionRegionID2,
@@ -316,9 +324,9 @@ class DevelopmentListController extends Controller
         'ProductionRegionID6'=>$duplicaterecord->ProductionRegionID6,
         'ProductionRegionID7'=>$duplicaterecord->ProductionRegionID7,
         'ProductionRegionID8'=>$duplicaterecord->ProductionRegionID8,
-        'PricingMethod'=>$duplicaterecord->PricingMethod,
-        'CurrencyID'=>$duplicaterecord->CurrencyID,
-        'UnitofMeasurementID'=>$duplicaterecord->UnitofMeasurementID,
+        'PricingMethod'=>NULL,
+        'CurrencyID'=>NULL,
+        'UnitofMeasurementID'=>NULL,
         'InventoryID'=>$duplicaterecord->InventoryID,
         'InventoryName'=>$duplicaterecord->InventoryName,
         'UniqueFactory1'=>$duplicaterecord->UniqueFactory1,
@@ -331,42 +339,43 @@ class DevelopmentListController extends Controller
         'UniqueFactory8'=>$duplicaterecord->UniqueFactory8,
         'Brand'=>$duplicaterecord->Brand,
         'ProgramName'=>$duplicaterecord->ProgramName,
-        'CustomerProductName'=>$duplicaterecord->CustomerProductName,
-        'CustomerProductCode'=>$duplicaterecord->CustomerProductCode,
-        'UniqueProductCode'=>$duplicaterecord->UniqueProductCode,
-                'Description'=>$duplicaterecord->Description,
-                'StyleNumber'=>$duplicaterecord->StyleNumber,
-                'Version'=>$duplicaterecord->Version,
+        'CustomerProductName'=>NULL,
+        'CustomerProductCode'=>NULL,
+        'UniqueProductCode'=>NULL,
+                'Description'=>NULL,
+                'StyleNumber'=>NULL,
+                'Version'=>1,
 				'SampleandQuote'=>$duplicaterecord->SampleandQuote,
-                'MinimumOrderQuantity'=>$duplicaterecord->MinimumOrderQuantity,
-                'MinimumOrderValue'=>$duplicaterecord->MinimumOrderValue,
-                'PackSize'=>$duplicaterecord->PackSize,
-                'SellingPrice'=>$duplicaterecord->SellingPrice,
-                'SampleRequestedDate' =>$duplicaterecord->SampleRequestedDate,
+                'MinimumOrderQuantity'=>NULL,
+                'MinimumOrderValue'=>NULL,
+                'PackSize'=>NULL,
+                'SellingPrice'=>NULL,
+                'SampleRequestedDate' =>NULL,
                 'SampleRequestNumber' =>$duplicaterecord->SampleRequestNumber,
-                'NumberOfSamplesRequired' =>$duplicaterecord->NumberOfSamplesRequired,
-				'QuantityMOQ'=>$duplicaterecord->QuantityMOQ,
-				'Cost'=>$duplicaterecord->Cost,
-				'Suggested_price'=>$duplicaterecord->Suggested_price,
-				'Margin'=>$duplicaterecord->Margin,
+                'NumberOfSamplesRequired' =>NULL,
+				'QuantityMOQ'=>NULL,
+				'Cost'=>NULL,
+				'Suggested_price'=>NULL,
+				'Margin'=>NULL,
                 'Artworkupload' =>$duplicaterecord->Artworkupload,
                 'QuoteRequiredchk' =>$duplicaterecord->QuoteRequiredchk,
                 'QuoteRequired' =>$duplicaterecord->QuoteRequired,
-                'SampleLeadTime' =>$duplicaterecord->SampleLeadTime,
-                'ProductionLeadTime'=>$duplicaterecord->ProductionLeadTime,
+                'SampleLeadTime' =>NULL,
+                'ProductionLeadTime'=>NULL,
                 'RemarksInstructions' =>$duplicaterecord->RemarksInstructions,
                 'QuoteRequired' =>$duplicaterecord->QuoteRequired,
                 'ReferenceFileUpload' =>$duplicaterecord->ReferenceFileUpload,
                 'QualityReference' =>$duplicaterecord->QualityReference,
-                'Projection' =>$duplicaterecord->Projection,
+                'Projection' =>NULL,
                 'UniqueFactory1Inventory' =>$duplicaterecord->UniqueFactory1Inventory,
                 'UniqueFactory2Inventory' =>$duplicaterecord->UniqueFactory2Inventory,
                 'Maximumpiecesonstock' =>$duplicaterecord->Maximumpiecesonstock,
                 'Minimumpiecesonstock' =>$duplicaterecord->Minimumpiecesonstock,
-				'ExWorks'=>$duplicaterecord->ExWorks,
-				'FOB'=>$duplicaterecord->FOB,
+				'ExWorks'=>NULL,
+				'FOB'=>NULL,
                 'status'=>1
                 ]);
+          //defect March05 END
 		
 		  $productdetails_get = ProductDetails::orderby('id','desc')->first();
 		  if($boxduplicateid!="" || $boxduplicateid!=NULL || $boxduplicateid<>0)

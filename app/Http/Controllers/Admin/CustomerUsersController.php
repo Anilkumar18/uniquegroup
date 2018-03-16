@@ -41,8 +41,10 @@ public function customerusersList(Request $request)
 	 
 
 	  $user = Auth::user();
+	  $accountmanagerID=$user->id;
+	  $usertypeID=$user->userTypeID;
 	  $usertype = UserType::where('id', '=', $user->userTypeID)->first();
-	  $customerusers = DB::select('call sp_selectcustomerusers(2,0,1)');
+	  $customerusers = DB::select('call sp_selectcustomerusers(2,0,1,'.$accountmanagerID.','.$usertypeID.')');
 		
 	  return view('admin.customerusers', compact('user','customerusers','usertype'));	                                   
 	                       
@@ -51,9 +53,11 @@ public function customerusersid(Request $request)
  {
  	  $customid = $request->id;
 	  $user = Auth::user();
+	  $accountmanagerID=$user->id;
+	  $usertypeID=$user->userTypeID;
 //print_r($customid);
 	  //$customerusers = DB::select('call sp_selectcustomerusers(2,0,1)');
-	  $customerusers = DB::select('call sp_selectcustomerusers(4,'.$customid.',1)');
+	  $customerusers = DB::select('call sp_selectcustomerusers(4,'.$customid.',1,'.$accountmanagerID.','.$usertypeID.')');
 $usertype = UserType::where('id', '=', $user->userTypeID)->first();
 	
 	  return view('admin.customerusers', compact('user','customerusers','usertype'));	                                   
@@ -64,7 +68,10 @@ $usertype = UserType::where('id', '=', $user->userTypeID)->first();
  public function viewcustomerusers (Request $request)
  { 
 	 $user = Auth::user();
-	 $customers = DB::select('call sp_selectCustomers(2,0,1)');
+	 $accountmanagerID=$user->id;
+	 $usertypeID=$user->userTypeID;
+	 $customers = DB::select('call sp_selectCustomers(2,0,1,'.$accountmanagerID.','.$usertypeID.')');
+	 //$customers = DB::select('call sp_selectCustomers(2,0,1)');
 	 $userType = DB::select('call sp_selectUserTypes(1,0,"")');
 	 //$countries_details=Country::where('status','=',1)->get();
 	 $edit_val = 0;
@@ -157,8 +164,9 @@ public function addnewusers (Request $request) {
 	     
 	  $user = Auth::user();
       $customerusersid=$request->id;
-   
-      $customerusersviewlist = DB::select('call sp_selectcustomerusers(1,'.$customerusersid.',1)');
+    $accountmanagerID=$user->id;
+    $usertypeID=$user->userTypeID;
+      $customerusersviewlist = DB::select('call sp_selectcustomerusers(1,'.$customerusersid.',1,'.$accountmanagerID.','.$usertypeID.')');
 	
 	$usertype = UserType::where('id', '=', $user->userTypeID)->first();
 	
@@ -176,7 +184,10 @@ public function edit(Request $request ,$id)
 { 
 
 $user = Auth::user();
-$customers = DB::select('call sp_selectCustomers(2,0,1)');
+$accountmanagerID=$user->id;
+$usertypeID=$user->userTypeID;
+$customers = DB::select('call sp_selectCustomers(2,0,1,'.$accountmanagerID.','.$usertypeID.')');
+//$customers = DB::select('call sp_selectCustomers(2,0,1)');
 //$countries_details=Country::where('status','=',1)->get();
 $userType = DB::select('call sp_selectUserTypes(1,0,"")');
 $customersUsers = CustomerUsers::where('id','=',$id)->first();

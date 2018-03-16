@@ -263,7 +263,7 @@
                       <center><button class="clsdropbtn btn btn-w-m btn-success" style="min-width:201px; background-color:#0099CC; color:#fff;">New Development<span class=" fa fa-chevron-down"></span></button></center>
                       <div class="clsdropdown-content" style="min-width:201px; background-color:#0099CC; color:#fff;">
                         @foreach($productgrouplist as $groupdetails)
-                         <a href="{{url(route('user.products',['id'=>$groupdetails->id]))}}">{{$groupdetails->ProductGroup}}</a>
+                         <a href="{{url(route('users.productdetaildevelopmenthome',['id'=>$groupdetails->id]))}}">{{$groupdetails->ProductGroup}}</a>
                          @endforeach
                       </div>  
                      

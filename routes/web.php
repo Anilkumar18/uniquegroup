@@ -2239,6 +2239,13 @@ Route::get('/printcarelabelcheckout/{id}', 'CarelabelsController@printcarelabelc
    
     Route::get('update_productsdetails/ajax/{id}','ProductsController@uniquefactoryselectionAjax');
   
+  //Defect: 
+         //Name: Vidya-Uniquegroup Team
+         //Desc. Productdetails depends upon customer change to ware house details
+		 
+     Route::post('/productdetails/{id}/changehouse','ProductsController@selectwarehouse')->name('user.selectcustomer');
+         
+  
   
   
   /*new development list*/
@@ -2271,11 +2278,40 @@ Route::get('/printcarelabelcheckout/{id}', 'CarelabelsController@printcarelabelc
   Route::get('/viewdevelopmentitemlist/{id}/{typeid?}/{productid?}','DevelopmentItemListController@viewdevelopmentitemlist')->name('user.developmentitemproductdetails');
 
   /* Rajesh:01032018  */
-  Route::get('/editdevelopmentitemlist/{id}/{typeid?}/{productid?}','DevelopmentItemListController@editdevelopmentitemlist')->name('user.editdevelopmentitemproductdetails');
+  Route::get('/editdevelopmentitemlist/{id}/{typeid?}','DevelopmentItemListController@editdevelopmentitemlist')->name('user.editdevelopmentitemproductdetails');
+  
+  
   Route::post('/updateitemlist','DevelopmentItemListController@updateitemlist')->name('user.updateitemlist');
 	Route::post('/updateboxitemlist','DevelopmentItemListController@updateboxitemlist')->name('user.updateboxitemlist');
 
    /* Rajesh:01032018 Ends */
+
+   // Name: New design for product details
+
+  Route::get('/accounts_productdetails/{id}', 'ProductsController@pdmdetaildevlopment')->name('users.productdetaildevelopmenthome');
+
+  Route::get('/getproductdetails/{productgroup}/{productsubgroupid?}','ProductsController@getproductdetailsitemlist')->name('user.getproductdetails');
+
+
+Route::post('/add_processproductsdetails','ProductsController@Addprocessproductsdetails')->name('user.add_processproductsdetails');
+Route::post('/update_processproductsdetails','ProductsController@Updateprocessproductsdetails')->name('user.update_processproductsdetails');
+
+Route::get('/editproductdetails/{id}/edit','ProductsController@Editproductlist')->name('product.productlistdetailsedit');
+
+Route::get('/currentorder','OrderController@orderlistview')->name('user.orderlistview');
+Route::get('/completeorder','OrderController@completeorderlistview')->name('user.completeorderlistview');
+
+//New design ends
+   
+    //Defect:
+         //Name: Bala-Uniquegroup Team
+         //Desc. when hooks production region as  change to select unique factory.
+   
+   //Route::get('test/ajax/{id}','ProductsController@uniquefactoryselectionAjax');
+   
+   
+   
+   
 
 
     Route::post('/developmentitemlist_delete/{id}', 'DevelopmentItemListController@delete')->name('user.developmentitemlistdelete');
@@ -2299,6 +2335,11 @@ Route::get('/printcarelabelcheckout/{id}', 'CarelabelsController@printcarelabelc
    Route::post('/add_productsdetails','ProductsController@Addproductsdetails')->name('user.add_productsdetails');
 
    Route::get('add_productsdetails/ajax/{id}','ProductsController@uniquefactoryselectionAjax');
+   
+   
+  
+   
+   
    
   
    
@@ -2362,8 +2403,11 @@ Route::get('/printcarelabelcheckout/{id}', 'CarelabelsController@printcarelabelc
 	   Route::post('/add_productsgroupdetails1','ProductsController@Addproductsdetails')->name('user.add_productsdetails1');
 
 
+/*Email-controller*/
+  Route::get('sendemail/{id}', 'MailController@index')->name('user.email_template');
 
-  
+
+Route::post('sendhtmlemail/{id}','MailController@html_email')->name('user.sendhtmlemail');
 
 
 

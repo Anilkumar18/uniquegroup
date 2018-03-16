@@ -202,9 +202,11 @@ $usertype = UserType::where('id', '=', $user->userTypeID)->first();
 
 	 
 
-	 
+	 //Defect: 1
+//Name: Vidhya-PHP Team
+//Update for uniquefacilities 
 
-	 	  $facility_updations=DB::select('call sp_CRUDuniquefactories(2,'.$request->editID.','.$customerid.','.$request->region.',"'.$request->factoryname.'",'.$marketingRegion.','.$productionRegion.',"'.$request->firstName.'","'.$request->lastName.'","'.$request->phoneNumber.'","'.$request->email.'","'.$request->suite.'","'.$request->street.'","'.$request->city.'",'.$request->country.',"'.$request->state.'","'.$request->zipcode.'",1)');
+	 	  $facility_updations=DB::select('call sp_CRUDuniquefactories(2,'.$request->editID.',"'.$customerid.'","'.$request->region.'","'.$request->factoryname.'",'.$marketingRegion.','.$productionRegion.',"'.$request->firstName.'","'.$request->lastName.'","'.$request->phoneNumber.'","'.$request->email.'","'.$request->suite.'","'.$request->street.'","'.$request->city.'","'.$request->country.'","'.$request->state.'","'.$request->zipcode.'",1)');
 
 			  
 
@@ -258,8 +260,7 @@ $usertype = UserType::where('id', '=', $user->userTypeID)->first();
 		{
 
 			
-
-           
+         
 
 		 	$user=Auth::user();
 

@@ -39,6 +39,11 @@
         <div id="form-group">
           <div class="col-lg-12">
             <button class="button" onclick="location.href='{{ url(route('customeruser.edit', ['id' => $customers_list->id])) }}'">Edit Customer User</button>
+            <!-- //Defect: 8
+            //Name: Vidhya-PHP Team
+            //Phone number validation-accept 11 digit -->
+            <button class="button" onclick="location.href='{{ url(route('admin.customerusers')) }}'">View List</button>
+            <!-- //End Defect: 8  -->
 		  </div>
  
 </div>

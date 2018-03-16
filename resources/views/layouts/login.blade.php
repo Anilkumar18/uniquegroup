@@ -33,65 +33,84 @@
 /* CSS Document */
 
 *{margin:0; padding:0;}
+@font-face {
+            font-family: "Droid Sans";
+            src: url("{{ asset('font/DroidSans-Regular.ttf') }}");
+        }
+body{margin:0; padding:0; font-family:"Droid Sans"; }
 
-body{margin:0; padding:0; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; }
-
-.wrapper{width:100%; height:auto; background:#545456; float:left;}
-header{ float:left; width:100%; height:50px; /*background-color:#999;*/ margin-top:20px;}
+.wrapper{width:100%; height:auto; float:left;}
+header{ float:left; width:100%; height:50px; margin-top:20px;}
+.clsheader {
+    float: left;
+    width: 100%;
+    height: 120px;
+    background-color: #fff;
+    box-shadow: 2px 4px 7px #c1c1c1;
+}
 .request_more{ margin:10px 0 10px 50px; float:left;}
-.request_more img{ width:150px; height:25px; border-radius:3px; color:#fff; font-size:11px; }
+.request_more img{ width:243px; height:80px; border-radius:3px; color:#fff; font-size:11px; }
 /*.request_more button:hover{ border:solid thin #00CCFF; background:none; color:#00CCFF; font-weight:400; cursor:pointer; }*/
 .sociallinks{float:left; margin:15px 0 10px 20px;}
 .sociallinks img{width:15px;  padding:0 2px 0 0;}
 .sociallinks img:hover{ opacity:.7;}
 .sociallinks a{text-decoration:none;}
+.clsseprator {float: left;width: 0.1%;height: 40px;margin: 40px 1.95%;background-color: #a1a1a1;}
 
-.container{ width:33.3%; height:100%; margin:0 auto; /*background-color:#e1e1e1;*/ }
+.clsmaillink{float:right;}
+.clsmaillink img {margin: 47px;}
+.clsmaillink img:hover{cursor:pointer;}
+
+.clssitelink {float: left;}
+.clssitelink a {float:left;font-family: "Tw Cen MT"; font-size: 18px; color: #757575; text-decoration: none; padding: 50px 0;}
+.clssitelink a:hover{color:#1ba6de;}
+
+.container{ width:33.3%; height:100%; margin:0 auto; margin-right: 256px; margin-top: -146px; /*background-color:#e1e1e1;*/ }
 .container .logo{ width:100%; height:auto;}
 .container .logo img{ width:90%; margin-top:-35px;}
 
 .maincontent{ width:100%; height:auto; text-align:center;}
 .maincontent img{ width:45px; margin-top:0px;  }
-.maincontent p{ width:80%; margin:0 auto; color:#fff; font-size:11px; font-family: myriad pro;}
+.maincontent p{ width:80%; margin:0 auto; color:#fff; font-size:11px; font-family: "Droid Sans";}
 //.maincontent span{ font-weight:800;}
+.banner_img img{ width: 100%; margin-top: 90px; height: auto;}
+.maincontent .feat_images{width:100%; height:auto;  margin-left: 0px; margin-top:10px; }
+.maincontent .feat_images img{width:100%; height: 100%; margin-top: 100px; padding: 0 10 0 0px;}
 
-.maincontent .feat_images{width:92%; height:auto;  margin-left: 22px; margin-top:10px; }
-.maincontent .feat_images img{width:16%; margin:0 5% 0 2%;}
-
-.login_form{width:80%; height:350px;   background:#a5a5a6; border-radius:0px 30px 30px 30px; margin:0 auto; margin-top:10px; } 
-.login_form p{ color:#111; text-align:left; margin-left:20px; padding-top:10px; font-family: myriad pro; }
+.login_form {  } 
+.login_form p{ color:#515151; font-size: 14px; margin-bottom: 15px; text-align:left; margin-left:20px; padding-top:10px; font-family: "Droid Sans"; }
 
 form{ width:100%; height:auto;text-align:left;}
 
-.txtbox {    width: 100%;    padding: 5px 10px;    margin: 4px 0;    display: inline-block;    border: 1px solid #ccc;    box-sizing: border-box; }
+.txtbox {    width: 88%;    padding: 5px 10px;    margin: 4px 0;    display: inline-block;    border: 1px solid #ccc;    box-sizing: border-box; }
 
 .form-container {   width:100%; /*background-color:#333;*/ height:110px; padding-left:15%; padding-top:10px;}
 
 .usernamelog{ float:left; text-align:left; margin-top:20    px; width:60%; height:80px; margin-left:-12px; /*background-color:#999;*/}
-.usernamelog label{float:left; text-align:left; font-size:11px; position:relative; left:10%;font-family: myriad pro; }
-.usernamelog input{float:left; position:relative; bottom:25px; left:80px; font-size: 12px;}
+.usernamelog label{float:left; text-align:left; font-size:15px; position:relative; width: 25%; color: #353535; font-family: Droid Sans; padding: 0px; text-transform: uppercase; }
+.usernamelog input{float:left; position:relative; bottom:40px; left:95px; font-size: 12px; border: solid 1px #a1a1a1;}
 
 .psw{float:left; margin-top:-40px; width:60%; margin-left:-12px; /* background-color:#999;*/} 
-.psw label{float:left; text-align:left; font-size:11px; position:relative; left:10%;font-family: myriad pro;}
-.psw input{float:left; position:relative; bottom:25px; left:80px;font-size: 12px;}
+.psw label{float:left; text-align:left; font-size:15px; position:relative; color: #353535; width: 25%; font-family: "Droid Sans"; padding: 0px; text-transform: uppercase;}
+.psw input{float:left; position:relative; bottom:35px; left:95px;font-size: 12px; border: solid 1px #a1a1a1;}
 
-.checkbtn{float:left; margin-top:0px; width:60%; margin-left:-12px;float:left; text-align:left; font-size:11px; position:relative;font-family: myriad pro;font-size: 12px;left:80px; bottom:20px;}
+.checkbtn{float:left; margin-top:0px; width:60%; margin-left:-12px;float:left; text-align:left; font-size:11px; position:relative;font-family: "Droid Sans";font-size: 12px;left:80px; bottom:20px;}
 .checkbtn label{ margin-left:5px;}
 
 
 .frmbtn{ width:100%; float:left;margin-left: -22px; margin-top:-16px;}
-.frmbtn button {    background-color: #0fbfea;    color: white;    padding: 4px 8px;    border: solid 1px #0fbfea;    cursor: pointer; margin-left:55%;     }
+.frmbtn button {    background-color: #0fafef; width: 120px; height: 34px; color: white;  padding: 4px 8px;    border: solid 1px #0fbfea;    cursor: pointer; margin-left:35%; font-size: 16px; border-radius: 5px; font-weight: 600; }
 .frmbtn button:hover { border: solid thin #FFF; color:#fff;}
 
-.register{width:100%;}
-.register p{width:100%; float:left; text-align:left; margin-left:10%; font-family: myriad pro;}
-.register p a{  float:left; text-align:left; text-decoration:none; color:#515151; }
+.register{width:100%; bottom: 50px;}
+.register p{width:100%; float:left; text-align:left; margin-left:10%; font-family: "Droid Sans";}
+.register p a{  float:left; text-align:left; text-decoration:none; color:#515151; margin-left: 130px; padding-bottom: 77px;}
 .register p a:hover{ color:#000;}
 
 .footerflags{ width:100%;margin-top:26px;}
 .flagone{ width:10%;text-align:center; float:left; margin-top: -6px;}
 .flagone img{ width:15%; margin-top:20px;margin-bottom: 6px; }
-.flagone p{ color:#fff; font-size:14px; font-family: myriad pro;}
+.flagone p{ color:#fff; font-size:14px; font-family: Droid Sans;}
 
 input[type=checkbox], input[type=radio] {    position: relative;
     top: 2.5px;}
@@ -116,7 +135,7 @@ input[type=checkbox], input[type=radio] {    position: relative;
 
 @media screen and (min-width:800px) and (max-width:1024px){
     .container { width: 50%; text-align:center;  }  
-    .request_more img{ width:120px; }
+    .request_more img{ width:30%; }
     .container .logo img{ width:100% !important; margin-top:0px; margin-left:0% !important;}
     .maincontent img{ width:50px; margin-top:0px;  }
     .maincontent .feat_images img {margin: 0 6% 0 1%;}
@@ -132,7 +151,7 @@ input[type=checkbox], input[type=radio] {    position: relative;
 @media screen and (min-width:600px) and (max-width:799px){
 .container { width: 75%; text-align:center;  }  
     header{ height:40px; margin-top:10px;}
-    .request_more img{ width:120px; }
+    .request_more img{ width:30%; }
     .sociallinks{float:right; margin:15px 15% 10px 20px;}
     .container .logo img{ width:90%; margin-top:50px;}
     .maincontent p{ width:100%; font-size:12px; margin-top:20px;}
@@ -182,7 +201,7 @@ header{ text-align:center;}
 .maincontent img{ margin-top:22px;  }
 .maincontent p{ width:90%; margin-left: 10px; color:#fff; margin-top:20px;font-size: 12px;}
 .maincontent .feat_images{width:100%;margin-top:20px;margin-left: -3px;}
-.maincontent .feat_images img{width:20%; margin:0% !important;}
+.maincontent .feat_images img{width:100%; margin:0% !important;}
 .login_form{width:100%; height:340px; border-radius:0px 25px 25px 25px;margin-top:50px; }
 .login_form p{ color:#313131; float:left; margin-top:20px;} 
 .usernamelog{ float:left; margin-top:25px; width:70%; height:80px; margin-left:-15%;}
@@ -359,7 +378,7 @@ left: 110px;
 
 </head>
 
- <body style="background:#545456">
+ <body style="">
          
          <div class="wrapper">
 

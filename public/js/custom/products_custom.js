@@ -139,10 +139,35 @@ var productgroup =$("#productdetailsadd").validate({
 	
   }
 });
+/*var productinventorydetails =$("#productinventoryadd").validate({
+  rules: {
+     Inventory : {
+    required: true
+  }
+	
+  }
+});*/
+
+/*Defect: 16-6
+         //Name: bala-Uniquegroup Team
+         //Desc.uniquegroup/public/addproductgroups
+           Inventory information page validation not working*/
 var productinventorydetails =$("#productinventoryadd").validate({
   rules: {
      Inventory : {
     required: true
+  },
+  ProductionRegions1:{
+	required:true  
+  },
+  uniquefactory1: {
+	required:true  
+  },
+  Maximumpiecesonstock : {
+	 required:true  
+  },
+  Minimumpiecesonstock:{
+	  required:true 
   }
 	
   }
@@ -248,11 +273,19 @@ imgInp:{
 			 //alert("Testing");
 			 
 			 var quantitydetails=$(this).val();
-			 //alert(id);
+			 //alert(quantitydetails);
+			 //Rajesh 05032018 onchange vevent
 			 if(quantitydetails=="Other")
 			 {
-				$("#otherqty").css("display","block");
-				$("#othercost").css("display","block");
+			 	if($(this).prop("checked") == true){
+									  $("#otherqty").css("display","block");
+				$("#othercost").css("display","block");  
+									}else{
+									  $("#otherqty").css("display","none");
+				$("#othercost").css("display","none");  
+
+									}
+				
 			 }
 			 
 		 });
@@ -328,23 +361,34 @@ imgInp:{
 									  }
 			
 		});
-	 
+	 // sathish 15-03-2018 
 	    $('select[name="Season"]').on('change', function() {
 															 //alert("Testing");
 															 var season=$(this).val();
-															// alert(season);
+			
 															 
 															 if(season==5)
 															 {
-																 $("#myModal").modal({
-																					   show:true
-																					 });
+
+			 	$(this).parent().append('<input name="Season" type="text" />');
+
+				 
 																 
 															 }
 															 
 															 
 															 
 															 });
+
+	    $("#UnitofMeasurement").change(function() { 
+  
+  
+  var txt = $("#UnitofMeasurement option:selected").text();;
+ 
+$('.pricemethod').html(txt);
+  });
+
+	    // end sathish 15-03-2018
 
 	 /* $('select[name="selectItem"]').on('change', function() {
 											 	
@@ -605,6 +649,44 @@ imgInp:{
 	
 	    
 }
+//Defect: newpdf no:6
+         //Name: Vidhya-PHP Team
+         //Working for the change warehouse for particular customer
+function CustomerChange()
+  { 
+    
+	//alert("customerchange");
+  var selecthref=$("select[name='CustomerName'] option:selected").attr('drop-data');  
+  
+      $.ajax({         
+        url      : selecthref,
+        type     : 'post',        
+        cache    : false,
+        success  : function(data){
+          debugger;
+          //alert(data);
+        var message = JSON.parse(data);   
+
+        var pLen,i;
+        pLen=message[0].length;
+        var pscodehtml=' <div class="col-md-3"><select id="Warehouse_Name" name="Warehouse_Name" class="form-control"><option value=""> Please Select</option>';
+        for (i=0;i<pLen;i++){
+          if(message[0][i]['Warehouse_Name']!='') {
+          pscodehtml+='<option value="'+message[0][i]['id']+'">'+message[0][i]['Warehouse_Name']+'</option>';
+          }     
+        }
+        pscodehtml+='</select></div>';
+        
+                $('.statedisplay').html(pscodehtml);
+                       
+        },
+          error: function (jqXHR, textStatus, errorThrown) {
+            alert(textStatus);
+            alert(errorThrown);
+          }
+        
+    });
+  }  
 function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -1801,17 +1883,25 @@ $('#Width').on('keyup',function(e){
   $( document ).ready(function() {
     $('.suggestedprice').change(function(){
         var suggestedprice=$(this).val();debugger;
- var pp=$(this).parent().index();
+        // Rajesh 05032018 For new tab design
+ var pp=$(this).parent().parent().index();
 
  var costblk=$('.costblock:eq('+pp+')');
 var cost=costblk.find('.cost').val();
+if(cost){
+var amentprice= suggestedprice-cost;
 
-var calcper=(((suggestedprice-cost)/(suggestedprice))*100).toFixed(2);
-
+var calcper=Math.round((amentprice/suggestedprice)*100);
+calcper=calcper?calcper:0;
 var marginpriceblk=$('.marginpriceblock:eq('+pp+')');
+}else{
+	var calcper=0;
+	var marginpriceblk=$('.marginpriceblock:eq('+pp+')');
+}
 marginpriceblk.find('.margin').val(calcper);
 
-    })
+    });
+    /* Rajesh 02032018 Ends here */
 });
 
 
@@ -1838,7 +1928,7 @@ pp.find('#output').val(calcper);
 //pp.find('#output').val(tt);
 //});
 }
-
+/*  Rajesh 02032018 starts */
 function margin(t) {
 
 $(".marginpriceblock").each(function() {
@@ -1863,25 +1953,17 @@ $(".suggestedpriceblock").each(function() {
     var pp=$(this);
    var pindex=$(this).index();
 
-   var costblk=$('.costblock:eq('+pindex+')');
-var price=costblk.find('.cost').val();
-
-var calcper=((price/(price-tt))*100).toFixed(2); 
+    var costblk=$('.costblock:eq('+pindex+')');
+	var price=costblk.find('.cost').val();
+var onefactor=1-(tt/100);
+var calcper=(price/onefactor).toFixed(2); 
 if(tt==''){calcper=0;}
 pp.find('.suggestedprice').val(calcper);
 
 });
 
 
-  //alert(t.value);
-
-/*$(".calculate").each(function() {
-    var tt=t.value;
-    var pp=$(this);
-    var price=pp.find('#input1').val();
-var calcper=((price/(price-tt))*100).toFixed(2); 
-pp.find('#input2').val(calcper);
-pp.find('#output').val(tt);
-});*/
+  
     
 }
+/*Rajesh 02032018 Ends */

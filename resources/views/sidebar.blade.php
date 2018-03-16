@@ -18,19 +18,6 @@ function selectpdm(t)
 		$('.productmenu').removeClass('hidemenu');
 		  $('.productmenu').addClass('showmenu');
 		
-		
-		
-		
-		
-		//$(".dropdown-content").css("display","block");
-		
-		//document.getElementById(".pdm").style.backgroundColor = "lightblue";
-		
-		//$("#pdm").css("background-color","black");
-		
-		//document.getElementById(dropdownbox).style.display="block"; 
-		
-		//window.location="{{url(route('admin.developmenthome'))}}";
 		 
        }
 	   function selectecommerce(t)
@@ -46,10 +33,6 @@ function selectpdm(t)
 		  $("#maintenancedashboard").css("display","none");
 		  $("#pdmdashboard").css("display","none");
 
-		//alert("url  ="+window.location.href);
-		// $("#ecommerce").css("background-color","black");
-		// $("#pdm").css("background-color","#00AFEB");
-		   
 		
 	   }
 	   function selectmaintainance(t)
@@ -103,13 +86,19 @@ if(Request::is('productdetails/*')
 $pageurlarray=explode('/', Request::fullUrl());
 
 //$maintenancearray=array('dashboard','customers','addnewcustomer','customersdetails','addcustomer','addcustomers','customer_delete','selectcustomer','customerusers','addcustomerusers','selectcustomerusers','customerusersdetails','customeruser_delete');
-$productarray=array('productdetails','update_productsdetails','developmentlist','productimg','developmentlist_delete','viewdevelopment','duplicatedevelopment','developmentitemlist','productimgtissue','productimghook','productimgpackage','viewdevelopmentitemlist','developmentitemlist_delete','developmentitemlisthook_delete','developmentitemlisttissue_delete','developmentitemlistpackage_delete','duplicatedevelopmentitem','add_productsdetails','add_productsgroupdetails','add_season','add_quantity','add_region','add_inventorydetails','add_productquoteinfo','add_costinfo','add_costingandrequirements','addproductgroups','add_products','add_productsgroupdetails1','development','editdevelopmentitemlist');
-$ecomercearray=array();
+$productarray=array('productdetails','update_productsdetails','developmentlist','productimg','developmentlist_delete','viewdevelopment','duplicatedevelopment','developmentitemlist','productimgtissue','productimghook','productimgpackage','viewdevelopmentitemlist','developmentitemlist_delete','developmentitemlisthook_delete','developmentitemlisttissue_delete','developmentitemlistpackage_delete','duplicatedevelopmentitem','add_productsdetails','add_productsgroupdetails','add_season','add_quantity','add_region','add_inventorydetails','add_productquoteinfo','add_costinfo','add_costingandrequirements','addproductgroups','add_products','add_productsgroupdetails1','development','editdevelopmentitemlist','editproductdetails','accounts_productdetails');
+$ecomercearray=array('completeorderlist','orderlist');
+
 
 $maintenancemenu='showmenu';
 $ecomercemenuclass='hidemenu';
+$productmenuclass='hidemenu';
 //if (array_intersect($pageurlarray, $maintenancearray)) {$maintenancemenu='showmenu';}else{$maintenancemenu='hidemenu';}
-if (array_intersect($pageurlarray, $productarray)) {$productmenuclass='showmenu';$maintenancemenu='hidemenu';}else{$productmenuclass='hidemenu';}
+if (array_intersect($pageurlarray, $productarray)) {
+    $productmenuclass='showmenu';$maintenancemenu='hidemenu';
+}elseif (array_intersect($pageurlarray, $ecomercearray)) {
+    $ecomercemenuclass='showmenu';$maintenancemenu='hidemenu';
+}
 //if (array_intersect($pageurlarray, $ecomercearray)) {$ecomercemenuclass='showmenu';}else{$ecomercemenuclass='hidemenu';}
 ?>
 
@@ -328,7 +317,7 @@ if(Request::is('admin/development/dashboard') || Request::is('developmentlist') 
                             <?php
                              if($usertype->id==9)
                             {
-                              $customerdetails=App\Customers::where('id','=',$user->customerID)->get();
+                              $customerdetails=App\Customers::where('AccountManagerID','=',$user->id)->get();
                             }else
                             $customerdetails=App\Customers::all();
 							foreach($customerdetails as $customers)
@@ -437,8 +426,9 @@ if(Request::is('admin/development/dashboard') || Request::is('developmentlist') 
                                 @endforeach
                         </li>
 
-                                <li class="sidebarmenu ecommercemenu <?php echo $ecomercemenuclass; ?>" id="currentorders"><a href="javascript:;">Current Orders</a></li>
-                                <li class="sidebarmenu ecommercemenu <?php echo $ecomercemenuclass; ?>" id="completedorders"><a href="javascript:;">Completed Orders</a></li>
+                                <li class="sidebarmenu ecommercemenu <?php echo $ecomercemenuclass; ?>" id="currentorders"><a href="javascript:;">Place Orders</a></li>
+                                <li class="sidebarmenu ecommercemenu <?php echo $ecomercemenuclass; ?>" id="currentorders"><a href="{{url(route('user.orderlistview')) }}">Current Orders</a></li>
+                                <li class="sidebarmenu ecommercemenu <?php echo $ecomercemenuclass; ?>" id="completedorders"><a href="{{url(route('user.completeorderlistview')) }}">Completed Orders</a></li>
           @endif
                 
 
@@ -449,22 +439,22 @@ if(Request::is('admin/development/dashboard') || Request::is('developmentlist') 
                           
                         <li>
                                       
-                            <li class=""><a href="{{url(route('user.developmentlist')) }}">Development List</a></li>
-                            <li class=""><a href="{{url(route('user.developmentlistview')) }}">Development Item List</a></li>
-                            <li class=""><a href="javascript:;">Current Orders</a></li>
-                                <li class=""><a href="javascript:;">Completed Orders</a></li>
+                            <li class="sidebarmenu productmenu "><a href="{{url(route('user.developmentlist')) }}">Development List</a></li>
+                            <li class="sidebarmenu productmenu "><a href="{{url(route('user.developmentlistview')) }}">Development Item List</a></li>
+                            <li class="sidebarmenu ecommercemenu <?php echo $ecomercemenuclass; ?>"><a href="{{url(route('user.orderlistview')) }}">Current Orders</a></li>
+                                <li class="ecommercemenu sidebarmenu <?php echo $ecomercemenuclass; ?>"><a href="{{url(route('user.completeorderlistview')) }}">Completed Orders</a></li>
                           
                         </li>
                         @endif
 
 
                         @if($usertype->id == 12)
-                        <li class=""><a href="{{url(route('user.developmentlist')) }}">Development List</a></li>
-                            <li class=""><a href="{{url(route('user.developmentlistview')) }}">Development Item List</a></li>
+                        <li class="sidebarmenu productmenu "><a href="{{url(route('user.developmentlist')) }}">Development List</a></li>
+                            <li class="sidebarmenu "><a href="{{url(route('user.developmentlistview')) }}">Development Item List</a></li>
                         <li class="productlist">
 
                             <a href=""><span class="nav-label">Products</span><span class="fa arrow"></span></a>
-                             <?php
+                             <!-- <?php
                              $productgrouplist=App\ProductGroup::where('status','=',1)->orderBy('id','ASC')->get();
                                   
                               ?>
@@ -488,16 +478,17 @@ if(Request::is('admin/development/dashboard') || Request::is('developmentlist') 
                                         <li class=""><a href="{{ url(route('users.viewgrouplist',['id'=>$groupdetails->id]))}}">{{$groupdetails->ProductGroup}}</a></li>
                                     @endif
                             </ul>
-                                @endforeach
-                               <li class=""><a href="javascript:;">Current Orders</a></li>
-                                  <li class=""><a href="javascript:;">Completed Orders</a></li>  
+                                @endforeach -->
+                               <li class="sidebarmenu ecommercemenu <?php echo $ecomercemenuclass; ?>"><a href="javascript:;">Place Orders</a></li>
+                               <li class="sidebarmenu ecommercemenu <?php echo $ecomercemenuclass; ?>"><a href="{{url(route('user.orderlistview')) }}">Current Orders</a></li>
+                                  <li class="sidebarmenu ecommercemenu <?php echo $ecomercemenuclass; ?>"><a href="{{url(route('user.completeorderlistview')) }}">Completed Orders</a></li>  
                         </li>
 
                                 
                                 @endif
                                 @if($usertype->id ==2 || $usertype->id==8 || $usertype->id ==16 || $usertype->id ==17)
-                                  <li class=""><a href="javascript:;">Current Orders</a></li>
-                                  <li class=""><a href="javascript:;">Completed Orders</a></li>
+                                  <li class="sidebarmenu ecommercemenu "><a href="{{url(route('user.orderlistview')) }}">Current Orders</a></li>
+                                  <li class="sidebarmenu ecommercemenu "><a href="{{url(route('user.completeorderlistview')) }}">Completed Orders</a></li>
                                 @endif
                         
             </ul>

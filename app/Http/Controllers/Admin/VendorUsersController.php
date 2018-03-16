@@ -62,7 +62,10 @@ public function vendorusersListid(Request $request)
  public function viewvendorusers(Request $request)
  { 
 	 $user = Auth::user();
-	 $customers = DB::select('call sp_selectCustomers(2,0,1)');
+	 //$customers = DB::select('call sp_selectCustomers(2,0,1)');
+	 $accountmanagerID=$user->id;
+	 $usertypeID=$user->userTypeID;
+$customers = DB::select('call sp_selectCustomers(2,0,1,'.$accountmanagerID.','.$usertypeID.')');
 	 $userType = DB::select('call sp_selectUserTypes(1,0,"")');
 	 $vendors=Vendors::where('status','=',1)->get();
 	 $factory=OfficeFactoryAddress::where('status','=',1)->get();
@@ -154,7 +157,10 @@ public function edit(Request $request ,$id)
 { 
 
 $user = Auth::user();
-$customers = DB::select('call sp_selectCustomers(2,0,1)');
+//$customers = DB::select('call sp_selectCustomers(2,0,1)');
+$accountmanagerID=$user->id;
+$usertypeID=$user->userTypeID;
+$customers = DB::select('call sp_selectCustomers(2,0,1,'.$accountmanagerID.','.$usertypeID.')');
 $vendors=Vendors::where('status','=',1)->get();
 $userType = DB::select('call sp_selectUserTypes(1,0,"")');
 $vendorUsers=VendorUsers::where('id','=',$id)->first();

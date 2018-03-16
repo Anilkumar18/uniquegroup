@@ -138,14 +138,22 @@ margin-top:30px;
 
                           <div class="dropdown form-group">
                           <!--onclick="event.preventDefault()-->
-
-                          <button class="dropbtn" type="button">Maintenance&nbsp;<span class="fa fa-chevron-down"></span></button>
-
+<?php $pdmnotallowed=array(2,17,8,16,15);?>
+<?php if($usertype->id == 1 || $usertype->id == 9){?>
+    <button class="dropbtn" type="button">Maintenance&nbsp;<span class="fa fa-chevron-down"></span></button>
+<?php }elseif (!in_array($usertype->id, $pdmnotallowed)) { ?>
+   <button class="dropbtn" type="button">PDM&nbsp;<span class="fa fa-chevron-down"></span></button>
+<?php }else{?>
+  <button class="dropbtn" type="button">Ecommerce&nbsp;<span class="fa fa-chevron-down"></span></button>
+<?php } ?>
                           <div class="dropdown-content" align="center" id="dropdownbox">
-
+                            
+@if($usertype->id == 1 || $usertype->id == 9)
                             <a href="javascript:;" onClick="selectmaintainance(this);" id="pdm">Maintenance</a>
-                            <a href="javascript:;" onClick="selectpdm(this);" id="pdm">PDM</a>
-
+@endif
+<?php if (!in_array($usertype->id, $pdmnotallowed)) { ?>
+    <a href="javascript:;" onClick="selectpdm(this);" id="pdm">PDM</a>
+<?php } ?>
                             <a href="javascript:;" onClick="selectecommerce(this);" id="ecommerce">Ecommerce</a>
 
                           </div>
