@@ -83,6 +83,10 @@ use App\Tissuepaper;
 
 use App\PackagingStickers;
 
+use App\Tapes;
+
+use App\ZipperPullers;
+
 use DB;
 
 use Illuminate\Support\Facades\Input;
@@ -94,6 +98,13 @@ use Illuminate\Http\UploadedFile;
 
 use File;
 use URL;
+
+//TasK: To pass group ID
+     //Done by Rajesh
+     //Date :17032018
+use App\Woven;
+use App\PrintedLabel;
+
 
 class ProductsController extends Controller
 
@@ -1847,7 +1858,11 @@ class ProductsController extends Controller
 
      //Task:For steps in process 
 	//Done by :Rajesh Baskaran
-	public function pdmdetaildevlopment() 
+
+     //TasK: To pass group ID
+     //Done by Rajesh
+     //Date :17032018
+	public function pdmdetaildevlopment($id) 
 
      {
         //echo "dfgbdf";exit;
@@ -1898,8 +1913,10 @@ $inven_productfielddetails=ProductDetailFields::where('status','=',1)->where('ca
 		$cost_productfielddetails=ProductDetailFields::where('status','=',1)->where('categoryID','=',4)->where('hide','=',0)->get();
 			
 	
-
-        return view('users.pdmdetails', compact('user','usertype','productfielddetails','producthookfields','productdevelopmentsubgroupdetails','prddevsubgrouppackagingdetails','inventorydetails','inven_productfielddetails','invendetails_productfielddetails','quantitydetails','cost_productfielddetails'));
+//TasK: To pass group ID
+     //Done by Rajesh
+     //Date :17032018
+        return view('users.pdmdetails', compact('user','usertype','productfielddetails','producthookfields','productdevelopmentsubgroupdetails','prddevsubgrouppackagingdetails','inventorydetails','inven_productfielddetails','invendetails_productfielddetails','quantitydetails','cost_productfielddetails','id'));
     }
 
     public function getproductdetailsitemlist(Request $request, $productgroup, $productsubgroupid){
@@ -1973,28 +1990,11 @@ $inven_productfielddetails=ProductDetailFields::where('status','=',1)->where('ca
                  
                 </div>
                 
-                 <?php }elseif($list->columnfieldname=="Currency"){
-                ?>
-                    <div class="printcolorhidden">
-                 <label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo $list->fieldname; if($list->isvalid==1){ ?><span class="required">*</span><?php } ?></label>
-                   <div class="col-lg-5">
-                
-                        <select id="box<?php echo $fieldname; ?>" name="box<?php echo $fieldname; ?>" class="form-control regionselect dropdownwidth">
-                        <option value="">Please Select</option>
-                         <?php foreach ($fielddetailslist as $fielddetails) { ?>
-                           
-                         <option value="<?php echo $fielddetails->id; ?>"><?php echo $fielddetails->$fieldname; ?></option>
-                           <?php } ?>
-                                            
-                        </select>
-                       
-                </div>   
-                 
-                </div>
-                <?php
+               <?php
                  $x++;  
                 
                 ?>
+                 
                  <?php }elseif($fieldname=="factoryName"){ ?>
                   
                     <div class="printcolorhidden">
@@ -2034,6 +2034,142 @@ $inven_productfielddetails=ProductDetailFields::where('status','=',1)->where('ca
                 </div>   
                  
                 </div>
+                <?php  }elseif($list->columnfieldname=="Currency"){
+                ?>
+                    <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo $list->fieldname; if($list->isvalid==1){ ?><span class="required">*</span><?php } ?></label>
+                   <div class="col-lg-5">
+                
+                        <select id="box<?php echo $fieldname; ?>" name="box<?php echo $fieldname; ?>" class="form-control regionselect dropdownwidth">
+                        <option value="">Please Select</option>
+                         <?php foreach ($fielddetailslist as $fielddetails) { ?>
+                           
+                         <option value="<?php echo $fielddetails->id; ?>"><?php echo $fielddetails->$fieldname; ?></option>
+                           <?php } ?>
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                <!-- //17-3-2018
+                //Name: Manimaran R
+                //Worked on HangTags -->
+                <?php }elseif($list->columnfieldname=="MetalMaterial"){
+    if (strpos($list->fieldname, 'Grommet') !== false) {
+
+                ?>
+                    <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo $list->fieldname; if($list->isvalid==1){ ?><span class="required">*</span><?php } ?></label>
+                   <div class="col-lg-5">
+                
+                        <select id="grommet<?php echo $fieldname; ?>" name="grommet<?php echo $fieldname; ?>" class="form-control regionselect dropdownwidth">
+                        <option value="">Please Select</option>
+                         <?php foreach ($fielddetailslist as $fielddetails) { ?>
+                           
+                         <option value="<?php echo $fielddetails->id; ?>"><?php echo $fielddetails->$fieldname; ?></option>
+                           <?php } ?>
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                 <?php }
+                 elseif(strpos($list->fieldname, 'Ball') !== false){ ?>
+<div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo $list->fieldname; if($list->isvalid==1){ ?><span class="required">*</span><?php } ?></label>
+                   <div class="col-lg-5">
+                
+                        <select id="ball<?php echo $fieldname; ?>" name="ball<?php echo $fieldname; ?>" class="form-control regionselect dropdownwidth">
+                        <option value="">Please Select</option>
+                         <?php foreach ($fielddetailslist as $fielddetails) { ?>
+                           
+                         <option value="<?php echo $fielddetails->id; ?>"><?php echo $fielddetails->$fieldname; ?></option>
+                           <?php } ?>
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                <?php }
+                 elseif(strpos($list->fieldname, 'Pin') !== false){ ?>
+<div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo $list->fieldname; if($list->isvalid==1){ ?><span class="required">*</span><?php } ?></label>
+                   <div class="col-lg-5">
+                
+                        <select id="pin<?php echo $fieldname; ?>" name="pin<?php echo $fieldname; ?>" class="form-control regionselect dropdownwidth">
+                        <option value="">Please Select</option>
+                         <?php foreach ($fielddetailslist as $fielddetails) { ?>
+                           
+                         <option value="<?php echo $fielddetails->id; ?>"><?php echo $fielddetails->$fieldname; ?></option>
+                           <?php } ?>
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                <?php }
+              ?>
+              <?php }elseif($list->columnfieldname=="MetalColour"){
+    if (strpos($list->fieldname, 'Grommet') !== false) {
+
+                ?>
+                    <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo $list->fieldname; if($list->isvalid==1){ ?><span class="required">*</span><?php } ?></label>
+                   <div class="col-lg-5">
+                
+                        <select id="grommet<?php echo $fieldname; ?>" name="grommet<?php echo $fieldname; ?>" class="form-control regionselect dropdownwidth">
+                        <option value="">Please Select</option>
+                         <?php foreach ($fielddetailslist as $fielddetails) { ?>
+                           
+                         <option value="<?php echo $fielddetails->id; ?>"><?php echo $fielddetails->$fieldname; ?></option>
+                           <?php } ?>
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                 <?php }
+                 elseif(strpos($list->fieldname, 'Ball') !== false){ ?>
+<div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo $list->fieldname; if($list->isvalid==1){ ?><span class="required">*</span><?php } ?></label>
+                   <div class="col-lg-5">
+                
+                        <select id="ball<?php echo $fieldname; ?>" name="ball<?php echo $fieldname; ?>" class="form-control regionselect dropdownwidth">
+                        <option value="">Please Select</option>
+                         <?php foreach ($fielddetailslist as $fielddetails) { ?>
+                           
+                         <option value="<?php echo $fielddetails->id; ?>"><?php echo $fielddetails->$fieldname; ?></option>
+                           <?php } ?>
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                <?php }
+                 elseif(strpos($list->fieldname, 'Pin') !== false){ ?>
+<div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo $list->fieldname; if($list->isvalid==1){ ?><span class="required">*</span><?php } ?></label>
+                   <div class="col-lg-5">
+                
+                        <select id="pin<?php echo $fieldname; ?>" name="pin<?php echo $fieldname; ?>" class="form-control regionselect dropdownwidth">
+                        <option value="">Please Select</option>
+                         <?php foreach ($fielddetailslist as $fielddetails) { ?>
+                           
+                         <option value="<?php echo $fielddetails->id; ?>"><?php echo $fielddetails->$fieldname; ?></option>
+                           <?php } ?>
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                <?php } ?>
                 <?php }elseif($fieldname=="PrintType"){ ?>
                  <div class="printcolorhidden">
                  <label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo $list->fieldname; ?>:<?php if($list->isvalid==1){ ?><span class="required">*</span><?php } ?></label>
@@ -2051,13 +2187,66 @@ $inven_productfielddetails=ProductDetailFields::where('status','=',1)->where('ca
                 </div>   
                  
                 </div>
-                <?php }else{
+                <?php }elseif($fieldname=="FabricComposition"){
+                	
+
                 ?>
-                 <div class="printcolorhidden">
+                 <div class="printcolorhidden processdiv" <?php if($list->hide==2){?> style="display: none;" <?php } ?>>
+                 <label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo  $list->fieldname; if($list->isvalid==1){ ?><span class="required">*</span><?php } ?></label>
+                   <div class="col-lg-10">
+                <!-- //TasK: To pass group ID
+     //Done by Rajesh
+     //Date :17032018 -->
+     
+                        <select multiple="multiple" id="<?php echo $fieldname; ?>" <?php if($list->isvalid==1){ ?> required <?php } ?> name="<?php echo $fieldname; ?>[]" class="form-control dropdownwidth <?php echo $fieldname; ?>">
+                        
+                         <?php foreach ($fielddetailslist as $fielddetails){ ?>
+                           
+                         <option value="<?php echo $fielddetails->id; ?>"><?php echo $fielddetails->$fieldname; ?></option>
+                          <?php } ?>
+                                            
+                        </select>
+                       
+                </div>   
+                 <div class="col-lg-12 fabriccompositionblk"></div>
+                </div>
+               
+                 <?php }elseif($fieldname=="GarmentComponents"){
+                	
+
+                ?>
+                 <div class="printcolorhidden processdiv" <?php if($list->hide==2){?> style="display: none;" <?php } ?>>
+                 <label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo  $list->fieldname; if($list->isvalid==1){ ?><span class="required">*</span><?php } ?></label>
+                   <div class="col-lg-10">
+                <!-- //TasK: To pass group ID
+     //Done by Rajesh
+     //Date :17032018 -->
+     
+                        <select multiple="multiple" id="<?php echo $fieldname; ?>" <?php if($list->isvalid==1){ ?> required <?php } ?> name="<?php echo $fieldname; ?>[]" class="form-control dropdownwidth <?php echo $fieldname; ?>">
+                        
+                         <?php foreach ($fielddetailslist as $fielddetails){ ?>
+                           
+                         <option value="<?php echo $fielddetails->id; ?>"><?php echo $fielddetails->$fieldname; ?></option>
+                          <?php } ?>
+                                            
+                        </select>
+                       
+                </div>   
+                 <div class="col-lg-12 garmentcomponentsblk"></div>
+                </div>
+               
+                 <?php }else{
+                	
+
+                ?>
+                 <div class="printcolorhidden processdiv" <?php if($list->hide==2){?> style="display: none;" <?php } ?>>
                  <label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo  $list->fieldname; if($list->isvalid==1){ ?><span class="required">*</span><?php } ?></label>
                    <div class="col-lg-5">
-                
-                        <select id="<?php echo $fieldname; ?>" name="<?php echo $fieldname; ?>" class="form-control dropdownwidth">
+                <!-- //TasK: To pass group ID
+     //Done by Rajesh
+     //Date :17032018 -->
+     
+                        <select id="<?php echo $fieldname; ?>" <?php if($list->isvalid==1){ ?> required <?php } ?> name="<?php echo $fieldname; ?>" class="form-control dropdownwidth">
                         <option value="">Please Select</option>
                          <?php foreach ($fielddetailslist as $fielddetails){ ?>
                            
@@ -2135,6 +2324,18 @@ $inven_productfielddetails=ProductDetailFields::where('status','=',1)->where('ca
               
                 </div>
                 </div>
+                <!-- //Defect:Changes made for Tapes
+                //Name: Manimaran R
+                //fields for tape width and length fields -->
+                <?php }elseif($list->columnfieldname=="TapeWidth"){ ?>
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo $list->fieldname; ?>:<?php if($list->isvalid==1) {?><span class="required">*</span><?php } ?></label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="TapeWidth" id="TapeWidth" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
                  <?php }elseif($list->columnfieldname=="Height"){ ?>
                  <div class="printcolorhidden">
                  <label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo $list->fieldname; ?>:<?php if($list->isvalid==1) {?><span class="required">*</span><?php } ?></label>
@@ -2153,6 +2354,15 @@ $inven_productfielddetails=ProductDetailFields::where('status','=',1)->where('ca
               
                 </div>
                 </div>
+<?php }elseif($list->columnfieldname=="TotalLength") { ?>
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo $list->fieldname; ?>:<?php if($list->isvalid==1) {?><span class="required">*</span><?php } ?></label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="TotalLength" id="TotalLength" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
                  <?php }elseif($list->columnfieldname=="CMYK"){ ?>
                  <div class="printcolorhidden">
                   <label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo $list->fieldname; ?>:<?php if($list->isvalid==1) {?><span class="required">*</span><?php } ?></label>
@@ -2161,6 +2371,28 @@ $inven_productfielddetails=ProductDetailFields::where('status','=',1)->where('ca
                  </div>
                   <div class="col-lg-5 cmykwidthdiv">
                  <span class="1cmykno 1cmykcheckbox"><input type="radio" name="printcolor" id="cmykno" class="chkbox cmyk" value="0" checked="checked"  />No</span>
+                </div>
+                </div>
+             
+             <?php }elseif($list->columnfieldname=="DuraPrint"){ ?>
+                 <div class="printcolorhidden">
+                  <label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo $list->fieldname; ?>:<?php if($list->isvalid==1) {?><span class="required">*</span><?php } ?></label>
+                 <div class="col-lg-5 cmykwidthdiv">
+                 <span class="1cmykyes 1cmykcheckbox"><input type="radio" name="DuraPrint" id="DuraPrint"  class="chkbox" value="1"  />Yes</span>&nbsp;
+                 </div>
+                  <div class="col-lg-5 cmykwidthdiv">
+                 <span class="1cmykno 1cmykcheckbox"><input type="radio" name="DuraPrint" id="DuraPrint" class="chkbox" value="0" checked="checked"  />No</span>
+                </div>
+                </div>
+             
+             <?php }elseif($list->columnfieldname=="Calendered"){ ?>
+                 <div class="printcolorhidden">
+                  <label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo $list->fieldname; ?>:<?php if($list->isvalid==1) {?><span class="required">*</span><?php } ?></label>
+                 <div class="col-lg-5 cmykwidthdiv">
+                 <span class="1cmykyes 1cmykcheckbox"><input type="radio" name="Calendered " id="Calendered"  class="chkbox " value="1"  />Yes</span>&nbsp;
+                 </div>
+                  <div class="col-lg-5 cmykwidthdiv">
+                 <span class="1cmykno 1cmykcheckbox"><input type="radio" name="Calendered " id="Calendered" class="chkbox" value="0" checked="checked"  />No</span>
                 </div>
                 </div>
              
@@ -2237,12 +2469,47 @@ $inven_productfielddetails=ProductDetailFields::where('status','=',1)->where('ca
                  <input type="checkbox" id="<?php echo $list->columnfieldname; ?>" name="<?php echo $list->columnfieldname; ?>"  value="<?php echo $list->fieldname; ?>" class="chkselectionproducts" />
                 </div></div>
                  
-                <?php }else{ ?>
+                <?php }elseif($list->checkbox!="" && $list->tablename!=''){
+                	//TasK: To pass Language
+     				//Done by Rajesh
+     				//Date :19032018
+
+                	$table=$list->tablename;
+                $fielddetailslist = DB::table($table)->get();
+                $fieldname=$list->columnfieldname;
+                $listoffieldname=$list->fieldname;
+                 ?>
+
+                 <div class="printcolorhidden" <?php if($list->hide==2){?> style="display: none;" <?php } ?>><label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo $listoffieldname; ?>:<?php if($list->isvalid==1) {?><span class="required">*</span><?php } ?></label>
+                   <div class="col-lg-10">
+                 
+                  <?php foreach ($fielddetailslist as $fielddetails){ ?>
+                           
+                         
+                         <div class="col-lg-4">
+
+              <input type="checkbox" name="<?php echo $list->columnfieldname; ?>[]" id="<?php echo $list->columnfieldname; ?>" data-lang=<?php echo strtoupper(substr($fielddetails->$fieldname, 0, 3)); ?> value="<?php echo $fielddetails->id; ?>" class="<?php echo strtolower($list->columnfieldname); ?>"  /><p class="spanval label_font"><?php echo $fielddetails->$fieldname; ?></p>
+              </div>
+                          <?php } ?>
+
+                </div></div>
+                <?php
+                }else{ 
+                	
+                //TasK: To pass group ID
+     //Done by Rajesh
+     //Date :17032018
+      ?>
+
+                <div class="printcolorhidden processdiv" <?php if($list->hide==2){?> style="display: none;" <?php } ?>>
                  <label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo $list->fieldname; ?>:<?php if($list->isvalid==1) {?><span class="required">*</span><?php } ?></label>
                  <div class="col-lg-5">
-                     <input type="text" name="<?php echo $list->columnfieldname; ?>" id="<?php echo $list->columnfieldname; ?>"  class="form-control" />
+                     <input type="text" <?php if($list->isvalid==1){ ?> required<?php } ?> name="<?php echo $list->columnfieldname; ?>" id="<?php echo $list->columnfieldname; ?>"  class="form-control" />
                  </div>
-                
+                 <!-- //TasK: To pass group ID
+     //Done by Rajesh
+     //Date :17032018 -->
+                </div>
                 <?php } ?>
                 
                 
@@ -2266,7 +2533,16 @@ $inven_productfielddetails=ProductDetailFields::where('status','=',1)->where('ca
 	 $usertype = UserType::where('id', '=', $user->userTypeID)->first();
 	 
 	 $input = Input::all();
+	 $ProductSubGroupName=$request->ProductSubGroupName;
 
+	  $productsubgroupdetails=ProductSubGroup::where('id','=',$ProductSubGroupName)->where('status','=',1)->get();
+
+foreach ($request as $processvalue) {
+	//echo '<pre>';print_r($processvalue);echo '</pre>';
+	foreach ($processvalue as $processvaluekey => $postvalue) {
+		echo $processvaluekey;
+	}
+}
 if($request->Hook!=''){
 
 $path = '/data/product';
@@ -2446,8 +2722,10 @@ $path = '/data/product';
 
   $PackagingStickers->save();
 }
-
-
+//TasK: To pass group ID
+     //Done by Rajesh
+     //Date :17032018
+if($ProductSubGroupName==4){
 $Boxes=Boxes::create($request->all());
 
 
@@ -2455,8 +2733,12 @@ $Boxes->CustomerID = $request->CustomerName;
 	$Boxes->RawMaterialID = $request->RawMaterial;
 	$Boxes->PrintTypeID = $request->PrintType;
 	$Boxes->CuttingID  = $request->CuttingName;
-	$Boxes->PrintingFinishingProcessID = isset($request->Finishing_Process)?implode(',',$request->Finishing_Process):'';
-	
+	//$Boxes->PrintingFinishingProcessID = isset($request->Finishing_Process)?implode(',',$request->Finishing_Process):'';
+	// sathish 16-03-2018 
+	//working for PrintingFinishingProcessID
+
+	$Boxes->PrintingFinishingProcessID = isset($request->PrintingFinishingProcessName)?implode(',',$request->PrintingFinishingProcessName):'';
+
 	$Boxes->HookID = isset($hook->id)?'Hook':0;
 	$Boxes->TissuePaperID = isset($Tissuepaper->id)?'TissuePaper':0;
 	$Boxes->PackagingStickersID = isset($PackagingStickers->id)?'PackagingStickers':0;
@@ -2498,7 +2780,261 @@ $Boxes->CMYK   =$request->printcolor;
 	$Boxes->status   = 1;
 
 $Boxes->save();
+}
+//TasK: To pass group ID
+     //Done by Rajesh
+     //Date :17032018
+if($ProductSubGroupName==10){
+$Woven=Woven::create($request->all());
 
+
+$Woven->CustomerID = $request->CustomerName;
+$Woven->TypeofLabelID = $request->TypeofLabels;
+$Woven->LoomTypeID = $request->LoomType;
+$Woven->LoomHarnessID = $request->LoomHarness;
+$Woven->WarpID = $request->Warp;
+$Woven->QualityID = $request->Quality;
+$Woven->TypeoffoldID = $request->Typeoffold;
+$Woven->SewSpaceID = $request->SewSpace;
+$Woven->ProductionRegionID1   = $request->ProductionRegions1;
+$Woven->UniqueFactory1   = isset($request->uniquefactory1)?implode(',',$request->uniquefactory1):'';
+$Woven->ProductionRegionID2   = $request->ProductionRegions2;
+$Woven->UniqueFactory2   = isset($request->uniquefactory2)?implode(',',$request->uniquefactory2):'';
+$Woven->ProductionRegionID3   = $request->ProductionRegions3;
+$Woven->UniqueFactory3   = isset($request->uniquefactory3)?implode(',',$request->uniquefactory3):'';
+$Woven->CurrencyID = $request->boxCurrency;
+$Woven->Sample_costing = $request->woven_Samplecost;
+$imgInp = Input::file('imgInp3');
+			//$imgInp=$request->imgInp3;
+
+			$path = '/data/product';
+			 if($imgInp!='')
+                {
+             		$destinationPath = $path;
+      				$imgInp_filename=$imgInp->storeAs($destinationPath,$imgInp->getClientOriginalName());      				
+
+				}
+	$Woven->Artwork  = $imgInp_filename;
+	$Woven->status   = 1;
+
+$Woven->save();
+}
+
+if($ProductSubGroupName==11){
+$PrintedLabel=PrintedLabel::create($request->all());
+
+
+$PrintedLabel->CustomerID = $request->CustomerName;
+$PrintedLabel->TypeofLabelID = $request->TypeofLabels;
+$PrintedLabel->TypeoffoldID = $request->Typeoffold;
+$PrintedLabel->SewSpaceID = $request->SewSpace;
+$PrintedLabel->ProductionRegionID1   = $request->ProductionRegions1;
+$PrintedLabel->UniqueFactory1   = isset($request->uniquefactory1)?implode(',',$request->uniquefactory1):'';
+$PrintedLabel->ProductionRegionID2   = $request->ProductionRegions2;
+$PrintedLabel->UniqueFactory2   = isset($request->uniquefactory2)?implode(',',$request->uniquefactory2):'';
+$PrintedLabel->ProductionRegionID3   = $request->ProductionRegions3;
+$PrintedLabel->UniqueFactory3   = isset($request->uniquefactory3)?implode(',',$request->uniquefactory3):'';
+$PrintedLabel->CurrencyID = $request->boxCurrency;
+$PrintedLabel->Sample_costing = $request->woven_Samplecost;
+$imgInp = Input::file('imgInp3');
+			//$imgInp=$request->imgInp3;
+
+			$path = '/data/product';
+			 if($imgInp!='')
+                {
+             		$destinationPath = $path;
+      				$imgInp_filename=$imgInp->storeAs($destinationPath,$imgInp->getClientOriginalName());      				
+
+				}
+	$PrintedLabel->Artwork  = $imgInp_filename;
+	$PrintedLabel->status   = 1;
+
+$PrintedLabel->save();
+}
+//17-3-2018
+//Name: Manimaran R
+//Worked on HangTags
+if($request->ProductGroup==3){
+$HangTags=HangTags::create($request->all());
+
+
+$HangTags->CustomerID = $request->CustomerName;
+	$HangTags->MaterialID = $request->RawMaterial;
+	$HangTags->PrintTypeID = $request->PrintType;
+	$HangTags->CuttingID  = $request->CuttingName;
+	//$Boxes->PrintingFinishingProcessID = isset($request->Finishing_Process)?implode(',',$request->Finishing_Process):'';
+	//working for PrintingFinishingProcessID
+
+	$HangTags->PrintingFinishingProcessID = isset($request->PrintingFinishingProcessName)?implode(',',$request->PrintingFinishingProcessName):'';
+	$HangTags->CurrencyID = $request->Currency;
+$HangTags->Sample_costing = $request->hangtags_Samplecost;	
+	$HangTags->measurement1 = $request->measurement1;
+	$HangTags->QualityReference   = $request->qty_ref;
+	$HangTags->QualityReferencem   = $request->qty_chk;
+$HangTags->CMYK   =$request->printcolor;
+
+	$HangTags->PrintColor1   = $request->print_color1;
+	$HangTags->PrintColor2   = $request->print_color2;
+	$HangTags->PrintColor3   = $request->print_color3;
+	$HangTags->PrintColor4   = $request->print_color4;
+	$HangTags->PrintColor5   = $request->print_color5;
+	$HangTags->PrintColor6   = $request->print_color6;
+	$HangTags->PrintColor7   = $request->print_color7;
+	$HangTags->PrintColor8   = $request->print_color8;
+
+	$HangTags->GrommetMaterialID   = $request->grommetMetalMaterial;
+	$HangTags->GrommetColourID   = $request->grommetMetalColour;
+	$HangTags->StringMaterialID   = $request->StringMaterials;
+
+	$HangTags->SealID   = $request->SealsMaterials;
+	$HangTags->BallChainColourID   = $request->ballMetalColour;
+	$HangTags->BallChainMaterialID   = $request->ballMetalMaterial;
+
+	$HangTags->PinStyleID   = $request->PinStyle;
+	$HangTags->PinColourID   = $request->pinMetalColour;
+	$HangTags->PinMaterialID   = $request->pinMetalMaterial;
+
+
+	$HangTags->Width   = $request->Width;
+	$HangTags->Length   = $request->Length;
+	$HangTags->GroundPaperColor   = $request->GroundPaperColor;
+
+	$HangTags->Drillholesize   = $request->DrillHoleSize;
+	$HangTags->StringTotalLength   = $request->StringTotalLength;
+	$HangTags->StringLooptoKnotLength   = $request->StringLoop;
+
+	$HangTags->PinLength   = $request->PinLength;
+	$HangTags->BallChainLength   = $request->BallChain;
+	$HangTags->Pin   = $request->Pin;
+	$HangTags->Version = 1;
+
+
+
+	$HangTags->ProductionRegionID1   = $request->ProductionRegions1;
+	$HangTags->UniqueFactory1   = isset($request->uniquefactory1)?implode(',',$request->uniquefactory1):'';
+	$HangTags->ProductionRegionID2   = $request->ProductionRegions2;
+	$HangTags->UniqueFactory2   = isset($request->uniquefactory2)?implode(',',$request->uniquefactory2):'';
+	$HangTags->ProductionRegionID3   = $request->ProductionRegions3;
+	$HangTags->UniqueFactory3   = isset($request->uniquefactory3)?implode(',',$request->uniquefactory3):'';
+	$imgInp = Input::file('imgInp3');
+			//$imgInp=$request->imgInp3;
+
+			$path = '/data/product';
+			 if($imgInp!='')
+                {
+             		$destinationPath = $path;
+      				$imgInp_filename=$imgInp->storeAs($destinationPath,$imgInp->getClientOriginalName());      				
+
+				}
+
+				$HangTags->Artwork  = $imgInp_filename;
+	$HangTags->status   = 1;
+
+$HangTags->save();
+
+}
+
+//19-3-2018
+//Name: Manimaran R
+//Worked on Tapes
+if($request->ProductGroup==10){
+$Tapes=Tapes::create($request->all());
+
+
+$Tapes->CustomerID = $request->CustomerName;
+	$Tapes->TapesMaterialID = $request->RibbonsMaterialName;
+	$Tapes->CurrencyID = $request->Currency;
+$Tapes->Sample_costing = $request->tapes_Samplecost;
+	$Tapes->QualityReference   = $request->qty_ref;
+	$Tapes->QualityReferencem   = $request->qty_chk;
+
+
+	$Tapes->TapeWidth   = $request->TapeWidth;
+	$Tapes->TotalLength   = $request->TotalLength;
+	$Tapes->TapeColor   = $request->TapeColor;
+	$Tapes->Brocade   = $request->Brocade;
+
+	$Tapes->ProductionRegionID1   = $request->ProductionRegions1;
+	$Tapes->UniqueFactory1   = isset($request->uniquefactory1)?implode(',',$request->uniquefactory1):'';
+	$Tapes->ProductionRegionID2   = $request->ProductionRegions2;
+	$Tapes->UniqueFactory2   = isset($request->uniquefactory2)?implode(',',$request->uniquefactory2):'';
+	$Tapes->ProductionRegionID3   = $request->ProductionRegions3;
+	$Tapes->UniqueFactory3   = isset($request->uniquefactory3)?implode(',',$request->uniquefactory3):'';
+	$imgInp = Input::file('imgInp3');
+			//$imgInp=$request->imgInp3;
+
+			$path = '/data/product';
+			 if($imgInp!='')
+                {
+             		$destinationPath = $path;
+      				$imgInp_filename=$imgInp->storeAs($destinationPath,$imgInp->getClientOriginalName());      				
+
+				}
+
+				$Tapes->Artwork  = $imgInp_filename;
+	$Tapes->status   = 1;
+	$Tapes->Version = 1;
+
+$Tapes->save();
+
+}
+
+//19-3-2018
+//Name: Manimaran R
+//Worked on ZipperPullers
+if($request->ProductGroup==12){
+$ZipperPullers=ZipperPullers::create($request->all());
+
+
+$ZipperPullers->CustomerID = $request->CustomerName;
+	$ZipperPullers->PullerMaterialID = $request->TipMaterial;
+	$ZipperPullers->CurrencyID = $request->Currency;
+$ZipperPullers->SampleCosting = $request->zipper_Samplecost;
+	$ZipperPullers->QualityReference   = $request->qty_ref;
+	$ZipperPullers->QualityReferencem   = $request->qty_chk;
+
+
+	$ZipperPullers->PullerEndLogoprocess   = $request->LogoProcess;
+	$ZipperPullers->StringLoopLength   = $request->StringLoopLength;
+	$ZipperPullers->StringThickness   = $request->StringThickness;
+	$ZipperPullers->StringQuality   = $request->StringQuality;
+
+	$ZipperPullers->StringColor1   = $request->StringColor1;
+	$ZipperPullers->StringColor2   = $request->StringColor2;
+	$ZipperPullers->PullerEndWidthSize   = $request->Width;
+	$ZipperPullers->PullerEndHeightSize   = $request->Height;
+
+	$ZipperPullers->PullerEndThickness   = $request->PullerEndThickness;
+	$ZipperPullers->PullerEndColor   = $request->PullerEndColor;
+	$ZipperPullers->MoldCosting   = $request->MoldCosting;
+	$ZipperPullers->MoldCostingCurrency   = $request->Currency;
+
+
+
+
+	$ZipperPullers->ProductionRegionID1   = $request->ProductionRegions1;
+	$ZipperPullers->UniqueFactory1   = isset($request->uniquefactory1)?implode(',',$request->uniquefactory1):'';
+	$ZipperPullers->ProductionRegionID2   = $request->ProductionRegions2;
+	$ZipperPullers->UniqueFactory2   = isset($request->uniquefactory2)?implode(',',$request->uniquefactory2):'';
+	$ZipperPullers->ProductionRegionID3   = $request->ProductionRegions3;
+	$ZipperPullers->UniqueFactory3   = isset($request->uniquefactory3)?implode(',',$request->uniquefactory3):'';
+	$imgInp = Input::file('imgInp3');
+			//$imgInp=$request->imgInp3;
+
+			$path = '/data/product';
+			 if($imgInp!='')
+                {
+             		$destinationPath = $path;
+      				$imgInp_filename=$imgInp->storeAs($destinationPath,$imgInp->getClientOriginalName());      				
+
+				}
+
+				$ZipperPullers->Artwork  = $imgInp_filename;
+	$ZipperPullers->status   = 1;
+//print_r($ZipperPullers);exit;
+$ZipperPullers->save();
+
+}
 
 $ProductDetails = ProductDetails::create($request->all());
 
@@ -2508,6 +3044,14 @@ $ProductDetails->CustomerID= $request->CustomerName;
 	$ProductDetails->TissuePaperID =isset($Tissuepaper->id)?$Tissuepaper->id:0;
 	$ProductDetails->PackagingStickersID =isset($PackagingStickers->id)?$PackagingStickers->id:0;
 	$ProductDetails->BoxID = isset($Boxes->id)?$Boxes->id:0;
+	 //TasK: To pass group ID
+     //Done by Rajesh
+     //Date :17032018
+	$ProductDetails->WovenLabelID = isset($Woven->id)?$Woven->id:0;
+	$ProductDetails->PrintedLabelID = isset($PrintedLabel->id)?$PrintedLabel->id:0;
+$ProductDetails->HangTagsID = isset($HangTags->id)?$HangTags->id:0;
+	$ProductDetails->TapesID = isset($Tapes->id)?$Tapes->id:0;
+	$ProductDetails->ZipperPullersID = isset($ZipperPullers->id)?$ZipperPullers->id:0;
 	$ProductDetails->ProductGroupID = $request->ProductGroup;
 	$ProductDetails->ProductSubGroupID = $request->ProductSubGroupName;
 	$ProductDetails->ProductstatusID  = $request->StatusName;
@@ -2516,9 +3060,25 @@ $ProductDetails->CustomerID= $request->CustomerName;
 	$ProductDetails->UnitofMeasurementID = $request->UnitofMeasurement;
 	$ProductDetails->InventoryID  = $request->Inventory;
 
-	$ProductDetails->UniqueFactoryName1  = $request->inventoryuniquefactory1;
 
-	$ProductDetails->UniqueFactory1  = $request->inventoryProductionRegions1;
+
+	$ProductDetails->ProductionRegionID1=$request->inventoryProductionRegions1;
+ 
+ $ProductDetails->UniqueFactory1= isset($request->inventoryuniquefactory1)?implode(',',$request->inventoryuniquefactory1):'';
+ 
+ //$ProductDetails->UniqueFactory1=$request->inventoryuniquefactory1;
+ 
+
+ $ProductDetails->ProductionRegionID2=$request->inventoryProductionRegions2;
+
+$ProductDetails->UniqueFactory2   = isset($request->inventoryuniquefactory2)?implode(',',$request->inventoryuniquefactory2):'';
+
+ //$ProductDetails->UniqueFactory2=$request->inventoryuniquefactory2;
+
+ $ProductDetails->ProductionRegionID3=$request->inventoryProductionRegions3;
+ $ProductDetails->UniqueFactory3   = isset($request->inventoryuniquefactory3)?implode(',',$request->inventoryuniquefactory3):'';
+
+
 	$ProductDetails->CustomerProductName  = $request->productname;
 	$ProductDetails->CustomerProductCode  = $request->productcode;
 	$ProductDetails->UniqueProductCode  = $request->uniqueproductcode;
@@ -2532,7 +3092,10 @@ $ProductDetails->CustomerID= $request->CustomerName;
 	$ProductDetails->SellingPrice= $request->samplecost;
 	$ProductDetails->QuantityMOQ= implode('#', $request->quantitychk);
 // sathish 15-03-2018 disabled line
-	//$ProductDetails->Cost= implode('#', $request->input1);
+	//Defect:55
+	//Vidhya-PHP
+	//Cost value insert form test
+	$ProductDetails->Cost= implode('#', $request->input1);
 
 
 	$ProductDetails->Suggested_price= implode('#', $request->input2);
@@ -2575,6 +3138,11 @@ $ProductDetails->UniqueFactory2   = isset($request->inventoryuniquefactory2)?imp
 //sathish 17-03-2018
 
 $ProductDetails->SeasonID=$request->Season;
+/* <!-- //Defect: newpdf no:4
+                       //Name: Sathish-PHP Team
+                        //Working for the season -->*/
+
+$ProductDetails->Season=isset($request->otherSeason)?$request->otherSeason:'';
 $ProductDetails->RemarksInstructions=$request->Remarks;
 
 $ProductDetails->Version=$request->version;
@@ -2597,9 +3165,35 @@ $ProductDetails->Version=$request->version;
 
 $ProductDetails->save();
 
-
-
+//TasK: To pass group ID
+     //Done by Rajesh
+     //Date :17032018
+if(isset($Boxes->id)){
 $page = Boxes::find($Boxes->id);
+}
+//TasK: To pass HangTags group ID
+     //Done by Manimaran
+     //Date :17-03-2018
+if(isset($HangTags->id)){
+
+$page = HangTags::find($HangTags->id);
+}
+//TasK: To pass Tapes group ID
+     //Done by Manimaran
+     //Date :19-03-2018
+if(isset($Tapes->id)){
+
+$page = Tapes::find($Tapes->id);
+}
+//TasK: To pass ZipperPuller group ID
+     //Done by Manimaran
+     //Date :19-03-2018
+if(isset($ZipperPullers->id)){
+
+$page = ZipperPullers::find($ZipperPullers->id);
+}
+
+
 
 // Make sure you've got the Page model
 if($page) {
@@ -2626,6 +3220,15 @@ if($page) {
 }
 if(isset($PackagingStickers->id)){
 $page = PackagingStickers::find($PackagingStickers->id);
+
+// Make sure you've got the Page model
+if($page) {
+    $page->productID = $ProductDetails->id;
+    $page->save();
+}
+}
+if(isset($ZipperPullers->id)){
+$page = ZipperPullers::find($ZipperPullers->id);
 
 // Make sure you've got the Page model
 if($page) {
@@ -2844,10 +3447,16 @@ $inven_productfielddetails=ProductDetailFields::where('status','=',1)->where('ca
 
 $productquotedetails=ProductDetails::where('id','=',$id)->where('status','=',1)->first();
 $productinventorydetails=ProductDetails::where('id','=',$id)->where('status','=',1)->first();
+//vidhya:php
+//Working for hangtags edit
+$hangtagsproduct=HangTags::where('id','=',$productdetails->HangTagsID)->first();
+$tapeproduct=Tapes::where('id','=',$productdetails->TapesID)->first();
+$zipperpullerproduct=ZipperPullers::where('id','=',$productdetails->ZipperPullersID)->first();
+//printf($hangtagsproduct);exit;
 
 //sathis 14-03-2018
 
-        return view('users.edit_productlist', compact('user','usertype','productfielddetails','producthookfields','productdevelopmentsubgroupdetails','prddevsubgrouppackagingdetails','inventorydetails','inven_productfielddetails','invendetails_productfielddetails','quantitydetails','cost_productfielddetails','productdetails','productdevelopmentfields','boxesdetails','hookdetails','tissuepaperdetails','packagingstickersdetails','productinventorydetails','productquotedetails'));
+        return view('users.edit_productlist', compact('user','usertype','productfielddetails','producthookfields','productdevelopmentsubgroupdetails','prddevsubgrouppackagingdetails','inventorydetails','inven_productfielddetails','invendetails_productfielddetails','quantitydetails','cost_productfielddetails','productdetails','productdevelopmentfields','boxesdetails','hookdetails','tissuepaperdetails','packagingstickersdetails','productinventorydetails','productquotedetails','hangtagsproduct','tapeproduct','zipperpullerproduct'));
 	 
 	  
 		
@@ -3087,7 +3696,9 @@ $Boxes->CustomerID = $request->CustomerName;
 	$Boxes->RawMaterialID = $request->RawMaterial;
 	$Boxes->PrintTypeID = $request->PrintType;
 	$Boxes->CuttingID  = $request->CuttingName;
-	$Boxes->PrintingFinishingProcessID = isset($request->Finishing_Process)?implode(',',$request->Finishing_Process):'';
+	//$Boxes->PrintingFinishingProcessID = isset($request->Finishing_Process)?implode(',',$request->Finishing_Process):'';
+
+	$Boxes->PrintingFinishingProcessID = isset($request->PrintingFinishingProcessName)?implode(',',$request->PrintingFinishingProcessName):'';
 	
 	//sathish 14-03-2018
 	$Boxes->measurement1 = $request->measurement1;
@@ -3135,6 +3746,209 @@ $path = '/data/product';
 $Boxes->save();
 }
 }
+//Hangtags
+//Vidhya:php
+//update function for hangtags
+if(isset($request->hang_editID)){
+
+	$hangtag = HangTags::find($request->hang_editID);
+
+
+
+	$hangtag->CustomerID = $request->CustomerName;
+	$hangtag->MaterialID = $request->RawMaterial;
+	$hangtag->PrintTypeID = $request->PrintType;
+	$hangtag->CuttingID  = $request->CuttingName;
+	
+	$hangtag->PrintingFinishingProcessID = isset($request->PrintingFinishingProcessName)?implode(',',$request->PrintingFinishingProcessName):'';
+	$hangtag->CurrencyID = $request->hangCurrency;
+$hangtag->Sample_costing = $request->hangtags_Samplecost;	
+	$hangtag->measurement1 = $request->measurement1;
+	$hangtag->QualityReference   = $request->qty_ref;
+	$hangtag->QualityReferencem   = $request->qty_chk;
+$hangtag->CMYK   =$request->printcolor;
+
+	$hangtag->PrintColor1   = $request->print_color1;
+	$hangtag->PrintColor2   = $request->print_color2;
+	$hangtag->PrintColor3   = $request->print_color3;
+	$hangtag->PrintColor4   = $request->print_color4;
+	$hangtag->PrintColor5   = $request->print_color5;
+	$hangtag->PrintColor6   = $request->print_color6;
+	$hangtag->PrintColor7   = $request->print_color7;
+	$hangtag->PrintColor8   = $request->print_color8;
+
+	$hangtag->GrommetMaterialID   = $request->grommetMetalMaterial;
+	$hangtag->GrommetColourID   = $request->grommetMetalColour;
+	$hangtag->StringMaterialID   = $request->StringMaterials;
+
+	$hangtag->SealID   = $request->SealsMaterials;
+	$hangtag->BallChainColourID   = $request->ballMetalColour;
+	$hangtag->BallChainMaterialID   = $request->ballMetalMaterial;
+
+	$hangtag->PinStyleID   = $request->PinStyle;
+	$hangtag->PinColourID   = $request->pinMetalColour;
+	$hangtag->PinMaterialID   = $request->pinMetalMaterial;
+
+
+	$hangtag->Width   = $request->Width;
+	$hangtag->Length   = $request->Length;
+	$hangtag->GroundPaperColor   = $request->GroundPaperColor;
+
+	$hangtag->Drillholesize   = $request->DrillHoleSize;
+	$hangtag->StringTotalLength   = $request->StringTotalLength;
+	$hangtag->StringLooptoKnotLength   = $request->StringLoop;
+
+	$hangtag->PinLength   = $request->PinLength;
+	$hangtag->BallChainLength   = $request->BallChainLength;
+	$hangtag->Pin   = $request->Pin;
+	$hangtag->Version = $hangtag->Version+1;
+
+
+
+
+	$hangtag->ProductionRegionID1   = $request->ProductionRegions1;
+	$hangtag->UniqueFactory1   = isset($request->uniquefactory1)?implode(',',$request->uniquefactory1):'';
+	$hangtag->ProductionRegionID2   = $request->ProductionRegions2;
+	$hangtag->UniqueFactory2   = isset($request->uniquefactory2)?implode(',',$request->uniquefactory2):'';
+	$hangtag->ProductionRegionID3   = $request->ProductionRegions3;
+	$hangtag->UniqueFactory3   = isset($request->uniquefactory3)?implode(',',$request->uniquefactory3):'';
+	$imgInp = Input::file('imgInp3');
+			//$imgInp=$request->imgInp3;
+$path = '/data/product';
+			
+			 if($imgInp!='')
+                {
+             		$destinationPath = $path;
+      				$imgInp_filename=$imgInp->storeAs($destinationPath,$imgInp->getClientOriginalName());  
+				}else{
+					if($request->selectimage3!=''){
+      				$imgInp_filename=$request->selectimage3;     				
+					}else{
+						$imgInp_filename='';
+					}
+				}
+
+				$hangtag->Artwork  = $imgInp_filename;
+	
+
+
+    $hangtag->save();
+
+}
+//vidhya:PHP
+//Update tapes details
+if(isset($request->tape_editID)){
+$Tapes = Tapes::find($request->tape_editID);
+
+
+
+$Tapes->CustomerID = $request->CustomerName;
+	$Tapes->TapesMaterialID = $request->RibbonsMaterialName;
+	$Tapes->CurrencyID = $request->tapeCurrency;
+$Tapes->Sample_costing = $request->tapes_Samplecost;
+	$Tapes->QualityReference   = $request->qty_ref;
+	$Tapes->QualityReferencem   = $request->qty_chk;
+
+
+	$Tapes->TapeWidth   = $request->TapeWidth;
+	$Tapes->TotalLength   = $request->TotalLength;
+	$Tapes->TapeColor   = $request->TapeColor;
+	$Tapes->Brocade   = $request->Brocade;
+
+	$Tapes->ProductionRegionID1   = $request->ProductionRegions1;
+	$Tapes->UniqueFactory1   = isset($request->uniquefactory1)?implode(',',$request->uniquefactory1):'';
+	$Tapes->ProductionRegionID2   = $request->ProductionRegions2;
+	$Tapes->UniqueFactory2   = isset($request->uniquefactory2)?implode(',',$request->uniquefactory2):'';
+	$Tapes->ProductionRegionID3   = $request->ProductionRegions3;
+	$Tapes->UniqueFactory3   = isset($request->uniquefactory3)?implode(',',$request->uniquefactory3):'';
+	$Tapes->Version = $Tapes->Version+1;
+	$imgInp = Input::file('imgInp3');
+			//$imgInp=$request->imgInp3;
+$path = '/data/product';
+			
+			 if($imgInp!='')
+                {
+             		$destinationPath = $path;
+      				$imgInp_filename=$imgInp->storeAs($destinationPath,$imgInp->getClientOriginalName());  
+				}else{
+					if($request->selectimage3!=''){
+      				$imgInp_filename=$request->selectimage3;     				
+					}else{
+						$imgInp_filename='';
+					}
+				}
+
+				$Tapes->Artwork  = $imgInp_filename;
+
+	
+	$Tapes->status   = 1;
+
+$Tapes->save();
+
+}
+//vidhya:PHP
+//Update Zipper details
+if(isset($request->zipper_editID)){
+$ZipperPullers = ZipperPullers::find($request->zipper_editID);
+
+
+
+$ZipperPullers->CustomerID = $request->CustomerName;
+	$ZipperPullers->PullerMaterialID = $request->TipMaterial;
+	$ZipperPullers->CurrencyID = $request->Currency;
+$ZipperPullers->SampleCosting = $request->zipper_Samplecost;
+	$ZipperPullers->QualityReference   = $request->qty_ref;
+	$ZipperPullers->QualityReferencem   = $request->qty_chk;
+
+
+	$ZipperPullers->PullerEndLogoprocess   = $request->LogoProcess;
+	$ZipperPullers->StringLoopLength   = $request->StringLoopLength;
+	$ZipperPullers->StringThickness   = $request->StringThickness;
+	$ZipperPullers->StringQuality   = $request->StringQuality;
+
+	$ZipperPullers->StringColor1   = $request->StringColor1;
+	$ZipperPullers->StringColor2   = $request->StringColor2;
+	$ZipperPullers->PullerEndWidthSize   = $request->Width;
+	$ZipperPullers->PullerEndHeightSize   = $request->Height;
+
+	$ZipperPullers->PullerEndThickness   = $request->PullerEndThickness;
+	$ZipperPullers->PullerEndColor   = $request->PullerEndColor;
+	$ZipperPullers->MoldCosting   = $request->MoldCosting;
+	$ZipperPullers->MoldCostingCurrency   = $request->Currency;
+
+
+
+
+	$ZipperPullers->ProductionRegionID1   = $request->ProductionRegions1;
+	$ZipperPullers->UniqueFactory1   = isset($request->uniquefactory1)?implode(',',$request->uniquefactory1):'';
+	$ZipperPullers->ProductionRegionID2   = $request->ProductionRegions2;
+	$ZipperPullers->UniqueFactory2   = isset($request->uniquefactory2)?implode(',',$request->uniquefactory2):'';
+	$ZipperPullers->ProductionRegionID3   = $request->ProductionRegions3;
+	$ZipperPullers->UniqueFactory3   = isset($request->uniquefactory3)?implode(',',$request->uniquefactory3):'';
+	$ZipperPullers->Version = $ZipperPullers->Version+1;
+	$imgInp = Input::file('imgInp3');
+			//$imgInp=$request->imgInp3;
+$path = '/data/product';
+			
+			 if($imgInp!='')
+                {
+             		$destinationPath = $path;
+      				$imgInp_filename=$imgInp->storeAs($destinationPath,$imgInp->getClientOriginalName());  
+				}else{
+					if($request->selectimage3!=''){
+      				$imgInp_filename=$request->selectimage3;     				
+					}else{
+						$imgInp_filename='';
+					}
+				}
+
+				$ZipperPullers->Artwork  = $imgInp_filename;
+	
+	$ZipperPullers->status   = 1;
+
+$ZipperPullers->save();
+}
+
 $ProductDetails = ProductDetails::find($request->editID);
 
 // Make sure you've got the Page model
@@ -3153,9 +3967,7 @@ $ProductDetails->CustomerID= $request->CustomerName;
 	$ProductDetails->UnitofMeasurementID = $request->UnitofMeasurement;
 	$ProductDetails->InventoryID  = $request->Inventory;
 
-	$ProductDetails->UniqueFactoryName1  = $request->inventoryuniquefactory1;
 
-	$ProductDetails->UniqueFactory1  = $request->inventoryProductionRegions1;
 	$ProductDetails->CustomerProductName  = $request->productname;
 	$ProductDetails->CustomerProductCode  = $request->productcode;
 	$ProductDetails->UniqueProductCode  = $request->uniqueproductcode;
@@ -3169,7 +3981,11 @@ $ProductDetails->CustomerID= $request->CustomerName;
 	$ProductDetails->SellingPrice= $request->samplecost;
 	$ProductDetails->QuantityMOQ= implode('#', $request->quantitychk);
 	//sathish 15-03-2018
-	//$ProductDetails->Cost= implode('#', $request->input1);
+
+	//Defect:55
+	//Vidhya-PHP
+	//Cost value insert form test
+	$ProductDetails->Cost= implode('#', $request->input1);
 	$ProductDetails->Suggested_price= implode('#', $request->input2);
 	$ProductDetails->status  =1;
 	$ProductDetails->Brand  = $request->brand;
@@ -3209,6 +4025,11 @@ $ProductDetails->UniqueFactory2= isset($request->inventoryuniquefactory2)?implod
 //sathish 13-03-2018/14-03-2018
 	//task:missing values
 $ProductDetails->SeasonID=$request->Season;
+/*<!-- //Defect: newpdf no:4
+                       //Name: Sathish-PHP Team
+                        //Working for the season -->
+*/
+$ProductDetails->Season=isset($request->otherSeason)?$request->otherSeason:'';
 $ProductDetails->RemarksInstructions=$request->Remarks;
 $ProductDetails->Version=$request->version;
 //end

@@ -138,10 +138,7 @@
                      Packaging
                       </li>
                       <li>
-                     @if($boxesdetails->id!="" && $boxesdetails->id<>0)
-                     Boxes
-                     @endif
-                      </li>
+                     </li>
                       
                     </ol>
                   </div>
@@ -240,11 +237,18 @@
                <div class="col-lg-5">
                
                 
-                <select id="{{$fieldname}}" name="{{$fieldname}}" class="form-control dropdownwidth">
+                <select id="{{$fieldname}}" name="{{$fieldname}}" class="form-control dropdownwidth" onchange="CustomerChange();">
                 <option value="">Please Select</option>
                  @foreach ($fielddetailslist as $fielddetails)
-                   
-                 <option value="{{$fielddetails->id}}" @if($productdetails->CustomerID==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                   @if($user->userTypeID==1)
+                       <option drop-data="{{url(route('user.selectcustomer', ['id' => $fielddetails->id]))}}" value="{{$fielddetails->id}}" @if($productdetails->CustomerID==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                         @elseif($fielddetails->AccountManagerID==$user->id && $user->userTypeID==9)
+                        <option drop-data="{{url(route('user.selectcustomer', ['id' => $fielddetails->id]))}}" value="{{$fielddetails->id}}" @if($productdetails->CustomerID==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                        @else
+                         
+                       <option drop-data="{{url(route('user.selectcustomer', ['id' => $fielddetails->id]))}}" value="{{$fielddetails->id}}" @if($productdetails->CustomerID==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                            @endif
+                 
                    @endforeach
                                     
                 </select>
@@ -254,7 +258,7 @@
                  @elseif($fieldname=="Warehouse_Name")
                 <div class="form-group">
                  <label class="col-lg-3 control-label font-noraml text-left label_font">{{$list->fieldname}}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
-               
+               <div class="statedisplay">
                <div class="col-lg-5">
                
                 
@@ -266,7 +270,7 @@
                    @endforeach
                                     
                 </select>
-                 
+                 </div>
                 </div>
                 </div>
               
@@ -396,7 +400,12 @@
                    @endforeach
                                     
                 </select>
-                 
+                 <!-- sathish 16-03-2018 worked other season name -->
+                      <?php 
+if ($productdetails->SeasonID==5) {
+ ?><input type="text" name="otherSeason" value="{{$productdetails->Season}}" id="otherseason">
+ <?php }
+ ?>
                 </div>
                 </div>
                   @elseif($fieldname=="ProductGroup")
@@ -574,7 +583,7 @@
                                 </fieldset>
                                 <h1>Product Details</h1>
                                 <fieldset>
-                                    
+                                                                      
                                     <div class="row">
 <?php $otherproduct=1; ?>
 
@@ -610,6 +619,11 @@
         $fielddetailslist = DB::table($table)->get();
         $fieldname=$list->columnfieldname;
         $listoffieldname=$list->fieldname;
+
+        //sathish 16-03-2018 work for printin process checkbox
+
+        $boxprintingfinishingprocess=$boxesdetails->PrintingFinishingProcessID;
+        $boxprintingcheckbox=explode(",",$boxprintingfinishingprocess);
         ?>
                 
                 @if($list->columnfieldname=="RawMaterial")
@@ -672,11 +686,23 @@
                  <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
                    <div class="col-lg-5">
                 
-                        <?php $arrFinishingProcessName=explode(',', $boxesdetails->PrintingFinishingProcessID); ?>
-                         @foreach ($fielddetailslist as $fielddetails)
+                        <?php  
+                        $arrFinishingProcessName=explode(',',$boxesdetails->PrintingFinishingProcessID); ?>
+                          @foreach ($fielddetailslist as $fielddetails)
+                      <!-- sathish 16-03-2018 //Defect: 
+                       //Name: Sathish-PHP Team
+                        //Working for checkbox in printing finishing process -->    
                           
                           <div class="col-lg-12">
-              <input type="checkbox" name="{{$fieldname}}[]" id="{{$fieldname}}" value="{{$fielddetails->id}}" class="thicknesschkbox printing" <?php if(in_array($fielddetails->id, $arrFinishingProcessName)){ echo 'checked="checked"';} ?>/><p class="spanval label_font"> {{$fielddetails->$fieldname}}</p>
+              <input type="checkbox" name="{{$fieldname}}[]" id="{{$fieldname}}" value="{{$fielddetails->id}}" class="thicknesschkbox printing" <?php
+        if(in_array($fielddetails->id,$arrFinishingProcessName))
+        {
+        echo "checked=checked";  
+        }
+        
+        
+        ?> /><p class="spanval label_font"> {{$fielddetails->$fieldname}}
+              </p>
               </div> 
                          
                            @endforeach
@@ -1096,6 +1122,1384 @@
 
     </div>
 </div>
+<!-- Vidhya:PHP
+//Create a edit function for hangtags product -->
+@elseif(isset($hangtagsproduct->id))
+<?php if(isset($hangtagsproduct->id)) {?>
+<?php $otherproduct=0; ?>  
+
+<h4 style="color:#00ADEF;"><strong>HANG TAGS DETAILS</strong></h4>
+<input type="hidden" name="hang_editID" id="hang_editID" value="{{$hangtagsproduct->id}}"  />
+<div class="row wrapper wrapper-content animated fadeInRight" id="boxform" style="display:block;">
+
+
+    <?php
+        $i=1;
+        $j=1;
+
+
+        ?>
+             @foreach($productdevelopmentfields as $list)
+             
+              <div class="form-group frmgroup">
+               
+                  <!--check dropdown and textbox to display in forms starts here-->
+                @if($list->dropdown!="")
+                <?php
+        $table=$list->tablename;
+        $fielddetailslist = DB::table($table)->get();
+        $fieldname=$list->columnfieldname;
+        $listoffieldname=$list->fieldname;
+
+        //sathish 16-03-2018 work for printin process checkbox
+
+        
+        ?>
+                
+                @if($list->columnfieldname=="RawMaterial")
+                
+                <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <select id="{{$fieldname}}" name="{{$fieldname}}" class="form-control dropdownwidth">
+                        <option value="">Please Select</option>
+                         @foreach ($fielddetailslist as $fielddetails)
+                           
+                         <option value="{{$fielddetails->id}}"  @if($hangtagsproduct->MaterialID==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                           @endforeach
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                  @elseif($list->columnfieldname=="PrintType")
+                
+                <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <select id="{{$fieldname}}" name="{{$fieldname}}" class="form-control dropdownwidth">
+                        <option value="">Please Select</option>
+                         @foreach ($fielddetailslist as $fielddetails)
+                           
+                         <option value="{{$fielddetails->id}}"  @if($hangtagsproduct->PrintTypeID==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                           @endforeach
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                  @elseif($list->columnfieldname=="CuttingName")
+                
+                <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <select id="{{$fieldname}}" name="{{$fieldname}}" class="form-control dropdownwidth">
+                        <option value="">Please Select</option>
+                         @foreach ($fielddetailslist as $fielddetails)
+                           
+                         <option value="{{$fielddetails->id}}"  @if($hangtagsproduct->CuttingID==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                           @endforeach
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                   @elseif($list->columnfieldname=="PrintingFinishingProcessName")
+                
+                <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <?php  
+                        $arrFinishingProcessName=explode(',',$hangtagsproduct->PrintingFinishingProcessID); ?>
+                          @foreach ($fielddetailslist as $fielddetails)
+                      <!-- sathish 16-03-2018 //Defect: 
+                       //Name: Sathish-PHP Team
+                        //Working for checkbox in printing finishing process -->    
+                          
+                          <div class="col-lg-12">
+              <input type="checkbox" name="{{$fieldname}}[]" id="{{$fieldname}}" value="{{$fielddetails->id}}" class="thicknesschkbox printing" <?php
+        if(in_array($fielddetails->id,$arrFinishingProcessName))
+        {
+        echo "checked=checked";  
+        }
+        
+        
+        ?> /><p class="spanval label_font"> {{$fielddetails->$fieldname}}
+              </p>
+              </div> 
+                         
+                           @endforeach
+                                            
+                        
+                       
+                </div>   
+                 
+                </div>
+                    @elseif($list->fieldname=="Grommet Material")
+                
+                <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <select id="grommetMetalMaterial" name="grommetMetalMaterial" class="form-control dropdownwidth">
+                        <option value="">Please Select</option>
+                         @foreach ($fielddetailslist as $fielddetails)
+                           
+                         <option value="{{$fielddetails->id}}"  @if($hangtagsproduct->GrommetMaterialID==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                           @endforeach
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                @elseif($list->fieldname=="Grommet Colour")
+                
+                <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <select id="grommetMetalColour" name="grommetMetalColour" class="form-control dropdownwidth">
+                        <option value="">Please Select</option>
+                         @foreach ($fielddetailslist as $fielddetails)
+                           
+                         <option value="{{$fielddetails->id}}"  @if($hangtagsproduct->GrommetColourID==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                           @endforeach
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                @elseif($list->fieldname=="String Material")
+                
+                <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <select id="{{$fieldname}}" name="{{$fieldname}}" class="form-control dropdownwidth">
+                        <option value="">Please Select</option>
+                         @foreach ($fielddetailslist as $fielddetails)
+                           
+                         <option value="{{$fielddetails->id}}"  @if($hangtagsproduct->StringMaterialID==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                           @endforeach
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                @elseif($list->columnfieldname=="SealsMaterials")
+                
+                <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <select id="SealsMaterials" name="SealsMaterials" class="form-control dropdownwidth">
+                        <option value="">Please Select</option>
+                         @foreach ($fielddetailslist as $fielddetails)
+                           
+                         <option value="{{$fielddetails->id}}"  @if($hangtagsproduct->SealID==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                           @endforeach
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                 @elseif($list->fieldname=="Ball Chain Colour")
+                
+                <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <select id="ballMetalColour" name="ballMetalColour" class="form-control dropdownwidth">
+                        <option value="">Please Select</option>
+                         @foreach ($fielddetailslist as $fielddetails)
+                           
+                         <option value="{{$fielddetails->id}}"  @if($hangtagsproduct->BallChainColourID==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                           @endforeach
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                @elseif($list->fieldname=="Ball Chain Material")
+                
+                <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <select id="ballMetalMaterial" name="ballMetalMaterial" class="form-control dropdownwidth">
+                        <option value="">Please Select</option>
+                         @foreach ($fielddetailslist as $fielddetails)
+                           
+                         <option value="{{$fielddetails->id}}"  @if($hangtagsproduct->BallChainMaterialID==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                           @endforeach
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                @elseif($list->fieldname=="Pin Style")
+                
+                <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <select id="{{$fieldname}}" name="{{$fieldname}}" class="form-control dropdownwidth">
+                        <option value="">Please Select</option>
+                         @foreach ($fielddetailslist as $fielddetails)
+                           
+                         <option value="{{$fielddetails->id}}"  @if($hangtagsproduct->PinStyleID==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                           @endforeach
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                @elseif($list->fieldname=="Pin Colour")
+                
+                <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <select id="pinMetalColour" name="pinMetalColour" class="form-control dropdownwidth">
+                        <option value="">Please Select</option>
+                         @foreach ($fielddetailslist as $fielddetails)
+                           
+                         <option value="{{$fielddetails->id}}"  @if($hangtagsproduct->PinColourID==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                           @endforeach
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                @elseif($list->fieldname=="Pin Material")
+                
+                <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <select id="pinMetalMaterial" name="pinMetalMaterial" class="form-control dropdownwidth">
+                        <option value="">Please Select</option>
+                         @foreach ($fielddetailslist as $fielddetails)
+                           
+                         <option value="{{$fielddetails->id}}"  @if($hangtagsproduct->PinMaterialID==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                           @endforeach
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                 @elseif($list->columnfieldname=="UnitofMeasurement")
+                
+                <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <select id="{{$fieldname}}" name="{{$fieldname}}" class="form-control dropdownwidth">
+                        <option value="">Please Select</option>
+                         @foreach ($fielddetailslist as $fielddetails)
+                           
+                         <option value="{{$fielddetails->id}}"  @if($hangtagsproduct->UnitofMeasurementID==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                           @endforeach
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                <!-- Defect:pdf march:page11
+               //Vidhya: PHP Team
+               //ADd 2 fields -->
+                  @elseif($list->columnfieldname=="Currency")
+                
+                <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <select id="hang{{$fieldname}}" name="hang{{$fieldname}}" class="form-control dropdownwidth">
+                        <option value="">Please Select</option>
+                         @foreach ($fielddetailslist as $fielddetails)
+                           
+                         <option value="{{$fielddetails->id}}"  @if($hangtagsproduct->CurrencyID==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                           @endforeach
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                @elseif($listoffieldname=="Production Region 1")
+                  <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                  <select id="{{$fieldname}}1" name="{{$fieldname}}1" class="form-control dropdownwidth regionselect">
+                <option value="">Please Select</option>
+                 @foreach ($fielddetailslist as $fielddetails)
+                   
+                 <option value="{{$fielddetails->id}}" @if($hangtagsproduct->ProductionRegionID1==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                   @endforeach
+                                    
+                </select>
+                       
+                </div>   
+                 
+                </div>
+               
+                 @elseif($listoffieldname=="Unique Factory 1")
+                  <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                  <div class="col-lg-5 uniquefactory1 factoryselect">
+                
+                   <select id="uniquefactory1" name="uniquefactory1[]" class="form-control dropdownwidth ">
+                <option value="">Please Select</option>
+                          
+                </select>
+                </div>   
+                        <input type="hidden" id="SelUniquefactory1" class="SelUniquefactory" name="SelUniquefactory1" value="{{$hangtagsproduct->UniqueFactory1}}" /> 
+                 
+                </div>
+                 @elseif($listoffieldname=="Production Region 2")
+                  <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <select id="{{$fieldname}}2" name="{{$fieldname}}2" class="form-control dropdownwidth regionselect">
+                <option value="">Please Select</option>
+                 @foreach ($fielddetailslist as $fielddetails)
+                   
+                 <option value="{{$fielddetails->id}}" @if($hangtagsproduct->ProductionRegionID2==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                   @endforeach
+                                    
+                </select>
+                       
+                </div>   
+                 
+                </div>
+                
+                 @elseif($listoffieldname=="Unique Factory 2")
+                  <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                  <div class="col-lg-5 uniquefactory2 factoryselect">
+                
+                 <select id="uniquefactory2" name="uniquefactory2[]" class="form-control dropdownwidth ">
+                <option value="">Please Select</option>  
+                </select>
+                       <input type="hidden" id="SelUniquefactory2" class="SelUniquefactory" name="SelUniquefactory2" value="{{$hangtagsproduct->UniqueFactory2}}" /> 
+                </div>   
+                 
+                </div>
+                 @elseif($listoffieldname=="Production Region 3")
+                  <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <select id="{{$fieldname}}3" name="{{$fieldname}}3" class="form-control dropdownwidth regionselect">
+                <option value="">Please Select</option>
+                 @foreach ($fielddetailslist as $fielddetails)
+                   
+                 <option value="{{$fielddetails->id}}" @if($hangtagsproduct->ProductionRegionID3==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                   @endforeach
+                                    
+                </select>
+                       
+                </div>   
+                 
+                </div>
+                 
+                 @elseif($listoffieldname=="Unique Factory 3")
+                  <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                  <div class="col-lg-5 uniquefactory3 factoryselect">
+                
+                 <select id="uniquefactory3" name="uniquefactory3[]" class="form-control dropdownwidth ">
+                <option value="">Please Select</option>  
+                </select>
+                    <input type="hidden" id="SelUniquefactory3" name="SelUniquefactory3" class="SelUniquefactory" value="{{$hangtagsproduct->UniqueFactory3}}" />   
+                </div>   
+                 
+                </div>
+                
+                @endif
+               
+                @elseif($list->checkbox!="" && $list->columnfieldname=="QualityReference")
+                <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="qty_ref" id="qty_ref" value="{{$hangtagsproduct->QualityReference}}" class="form-control qty_refbtn"/>                   
+                  <input type="checkbox" name="qty_chk" id="qty_chk" class="qty_checkbox" value="1" @if($hangtagsproduct->QualityReferencem==1) checked="checked" @endif/>
+                    @if($list->checkboxvalue!="")
+                    <p  class="aspersample">{{$list->checkboxvalue}}</p>
+                       @endif
+                   
+                 
+                </div>
+                </div>
+                
+                 @elseif($list->checkbox!="" && $list->columnfieldname=="Thickness")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5 Thicknessdiv">
+                
+                      <input type="text" name="Thickness" id="Thickness" value="{{$hangtagsproduct->Thickness}}" class="form-control"/>                   
+              
+                </div>
+                
+                 <div class="col-lg-5 checkboxdiv">
+                  @if($list->checkboxvalue!="")
+                  <?php
+          $chkval=$list->checkboxvalue;
+          $chkvalexp=explode(",",$chkval);
+          ?>
+                 
+    <!-- <input type="radio" name="measurement1" id="pt" value="pt" @if($hangtagsproduct->measurement1=="pt")checked="checked" @endif  class="thicknesschkbox"/><p class="spanval">pt</p>
+   <input type="radio" name="measurement1" id="gms" value="gms" @if($hangtagsproduct->measurement1=="gms")checked="checked" @endif  class="thicknesschkbox"/><p class="spanval">gms</p> -->
+    <input type="radio" name="measurement1" id="mm" value="mm" @if($hangtagsproduct->measurement1=="mm")checked="checked" @endif  class="thicknesschkbox"/><p class="spanval">mm</p>
+                 
+                  @endif
+                  </div>
+                  </div>
+                 @elseif($list->columnfieldname=="Width")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="Width" id="Width" value="{{$hangtagsproduct->Width}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
+                 @elseif($list->columnfieldname=="Height")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="Height" id="Height" value="{{$hangtagsproduct->Height}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
+                 @elseif($list->columnfieldname=="Length")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="Length" id="Length" value="{{$hangtagsproduct->Length}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
+                <!-- Defect:pdf march:page11
+               //Vidhya: PHP Team
+               //ADd 2 fields -->
+                @elseif($list->columnfieldname=="hangtags_Samplecost")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="hangtags_Samplecost" id="hangtags_Samplecost" value="{{$hangtagsproduct->Sample_costing}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
+                @elseif($list->columnfieldname=="DrillHoleSize")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="DrillHoleSize" id="DrillHoleSize" value="{{$hangtagsproduct->Drillholesize}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
+                 @elseif($list->columnfieldname=="StringTotalLength")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="StringTotalLength" id="StringTotalLength" value="{{$hangtagsproduct->StringTotalLength}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
+                @elseif($list->columnfieldname=="StringLoop")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="StringLoop" id="StringLoop" value="{{$hangtagsproduct->StringLooptoKnotLength}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
+                @elseif($list->columnfieldname=="BallChain")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="BallChain" id="BallChain" value="{{$hangtagsproduct->BallChain}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
+                @elseif($list->columnfieldname=="BallChainLength")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="BallChainLength" id="BallChainLength" value="{{$hangtagsproduct->BallChainLength}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
+                @elseif($list->columnfieldname=="Pin")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="Pin" id="Pin" value="{{$hangtagsproduct->Pin}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
+                @elseif($list->columnfieldname=="PinLength")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="PinLength" id="PinLength" value="{{$hangtagsproduct->PinLength}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
+                <!-- Defect:pdf march14:page5
+               //Vidhya: PHP Team
+               //Yes, No alignment -->
+                 @elseif($list->columnfieldname=="CMYK")
+                 <div class="printcolorhidden">
+                  <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5 cmykwidthdiv">
+                 <span class="cmykyes cmykcheckbox"><input @if($hangtagsproduct->CMYK==1) checked="checked" @endif type="radio" name="printcolor" id="cmykyes"  class="chkbox cmyk" value="1" @if($hangtagsproduct->CMYK==1) checked="checked" @endif/>Yes</span>&nbsp;
+                 </div>
+                  <div class="col-lg-5 cmykwidthdiv">
+                 <span class="cmykno cmykcheckbox"><input @if($hangtagsproduct->CMYK==0) checked="checked" @endif type="radio" name="printcolor" id="cmykno" class="chkbox cmyk" value="0" />No</span>
+                </div>
+                </div>
+                 @elseif($list->uploadimage!="")
+                 <div class="printcolorhidden">
+                <label class="col-lg-2 control-label font-noraml text-left label_font">{{$list->fieldname}}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 
+                  <div class="col-lg-5">
+                 <input type="file" class="fbfile3" name="imgInp3" id="imgInp3" value="{{$hangtagsproduct->Artwork}}" onchange="imageselect3();"/>
+                 <input type="hidden" name="selectimage3" id="selectimage3" class="form-control selectimage" value="{{$hangtagsproduct->Artwork}}" readonly="readonly">
+                  <input type="hidden" name="selectimageid3" id="selectimageid3" class="form-control" value="{{$hangtagsproduct->id}}" readonly="readonly">
+                  </div>
+                   
+                   
+               </div>
+             
+                
+                 <div class="printcolorhidden">
+                <label class="col-lg-2 control-label font-noraml text-left label_font"></label>
+                 
+                  <div class="col-lg-5" id="selimage3">
+                  
+                  <input type="hidden" id="existingboximage" name="existingboximage" value="{{$hangtagsproduct->Artwork}}" />
+                  
+                     
+                <img id="blah3" src="storage/data/product/" alt="" width="80" height="80" /> 
+               
+              
+             <img id="blah3" src="{{ route('user.hangtagpic', ['id' => $hangtagsproduct->id]) }}" alt="your image" width="80" height="80" />
+                 
+                 
+               
+                </div> 
+                   
+               </div>
+             
+             @elseif($list->columnfieldname=="print_color1")
+              <div class="printcolorhidden" style="display:block;" id="printcolor1">
+                <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                     <input type="text" name="{{$list->columnfieldname}}" id="{{$list->columnfieldname}}"  value="{{$hangtagsproduct->PrintColor1}}" class="form-control" />
+                 </div>
+             </div>
+              @elseif($list->columnfieldname=="print_color2")
+              <div class="printcolorhidden" style="display:block;" id="printcolor2">
+                <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                     <input type="text" name="{{$list->columnfieldname}}" id="{{$list->columnfieldname}}" 
+                     value="{{$hangtagsproduct->PrintColor2}}" class="form-control" />
+                 </div>
+             </div>
+              @elseif($list->columnfieldname=="print_color3")
+              <div class="printcolorhidden" style="display:block;" id="printcolor3">
+                <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                     <input type="text" name="{{$list->columnfieldname}}" id="{{$list->columnfieldname}}" 
+                      value="{{$hangtagsproduct->PrintColor3}}" class="form-control" />
+                 </div>
+             </div>
+              @elseif($list->columnfieldname=="print_color4")
+              <div class="printcolorhidden" style="display:block;" id="printcolor4">
+                <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                     <input type="text" name="{{$list->columnfieldname}}" id="{{$list->columnfieldname}}" value="{{$hangtagsproduct->PrintColor4}}"  class="form-control" />
+                 </div>
+             </div>
+            @elseif($list->columnfieldname=="print_color5")
+              <div class="printcolorhidden" style="display:none;overflow:hidden;" id="printcolor5">
+                <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                     <input type="text" name="{{$list->columnfieldname}}" id="{{$list->columnfieldname}}" 
+                     value="{{$hangtagsproduct->PrintColor5}}" class="form-control" />
+                 </div>
+             </div>
+           @elseif($list->columnfieldname=="print_color6")
+              <div  class="printcolorhidden" style="display:none;overflow:hidden;" id="printcolor6">
+                <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                     <input type="text" name="{{$list->columnfieldname}}" id="{{$list->columnfieldname}}" 
+                     value="{{$hangtagsproduct->PrintColor6}}" class="form-control" />
+                 </div>
+             </div>
+              @elseif($list->columnfieldname=="print_color7")
+              <div class="printcolorhidden" style="display:none;overflow:hidden;" id="printcolor7">
+                <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                     <input type="text" name="{{$list->columnfieldname}}" id="{{$list->columnfieldname}}"
+                     value="{{$hangtagsproduct->PrintColor7}}"  class="form-control" />
+                 </div>
+             </div>
+              @elseif($list->columnfieldname=="print_color8")
+              <div class="printcolorhidden" style="display:none;overflow:hidden;" id="printcolor8">
+                <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                     <input type="text" name="{{$list->columnfieldname}}" id="{{$list->columnfieldname}}"
+                     value="{{$hangtagsproduct->PrintColor8}}"   class="form-control" />
+                 </div>
+             </div>
+             @elseif($list->columnfieldname=="hangtags_Samplecost")
+              <div class="printcolorhidden" style="display:none;overflow:hidden;" id="printcolor8">
+                <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                     <input type="text" name="{{$list->columnfieldname}}" id="{{$list->columnfieldname}}"
+                     value="{{$hangtagsproduct->Sample_costing}}"   class="form-control" />
+                 </div>
+             </div>
+             
+                 
+                @else
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                     <input type="text" name="{{$list->columnfieldname}}" id="{{$list->columnfieldname}}"  class="form-control" />
+                 </div>
+                
+                @endif
+                
+                
+              </div>
+              @endforeach
+</div>
+
+<?php } ?>
+
+
+<!-- Tapes:Edit -->
+@elseif(isset($tapeproduct->id))
+<?php if(isset($tapeproduct->id)) {?>
+<?php $otherproduct=0; ?>  
+
+<h4 style="color:#00ADEF;"><strong>TAPES DETAILS</strong></h4>
+<input type="hidden" name="tape_editID" id="tape_editID" value="{{$tapeproduct->id}}"  />
+
+<div class="row wrapper wrapper-content animated fadeInRight" id="boxform" style="display:block;">
+
+
+    <?php
+        $i=1;
+        $j=1;
+
+
+        ?>
+             @foreach($productdevelopmentfields as $list)
+             
+              <div class="form-group frmgroup">
+               
+                  <!--check dropdown and textbox to display in forms starts here-->
+                @if($list->dropdown!="")
+                <?php
+        $table=$list->tablename;
+        $fielddetailslist = DB::table($table)->get();
+        $fieldname=$list->columnfieldname;
+        $listoffieldname=$list->fieldname;
+
+        //sathish 16-03-2018 work for printin process checkbox
+
+        
+        ?>
+                
+                @if($list->columnfieldname=="RibbonsMaterialName")
+                
+                <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <select id="RibbonsMaterialName" name="RibbonsMaterialName" class="form-control dropdownwidth">
+                        <option value="">Please Select</option>
+                         @foreach ($fielddetailslist as $fielddetails)
+                           
+                         <option value="{{$fielddetails->id}}"  @if($tapeproduct->TapesMaterialID==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                           @endforeach
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                  
+                  
+                   
+                    @elseif($list->fieldname=="Grommet Material")
+                
+                <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <select id="grommetMetalMaterial" name="grommetMetalMaterial" class="form-control dropdownwidth">
+                        <option value="">Please Select</option>
+                         @foreach ($fielddetailslist as $fielddetails)
+                           
+                         <option value="{{$fielddetails->id}}"  @if($tapeproduct->GrommetMaterialID==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                           @endforeach
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                
+                <!-- Defect:pdf march:page11
+               //Vidhya: PHP Team
+               //ADd 2 fields -->
+                  @elseif($list->columnfieldname=="Currency")
+                
+                <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <select id="tape{{$fieldname}}" name="tape{{$fieldname}}" class="form-control dropdownwidth">
+                        <option value="">Please Select</option>
+                         @foreach ($fielddetailslist as $fielddetails)
+                           
+                         <option value="{{$fielddetails->id}}"  @if($tapeproduct->CurrencyID==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                           @endforeach
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                @elseif($listoffieldname=="Production Region 1")
+                  <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                  <select id="{{$fieldname}}1" name="{{$fieldname}}1" class="form-control dropdownwidth regionselect">
+                <option value="">Please Select</option>
+                 @foreach ($fielddetailslist as $fielddetails)
+                   
+                 <option value="{{$fielddetails->id}}" @if($tapeproduct->ProductionRegionID1==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                   @endforeach
+                                    
+                </select>
+                       
+                </div>   
+                 
+                </div>
+               
+                 @elseif($listoffieldname=="Unique Factory 1")
+                  <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                  <div class="col-lg-5 uniquefactory1 factoryselect">
+                
+                   <select id="uniquefactory1" name="uniquefactory1[]" class="form-control dropdownwidth ">
+                <option value="">Please Select</option>
+                          
+                </select>
+                </div>   
+                        <input type="hidden" id="SelUniquefactory1" class="SelUniquefactory" name="SelUniquefactory1" value="{{$tapeproduct->UniqueFactory1}}" /> 
+                 
+                </div>
+                 @elseif($listoffieldname=="Production Region 2")
+                  <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <select id="{{$fieldname}}2" name="{{$fieldname}}2" class="form-control dropdownwidth regionselect">
+                <option value="">Please Select</option>
+                 @foreach ($fielddetailslist as $fielddetails)
+                   
+                 <option value="{{$fielddetails->id}}" @if($tapeproduct->ProductionRegionID2==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                   @endforeach
+                                    
+                </select>
+                       
+                </div>   
+                 
+                </div>
+                
+                 @elseif($listoffieldname=="Unique Factory 2")
+                  <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                  <div class="col-lg-5 uniquefactory2 factoryselect">
+                
+                 <select id="uniquefactory2" name="uniquefactory2[]" class="form-control dropdownwidth ">
+                <option value="">Please Select</option>  
+                </select>
+                       <input type="hidden" id="SelUniquefactory2" class="SelUniquefactory" name="SelUniquefactory2" value="{{$tapeproduct->UniqueFactory2}}" /> 
+                </div>   
+                 
+                </div>
+                 @elseif($listoffieldname=="Production Region 3")
+                  <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <select id="{{$fieldname}}3" name="{{$fieldname}}3" class="form-control dropdownwidth regionselect">
+                <option value="">Please Select</option>
+                 @foreach ($fielddetailslist as $fielddetails)
+                   
+                 <option value="{{$fielddetails->id}}" @if($tapeproduct->ProductionRegionID3==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                   @endforeach
+                                    
+                </select>
+                       
+                </div>   
+                 
+                </div>
+                 
+                 @elseif($listoffieldname=="Unique Factory 3")
+                  <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                  <div class="col-lg-5 uniquefactory3 factoryselect">
+                
+                 <select id="uniquefactory3" name="uniquefactory3[]" class="form-control dropdownwidth ">
+                <option value="">Please Select</option>  
+                </select>
+                    <input type="hidden" id="SelUniquefactory3" name="SelUniquefactory3" class="SelUniquefactory" value="{{$tapeproduct->UniqueFactory3}}" />   
+                </div>   
+                 
+                </div>
+                
+                @endif
+               
+                @elseif($list->checkbox!="" && $list->columnfieldname=="QualityReference")
+                <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="qty_ref" id="qty_ref" value="{{$tapeproduct->QualityReference}}" class="form-control qty_refbtn"/>                   
+                  <input type="checkbox" name="qty_chk" id="qty_chk" class="qty_checkbox" value="1" @if($tapeproduct->QualityReferencem==1) checked="checked" @endif/>
+                    @if($list->checkboxvalue!="")
+                    <p  class="aspersample">{{$list->checkboxvalue}}</p>
+                       @endif
+                   
+                 
+                </div>
+                </div>
+                
+                 @elseif($list->columnfieldname=="TapeColor")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="TapeColor" id="TapeColor" value="{{$tapeproduct->TapeColor}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
+                 @elseif($list->columnfieldname=="TapeWidth")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="TapeWidth" id="TapeWidth" value="{{$tapeproduct->TapeWidth}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
+                 
+                 @elseif($list->columnfieldname=="TotalLength")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="TotalLength" id="TotalLength" value="{{$tapeproduct->TotalLength}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
+                
+                 
+                @elseif($list->columnfieldname=="Brocade")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="Brocade" id="Brocade" value="{{$tapeproduct->Brocade}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
+                
+                @elseif($list->columnfieldname=="tapes_Samplecost")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="tapes_Samplecost" id="tapes_Samplecost" value="{{$tapeproduct->Sample_costing}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
+                
+                 
+                 @elseif($list->uploadimage!="")
+                 <div class="printcolorhidden">
+                <label class="col-lg-2 control-label font-noraml text-left label_font">{{$list->fieldname}}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 
+                  <div class="col-lg-5">
+                 <input type="file" class="fbfile3" name="imgInp3" id="imgInp3" value="{{$tapeproduct->Artwork}}" onchange="imageselect3();"/>
+                 <input type="hidden" name="selectimage3" id="selectimage3" class="form-control selectimage" value="{{$tapeproduct->Artwork}}" readonly="readonly">
+                  <input type="hidden" name="selectimageid3" id="selectimageid3" class="form-control" value="{{$tapeproduct->id}}" readonly="readonly">
+                  </div>
+                   
+                   
+               </div>
+             
+                
+                 <div class="printcolorhidden">
+                <label class="col-lg-2 control-label font-noraml text-left label_font"></label>
+                 
+                  <div class="col-lg-5" id="selimage3">
+                  
+                  <input type="hidden" id="existingboximage" name="existingboximage" value="{{$tapeproduct->Artwork}}" />
+                  
+                     
+                <img id="blah3" src="storage/data/product/" alt="" width="80" height="80" /> 
+               
+              
+             <img id="blah3" src="{{ route('user.tapespic', ['id' => $tapeproduct->id]) }}" alt="your image" width="80" height="80" />
+                 
+                 
+               
+                </div> 
+                   
+               </div>
+             
+                         
+                 
+                @else
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                     <input type="text" name="{{$list->columnfieldname}}" id="{{$list->columnfieldname}}"  class="form-control" />
+                 </div>
+                
+                @endif
+                
+                
+              </div>
+              @endforeach
+</div>
+
+
+<?php } ?>
+<!-- Zipperpullers edit -->
+@elseif(isset($zipperpullerproduct->id))
+<?php if(isset($zipperpullerproduct->id)) {?>
+<?php $otherproduct=0; ?> 
+<h4 style="color:#00ADEF;"><strong>ZIPPER PULLERS DETAILS</strong></h4>
+<input type="hidden" name="zipper_editID" id="zipper_editID" value="{{$zipperpullerproduct->id}}"  />
+
+<div class="row wrapper wrapper-content animated fadeInRight" id="boxform" style="display:block;">
+
+
+    <?php
+        $i=1;
+        $j=1;
+
+
+        ?>
+             @foreach($productdevelopmentfields as $list)
+             
+              <div class="form-group frmgroup">
+               
+                  <!--check dropdown and textbox to display in forms starts here-->
+                @if($list->dropdown!="")
+                <?php
+        $table=$list->tablename;
+        $fielddetailslist = DB::table($table)->get();
+        $fieldname=$list->columnfieldname;
+        $listoffieldname=$list->fieldname;
+
+        //sathish 16-03-2018 work for printin process checkbox
+
+        
+        ?>
+                
+                @if($list->columnfieldname=="TipMaterial")
+                
+                <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <select id="TipMaterial" name="TipMaterial" class="form-control dropdownwidth">
+                        <option value="">Please Select</option>
+                         @foreach ($fielddetailslist as $fielddetails)
+                           
+                         <option value="{{$fielddetails->id}}"  @if($zipperpullerproduct->PullerMaterialID==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                           @endforeach
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                  
+                  
+                   
+                    @elseif($list->columnfieldname=="LogoProcess")
+                
+                <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <select id="LogoProcess" name="LogoProcess" class="form-control dropdownwidth">
+                        <option value="">Please Select</option>
+                         @foreach ($fielddetailslist as $fielddetails)
+                           
+                         <option value="{{$fielddetails->id}}"  @if($zipperpullerproduct->PullerEndLogoprocess==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                           @endforeach
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                
+                
+                  @elseif($listoffieldname=="Mold Costing Currency")
+                
+                <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <select id="mold{{$fieldname}}" name="mold{{$fieldname}}" class="form-control dropdownwidth">
+                        <option value="">Please Select</option>
+                         @foreach ($fielddetailslist as $fielddetails)
+                           
+                         <option value="{{$fielddetails->id}}"  @if($zipperpullerproduct->MoldCostingCurrency==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                           @endforeach
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                 @elseif($listoffieldname=="Zipper Pullers Currency")
+                
+                <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <select id="zipper{{$fieldname}}" name="zipper{{$fieldname}}" class="form-control dropdownwidth">
+                        <option value="">Please Select</option>
+                         @foreach ($fielddetailslist as $fielddetails)
+                           
+                         <option value="{{$fielddetails->id}}"  @if($zipperpullerproduct->CurrencyID==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                           @endforeach
+                                            
+                        </select>
+                       
+                </div>   
+                 
+                </div>
+                @elseif($listoffieldname=="Production Region 1")
+                  <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                  <select id="{{$fieldname}}1" name="{{$fieldname}}1" class="form-control dropdownwidth regionselect">
+                <option value="">Please Select</option>
+                 @foreach ($fielddetailslist as $fielddetails)
+                   
+                 <option value="{{$fielddetails->id}}" @if($zipperpullerproduct->ProductionRegionID1==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                   @endforeach
+                                    
+                </select>
+                       
+                </div>   
+                 
+                </div>
+               
+                 @elseif($listoffieldname=="Unique Factory 1")
+                  <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                  <div class="col-lg-5 uniquefactory1 factoryselect">
+                
+                   <select id="uniquefactory1" name="uniquefactory1[]" class="form-control dropdownwidth ">
+                <option value="">Please Select</option>
+                          
+                </select>
+                </div>   
+                        <input type="hidden" id="SelUniquefactory1" class="SelUniquefactory" name="SelUniquefactory1" value="{{$zipperpullerproduct->UniqueFactory1}}" /> 
+                 
+                </div>
+                 @elseif($listoffieldname=="Production Region 2")
+                  <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <select id="{{$fieldname}}2" name="{{$fieldname}}2" class="form-control dropdownwidth regionselect">
+                <option value="">Please Select</option>
+                 @foreach ($fielddetailslist as $fielddetails)
+                   
+                 <option value="{{$fielddetails->id}}" @if($zipperpullerproduct->ProductionRegionID2==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                   @endforeach
+                                    
+                </select>
+                       
+                </div>   
+                 
+                </div>
+                
+                 @elseif($listoffieldname=="Unique Factory 2")
+                  <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                  <div class="col-lg-5 uniquefactory2 factoryselect">
+                
+                 <select id="uniquefactory2" name="uniquefactory2[]" class="form-control dropdownwidth ">
+                <option value="">Please Select</option>  
+                </select>
+                       <input type="hidden" id="SelUniquefactory2" class="SelUniquefactory" name="SelUniquefactory2" value="{{$zipperpullerproduct->UniqueFactory2}}" /> 
+                </div>   
+                 
+                </div>
+                 @elseif($listoffieldname=="Production Region 3")
+                  <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                   <div class="col-lg-5">
+                
+                        <select id="{{$fieldname}}3" name="{{$fieldname}}3" class="form-control dropdownwidth regionselect">
+                <option value="">Please Select</option>
+                 @foreach ($fielddetailslist as $fielddetails)
+                   
+                 <option value="{{$fielddetails->id}}" @if($zipperpullerproduct->ProductionRegionID3==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                   @endforeach
+                                    
+                </select>
+                       
+                </div>   
+                 
+                </div>
+                 
+                 @elseif($listoffieldname=="Unique Factory 3")
+                  <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                  <div class="col-lg-5 uniquefactory3 factoryselect">
+                
+                 <select id="uniquefactory3" name="uniquefactory3[]" class="form-control dropdownwidth ">
+                <option value="">Please Select</option>  
+                </select>
+                    <input type="hidden" id="SelUniquefactory3" name="SelUniquefactory3" class="SelUniquefactory" value="{{$zipperpullerproduct->UniqueFactory3}}" />   
+                </div>   
+                 
+                </div>
+                
+                @endif
+               
+                @elseif($list->checkbox!="" && $list->columnfieldname=="QualityReference")
+                <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="qty_ref" id="qty_ref" value="{{$zipperpullerproduct->QualityReference}}" class="form-control qty_refbtn"/>                   
+                  <input type="checkbox" name="qty_chk" id="qty_chk" class="qty_checkbox" value="1" @if($zipperpullerproduct->QualityReferencem==1) checked="checked" @endif/>
+                    @if($list->checkboxvalue!="")
+                    <p  class="aspersample">{{$list->checkboxvalue}}</p>
+                       @endif
+                   
+                 
+                </div>
+                </div>
+                
+                 @elseif($list->columnfieldname=="StringLoopLength")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="StringLoopLength" id="StringLoopLength" value="{{$zipperpullerproduct->StringLoopLength}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
+                 @elseif($list->columnfieldname=="StringThickness")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="StringThickness" id="StringThickness" value="{{$zipperpullerproduct->StringThickness}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
+                 
+                 @elseif($list->columnfieldname=="StringQuality")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="StringQuality" id="StringQuality" value="{{$zipperpullerproduct->StringQuality}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
+                
+                 
+                @elseif($list->columnfieldname=="StringColor1")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="StringColor1" id="StringColor1" value="{{$zipperpullerproduct->StringColor1}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
+                
+                @elseif($list->columnfieldname=="StringColor2")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="StringColor2" id="StringColor2" value="{{$zipperpullerproduct->StringColor2}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
+                @elseif($list->columnfieldname=="Width")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="Width" id="Width" value="{{$zipperpullerproduct->PullerEndWidthSize}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
+                @elseif($list->columnfieldname=="Height")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="Height" id="Height" value="{{$zipperpullerproduct->PullerEndHeightSize}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
+                 @elseif($list->columnfieldname=="Thickness")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="Thickness" id="Thickness" value="{{$zipperpullerproduct->PullerEndThickness}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                <div class="col-lg-5 checkboxdiv">
+                  @if($list->checkboxvalue!="")
+                  <?php
+          $chkval=$list->checkboxvalue;
+          $chkvalexp=explode(",",$chkval);
+          ?>
+    <input type="radio" name="measurement1" id="pt" value="pt" @if(1==1)checked="checked" @endif  class="thicknesschkbox"/><p class="spanval">pt</p>
+                  @endif
+                  </div>
+                </div>
+                @elseif($list->columnfieldname=="PullerEndColor")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="PullerEndColor" id="PullerEndColor" value="{{$zipperpullerproduct->PullerEndColor}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
+                @elseif($list->columnfieldname=="zipper_Samplecost")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="zipper_Samplecost" id="zipper_Samplecost" value="{{$zipperpullerproduct->SampleCosting}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
+                @elseif($list->columnfieldname=="MoldCosting")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="MoldCosting" id="MoldCosting" value="{{$zipperpullerproduct->MoldCosting}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
+                
+                 
+                 @elseif($list->uploadimage!="")
+                 <div class="printcolorhidden">
+                <label class="col-lg-2 control-label font-noraml text-left label_font">{{$list->fieldname}}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 
+                  <div class="col-lg-5">
+                 <input type="file" class="fbfile3" name="imgInp3" id="imgInp3" value="{{$zipperpullerproduct->Artwork}}" onchange="imageselect3();"/>
+                 <input type="hidden" name="selectimage3" id="selectimage3" class="form-control selectimage" value="{{$zipperpullerproduct->Artwork}}" readonly="readonly">
+                  <input type="hidden" name="selectimageid3" id="selectimageid3" class="form-control" value="{{$zipperpullerproduct->id}}" readonly="readonly">
+                  </div>
+                   
+                   
+               </div>
+             
+                
+                 <div class="printcolorhidden">
+                <label class="col-lg-2 control-label font-noraml text-left label_font"></label>
+                 
+                  <div class="col-lg-5" id="selimage3">
+                  
+                  <input type="hidden" id="existingboximage" name="existingboximage" value="{{$zipperpullerproduct->Artwork}}" />
+                  
+                     
+                <img id="blah3" src="storage/data/product/" alt="" width="80" height="80" /> 
+               
+              
+             <img id="blah3" src="{{ route('user.zipperpic', ['id' => $zipperpullerproduct->id]) }}" alt="your image" width="80" height="80" />
+                 
+                 
+               
+                </div> 
+                   
+               </div>
+             
+                         
+                 
+                @else
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                     <input type="text" name="{{$list->columnfieldname}}" id="{{$list->columnfieldname}}"  class="form-control" />
+                 </div>
+                
+                @endif
+                
+                
+              </div>
+              @endforeach
+</div>
+
+<?php } ?>
+
+
 @elseif(isset($hookdetails->id))
 <?php if(isset($hookdetails->id)){  ?>
 <?php $otherproduct=0; ?>  
@@ -1348,8 +2752,11 @@
           $chkval=$list->checkboxvalue;
           $chkvalexp=explode(",",$chkval);
           ?><!-- sathish 14-02-2018 -->
-                  <input type="radio" name="hook_measurement" id="pt" value="pt" @if($hookdetails->measurement1=="pt")checked="checked" @endif  class="thicknesschkbox"/><p class="spanval">pt</p>
-   <input type="radio" name="hook_measurement" id="gms" value="gms" @if($hookdetails->measurement1=="gms")checked="checked" @endif  class="thicknesschkbox"/><p class="spanval">gms</p>
+          <!-- Defect No:57
+          //Vidhya:PHP Team
+          //Remove gms,pt radiobutton -->
+                  <!-- <input type="radio" name="hook_measurement" id="pt" value="pt" @if($hookdetails->measurement1=="pt")checked="checked" @endif  class="thicknesschkbox"/><p class="spanval">pt</p>
+   <input type="radio" name="hook_measurement" id="gms" value="gms" @if($hookdetails->measurement1=="gms")checked="checked" @endif  class="thicknesschkbox"/><p class="spanval">gms</p> -->
     <input type="radio" name="hook_measurement" id="mm" value="mm" @if($hookdetails->measurement1=="mm")checked="checked" @endif  class="thicknesschkbox"/><p class="spanval">mm</p>
                   @endif
                   </div>
@@ -1488,6 +2895,12 @@
         $fielddetailslist = DB::table($table)->get();
         $fieldname=$list->columnfieldname;
         $listoffieldname=$list->fieldname;
+
+// sathish 16-03-2018
+        //work tissueprintingfinishingprocess
+        $tissueprintingfinishingprocess=$tissuepaperdetails->PrintingFinishingProcessID;
+        $tissueprintingcheckbox=explode(",",$tissueprintingfinishingprocess);
+
         ?>
                  @if($fieldname=="StatusName")
                 <div class="printcolorhidden">
@@ -1587,7 +3000,16 @@
                         
                          @foreach ($fielddetailslist as $fielddetails)
                            <div class="col-lg-12">
-              <input type="checkbox" name="Tissuepaper_PrintingFinishingProcess[]" id="Tissuepaper_PrintingFinishingProcess" value="{{$fielddetails->id}}" class="thicknesschkbox printing" <?php if(in_array($fielddetails->id, $arrFinishingProcessName)){ echo 'checked="checked"';} ?>/><p class="spanval label_font"> {{$fielddetails->$fieldname}}</p>
+                            <!-- sathish work Tissuepaper_PrintingFinishingProcess -->
+              <input type="checkbox" name="Tissuepaper_PrintingFinishingProcess[]" id="Tissuepaper_PrintingFinishingProcess" value="{{$fielddetails->id}}"  
+              class="thicknesschkbox printing" <?php
+        if(in_array($fielddetails->id,$tissueprintingcheckbox))
+        {
+        echo "checked=checked";  
+        }
+        
+        
+        ?> /><p class="spanval label_font"> {{$fielddetails->$fieldname}}</p>
               </div>
                         
                            @endforeach
@@ -1922,6 +3344,15 @@
         $fielddetailslist = DB::table($table)->get();
         $fieldname=$list->columnfieldname;
         $listoffieldname=$list->fieldname;
+
+
+         //Defect: checkbox issue
+                       //Name: Sathish-PHP Team
+                        //Working for the packagin sticker 
+
+         $packageprintingfinishingprocess=$packagingstickersdetails->PrintingFinishingProcessID;
+        $packageprintingcheckbox=explode(",",$packageprintingfinishingprocess);
+
         ?>
                @if($listoffieldname=="Production Region 1")
                 <div class="printcolorhidden">
@@ -2083,9 +3514,19 @@
                  <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
                    <div class="col-lg-5">
                 <?php $arrFinishingProcessName=explode(',', $packagingstickersdetails->PrintingFinishingProcessID); ?>
+<!-- //Defect: checkbox 16-03-2018
+                       //Name: Sathish-PHP Team
+                        //Working packaginstickers checkbox -->
                          @foreach ($fielddetailslist as $fielddetails)
                           <div class="col-lg-12">
-              <input type="checkbox" name="Package_PrintingFinishingProcess[]" id="Package_PrintingFinishingProcess" value="{{$fielddetails->id}}" class="thicknesschkbox printing" <?php if(in_array($fielddetails->id, $arrFinishingProcessName)){ echo 'checked="checked"';} ?>/><p class="spanval label_font"> {{$fielddetails->$fieldname}}</p>
+              <input type="checkbox" name="Package_PrintingFinishingProcess[]" id="Package_PrintingFinishingProcess" value="{{$fielddetails->id}}" class="thicknesschkbox printing" 
+              <?php
+        if(in_array($fielddetails->id,$packageprintingcheckbox))
+        {
+        echo "checked=checked";  
+        }
+          ?>
+          /><p class="spanval label_font"> {{$fielddetails->$fieldname}}</p>
               </div> 
                          
                            @endforeach
@@ -2570,8 +4011,11 @@
           $chkvalexp=explode(",",$chkval);
           ?>
           <!-- sathish 15-03-2018 button name -->
-                  <input type="radio" name="hook_measurement" id="pt" value="pt" @if($hookdetails->measurement1=="pt")checked="checked" @endif  class="thicknesschkbox"/><p class="spanval">pt</p>
-   <input type="radio" name="hook_measurement" id="gms" value="gms" @if($hookdetails->measurement1=="gms")checked="checked" @endif  class="thicknesschkbox"/><p class="spanval">gms</p>
+          <!-- Defect No:57
+          //Vidhya:PHP team
+          //Remove gms,pt radio button -->
+                  <!-- <input type="radio" name="hook_measurement" id="pt" value="pt" @if($hookdetails->measurement1=="pt")checked="checked" @endif  class="thicknesschkbox"/><p class="spanval">pt</p>
+   <input type="radio" name="hook_measurement" id="gms" value="gms" @if($hookdetails->measurement1=="gms")checked="checked" @endif  class="thicknesschkbox"/><p class="spanval">gms</p> -->
     <input type="radio" name="hook_measurement" id="mm" value="mm" @if($hookdetails->measurement1=="mm")checked="checked" @endif  class="thicknesschkbox"/><p class="spanval">mm</p>
                   @endif
                   </div>
@@ -2718,6 +4162,14 @@
         $fielddetailslist = DB::table($table)->get();
         $fieldname=$list->columnfieldname;
         $listoffieldname=$list->fieldname;
+
+
+        // sathish 16-03-2018
+        //work tissueprintingfinishingprocess
+        $tissueprintingfinishingprocess=$tissuepaperdetails->PrintingFinishingProcessID;
+        $tissueprintingcheckbox=explode(",",$tissueprintingfinishingprocess);
+
+
         ?>
                  @if($fieldname=="StatusName")
                 <div class="printcolorhidden">
@@ -2797,7 +4249,12 @@
                         <?php $arrFinishingProcessName=explode(',', $tissuepaperdetails->PrintingFinishingProcessID); ?>
                          @foreach ($fielddetailslist as $fielddetails)
                            <div class="col-lg-12">
-              <input type="checkbox" name="Tissuepaper_PrintingFinishingProcess[]" id="Tissuepaper_PrintingFinishingProcess" value="{{$fielddetails->id}}" class="thicknesschkbox printing" <?php if(in_array($fielddetails->id, $arrFinishingProcessName)){ echo 'checked="checked"';} ?>/><p class="spanval label_font"> {{$fielddetails->$fieldname}}</p>
+ <!-- sathish worked 16-03-2018  -->
+              <input type="checkbox" name="Tissuepaper_PrintingFinishingProcess[]" id="Tissuepaper_PrintingFinishingProcess" value="{{$fielddetails->id}}" class="thicknesschkbox printing"   <?php
+        if(in_array($fielddetails->id,$tissueprintingcheckbox))
+        {
+        echo "checked=checked";  
+        } ?> /><p class="spanval label_font" > {{$fielddetails->$fieldname}}</p>
               </div>
                          
                            @endforeach
@@ -3126,6 +4583,12 @@
         $fielddetailslist = DB::table($table)->get();
         $fieldname=$list->columnfieldname;
         $listoffieldname=$list->fieldname;
+ //Defect: checkbox issue
+                       //Name: Sathish-PHP Team
+                        //Working for the packagin sticker 
+
+         $packageprintingfinishingprocess=$packagingstickersdetails->PrintingFinishingProcessID;
+        $packageprintingcheckbox=explode(",",$packageprintingfinishingprocess);
         ?>
                @if($listoffieldname=="Production Region 1")
                 <div class="printcolorhidden">
@@ -3286,11 +4749,19 @@
                 <div class="printcolorhidden">
                  <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
                    <div class="col-lg-5">
+ <!-- //Defect: checkbox 16-03-2018
+                       //Name: Sathish-PHP Team
+                        //Working packaginstickers checkbox -->
                  <?php $arrFinishingProcessName=explode(',', $packagingstickersdetails->PrintingFinishingProcessID); ?>
 
                          @foreach ($fielddetailslist as $fielddetails)
                            <div class="col-lg-12">
-              <input type="checkbox" name="Package_PrintingFinishingProcess[]" id="Package_PrintingFinishingProcess" value="{{$fielddetails->id}}" class="thicknesschkbox printing" <?php if(in_array($fielddetails->id, $arrFinishingProcessName)){ echo 'checked="checked"';} ?>/><p class="spanval label_font"> {{$fielddetails->$fieldname}}</p>
+              <input type="checkbox" name="Package_PrintingFinishingProcess[]" id="Package_PrintingFinishingProcess" value="{{$fielddetails->id}}" class="thicknesschkbox printing" <?php
+        if(in_array($fielddetails->id,$packageprintingcheckbox))
+        {
+        echo "checked=checked";  
+        }
+          ?>/><p class="spanval label_font"> {{$fielddetails->$fieldname}}</p>
               </div>
                          
                            @endforeach
@@ -3343,7 +4814,8 @@
                  <div class="col-lg-5">
                 
                       <input type="text" name="Package_QualityReference" id="Package_QualityReference" value="{{$packagingstickersdetails->QualityReference}}" class="form-control qty_refbtn"/>                   
-                  <input type="checkbox" name="packageqty_chk" id="packageqty_chk" class="qty_checkbox" value="1"/>
+
+                        <input type="checkbox" name="packageqty_chk" id="packageqty_chk" class="qty_checkbox" value="1" @if($packagingstickersdetails->QualityReferencem==1) checked="checked" @endif />
                     @if($list->checkboxvalue!="")
                     <p  class="aspersample">{{$list->checkboxvalue}}</p>
                        @endif
@@ -3727,7 +5199,7 @@
                      <div class="form-group inventorycontent" style="display:none">
                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{$list->fieldname}}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
                      <div class="col-lg-5 inventorycontent" style="display:none">
-                     <input type="text" name="inventory{{$list->columnfieldname}}" id="{{$list->columnfieldname}}"  class="form-control" />
+                     <input type="text" name="inventory{{$list->columnfieldname}}" id="{{$list->columnfieldname}}" value="{{$productdetails->Minimumpiecesonstock}}" class="form-control" />
                      </div>
                      </div>
                      @endif
@@ -3937,8 +5409,11 @@
       <!-- sathish 25-03-2018  remove disables--> 
                      <label class="col-lg-2 control-label font-noraml text-left label_font">Currency</label>
                     <div class="col-lg-5 divwidthforexworks">
-                    <select style="margin-top: 13%;" disabled="disabled">
-                    <option></option>
+                    <select style="margin-top: 13%;" @if($usertype->id==9) disabled="disabled" @endif>
+                     <option value="">Please Select</option>
+                 @foreach ($fielddetailslist as $fielddetails)
+                 <option value="{{$fielddetails->id}}" @if($productquotedetails->CurrencyID==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                   @endforeach 
                     </select>
               
                 
@@ -3961,8 +5436,11 @@
                     </div>
                      <label class="col-lg-2 control-label font-noraml text-left label_font">Currency</label>
                     <div class="col-lg-5 divwidthforexworks">
-                    <select style="margin-top: 13%;" disabled="disabled">
-                    <option></option>
+                    <select style="margin-top: 13%;" @if($usertype->id==9) disabled="disabled" @endif>
+                    <option value="">Please Select</option>
+                 @foreach ($fielddetailslist as $fielddetails)
+                 <option value="{{$fielddetails->id}}" @if($productquotedetails->CurrencyID==$fielddetails->id)selected="selected" @endif>{{ $fielddetails->$fieldname }}</option>
+                   @endforeach 
                     </select>
               
                 
@@ -4026,8 +5504,7 @@
                                 <h1>Selling Price</h1>
                                 <fieldset>
 <!-- sathish 15-03-2018 -->
-Unit of Measurement:
-<div class="pricemethod"></div>
+<div style=' float:left; '>Unit of Measurement: <b>&nbsp;<div style=" float:right;" class="pricemethod"></div></b></div><br>
 
 
 <div>  Margin :</div>  <div class="col-sm-12 b-r">

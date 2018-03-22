@@ -144,7 +144,8 @@ error_reporting(0);
 				   
 				   $developmentid = str_pad($list->id, 4, '0',STR_PAD_LEFT);
 				  
-                    
+                    $hangtagproduct=App\HangTags::where('id','=',$list->HangTagsID)->first();
+                    $tapesproduct=App\Tapes::where('id','=',$list->TapesID)->first();
                     ?>
 
                     <tr class="gradeX">
@@ -167,6 +168,20 @@ error_reporting(0);
 <!-- vidhya:02032018 -->
                         <td>
                        <?php
+                       //Vidhya:php
+                       //product name for hangtags
+                       if($list->HangTagsID!="" && $list->HangTagsID<>0)
+                       {
+                        echo "Hang Tags"; echo "<br>";
+                       }
+                       if($list->ZipperPullersID!="" && $list->ZipperPullersID<>0)
+                       {
+                        echo "Zipper Pullers"; echo "<br>";
+                       }
+                       if($list->TapesID!="" && $list->TapesID<>0)
+                       {
+                        echo "Tapes"; echo "<br>";
+                       }
               if($list->BoxID!="" && $list->BoxID<>0)
               {
 
@@ -187,14 +202,38 @@ error_reporting(0);
 
 					   echo "Packaging Stickers";echo "<br>";
              }
+               //TasK: To pass label name
+     //Done by Rajesh
+     //Date :19032018 
+             if($list->WovenLabelID<>0)
+             {
+
+                       echo "Woven Label";echo "<br>";
+             }
+             if($list->HeatTransferID<>0)
+             {
+
+                       echo "Heat Transfer Label";echo "<br>";
+             }
+             if($list->PrintedLabelID<>0)
+             {
+
+                       echo "Printed Label";echo "<br>";
+             }
+             if($list->CareLabelID<>0)
+             {
+
+                       echo "Care Label";echo "<br>";
+             }
 					   ?>
                         </td>
 
                         <td>@if($list->status!=''){{$status->StatusName}}@endif</td>
 
                         <!-- <td>@if($list->ProductProcessID!=''){{$productprocess->ProductProcess}}@endif</td> -->
-
-                       <td class="version_duplicate">{{$list->Version}}</td>
+                        <!-- Vidhya:PHP
+                        //version number change for hangtags and tapes -->
+                       <td class="version_duplicate">@if($list->HangTagsID!="" && $list->HangTagsID<>0){{$hangtagproduct->Version}}@elseif($list->TapesID!="" && $list->TapesID<>0){{$tapesproduct->Version}}@else{{$list->Version}}@endif</td>
 
                         <td>{{$list->SampleRequestedDate}}</td>
 
@@ -205,12 +244,17 @@ error_reporting(0);
                         <td class="processdetails">
 
                        <a href="{{ url(route('product.productlistdetailsedit', ['id' => $list->id])) }}" class="editrawmaterial"><img  src="{{ asset('/img/edit.png') }}" border="0"  title="Edit"/></a>  
-
-                         <span class="developmentduplicate" data-href="{{ url(route('user.developmentlistduplicate', ['id' => $list->id])) }}" ><a href="javascript:;"><img  src="{{ asset('/img/file.png') }}" border="0"  title="Duplicate"/></a></span>                     
+                        <!-- Defect No:60 
+                            //Vidhya:php team
+                            //customerservice add view page -->
+                       @if($user->userTypeID!=14)
+                         <span class="developmentduplicate" data-href="{{ url(route('user.developmentlistduplicate', ['id' => $list->id])) }}" ><a href="javascript:;"><img  src="{{ asset('/img/file.png') }}" border="0"  title="Duplicate"/></a></span>
+                         @endif                     
 
                         <span class="selectuniqueusers"><a href="{{ url(route('user.developmentproductdetails', ['id' => $list->id])) }}"><img  src="{{ asset('/img/view.png') }}" border="0"  title="View"/></a></span> 
-
+                        @if($user->userTypeID!=14)
                         <span class="deletedevelopmentlist" data-href="{{ url(route('user.developmentlistdelete', ['id' => $list->id])) }}"><a href="javascript:;"><img  src="{{ asset('/img/delete.png') }}" border="0"  title="Delete"/></a></span>
+                        @endif
                         </td>
 
          <!-- vidhya:02032018 -->               

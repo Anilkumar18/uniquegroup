@@ -37,6 +37,7 @@ use App\Material;
 
 use App\Boxes;
 
+use App\Tapes;
 
 use App\PrintType;
 
@@ -80,6 +81,7 @@ use App\Hook;
 
 use App\PackagingStickers;
 
+use App\ZipperPullers;
 use DB;
 
 use Illuminate\Support\Facades\Input;
@@ -205,6 +207,38 @@ if (Mail::failures()) {
 
   }
 
+  public function gethangimg(Request $request, $id) {
+
+      $productid = HangTags::find($id);
+
+      $filePath = base_path()."/storage/app/".$productid->Artwork; 
+        header('Content-type: image/jpeg');
+        $img = Image::make($filePath);
+        return $img->response('jpg');
+
+  }
+  public function gettapeimg(Request $request, $id) {
+
+      $productid = Tapes::find($id);
+
+      $filePath = base_path()."/storage/app/".$productid->Artwork; 
+        header('Content-type: image/jpeg');
+        $img = Image::make($filePath);
+        return $img->response('jpg');
+
+  }
+
+  public function getzipperimg(Request $request, $id) {
+
+      $productid = ZipperPullers::find($id);
+
+      $filePath = base_path()."/storage/app/".$productid->Artwork; 
+        header('Content-type: image/jpeg');
+        $img = Image::make($filePath);
+        return $img->response('jpg');
+
+  }
+
   public function gettissueimg(Request $request, $id) {
 
       $productid = Tissuepaper::find($id);
@@ -314,6 +348,34 @@ public function deletepackage(Request $request ,$id, $productpid)
 
 
         $request->session()->flash('failure', 'Development Product Tissuepaper deleted successfully.');     
+
+        return redirect(url(route('user.developmentlistview')));      
+}
+public function deletetapes(Request $request ,$id, $productpid)
+{
+      
+       $user = Auth::user();
+       
+       $developmentlist_delete = Tapes::where('id','=',$id)->first();
+      $developmentlist_delete->delete();
+      $developmentproductdel = ProductDetails::where('id','=',$productpid)->first();
+      $developmentproductdel->delete();
+
+        $request->session()->flash('failure', 'Development Product Tapes deleted successfully.');     
+
+        return redirect(url(route('user.developmentlistview')));      
+}
+public function deletehangtags(Request $request ,$id, $productpid)
+{
+      
+       $user = Auth::user();
+       
+       $developmentlist_delete = HangTags::where('id','=',$id)->first();
+      $developmentlist_delete->delete();
+      $developmentproductdel = ProductDetails::where('id','=',$productpid)->first();
+      $developmentproductdel->delete();
+
+        $request->session()->flash('failure', 'Development Product HangTags deleted successfully.');     
 
         return redirect(url(route('user.developmentlistview')));      
 }
@@ -432,16 +494,18 @@ $inven_productfielddetails=ProductDetailFields::where('status','=',1)->where('ca
     
     //print_r($request->editID);exit;
     
-    
+    $hangtagsproduct = HangTags::where('id','=',$productdetails->HangTagsID)->first();
     $hookdetails=Hook::where('ProductID','=',$id)->where('status','=',1)->first();
     
     $tissuepaperdetails=Tissuepaper::where('ProductID','=',$id)->where('status','=',1)->first();
     
     $packagingstickersdetails=PackagingStickers::where('ProductID','=',$id)->where('status','=',1)->first();
 
+    $tapeproduct=Tapes::where('id','=',$productdetails->TapesID)->first();
+
 $productquotedetails=ProductDetails::where('id','=',$id)->where('status','=',1)->first();
 
-        return view('users.edit_developmentitemlist', compact('user','usertype','productfielddetails','producthookfields','productdevelopmentsubgroupdetails','prddevsubgrouppackagingdetails','inventorydetails','inven_productfielddetails','invendetails_productfielddetails','quantitydetails','cost_productfielddetails','productdetails','productdevelopmentfields','boxesdetails','hookdetails','tissuepaperdetails','productinventorydetails','packagingstickersdetails','productquotedetails','typeid'));
+        return view('users.edit_developmentitemlist', compact('user','usertype','productfielddetails','producthookfields','productdevelopmentsubgroupdetails','prddevsubgrouppackagingdetails','inventorydetails','inven_productfielddetails','invendetails_productfielddetails','quantitydetails','cost_productfielddetails','productdetails','productdevelopmentfields','boxesdetails','hookdetails','tissuepaperdetails','productinventorydetails','packagingstickersdetails','productquotedetails','typeid','hangtagsproduct','tapeproduct'));
    
     
     
@@ -1563,21 +1627,31 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
 
 
          $duplicaterecord = ProductDetails::where('id','=',$id)->first();
+         
 
-        $boxduplicatedrecord=DB::select('call sp_CRUDboxes(4,'.$duplicaterecord->BoxID.','.$duplicaterecord->CustomerID.',0,0,0,0,'.$duplicaterecord->id.',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)');
-		
-        $boxlastduplicateid = Boxes::orderby('id','desc')->first();
-        $boxduplicateid= $boxlastduplicateid->id; 
+     
 
 
          if($producttypeid==0)
          {
-            
+           
           
             $hookduplicateid= 0;
             $tissueduplicateid= 0;
             $packduplicateid= 0;
-        
+            if($duplicaterecord->BoxID!="")
+         {
+       if($duplicaterecord->BoxID != null && $duplicaterecord->BoxID <> 0)
+       {
+        $boxduplicatedrecord=DB::select('call sp_CRUDboxes(4,'.$duplicaterecord->BoxID.','.$duplicaterecord->CustomerID.',0,0,0,0,'.$duplicaterecord->id.',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)');
+    
+        $boxlastduplicateid = Boxes::orderby('id','desc')->first();
+        $boxduplicateid= $boxlastduplicateid->id;
+      }else
+      {
+        $boxduplicateid=0;
+      }
+    }
 
             $data['boxduplicate'][]=0;
           $productdetails_insert = ProductDetails::create([
@@ -1657,23 +1731,21 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
          }
          elseif($producttypeid==1)
          {
-
-            
-            if($duplicaterecord->HookID!= "")
+          if($duplicaterecord->HookID!= "")
          {
          if($duplicaterecord->HookID != null && $duplicaterecord->HookID <> 0)
          {
           $produ = Hook::where('id','=',$hookid)->first();
             $versihook = 1;
-			
-			//$productdetails = Boxes::where('id','=',$duplicaterecord->HookID)->first();
+      
+      //$productdetails = Boxes::where('id','=',$duplicaterecord->HookID)->first();
 
        /* $hookduplicatedrecord=DB::select('call sp_CRUDhooks(4,"'.$duplicaterecord->HookID.'",'.$duplicaterecord->CustomerID.','.$duplicaterecord->CustomerID.',0,'.$duplicaterecord->ProductGroupID.','.$duplicaterecord->ProductSubGroupID.',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'.$versihook.'",0,0,0)');*/
-	   
-	    $hookduplicatedrecord=DB::select('call sp_CRUDhooks(4,"'.$duplicaterecord->HookID.'",'.$duplicaterecord->CustomerID.',0,'.$duplicaterecord->ProductGroupID.','.$duplicaterecord->ProductSubGroupID.',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'.$versihook.'",0,0,0)');
-		
-		
-		
+     
+      $hookduplicatedrecord=DB::select('call sp_CRUDhooks(4,"'.$duplicaterecord->HookID.'",'.$duplicaterecord->CustomerID.',0,'.$duplicaterecord->ProductGroupID.','.$duplicaterecord->ProductSubGroupID.',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'.$versihook.'",0,0,0)');
+    
+    
+    
         $hooklastduplicateid = Hook::orderby('id','desc')->first();
         $hookduplicateid=$hooklastduplicateid->id;
         $tissueduplicateid = 0;
@@ -1684,6 +1756,8 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
             $hookduplicateid=0;
          }
      }
+            
+            
             $data['boxduplicate'][]=1;
           $productdetails_insert = ProductDetails::create(['CustomerID'=>$duplicaterecord->CustomerID,
 		  'CustomerWareHouseID'=>$duplicaterecord->CustomerWareHouseID,
@@ -1842,6 +1916,197 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
           $version_old=$tissprod->Version;
          $version_new=$tissuealastduplicateid->Version;
          }
+
+         //Vidhya:PHP
+         //HangTags Duplicate function
+         elseif($producttypeid==4)
+         {
+          if($duplicaterecord->HangTagsID!= "")
+        {
+          if($duplicaterecord->HangTagsID!= null && $duplicaterecord->HangTagsID <> 0)
+          {
+            $hangprod = HangTags::where('id','=',$hookid)->first();
+            //printf($hangprod);exit;
+
+            $hangtagsduplicatedrecord=DB::select('call sp_CRUDhangtags(1,'.$duplicaterecord->HangTagsID.')');
+            $hangtaglastduplicateid = HangTags::orderby('id','desc')->first();
+            $hangduplicateid= $hangtaglastduplicateid->id;
+          }else
+          {
+            $hangduplicateid=0;
+          }
+        }
+            $data['boxduplicate'][]=4;
+          $productdetails_insert = ProductDetails::create([
+     'CustomerID'=>$duplicaterecord->CustomerID,
+     'CustomerWareHouseID'=>$duplicaterecord->CustomerWareHouseID,
+        'ProductGroupID' => $duplicaterecord->ProductGroupID,
+        'ProductSubGroupID'=>$duplicaterecord->ProductSubGroupID,
+        'HookID' =>0,
+        'TissuePaperID' =>0,
+        'PackagingStickersID' =>0,
+        'BoxID' => 0,
+        'HangTagsID' =>$hangduplicateid,
+        'SeasonID'=>NULL,
+        'ProductStatusID'=>1,
+        'ProductProcessID'=>$duplicaterecord->ProductProcessID,
+        'ProductionRegionID1'=>$duplicaterecord->ProductionRegionID1,
+        'ProductionRegionID2'=>$duplicaterecord->ProductionRegionID2,
+        'ProductionRegionID3'=>$duplicaterecord->ProductionRegionID3,
+        'ProductionRegionID4'=>$duplicaterecord->ProductionRegionID4,
+        'ProductionRegionID5'=>$duplicaterecord->ProductionRegionID5,
+        'ProductionRegionID6'=>$duplicaterecord->ProductionRegionID6,
+        'ProductionRegionID7'=>$duplicaterecord->ProductionRegionID7,
+        'ProductionRegionID8'=>$duplicaterecord->ProductionRegionID8,
+        'PricingMethod'=>NULL,
+        'CurrencyID'=>NULL,
+        'UnitofMeasurementID'=>NULL,
+        'InventoryID'=>$duplicaterecord->InventoryID,
+        'InventoryName'=>$duplicaterecord->InventoryName,
+        'UniqueFactory1'=>$duplicaterecord->UniqueFactory1,
+        'UniqueFactory2'=>$duplicaterecord->UniqueFactory2,
+        'UniqueFactory3'=>$duplicaterecord->UniqueFactory3,
+        'UniqueFactory4'=>$duplicaterecord->UniqueFactory4,
+        'UniqueFactory5'=>$duplicaterecord->UniqueFactory5,
+        'UniqueFactory6'=>$duplicaterecord->UniqueFactory6,
+        'UniqueFactory7'=>$duplicaterecord->UniqueFactory7,
+        'UniqueFactory8'=>$duplicaterecord->UniqueFactory8,
+        'Brand'=>$duplicaterecord->Brand,
+        'ProgramName'=>$duplicaterecord->ProgramName,
+        'CustomerProductName'=>NULL,
+        'CustomerProductCode'=>NULL,
+        'UniqueProductCode'=>NULL,
+                'Description'=>NULL,
+                'StyleNumber'=>NULL,
+                'Version'=>1,
+        'SampleandQuote'=>$duplicaterecord->SampleandQuote,
+                'MinimumOrderQuantity'=>NULL,
+                'MinimumOrderValue'=>NULL,
+                'PackSize'=>NULL,
+                'SellingPrice'=>NULL,
+                'SampleRequestedDate' =>NULL,
+                'SampleRequestNumber' =>$duplicaterecord->SampleRequestNumber,
+                'NumberOfSamplesRequired' =>NULL,
+        'QuantityMOQ'=>NULL,
+        'Cost'=>NULL,
+        'Suggested_price'=>NULL,
+        'Margin'=>NULL,
+                'Artworkupload' =>$duplicaterecord->Artworkupload,
+                'QuoteRequiredchk' =>$duplicaterecord->QuoteRequiredchk,
+                'QuoteRequired' =>$duplicaterecord->QuoteRequired,
+                'SampleLeadTime' =>NULL,
+                'ProductionLeadTime'=>NULL,
+                'RemarksInstructions' =>$duplicaterecord->RemarksInstructions,
+                'QuoteRequired' =>$duplicaterecord->QuoteRequired,
+                'ReferenceFileUpload' =>$duplicaterecord->ReferenceFileUpload,
+                'QualityReference' =>$duplicaterecord->QualityReference,
+                'Projection' =>NULL,
+                'UniqueFactory1Inventory' =>$duplicaterecord->UniqueFactory1Inventory,
+                'UniqueFactory2Inventory' =>$duplicaterecord->UniqueFactory2Inventory,
+                'Maximumpiecesonstock' =>$duplicaterecord->Maximumpiecesonstock,
+                'Minimumpiecesonstock' =>$duplicaterecord->Minimumpiecesonstock,
+        'ExWorks'=>NULL,
+        'FOB'=>NULL,
+                'status'=>1
+                ]);
+          $version_old=$hangprod->Version;
+         $version_new=$hangtaglastduplicateid->Version;
+
+         }
+         //vidhya:php
+         //Tapes duplicate function
+         elseif($producttypeid==5)
+         {
+          if($duplicaterecord->TapesID!= null && $duplicaterecord->TapesID <> 0)
+          {
+            $tapeprod = Tapes::where('id','=',$hookid)->first();
+            //printf($hangprod);exit;
+
+            $tapesduplicatedrecord=DB::select('call sp_CRUDtapes(1,'.$duplicaterecord->TapesID.')');
+            $tapeslastduplicateid = Tapes::orderby('id','desc')->first();
+            $tapesduplicateid= $tapeslastduplicateid->id;
+          }else
+          {
+            $tapesduplicateid=0;
+          }
+            $data['boxduplicate'][]=5;
+          $productdetails_insert = ProductDetails::create([
+     'CustomerID'=>$duplicaterecord->CustomerID,
+     'CustomerWareHouseID'=>$duplicaterecord->CustomerWareHouseID,
+        'ProductGroupID' => $duplicaterecord->ProductGroupID,
+        'ProductSubGroupID'=>$duplicaterecord->ProductSubGroupID,
+        'HookID' =>0,
+        'TissuePaperID' =>0,
+        'PackagingStickersID' =>0,
+        'BoxID' => 0,
+        'HangTagsID' =>0,
+        'TapesID' =>$tapesduplicateid,
+        'SeasonID'=>NULL,
+        'ProductStatusID'=>1,
+        'ProductProcessID'=>$duplicaterecord->ProductProcessID,
+        'ProductionRegionID1'=>$duplicaterecord->ProductionRegionID1,
+        'ProductionRegionID2'=>$duplicaterecord->ProductionRegionID2,
+        'ProductionRegionID3'=>$duplicaterecord->ProductionRegionID3,
+        'ProductionRegionID4'=>$duplicaterecord->ProductionRegionID4,
+        'ProductionRegionID5'=>$duplicaterecord->ProductionRegionID5,
+        'ProductionRegionID6'=>$duplicaterecord->ProductionRegionID6,
+        'ProductionRegionID7'=>$duplicaterecord->ProductionRegionID7,
+        'ProductionRegionID8'=>$duplicaterecord->ProductionRegionID8,
+        'PricingMethod'=>NULL,
+        'CurrencyID'=>NULL,
+        'UnitofMeasurementID'=>NULL,
+        'InventoryID'=>$duplicaterecord->InventoryID,
+        'InventoryName'=>$duplicaterecord->InventoryName,
+        'UniqueFactory1'=>$duplicaterecord->UniqueFactory1,
+        'UniqueFactory2'=>$duplicaterecord->UniqueFactory2,
+        'UniqueFactory3'=>$duplicaterecord->UniqueFactory3,
+        'UniqueFactory4'=>$duplicaterecord->UniqueFactory4,
+        'UniqueFactory5'=>$duplicaterecord->UniqueFactory5,
+        'UniqueFactory6'=>$duplicaterecord->UniqueFactory6,
+        'UniqueFactory7'=>$duplicaterecord->UniqueFactory7,
+        'UniqueFactory8'=>$duplicaterecord->UniqueFactory8,
+        'Brand'=>$duplicaterecord->Brand,
+        'ProgramName'=>$duplicaterecord->ProgramName,
+        'CustomerProductName'=>NULL,
+        'CustomerProductCode'=>NULL,
+        'UniqueProductCode'=>NULL,
+                'Description'=>NULL,
+                'StyleNumber'=>NULL,
+                'Version'=>1,
+        'SampleandQuote'=>$duplicaterecord->SampleandQuote,
+                'MinimumOrderQuantity'=>NULL,
+                'MinimumOrderValue'=>NULL,
+                'PackSize'=>NULL,
+                'SellingPrice'=>NULL,
+                'SampleRequestedDate' =>NULL,
+                'SampleRequestNumber' =>$duplicaterecord->SampleRequestNumber,
+                'NumberOfSamplesRequired' =>NULL,
+        'QuantityMOQ'=>NULL,
+        'Cost'=>NULL,
+        'Suggested_price'=>NULL,
+        'Margin'=>NULL,
+                'Artworkupload' =>$duplicaterecord->Artworkupload,
+                'QuoteRequiredchk' =>$duplicaterecord->QuoteRequiredchk,
+                'QuoteRequired' =>$duplicaterecord->QuoteRequired,
+                'SampleLeadTime' =>NULL,
+                'ProductionLeadTime'=>NULL,
+                'RemarksInstructions' =>$duplicaterecord->RemarksInstructions,
+                'QuoteRequired' =>$duplicaterecord->QuoteRequired,
+                'ReferenceFileUpload' =>$duplicaterecord->ReferenceFileUpload,
+                'QualityReference' =>$duplicaterecord->QualityReference,
+                'Projection' =>NULL,
+                'UniqueFactory1Inventory' =>$duplicaterecord->UniqueFactory1Inventory,
+                'UniqueFactory2Inventory' =>$duplicaterecord->UniqueFactory2Inventory,
+                'Maximumpiecesonstock' =>$duplicaterecord->Maximumpiecesonstock,
+                'Minimumpiecesonstock' =>$duplicaterecord->Minimumpiecesonstock,
+        'ExWorks'=>NULL,
+        'FOB'=>NULL,
+                'status'=>1
+                ]);
+          $version_old=$tapeprod->Version;
+         $version_new=$tapeslastduplicateid->Version;
+
+         }
          elseif ($producttypeid==3) {
 
             if($duplicaterecord->PackagingStickersID!= "")
@@ -1854,8 +2119,8 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
           $hookve = 1;
 
         $packduplicatedrecord=DB::select('call sp_CRUDpackagingstickers(4,"'.$duplicaterecord->PackagingStickersID.'",'.$duplicaterecord->CustomerID.',0,'.$duplicaterecord->ProductGroupID.','.$duplicaterecord->ProductSubGroupID.','.$packprod->TypeofStickerID.','.$packprod->MaterialID.','.$packprod->PrintTypeID.','.$packprod->CuttingID.',"'.$packprod->PrintingFinishingProcessID.'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'.$hookve.'",0,0)');
-		
-		
+    
+    
         $packalastduplicateid = PackagingStickers::orderby('id','desc')->first();
         $packduplicateid= $packalastduplicateid->id;
         $tissueduplicateid = 0;
@@ -1957,7 +2222,8 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
            $packduplicateid= $packalastduplicateid->id;
 		   }
 		   
-		  
+		  if($producttypeid==0)
+      {
 		  if($boxduplicateid!="" || $boxduplicateid!=NULL || $boxduplicateid<>0)
 		  {
 		 $productdetailsupdate=DB::table('boxes')
@@ -1965,7 +2231,10 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
             ->update(['ProductID' =>$productdetails_get->id,
 			]);
 		  }
+    }
            //hook updations
+    if($producttypeid==1)
+      {
 		    if($hookduplicateid!="" || $hookduplicateid!=NULL || $hookduplicateid<>0)
 		  {
 			 
@@ -1974,7 +2243,10 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
             ->update(['ProductID' =>$productdetails_get->id,
 			]);
 		  }
+    }
 		  //tissuepaper
+    if($producttypeid==2)
+      {
 		   if($tissueduplicateid!="" || $tissueduplicateid!=NULL || $tissueduplicateid<>0)
 		  {
 		   $productdetailsupdate=DB::table('tissuepaper')
@@ -1982,7 +2254,10 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
             ->update(['ProductID' =>$productdetails_get->id,
 			]);
 		  }
+    }
 		  //packagingstickers
+    if($producttypeid==3)
+      {
 		    if($packduplicateid!="" || $packduplicateid!=NULL || $packduplicateid<>0)
 		  {
 		   $productdetailsupdate=DB::table('packagingstickers')
@@ -1990,6 +2265,28 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
             ->update(['ProductID' =>$productdetails_get->id,
 			]);
 		  }
+    }
+      //HangTags
+    if($producttypeid==4)
+      {
+        if($hangduplicateid!="" || $hangduplicateid!=NULL || $hangduplicateid<>0)
+      {
+       $productdetailsupdate=DB::table('hangtags')
+            ->where('id',$hangduplicateid)
+            ->update(['ProductID' =>$productdetails_get->id,
+      ]);
+      }
+    }
+    if($producttypeid==5)
+      {
+      if($tapesduplicateid!="" || $tapesduplicateid!=NULL || $tapesduplicateid<>0)
+      {
+       $productdetailsupdate=DB::table('tapes')
+            ->where('id',$tapesduplicateid)
+            ->update(['ProductID' =>$productdetails_get->id,
+      ]);
+      }
+    }
          
 
         

@@ -2266,6 +2266,12 @@ Route::get('/printcarelabelcheckout/{id}', 'CarelabelsController@printcarelabelc
   Route::get('/developmentitemlist','DevelopmentItemListController@developmentlistviewdetails')->name('user.developmentlistview');
     Route::get('/productimg/{id}', 'DevelopmentItemListController@getproductimg')->name('user.productpic');
 
+    Route::get('/producthangimg/{id}', 'DevelopmentItemListController@gethangimg')->name('user.hangtagpic');
+
+    Route::get('/producttapeimg/{id}', 'DevelopmentItemListController@gettapeimg')->name('user.tapespic');
+
+    Route::get('/productzipperimg/{id}', 'DevelopmentItemListController@getzipperimg')->name('user.zipperpic');
+
     Route::get('/productimgtissue/{id}', 'DevelopmentItemListController@gettissueimg')->name('user.productpictissue');
 
     Route::get('/productimghook/{id}', 'DevelopmentItemListController@gethookimg')->name('user.producthookpic');
@@ -2322,6 +2328,9 @@ Route::get('/completeorder','OrderController@completeorderlistview')->name('user
    Route::post('/developmentitemlisttissue_delete/{id}/{producttid?}', 'DevelopmentItemListController@deletetissue')->name('user.developmentitemlistdeletetissue');
 
    Route::post('/developmentitemlistpackage_delete/{id}/{productpid?}', 'DevelopmentItemListController@deletepackage')->name('user.developmentitemlistdeletepackage');
+
+   Route::post('/developmentitemlisttape_delete/{id}/{productpid?}', 'DevelopmentItemListController@deletetapes')->name('user.developmentitemlistdeletetapes');
+   Route::post('/developmentitemlisthangtags_delete/{id}/{productpid?}', 'DevelopmentItemListController@deletehangtags')->name('user.developmentitemlistdeletehangtags');
 
     Route::get('/duplicatedevelopmentitem/{id}/{duplicateid?}/{hookid?}','DevelopmentItemListController@developmentitemlistduplicate')->name('user.developmentitemlistduplicate');
   

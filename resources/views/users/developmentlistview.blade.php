@@ -213,12 +213,16 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
                         <td class="processdetails">
 <!-- For only edit link by Rajesh -->
                         <a class="edituniqueusers" href="{{ url(route('user.editdevelopmentitemproductdetails', ['id' => $list->id.'/'.'0'])) }}" ><img  src="{{ asset('/img/edit.png') }}" border="0"  title="Edit"/></a>  
-
-                    <span class="developmentitemduplicate" data-href="{{ url(route('user.developmentitemlistduplicate', ['id' => $list->id.'/'.'0'.'/'.$list->BoxID])) }}" onclick="duplicate_develop(this)" ><a href="javascript:;"><img  src="{{ asset('/img/file.png') }}" border="0"  title="Duplicate"/></a></span>                      
+                        <!-- Defect No:60 
+                            //Vidhya:php team
+                            //customerservice add view page -->
+                        @if($user->userTypeID!=14)
+                    <span class="developmentitemduplicate" data-href="{{ url(route('user.developmentitemlistduplicate', ['id' => $list->id.'/'.'0'.'/'.$list->BoxID])) }}" onclick="duplicate_develop(this)" ><a href="javascript:;"><img  src="{{ asset('/img/file.png') }}" border="0"  title="Duplicate"/></a></span>    @endif                  
 
                         <span class=""><a href="{{ url(route('user.developmentitemproductdetails', ['id' => $list->id.'/'.'0'.'/'.'0'])) }}"><img  src="{{ asset('/img/view.png') }}" border="0"  title="View"/></a></span> 
-
+                        @if($user->userTypeID!=14)
                         <span class="deletedevelopmentitemlist" data-href="{{ url(route('user.developmentitemlistdelete', ['id' => $list->id])) }}"><a href="javascript:;"><img  src="{{ asset('/img/delete.png') }}" border="0"  title="Delete"/></a></span>
+                        @endif
                         </td>
 
                      <!-- Vidhya:box display -->   
@@ -284,12 +288,17 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
                         <td class="processdetails">
 <!-- For only edit link by Rajesh -->
                         <a class="edituniqueusers" href="{{ url(route('user.editdevelopmentitemproductdetails', ['id' => $list->id.'/'.'1'])) }}" ><img  src="{{ asset('/img/edit.png') }}" border="0"  title="Edit"/></a>  
-
+                        <!-- Defect No:60 
+                            //Vidhya:php team
+                            //customerservice add view page -->
+                        @if($user->userTypeID!=14)
                         <span class="developmentitemduplicate" data-href="{{ url(route('user.developmentitemlistduplicate', ['id' => $list->id.'/'.'1'.'/'.$vv])) }}" onclick="duplicate_develop(this)" ><a href="javascript:;"><img  src="{{ asset('/img/file.png') }}" border="0"  title="Duplicate"/></a></span>                      
+                        @endif                     
 
                         <span class=""><a href="{{ url(route('user.developmentitemproductdetails', ['id' => $list->id.'/'.'1'.'/'.$vv])) }}"><img  src="{{ asset('/img/view.png') }}" border="0"  title="View"/></a></span> 
-
+                        @if($user->userTypeID!=14)
                         <span class="deletedevelopmentitemlist" data-href="{{ url(route('user.developmentitemlistdeletehook', ['id' => $vv.'/'.$list->id])) }}"><a href="javascript:;"><img  src="{{ asset('/img/delete.png') }}" border="0"  title="Delete"/></a></span>
+                        @endif
                         </td>
 
                         
@@ -359,12 +368,17 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
                         <td class="processdetails">
 <!-- For only edit link by Rajesh -->
                         <a class="edituniqueusers" href="{{ url(route('user.editdevelopmentitemproductdetails', ['id' => $list->id.'/'.'2'])) }}" ><img  src="{{ asset('/img/edit.png') }}" border="0"  title="Edit"/></a>  
-
+                        <!-- Defect No:60 
+                            //Vidhya:php team
+                            //customerservice add view page -->
+                        @if($user->userTypeID!=14)
                         <span class="developmentitemduplicate" data-href="{{ url(route('user.developmentitemlistduplicate', ['id' => $list->id.'/'.'2'.'/'.$vt])) }}" onclick="duplicate_develop(this)" ><a href="javascript:;"><img  src="{{ asset('/img/file.png') }}" border="0"  title="Duplicate"/></a></span>                      
+                        @endif                    
 
                         <span class="selectuniqueusers"><a href="{{ url(route('user.developmentitemproductdetails', ['id' => $list->id.'/'.'2'.'/'.$vt])) }}"><img  src="{{ asset('/img/view.png') }}" border="0"  title="View"/></a></span> 
-
+                        @if($user->userTypeID!=14)
                         <span class="deletedevelopmentitemlist" data-href="{{ url(route('user.developmentitemlistdeletetissue', ['id' => $vt.'/'.$list->id])) }}"><a href="javascript:;"><img  src="{{ asset('/img/delete.png') }}" border="0"  title="Delete"/></a></span>
+                        @endif
                         </td>
 
                         
@@ -434,12 +448,257 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
                         <td class="processdetails">
 <!-- For only edit link by Rajesh -->
                         <a class="edituniqueusers" href="{{ url(route('user.editdevelopmentitemproductdetails', ['id' => $list->id.'/'.'3'])) }}" ><img  src="{{ asset('/img/edit.png') }}" border="0"  title="Edit"/></a>  
-
+                        <!-- Defect No:60 
+                            //Vidhya:php team
+                            //customerservice add view page -->
+                        @if($user->userTypeID!=14)
                         <span class="developmentitemduplicate" data-href="{{ url(route('user.developmentitemlistduplicate', ['id' => $list->id.'/'.'3'.'/'.$vp])) }}" onclick="duplicate_develop(this)" ><a href="javascript:;"><img  src="{{ asset('/img/file.png') }}" border="0"  title="Duplicate"/></a></span>                      
+                        @endif                     
 
                         <span class="selectuniqueusers"><a href="{{ url(route('user.developmentitemproductdetails', ['id' => $list->id.'/'.'3'.'/'.$vp])) }}"><img  src="{{ asset('/img/view.png') }}" border="0"  title="View"/></a></span> 
-
+                        @if($user->userTypeID!=14)
                         <span class="deletedevelopmentitemlist" data-href="{{ url(route('user.developmentitemlistdeletepackage', ['id' => $vp.'/'.$list->id])) }}"><a href="javascript:;"><img  src="{{ asset('/img/delete.png') }}" border="0"  title="Delete"/></a></span>
+                        @endif
+                        </td>
+
+                        
+
+                    </tr>
+                    @endforeach
+                    
+                    @endif
+                    @if($list->HangTagsID!="" && $list->HangTagsID<>0)
+
+                    <?php  $str = ltrim($developmentid, '0'); ?>
+                     @foreach(explode(',',$list->HangTagsID) as $vh)
+
+                    <tr class="gradeX" id="{{$str.'_'.'3'}}">
+
+                        <td class="processdetails">{{$developmentid}}</td>
+
+                        <td>@if($list->CustomerID!=''){{$customers->CustomerName}}@endif</td>  
+
+                        <td>{{$list->Brand}}</td>  
+
+                         <td>{{$list->ProgramName}}</td> 
+
+                        <td>{{$list->CustomerProductName}}</td> 
+
+                        <td>{{$list->CustomerProductCode}}</td>
+
+                        <!-- <td>{{$list->CustomerProductCode}}</td> -->
+
+                        <td>{{$list->UniqueProductCode}}</td>
+
+                        <td>
+                       <?php
+             
+             if($list->HangTagsID!="")
+             echo "Hang Tags";echo "<br>";
+             $hangtag =App\Hangtags::where('id','=',$list->HangTagsID)->first(); 
+             ?></td>
+
+                        <td><img src="{{ route('user.hangtagpic', ['id' => $list->HangTagsID]) }}" width="100"/></td>
+
+                        <td>@if($list->status!=''){{$status->StatusName}}@endif</td>
+
+                        <!-- <td>@if($list->ProductProcessID!=''){{$productprocess->ProductProcess}}@endif</td> -->
+
+                        <td class="version_duplicate">{{$hangtag->Version}}</td>
+
+                        <td>{{$list->SampleRequestedDate}}</td>
+
+                        <td>{{$uniqueoffices->OfficeFactoryName}}</td>
+<!-- sathish 15-03-2018 -->
+                        <td>
+                          <?php 
+                        if($list->SampleandQuote =='1'){echo "Sample and Quote"; }else{echo "Only Quote" ;} ?> </td>
+
+                        <td>{{$list->NumberOfSamplesRequired}}</td>
+
+                        <td>{{$list->created_at}}</td>
+
+                        <td>
+                        {{$list->Remarks}}
+                       
+                        </td>
+
+
+                        <td class="processdetails">
+<!-- For only edit link by Rajesh -->
+                        <a class="edituniqueusers" href="{{ url(route('user.editdevelopmentitemproductdetails', ['id' => $list->id.'/'.'4'])) }}" ><img  src="{{ asset('/img/edit.png') }}" border="0"  title="Edit"/></a>  
+                        <!-- Defect No:60 
+                            //Vidhya:php team
+                            //customerservice add view page -->
+                        @if($user->userTypeID!=14)
+                        <span class="developmentitemduplicate" data-href="{{ url(route('user.developmentitemlistduplicate', ['id' => $list->id.'/'.'4'.'/'.$vh])) }}" onclick="duplicate_develop(this)" ><a href="javascript:;"><img  src="{{ asset('/img/file.png') }}" border="0"  title="Duplicate"/></a></span>                      
+                        @endif                     
+
+                        <span class="selectuniqueusers"><a href="{{ url(route('user.developmentitemproductdetails', ['id' => $list->id.'/'.'4'.'/'.$vh])) }}"><img  src="{{ asset('/img/view.png') }}" border="0"  title="View"/></a></span> 
+                        @if($user->userTypeID!=14)
+                        <span class="deletedevelopmentitemlist" data-href="{{ url(route('user.developmentitemlistdeletehangtags', ['id' => $vh.'/'.$list->id])) }}"><a href="javascript:;"><img  src="{{ asset('/img/delete.png') }}" border="0"  title="Delete"/></a></span>
+                        @endif
+                        </td>
+
+                        
+
+                    </tr>
+                    @endforeach
+                    
+                    @endif
+                    @if($list->TapesID!="" && $list->TapesID<>0)
+
+                    <?php  $str = ltrim($developmentid, '0'); ?>
+                     @foreach(explode(',',$list->TapesID) as $vt)
+
+                    <tr class="gradeX" id="{{$str.'_'.'3'}}">
+
+                        <td class="processdetails">{{$developmentid}}</td>
+
+                        <td>@if($list->CustomerID!=''){{$customers->CustomerName}}@endif</td>  
+
+                        <td>{{$list->Brand}}</td>  
+
+                         <td>{{$list->ProgramName}}</td> 
+
+                        <td>{{$list->CustomerProductName}}</td> 
+
+                        <td>{{$list->CustomerProductCode}}</td>
+
+                        <!-- <td>{{$list->CustomerProductCode}}</td> -->
+
+                        <td>{{$list->UniqueProductCode}}</td>
+
+                        <td>
+                       <?php
+             
+             if($list->TapesID!="")
+             echo "Tapes";echo "<br>";
+             $tape =App\Tapes::where('id','=',$list->TapesID)->first(); 
+             ?></td>
+
+                        <td><img src="{{ route('user.tapespic', ['id' => $list->TapesID]) }}" width="100"/></td>
+
+                        <td>@if($list->status!=''){{$status->StatusName}}@endif</td>
+
+                        <!-- <td>@if($list->ProductProcessID!=''){{$productprocess->ProductProcess}}@endif</td> -->
+
+                        <td class="version_duplicate">{{$tape->Version}}</td>
+
+                        <td>{{$list->SampleRequestedDate}}</td>
+
+                        <td>{{$uniqueoffices->OfficeFactoryName}}</td>
+<!-- sathish 15-03-2018 -->
+                        <td>
+                          <?php 
+                        if($list->SampleandQuote =='1'){echo "Sample and Quote"; }else{echo "Only Quote" ;} ?> </td>
+
+                        <td>{{$list->NumberOfSamplesRequired}}</td>
+
+                        <td>{{$list->created_at}}</td>
+
+                        <td>
+                        {{$list->Remarks}}
+                       
+                        </td>
+
+
+                        <td class="processdetails">
+<!-- For only edit link by Rajesh -->
+                        <a class="edituniqueusers" href="{{ url(route('user.editdevelopmentitemproductdetails', ['id' => $list->id.'/'.'5'])) }}" ><img  src="{{ asset('/img/edit.png') }}" border="0"  title="Edit"/></a>  
+                        <!-- Defect No:60 
+                            //Vidhya:php team
+                            //customerservice add view page -->
+                        @if($user->userTypeID!=14)
+                        <span class="developmentitemduplicate" data-href="{{ url(route('user.developmentitemlistduplicate', ['id' => $list->id.'/'.'5'.'/'.$vt])) }}" onclick="duplicate_develop(this)" ><a href="javascript:;"><img  src="{{ asset('/img/file.png') }}" border="0"  title="Duplicate"/></a></span>                      
+                        @endif                     
+
+                        <span class="selectuniqueusers"><a href="{{ url(route('user.developmentitemproductdetails', ['id' => $list->id.'/'.'5'.'/'.$vt])) }}"><img  src="{{ asset('/img/view.png') }}" border="0"  title="View"/></a></span> 
+                        @if($user->userTypeID!=14)
+                        <span class="deletedevelopmentitemlist" data-href="{{ url(route('user.developmentitemlistdeletetapes', ['id' => $vt.'/'.$list->id])) }}"><a href="javascript:;"><img  src="{{ asset('/img/delete.png') }}" border="0"  title="Delete"/></a></span>
+                        @endif
+                        </td>
+
+                        
+
+                    </tr>
+                    @endforeach
+                    
+                    @endif
+
+                    <!-- Zipper pullers table fields
+                    //Vidhya:PHP -->
+                    @if($list->ZipperPullersID!="" && $list->ZipperPullersID<>0)
+
+                    <?php  $str = ltrim($developmentid, '0'); ?>
+                     @foreach(explode(',',$list->garmentfabricblk) as $vt)
+
+                    <tr class="gradeX" id="{{$str.'_'.'3'}}">
+
+                        <td class="processdetails">{{$developmentid}}</td>
+
+                        <td>@if($list->CustomerID!=''){{$customers->CustomerName}}@endif</td>  
+
+                        <td>{{$list->Brand}}</td>  
+
+                         <td>{{$list->ProgramName}}</td> 
+
+                        <td>{{$list->CustomerProductName}}</td> 
+
+                        <td>{{$list->CustomerProductCode}}</td>
+
+                        <!-- <td>{{$list->CustomerProductCode}}</td> -->
+
+                        <td>{{$list->UniqueProductCode}}</td>
+
+                        <td>
+                       <?php
+             
+             if($list->ZipperPullersID!="")
+             echo "Zipper Pullers";echo "<br>";
+             $tape =App\ZipperPullers::where('id','=',$list->ZipperPullersID)->first(); 
+             ?></td>
+
+                        <td><img src="{{ route('user.zipperpic', ['id' => $list->ZipperPullersID]) }}" width="100"/></td>
+
+                        <td>@if($list->status!=''){{$status->StatusName}}@endif</td>
+
+                        <!-- <td>@if($list->ProductProcessID!=''){{$productprocess->ProductProcess}}@endif</td> -->
+
+                        <td class="version_duplicate">{{$tape->Version}}</td>
+
+                        <td>{{$list->SampleRequestedDate}}</td>
+
+                        <td>{{$uniqueoffices->OfficeFactoryName}}</td>
+<!-- sathish 15-03-2018 -->
+                        <td>
+                          <?php 
+                        if($list->SampleandQuote =='1'){echo "Sample and Quote"; }else{echo "Only Quote" ;} ?> </td>
+
+                        <td>{{$list->NumberOfSamplesRequired}}</td>
+
+                        <td>{{$list->created_at}}</td>
+
+                        <td>
+                        {{$list->Remarks}}
+                       
+                        </td>
+
+
+                        <td class="processdetails">
+<!-- For only edit link by Rajesh -->
+                        <a class="edituniqueusers" href="{{ url(route('user.editdevelopmentitemproductdetails', ['id' => $list->id.'/'.'6'])) }}" ><img  src="{{ asset('/img/edit.png') }}" border="0"  title="Edit"/></a>  
+                        <!-- Defect No:60 
+                            //Vidhya:php team
+                            //customerservice add view page -->
+                        @if($user->userTypeID!=14)
+                        <span class="developmentitemduplicate" data-href="{{ url(route('user.developmentitemlistduplicate', ['id' => $list->id.'/'.'6'.'/'.$vt])) }}" onclick="duplicate_develop(this)" ><a href="javascript:;"><img  src="{{ asset('/img/file.png') }}" border="0"  title="Duplicate"/></a></span>                      
+                        @endif                     
+
+                        <span class="selectuniqueusers"><a href="{{ url(route('user.developmentitemproductdetails', ['id' => $list->id.'/'.'6'.'/'.$vt])) }}"><img  src="{{ asset('/img/view.png') }}" border="0"  title="View"/></a></span> 
+                        @if($user->userTypeID!=14)
+                        <span class="deletedevelopmentitemlist" data-href="{{ url(route('user.developmentitemlistdeletetapes', ['id' => $vt.'/'.$list->id])) }}"><a href="javascript:;"><img  src="{{ asset('/img/delete.png') }}" border="0"  title="Delete"/></a></span>
+                        @endif
                         </td>
 
                         

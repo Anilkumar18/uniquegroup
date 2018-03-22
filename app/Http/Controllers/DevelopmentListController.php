@@ -43,6 +43,8 @@ use App\Cutting;
 
 use App\HangTags;
 
+use App\Tapes;
+
 use App\PrintingFinishingProcess;
 
 use App\LogoProcess;
@@ -175,12 +177,38 @@ class DevelopmentListController extends Controller
          $productid=Session::get('productlastrecordid');
          $duplicaterecord = ProductDetails::where('id','=',$id)->first();
 
+         if($duplicaterecord->BoxID != null && $duplicaterecord->BoxID <> 0)
+         {
           $boxduplicatedrecord=DB::select('call sp_CRUDboxes(4,'.$duplicaterecord->BoxID.',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)');
         $boxlastduplicateid = Boxes::orderby('id','desc')->first();
         $boxduplicateid= $boxlastduplicateid->id; 
         $data['boxid'][] = $boxduplicateid;
+            
+         }else
+         {
+            $boxduplicateid=0;
+         }
 
 
+        if($duplicaterecord->HangTagsID != null && $duplicaterecord->HangTagsID <> 0)
+        {
+            $hangtagsduplicatedrecord=DB::select('call sp_CRUDhangtags(1,'.$duplicaterecord->HangTagsID.')');
+            $hangtaglastduplicateid = HangTags::orderby('id','desc')->first();
+            $hangduplicateid= $hangtaglastduplicateid->id;
+        }else
+        {
+            $hangduplicateid=0;
+        }
+
+        if($duplicaterecord->TapesID != null && $duplicaterecord->TapesID <> 0)
+        {
+            $tapesduplicatedrecord=DB::select('call sp_CRUDtapes(1,'.$duplicaterecord->TapesID.')');
+            $tapeslastduplicateid = Tapes::orderby('id','desc')->first();
+            $tapesduplicateid= $tapeslastduplicateid->id;
+        }else
+        {
+            $tapesduplicateid=0;
+        }
 
          
          if($duplicaterecord->HookID != null && $duplicaterecord->HookID <> 0)
@@ -188,7 +216,7 @@ class DevelopmentListController extends Controller
             $produ = Hook::where('id','=',$duplicaterecord->HookID)->first();
             $versihook =1;
         /*$hookduplicatedrecord=DB::select('call sp_CRUDhooks(4,"'.$duplicaterecord->HookID.'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'.$versihook.'",0,0,0)');*/
-        $productdetails = Boxes::where('id','=',$duplicaterecord->HookID)->first();
+        $productdetails = Hook::where('id','=',$duplicaterecord->HookID)->first();
        
         $hookduplicatedrecord=DB::select('call sp_CRUDhooks(4,"'.$duplicaterecord->HookID.'",'.$duplicaterecord->CustomerID.','.$duplicaterecord->CustomerID.','.$productdetails->ProductID.','.$duplicaterecord->ProductGroupID.','.$duplicaterecord->ProductSubGroupID.',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'.$versihook.'",0,0,0)');
         
@@ -302,9 +330,9 @@ class DevelopmentListController extends Controller
             //Defect: PDF march05
          //Name: Vidhya-uniquegroup Team
          //Duplicate Development list fields change
+//print_r($hangduplicateid);
 
-
-         $productdetails_insert = ProductDetails::create([
+        $productdetails_insert = ProductDetails::create([
 		 'CustomerID'=>$duplicaterecord->CustomerID,
 		 'CustomerWareHouseID'=>$duplicaterecord->CustomerWareHouseID,
         'ProductGroupID' => $duplicaterecord->ProductGroupID,
@@ -313,6 +341,8 @@ class DevelopmentListController extends Controller
         'TissuePaperID' =>$tissueduplicateid,
         'PackagingStickersID' =>$packduplicateid,
         'BoxID' => $boxduplicateid,
+        'HangTagsID' =>$hangduplicateid,
+        'TapesID' =>$tapesduplicateid,
         'SeasonID'=>NULL,
         'ProductStatusID'=>1,
         'ProductProcessID'=>$duplicaterecord->ProductProcessID,
@@ -375,6 +405,7 @@ class DevelopmentListController extends Controller
 				'FOB'=>NULL,
                 'status'=>1
                 ]);
+
           //defect March05 END
 		
 		  $productdetails_get = ProductDetails::orderby('id','desc')->first();
@@ -452,12 +483,40 @@ class DevelopmentListController extends Controller
    return view('users.view_developmentlist', compact('user','productdevlopmentlist','customers','status','usertype'));    
 
    }
+   /*Vidhya:PHP
+   //Delete function for all new products*/
 
     public function delete(Request $request ,$id)
 {
    
        $user = Auth::user();
        $developmentlist_delete = ProductDetails::where('id','=',$id)->first();
+       //print_r($developmentlist_delete);
+       if($developmentlist_delete->BoxID!=0)
+       {
+        $deleteboxproduct = Boxes::where('id','=',$developmentlist_delete->BoxID)->first();
+        $deleteboxproduct->delete();
+       }
+       if ($developmentlist_delete->HookID!=0) {
+         $deletehookproduct = Hook::where('id','=',$developmentlist_delete->HookID)->first();
+        $deletehookproduct->delete();  
+       }
+       if ($developmentlist_delete->TissuePaperID!=0) {
+         $deletetissueproduct = Tissuepaper::where('id','=',$developmentlist_delete->TissuePaperID)->first();
+        $deletetissueproduct->delete();  
+       }
+       if ($developmentlist_delete->TapesID!=0) {
+         $deletetapeproduct = Tapes::where('id','=',$developmentlist_delete->TapesID)->first();
+        $deletetapeproduct->delete();  
+       }
+       if ($developmentlist_delete->PackagingStickersID!=0) {
+         $deletepackproduct = PackagingStickers::where('id','=',$developmentlist_delete->PackagingStickersID)->first();
+        $deletepackproduct->delete();  
+       }
+       if ($developmentlist_delete->HangTagsID!=0) {
+         $deletehangproduct = HangTags::where('id','=',$developmentlist_delete->HangTagsID)->first();
+        $deletehangproduct->delete();  
+       }
        
        
       //$customer_delete = Customers::find($id);
