@@ -1,4 +1,5 @@
- $(document).ready(function() {   
+ $(document).ready(function() { 
+ usertypetrigger();  
 $(".addnewuniqueusers").click(function(){
 
 		$("#uniqueuseradd")[0].reset();
@@ -11,9 +12,18 @@ $(".addnewuniqueusers").click(function(){
 
  var foldvalidator =$("#uniqueuseradd").validate({
   rules: {
-	  factoryName:{
+	  userType:{
 		   required: true,
 	  },
+	  'customercheckID[]':{
+		    required: function(element){
+            return $('.customercheckID:checked').length<1;
+        }
+	  },
+	   OfficeFactoryName:{
+		 required:true,  
+	   },
+	  
 	   firstName: {
       required: true,
     },
@@ -29,9 +39,6 @@ $(".addnewuniqueusers").click(function(){
 	},
 	userName:{
 		 required:true,	
-	},
-	userType:{
-		required:true,	
 	}
   }
 });	
@@ -109,6 +116,49 @@ $('#rigionsshow').hide();
 				}
 	 });
   }*/
+  //Defect: new users.pdf
+//Name: Bala-PHP Team
+//hide the factory name and customer name depends upon usertypes
+  $(".usertype_dropdown").change(function() {
+          if($(this).val() == "9")
+          {
+              $(".customerlist_check").show();
+			  $(".factorylist_check").show();
+            
+          }else if($(this).val() == "14")
+          {
+            $(".customerlist_check").show();
+			 $(".factorylist_check").show();
+          }
+		  else
+		  {
+			   $(".customerlist_check").hide();
+			   $(".factorylist_check").hide();
+			  
+		  }
+   
+});
+function usertypetrigger()
+{
+ var usertypeid=$("#userType").val();
+  if(usertypeid == "9")
+          {
+              $(".customerlist_check").show();
+			  $(".factorylist_check").show();
+            
+          }else if(usertypeid == "14")
+          {
+            $(".customerlist_check").show();
+			 $(".factorylist_check").show();
+          }
+		  else
+		  {
+			   $(".customerlist_check").hide();
+			   $(".factorylist_check").hide();
+			  
+		  }
+	
+}
     $(".regions").change(function() {
 								  
 								  $('#rigionsshow').show();

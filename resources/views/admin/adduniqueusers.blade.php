@@ -37,17 +37,108 @@ error_reporting(0);
 
                     <input type="hidden" name="editID" id="editID" value="@if($edit_val==1){{$uniqueUsers->id}}@endif" />
 
-                    
 
+
+         <!--Defect: users.pdf page no.4
+         Name: Bala-Uniquegroup Team
+         Desc. align the user types and depends upon 
+         accounts manager and customer service to show the forms-->
+
+
+
+                    
+ <row class="col-md-12">
+
+                          
+
+                            <div class="form-group clsformelements">
+
+                  <label for="userType" class="col-md-3">User Type<span class="mandatory_fields">*</span></label>
+
+                                
+
+                                <div class="col-md-3">
+
+                          <select name="userType" id="userType" class="form-control usertype_dropdown">
+
+                                <option value="">Please select a User Type</option>
+
+                                @foreach ($userType as $type_list)
+                                @if($type_list->id!=1 && $type_list->id!=3 && $type_list->id!=4 && $type_list->id!=5 && $type_list->id!=6 && $type_list->id!=11 && $type_list->id!=12 && $type_list->id!=15 && $type_list->id!=13 && $type_list->id!=10)
+                                <option value="{{ $type_list->id}}" @if($edit_val==1) {{ $uniqueUsers->UsertypeID == $type_list->id ? 'selected=selected' : '' }} @endif>{{ $type_list->userType }}</option>
+                                @endif
+                                @endforeach
+
+                                </select>
+
+                                </div>
+
+                </div>
+
+                            
+
+                        </row>
+                        <row class="col-md-12">
+
+                          
+
+                            <div class="form-group clsformelements customerlist_check" style="display: none;">
+                            
+                            <label for="customercheckID" class="col-md-3">Customer Name<span class="mandatory_fields">*</span></label>
+
+                             <!-- <label for="customercheckID" class="">Customer Name</label>-->
+
+                              
+                            
+                                @foreach($uniquecustomers as $customerlist)
+                                <div class="col-lg-offset-3 col-md-9">
+                                  <div class="col-md-1">
+                              <label>
+                                {{$customerlist->CustomerName}}
+                                </label>
+                                    
+                                  </div>
+                              <div class="col-md-1">
+								<?php
+                                $uniqueuserssselecteddetails=$uniqueUsers->customercheckID;
+                                $chkvaluniqueusersexp=explode(',',$uniqueuserssselecteddetails);
+                                ?>
+                               
+                                  <input type="checkbox" class="customercheckID" name="customercheckID[]" value="{{$customerlist->id}}"{{$customerlist->CustomerName}} @foreach($chkvaluniqueusersexp as $chkvalbox)
+             @if($chkvalbox==$customerlist->id)
+             checked="checked"
+              @endif
+             @endforeach >
+                                
+                              </div>
+
+                               </div>
+                                @endforeach
+
+
+                            </div>
+
+                            
+
+                        </row>
                  
 
                     
 
 <row class="col-md-12">
-
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
                           
 
-                            <div class="form-group clsformelements">
+                            <div class="form-group clsformelements factorylist_check" style="display: none;">
 
                   <label for="factoryName" class="col-md-3">Factory Name<span class="mandatory_fields">*</span></label>
 
@@ -211,73 +302,7 @@ error_reporting(0);
                         </row>
 
                      @endif
-
-                   <row class="col-md-12">
-
-                          
-
-                            <div class="form-group clsformelements">
-
-                  <label for="userType" class="col-md-3">User Type<span class="mandatory_fields">*</span></label>
-
-                                
-
-                                <div class="col-md-3">
-
-                          <select name="userType" id="userType" class="form-control usertype_dropdown">
-
-                                <option value="">Please select a User Type</option>
-
-                                @foreach ($userType as $type_list)
-                                @if($type_list->id!=1 && $type_list->id!=3 && $type_list->id!=4 && $type_list->id!=5 && $type_list->id!=6 && $type_list->id!=11 && $type_list->id!=12 && $type_list->id!=15 && $type_list->id!=13 && $type_list->id!=10)
-                                <option value="{{ $type_list->id}}" @if($edit_val==1) {{ $uniqueUsers->UsertypeID == $type_list->id ? 'selected=selected' : '' }} @endif>{{ $type_list->userType }}</option>
-                                @endif
-                                @endforeach
-
-                                </select>
-
-                                </div>
-
-                </div>
-
-                            
-
-                        </row>
-                        <row class="col-md-12">
-
-                          
-
-                            <div class="form-group clsformelements customerlist_check" style="display: none;">
-
-                              <label for="customercheckID" class=""></label>
-
-                              
-                            
-                                @foreach($uniquecustomers as $customerlist)
-                                <div class="col-lg-offset-3 col-md-9">
-                                  <div class="col-md-1">
-                              <label>
-                                {{$customerlist->CustomerName}}
-                                </label>
-                                    
-                                  </div>
-                              <div class="col-md-1">
-                                  <input type="checkbox" name="customercheckID[]" value="{{$customerlist->id}}"{{$customerlist->CustomerName}} >
-                                
-                              </div>
-
-                               </div>
-                                @endforeach
-
-
-                            </div>
-
-                            
-
-                        </row>
-                        
-
-               
+                    
 
               <row class="col-md-12">
 

@@ -102,8 +102,16 @@ public function addnewusers (Request $request) {
             if ($user === null || $user=='') {
 			
 			  $password=UniqueUsers::where('id','=',$request->editID)->first();
+			   if($request->OfficeFactoryName!="")
+			  {
+				 $OfficeFactoryName=$request->OfficeFactoryName;
+			  }
+			  else
+			  {
+				 $OfficeFactoryName=0; 
+			  }
 
-              $user_update = DB::select('call sp_CRUDuniqueusers(2,'.$request->editID.','.$customerID.','.$request->OfficeFactoryName.','.$request->userType.',"'.$request->customercheckID.'","'.$request->firstName.'","'.$request->lastName.'","'.$request->phoneNumber.'","'.$request->email.'","'.$request->userName.'","'.$password->password.'",1)');
+              $user_update = DB::select('call sp_CRUDuniqueusers(2,'.$request->editID.','.$customerID.','.$OfficeFactoryName.','.$request->userType.',"'.$checkBox11.'","'.$request->firstName.'","'.$request->lastName.'","'.$request->phoneNumber.'","'.$request->email.'","'.$request->userName.'","'.$password->password.'",1)');
 			  
 			  
 			 $loginupdate = DB::table('users')->where('id', $request->editID)->update(['customerID'=>1,'userTypeID' => $request->userType,'countryID' => $countryID,'addressID'=>$addressID,'is_sys_admin'=>$is_sys_admin,'userName'=>$request->userName,'email'=>$request->email,'password'=>$password->password ,'firstName'=>$request->firstName,'lastName'=>$request->lastName,'phone'=>$request->phoneNumber,'status'=>1]);
@@ -129,8 +137,18 @@ public function addnewusers (Request $request) {
             
             if ($user === null) {
               $password =Hash::make($request->password);
+			  
+			  if($request->OfficeFactoryName!="")
+			  {
+				 $OfficeFactoryName=$request->OfficeFactoryName;
+			  }
+			  else
+			  {
+				 $OfficeFactoryName=0; 
+			  }
+			  
                     
-              $user_insert = DB::select('call sp_CRUDuniqueusers(1,0,'.$customerID.','.$request->OfficeFactoryName.','.$request->userType.',"'.$checkBox11.'","'.$request->firstName.'","'.$request->lastName.'","'.$request->phoneNumber.'","'.$request->email.'","'.$request->userName.'","'.$password.'",1)');  
+              $user_insert = DB::select('call sp_CRUDuniqueusers(1,0,'.$customerID.','.$OfficeFactoryName.','.$request->userType.',"'.$checkBox11.'","'.$request->firstName.'","'.$request->lastName.'","'.$request->phoneNumber.'","'.$request->email.'","'.$request->userName.'","'.$password.'",1)');  
 				
 				
 				 $logininsert = User::create(['customerID'=>1,'userTypeID' => $request->userType,'countryID' => $countryID,'addressID'=>$addressID,'is_sys_admin'=>$is_sys_admin,'userName'=>$request->userName,'email'=>$request->email,'password'=>$password ,'firstName'=>$request->firstName,'lastName'=>$request->lastName,'phone'=>$request->phoneNumber,'status'=>1]);

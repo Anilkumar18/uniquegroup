@@ -95,17 +95,7 @@
           }
 
         }); 
-     $(".usertype_dropdown").change(function() {
-          if($(this).val() == "9")
-          {
-              $(".customerlist_check").show();
-            
-          }else
-          {
-            $(".customerlist_check").hide();
-          }
-   
-});
+     
 
 
 
