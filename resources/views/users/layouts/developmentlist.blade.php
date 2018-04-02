@@ -135,7 +135,8 @@
       });
       }
   });
-
+/*vidhya:php
+    //add duplicate changes*/
         
         $(".developmentduplicate").click(function(){ 
     
@@ -155,6 +156,10 @@
         var pp=$("#example1 tr:last");
 
             pp.find('.processdetails').each(function() {
+              pp.find('.duplicatemissing').each(function() {           
+            $(this).html($(this).html($(this).html().replace(data[0][""])));
+        });
+         
                pp.find('.version_duplicate').each(function() {           
             $(this).html($(this).html().replace(data[0]["version_old"],data[0]["version_new"]));
         });

@@ -19,7 +19,7 @@ Use Session;
 Use App\ProductGroup;
 Use App\ProductSubGroup;
 use App\UserType;
-
+use App\Productstore;
 
 class PdmProductgroupsController extends Controller
 {
@@ -175,6 +175,118 @@ public function ProductGroupSelect(Request $request,$id)
   
   
    }
+
+////purushothaman_29_03_2018
+public function addProductstorelist(Request $request){
+	  $user = Auth::user();
+     $usertype = UserType::where('id', '=', $user->userTypeID)->first();
+  $poName = $request->input('poName'); 
+ $colorCode= $request->input('colorCode');
+  $basicColor = $request->input('basicColor');
+   $frenchColor = $request->input('frenchColor');
+    $fallallColour= $request->input('fallallColour');
+     $outerWear = $request->input('outerWear');
+      $activeColor= $request->input('activeColor');
+       $sleepWear = $request->input('sleepWear');
+        $healthWear = $request->input('healthWear'); 
+        $status = $request->input('status'); 
+        
+         
+    if($request->input('editID')==""){
+$ProductDetails = Productstore::create($request->all());
+ return redirect(url(route('admin.pdmnew')));
+   }
+   else{
+   	$Productstore = Productstore::find($request->editID);
+
+$Productstore->poName= $request->input('poName');
+$Productstore->colorCode= $request->input('colorCode');
+$Productstore->basicColor= $request->input('basicColor');
+$Productstore->frenchColor= $request->input('frenchColor');
+$Productstore->fallallColour= $request->input('fallallColour');
+$Productstore->outerWear= $request->input('outerWear');
+$Productstore->activeColor= $request->input('activeColor');
+$Productstore->sleepWear= $request->input('sleepWear');
+$Productstore->healthWear= $request->input('healthWear');
+
+$Productstore->save();
+ //return view('admin.pdmnew', compact('user','usertype'));
+   }
+  return redirect(url(route('admin.pdmnew')));
+}
+
+
+
+////purushothaman_29_03_2018
+public function getpricestickerdetails(Request $request, $id){
+
+	$user=Auth::user();
+     $pricesticker=Productstore::where('id',"=",$id)->get();
+
+$usertype = UserType::where('id', '=', $user->userTypeID)->first();
+$data='';
+foreach ($pricesticker as $pricestickerdata) {
+	$data[]=$pricestickerdata;
+}
+	//return view('admin.addvendors', compact('user','usertype'));
+
+return json_encode($data);
+
+
+
+}
+
+//purushothaman_29_03_2018 
+public function deletepricestickerdetails(Request $request, $id){
+
+$user=Auth::user();
+$usertype = UserType::where('id', '=', $user->userTypeID)->first();
+  $pricestickerdetail=Productstore::where('id',"=",$id)->get(); 
+Productstore::find($id)->delete();
+  return redirect(url(route('admin.pdmnew')));	
+
+//return redirect(url('admin.pdmnew'));
+
+
+
+
+}
+
+//purushothaman_30_03_2018 
+public function stickersymbolactivate(Request $request, $id){
+
+	    $user = Auth::user();
+	    $usertype = UserType::where('id', '=', $user->userTypeID)->first();
+
+		 $id=$request->id;
+
+	 $symbol_activate = DB::select('call sp_commonprocedure(1,'.$id.',"productstore")'); 
+
+	    $request->session()->flash('success', 'productstore(s) activated successfully.');     
+
+      //return view('admin.pdmnew', compact('user','usertype'));
+
+         return redirect(url(route('admin.pdmnew')));	
+   
+
+}
+
+//purushothaman_30_03_2018 
+public function stickersymboldeactivate(Request $request, $id){
+    $user = Auth::user();   
+		 $usertype = UserType::where('id', '=', $user->userTypeID)->first();
+		$id=$request->id;
+
+		  $symbol_activate = DB::select('call sp_commonprocedure(2,'.$id.',"productstore")');
+		  	
+        
+        $request->session()->flash('success', 'productstore(s) deactivated successfully.');    
+
+             //return view('admin.pdmnew', compact('user','usertype')); 
+             return redirect(url(route('admin.pdmnew')));	 
+
+
+}
 
 }
 ?>

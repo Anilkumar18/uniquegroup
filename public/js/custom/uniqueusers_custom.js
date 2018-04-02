@@ -1,4 +1,4 @@
- $(document).ready(function() { 
+ $(document).ready(function() {   
  usertypetrigger();  
 $(".addnewuniqueusers").click(function(){
 
@@ -183,6 +183,159 @@ function usertypetrigger()
 		});
 
 
+ /*$(".activatuniqueuser").click(function(){
+	 alert("activated");
+	   var href=$(this).data("href");	
+	      
+	   var activateval = [];
+ 		$('.hobbies_class:checked').each(function() {
+   		activateval.push($(this).val());
+	  });
+	    if(activateval=="")
+	   {
+	   swal({
+                
+                title: "Please select the UniqueUser(s) to activate",
+				 type: "error"
+            });
+	   }
+	   
+	   else 
+	   {
+	   swal({
+  		title: "Are you sure to activate the selected UniqueUser(s)?",
+  		type: "warning",
+  		showCancelButton: true,
+  		confirmButtonColor: "#DD6B55",
+  		confirmButtonText: "Yes, do it!",
+  		closeOnConfirm: false
+		},
+		function(){
+  		document.thisForm.action=href;
+		document.thisForm.submit();
+		});
+	}
+ 	
+ 	}); */
+	$(".activatuniqueuser").click(function(){
+	 //alert("activated");
+	   var href=$(this).find('a').data("href");	
+	   //alert(href);
+	      
+	   if(href!="")
+	   
+	   {	   	
+		   	swal({
+	  		title: "Are you sure to activate the selected Unique User?",
+	  		type: "warning",
+	  		showCancelButton: true,
+	  		confirmButtonColor: "#00ADEF",
+	  		confirmButtonText: "Yes, do it!",
+	  		closeOnConfirm: false
+			},
+			function(){
+	  		document.thisForm.action=href;
+			document.thisForm.submit();
+			});
+			}
+ 	
+ 	});
+	
+	$(".deactivateuniqueuser").click(function(){
+		
+		//alert("deactivated");
+
+		var href=$(this).find('a').data("href");
+		if(href!="")
+	   
+	   {	   	
+		   	swal({
+  		title: "Are you sure to deactivate the selected Unique user(s)?",
+  		type: "warning",
+  		showCancelButton: true,
+  		confirmButtonColor: "#DD6B55",
+  		confirmButtonText: "Yes, do it!",
+  		closeOnConfirm: false
+		},
+		function(){
+  		document.thisForm.action=href;
+		document.thisForm.submit();
+		});
+			}	
+	 
+ 	});
+	/*
+	$(".deactivateuniqueuser").click(function(){
+		
+		//alert("deactivated");
+
+		var href=$(this).data("href");
+	   var deactivateval = [];
+	   $('.hobbies_class:checked').each(function() {
+   		deactivateval.push($(this).val());
+	  });
+	    if(deactivateval=="")
+	   {
+	   swal({
+                
+                title: "Please select the Unique user(s) to deactivate",
+				 type: "error"
+            });
+	   }
+	   
+	   else
+	   {	   	
+	   	swal({
+  		title: "Are you sure to deactivate the selected Unique user(s)?",
+  		type: "warning",
+  		showCancelButton: true,
+  		confirmButtonColor: "#DD6B55",
+  		confirmButtonText: "Yes, do it!",
+  		closeOnConfirm: false
+		},
+		function(){
+  		document.thisForm.action=href;
+		document.thisForm.submit();
+		});
+		}
+ 	});
+	
+	*/
+	
+	$(".deleteuniqueuser").click(function(){
+											
+
+		var href=$(this).data("href");
+	   var deleteval = [];
+	   $('.hobbies_class:checked').each(function() {
+   		deleteval.push($(this).val());
+	  });
+	    if(deleteval=="")
+	   {
+	   swal({
+                
+                title: "Please select the UniqueUser(s) to delete",
+				 type: "error"
+            });
+	   }
+	   
+	   else
+	   {	   	
+		   	swal({
+	  		title: "Are you sure to delete the selected UniqueUser(s)?",
+	  		type: "warning",
+	  		showCancelButton: true,
+	  		confirmButtonColor: "#DD6B55",
+	  		confirmButtonText: "Yes, do it!",
+	  		closeOnConfirm: false
+			},
+			function(){
+	  		document.thisForm.action=href;
+			document.thisForm.submit();
+			});
+			}
+ 	});
+	
 $(".deletefacility").click(function(){ 
 	 
 	 var href=$(this).data("href");

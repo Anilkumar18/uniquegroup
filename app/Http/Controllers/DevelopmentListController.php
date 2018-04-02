@@ -45,6 +45,8 @@ use App\HangTags;
 
 use App\Tapes;
 
+use App\ZipperPullers;
+
 use App\PrintingFinishingProcess;
 
 use App\LogoProcess;
@@ -209,6 +211,15 @@ class DevelopmentListController extends Controller
         {
             $tapesduplicateid=0;
         }
+        if($duplicaterecord->ZipperPullersID != null && $duplicaterecord->ZipperPullersID <> 0)
+        {
+            $zipperduplicatedrecord=DB::select('call sp_CRUDzipperpullers(1,'.$duplicaterecord->ZipperPullersID.')');
+            $zipperlastduplicateid = ZipperPullers::orderby('id','desc')->first();
+            $zipperduplicateid= $zipperlastduplicateid->id;
+        }else
+        {
+            $zipperduplicateid=0;
+        }
 
          
          if($duplicaterecord->HookID != null && $duplicaterecord->HookID <> 0)
@@ -330,9 +341,9 @@ class DevelopmentListController extends Controller
             //Defect: PDF march05
          //Name: Vidhya-uniquegroup Team
          //Duplicate Development list fields change
-//print_r($hangduplicateid);
 
-        $productdetails_insert = ProductDetails::create([
+
+         $productdetails_insert = ProductDetails::create([
 		 'CustomerID'=>$duplicaterecord->CustomerID,
 		 'CustomerWareHouseID'=>$duplicaterecord->CustomerWareHouseID,
         'ProductGroupID' => $duplicaterecord->ProductGroupID,
@@ -343,6 +354,7 @@ class DevelopmentListController extends Controller
         'BoxID' => $boxduplicateid,
         'HangTagsID' =>$hangduplicateid,
         'TapesID' =>$tapesduplicateid,
+        'ZipperPullersID' =>$zipperduplicateid,
         'SeasonID'=>NULL,
         'ProductStatusID'=>1,
         'ProductProcessID'=>$duplicaterecord->ProductProcessID,
@@ -405,7 +417,6 @@ class DevelopmentListController extends Controller
 				'FOB'=>NULL,
                 'status'=>1
                 ]);
-
           //defect March05 END
 		
 		  $productdetails_get = ProductDetails::orderby('id','desc')->first();
@@ -440,6 +451,28 @@ class DevelopmentListController extends Controller
             ->update(['ProductID' =>$productdetails_get->id,
 			]);
 		  }
+          if($zipperduplicateid!="" || $zipperduplicateid!=NULL || $zipperduplicateid<>0)
+          {
+           $productdetailsupdate=DB::table('zipperpullers')
+            ->where('id',$zipperduplicateid)
+            ->update(['ProductID' =>$productdetails_get->id,
+            ]);
+          }
+          if($hangduplicateid!="" || $hangduplicateid!=NULL || $hangduplicateid<>0)
+          {
+           $productdetailsupdate=DB::table('hangtags')
+            ->where('id',$hangduplicateid)
+            ->update(['ProductID' =>$productdetails_get->id,
+            ]);
+          }
+          if($tapesduplicateid!="" || $tapesduplicateid!=NULL || $tapesduplicateid<>0)
+          {
+           $productdetailsupdate=DB::table('tapes')
+            ->where('id',$tapesduplicateid)
+            ->update(['ProductID' =>$productdetails_get->id,
+            ]);
+          }
+
 		  
          //$data = $productdetails_insert->id '.' $id;
 
@@ -473,14 +506,31 @@ class DevelopmentListController extends Controller
 
   // echo "test".$vendorid;exit;
 
-   $productdevlopmentlist = ProductDetails::where('id','=',$id)->first();
+//View: lineno 444-468 sathish 17-03-2018 
+
+   $productdetails = ProductDetails::where('id','=',$id)->first();
 
    //print_r($productdevlopmentlist->CustomerID);exit;
-    $customers=App\Customers::where('id','=',$productdevlopmentlist->CustomerID)->first();
+    $customers=App\Customers::where('id','=',$productdetails->CustomerID)->first();
 
-    $status=App\Status::where('id','=',$productdevlopmentlist->status)->first();
+    $customers=App\Customers::where('id','=',$productdetails->CustomerID)->first();
 
-   return view('users.view_developmentlist', compact('user','productdevlopmentlist','customers','status','usertype'));    
+    $status=App\Status::where('id','=',$productdetails->status)->first();
+
+
+       $boxesdetails=Boxes::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+       
+     
+      $hookdetails=Hook::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+      
+      $tissuepaperdetails=Tissuepaper::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+      
+      $packagingstickersdetails=PackagingStickers::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+      
+
+
+
+   return view('users.view_developmentlist', compact('user','productdetails','customers','status','usertype','boxesdetails','hookdetails','tissuepaperdetails','packagingstickersdetails'));    
 
    }
    /*Vidhya:PHP
@@ -515,6 +565,10 @@ class DevelopmentListController extends Controller
        }
        if ($developmentlist_delete->HangTagsID!=0) {
          $deletehangproduct = HangTags::where('id','=',$developmentlist_delete->HangTagsID)->first();
+        $deletehangproduct->delete();  
+       }
+       if ($developmentlist_delete->ZipperPullersID!=0) {
+         $deletehangproduct = ZipperPullers::where('id','=',$developmentlist_delete->ZipperPullersID)->first();
         $deletehangproduct->delete();  
        }
        

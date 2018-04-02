@@ -104,6 +104,7 @@ use URL;
      //Date :17032018
 use App\Woven;
 use App\PrintedLabel;
+use App\HeatTransfer;
 
 
 class ProductsController extends Controller
@@ -1807,8 +1808,13 @@ class ProductsController extends Controller
      */
     public function myformAjax($id)
     {
+    	//TasK: To show only product sub group only status 1
+     //Done by Rajesh
+     //Date :17032018
+
         $productsubgroup = DB::table("productsubgroup")
                     ->where("Product_groupID",$id)
+                    ->where("Pdmproductstatus",1)
                     ->pluck("ProductSubGroupName","id");
         return json_encode($productsubgroup);
 		//$data=11;
@@ -2235,9 +2241,37 @@ $inven_productfielddetails=ProductDetailFields::where('status','=',1)->where('ca
                  <div class="col-lg-12 garmentcomponentsblk"></div>
                 </div>
                
-                 <?php }else{
+                 <?php }elseif($fieldname=="SewSpace"){ ?>
+<!-- //TasK: To pass sewspace new design
+     //Done by Rajesh
+     //Date :22032018 -->
+<div class="printcolorhidden processdiv" <?php if($list->hide==2){?> style="display: none;" <?php } ?>>
+                 <label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo  $list->fieldname; if($list->isvalid==1){ ?><span class="required">*</span><?php } ?></label>
+                   <div class="col-lg-10">
+                <!-- //TasK: To pass group ID
+     //Done by Rajesh
+     //Date :17032018 -->
+     
+                        
+                        
+                         <?php foreach ($fielddetailslist as $fielddetails){ ?>
+                          <div class="col-lg-12" style="margin-bottom: 10px;">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo $fielddetails->$fieldname; ?>:</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="<?php echo $fieldname; ?>[]" id="<?php echo $fieldname; ?>" class="form-control mmspecific">                   
                 	
+                </div>
+                </div> 
+                          <?php } ?>
+                                            
+                       
+                       
+                </div>   
+                 
+                </div>
 
+                <?php }else{              	
                 ?>
                  <div class="printcolorhidden processdiv" <?php if($list->hide==2){?> style="display: none;" <?php } ?>>
                  <label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo  $list->fieldname; if($list->isvalid==1){ ?><span class="required">*</span><?php } ?></label>
@@ -2324,6 +2358,15 @@ $inven_productfielddetails=ProductDetailFields::where('status','=',1)->where('ca
               
                 </div>
                 </div>
+                <?php }elseif($list->columnfieldname=="GroundPaperColor"){ ?>
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo $list->fieldname; ?>:<?php if($list->isvalid==1) {?><span class="required">*</span><?php } ?></label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="GroundPaperColor1" id="GroundPaperColor1" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
                 <!-- //Defect:Changes made for Tapes
                 //Name: Manimaran R
                 //fields for tape width and length fields -->
@@ -2389,10 +2432,10 @@ $inven_productfielddetails=ProductDetailFields::where('status','=',1)->where('ca
                  <div class="printcolorhidden">
                   <label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo $list->fieldname; ?>:<?php if($list->isvalid==1) {?><span class="required">*</span><?php } ?></label>
                  <div class="col-lg-5 cmykwidthdiv">
-                 <span class="1cmykyes 1cmykcheckbox"><input type="radio" name="Calendered " id="Calendered"  class="chkbox " value="1"  />Yes</span>&nbsp;
-                 </div>
+                 <span class="1cmykyes 1cmykcheckbox"><input type="radio" name="Calendered" id="Calendered"  class="chkbox " value="1"  />Yes</span>&nbsp;
+                 </div><!-- sathish 27-03-2018 removes space for name="Calendered" -->
                   <div class="col-lg-5 cmykwidthdiv">
-                 <span class="1cmykno 1cmykcheckbox"><input type="radio" name="Calendered " id="Calendered" class="chkbox" value="0" checked="checked"  />No</span>
+                 <span class="1cmykno 1cmykcheckbox"><input type="radio" name="Calendered" id="Calendered" class="chkbox" value="0" checked="checked"  />No</span>
                 </div>
                 </div>
              
@@ -2480,20 +2523,64 @@ $inven_productfielddetails=ProductDetailFields::where('status','=',1)->where('ca
                 $listoffieldname=$list->fieldname;
                  ?>
 
-                 <div class="printcolorhidden" <?php if($list->hide==2){?> style="display: none;" <?php } ?>><label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo $listoffieldname; ?>:<?php if($list->isvalid==1) {?><span class="required">*</span><?php } ?></label>
+                 <div class="printcolorhidden <?php echo strtolower($list->columnfieldname).'blk'; ?>" <?php if($list->hide==2){?> style="display: none;" <?php } ?>><label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo $listoffieldname; ?>:<?php if($list->isvalid==1) {?><span class="required">*</span><?php } ?></label>
                    <div class="col-lg-10">
                  
                   <?php foreach ($fielddetailslist as $fielddetails){ ?>
                            
                          
                          <div class="col-lg-4">
-
-              <input type="checkbox" name="<?php echo $list->columnfieldname; ?>[]" id="<?php echo $list->columnfieldname; ?>" data-lang=<?php echo strtoupper(substr($fielddetails->$fieldname, 0, 3)); ?> value="<?php echo $fielddetails->id; ?>" class="<?php echo strtolower($list->columnfieldname); ?>"  /><p class="spanval label_font"><?php echo $fielddetails->$fieldname; ?></p>
+<?php $processlan=explode('/', $fielddetails->$fieldname);$languset='';
+foreach ($processlan as $lanvalue) {
+	$languset.=strtoupper(substr($lanvalue, 0, 3)).',';
+}
+ ?>
+              <input type="checkbox" name="<?php echo $list->columnfieldname; ?>[]" id="<?php echo $list->columnfieldname; ?>" data-lang="<?php echo rtrim($languset,','); ?>" value="<?php echo $fielddetails->id; ?>" class="<?php echo strtolower($list->columnfieldname); ?>"  /><p class="spanval label_font"><?php echo $fielddetails->$fieldname; ?></p>
               </div>
                           <?php } ?>
 
                 </div></div>
                 <?php
+                }else if($list->checkbox!="" && $list->checkboxvalue!=''){ ?>
+
+<div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo $list->fieldname; if($list->isvalid==1){ ?><span class="required">*</span><?php } ?></label>
+                 
+                
+                 <div class="col-lg-5 checkboxdiv">
+                  <?php
+                   if($list->checkboxvalue!=""){
+                  $chkval=$list->checkboxvalue;
+                  $chkvalexp=explode(",",$chkval);
+                  foreach($chkvalexp as $chkbox){
+                  ?>
+                  <input type="checkbox" name="measurement1" id="<?php echo $chkbox; ?>" value="<?php echo $chkbox; ?>" /><p class="spanval"> <?php echo $chkbox; ?></p>
+                  <?php }
+              } ?>
+                
+                  </div>
+                  </div>
+
+
+
+                <?php }else if($list->checkbox!=""){
+                	 ?>
+
+<div class="printcolorhidden checkboxinfoblk">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo $list->fieldname; if($list->isvalid==1){ ?><span class="required">*</span><?php } ?></label>
+                 
+                
+                 <div class="col-lg-5 checkboxdiv">
+                 
+                  <input type="checkbox" name="<?php echo $list->columnfieldname; ?>" id="<?php echo $list->columnfieldname; ?>" value="1" />
+                  
+                
+                  </div>
+                  </div>
+
+
+
+                <?php 
                 }else{ 
                 	
                 //TasK: To pass group ID
@@ -2504,7 +2591,7 @@ $inven_productfielddetails=ProductDetailFields::where('status','=',1)->where('ca
                 <div class="printcolorhidden processdiv" <?php if($list->hide==2){?> style="display: none;" <?php } ?>>
                  <label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo $list->fieldname; ?>:<?php if($list->isvalid==1) {?><span class="required">*</span><?php } ?></label>
                  <div class="col-lg-5">
-                     <input type="text" <?php if($list->isvalid==1){ ?> required<?php } ?> name="<?php echo $list->columnfieldname; ?>" id="<?php echo $list->columnfieldname; ?>"  class="form-control" />
+                     <input type="text" <?php if($list->isvalid==1){ ?> required<?php } ?> name="<?php echo $list->columnfieldname; ?>" id="<?php echo $list->columnfieldname; ?>"  class="form-control <?php if($list->columnfieldname=="FinishedLength"){ echo 'mmspecific';} ?>" />
                  </div>
                  <!-- //TasK: To pass group ID
      //Done by Rajesh
@@ -2518,10 +2605,12 @@ $inven_productfielddetails=ProductDetailFields::where('status','=',1)->where('ca
 
 
     	<?php 
-    }
-   
+    }?>
+   <div class="printcolorhidden">
+   		<div class="careinformation"></div>
+   </div>
 
-    }
+    <?php }
 
 // Rajesh
     //Task insert and update step tab process
@@ -2569,6 +2658,12 @@ $path = '/data/product';
 	$hook->QualityReference = $request->QualityReference;
 	//sathish 15-03-2018 
   $hook->QualityReferencem  = $request->hook_qty_chk;
+
+  //sathish 21-03-2018
+ $hook->Width=$request->Hook_Width;
+ $hook->Thickness=$request->Hook_Thickness;
+ $hook->Length=$request->Hook_Length;
+ $hook->Color=$request->Color;
 
 	$hook->measurement1 = $request->hook_measurement;
 	$hook->MoldCostingCurrency = $request->Currency;
@@ -2750,6 +2845,11 @@ $Boxes->Sample_costing = $request->box_Samplecost;
 	$Boxes->QualityReferencem   = $request->qty_chk;
 //sathish 14-03-2018
 $Boxes->CMYK   =$request->printcolor;
+//sathish 21-03-2018
+ $Boxes->Width=$request->Width;
+ $Boxes->Thickness=$request->Thickness;
+ $Boxes->Length=$request->Length;
+ $Boxes->Height=$request->Height;
 
 	$Boxes->PrintColor1   = $request->print_color1;
 	$Boxes->PrintColor2   = $request->print_color2;
@@ -2794,8 +2894,25 @@ $Woven->LoomTypeID = $request->LoomType;
 $Woven->LoomHarnessID = $request->LoomHarness;
 $Woven->WarpID = $request->Warp;
 $Woven->QualityID = $request->Quality;
+$Woven->QualityReference=$request->qty_ref;
+
+//sathish 28-03-2018
+$Woven->Brocadecolor1=$request->Brocadecolor1;
+$Woven->Brocadecolor2=$request->Brocadecolor2;
+$Woven->Brocadecolor3=$request->Brocadecolor3;
+$Woven->Brocadecolor4=$request->Brocadecolor4;
+$Woven->Brocadecolor5=$request->Brocadecolor5;
+$Woven->Brocadecolor6=$request->Brocadecolor6;
+$Woven->FinishedLength = $request->FinishedLength;
+$Woven->GroundColor = $request->GroundColor;
+$Woven->QualityReferencem = $request->qty_chk;
+$Woven->Finishing=$request->FinishingCoatingLabels;
+
+
+$Woven->Width=$request->Width;
+$Woven->Length=$request->Length;
 $Woven->TypeoffoldID = $request->Typeoffold;
-$Woven->SewSpaceID = $request->SewSpace;
+$Woven->SewSpaceID = isset($request->SewSpace)?implode(',',$request->SewSpace):'';
 $Woven->ProductionRegionID1   = $request->ProductionRegions1;
 $Woven->UniqueFactory1   = isset($request->uniquefactory1)?implode(',',$request->uniquefactory1):'';
 $Woven->ProductionRegionID2   = $request->ProductionRegions2;
@@ -2804,6 +2921,26 @@ $Woven->ProductionRegionID3   = $request->ProductionRegions3;
 $Woven->UniqueFactory3   = isset($request->uniquefactory3)?implode(',',$request->uniquefactory3):'';
 $Woven->CurrencyID = $request->boxCurrency;
 $Woven->Sample_costing = $request->woven_Samplecost;
+
+$Woven->LanguageID  = isset($request->LanguageName)?implode('#',$request->LanguageName):'';
+$Woven->SizeRangeID = isset($request->SizesName)?implode('#',$request->SizesName):'';
+
+$Woven->SizebyLetter = isset($request->size_by_letter)?implode('#',$request->size_by_letter):'';
+$Woven->SizebyNumber = isset($request->size_by_number)?implode('#',$request->size_by_number):'';
+$Woven->BraSizes = isset($request->bra_sizes)?implode('#',$request->bra_sizes):'';
+$Woven->ToddlerSizes = isset($request->toddler_sizes)?implode('#',$request->toddler_sizes):'';
+$Woven->PantsSizes = isset($request->pants_sizes)?implode('#',$request->pants_sizes):'';
+
+
+$Woven->Sizemaintenance = isset($request->sizemaintenance)?implode('#',$request->sizemaintenance):'';
+$Woven->CountryofOriginID = $request->CountryofOriginName;
+
+$Woven->ExclusiveofTrimmings=$request->ExclusiveofTrimmings;
+$Woven->ExclusiveofDecoration=$request->ExclusiveofDecoration;
+$Woven->ExclusiveofFindings=$request->ExclusiveofFindings;
+$Woven->FireWarningLabel=$request->FireWarningLabel;
+
+
 $imgInp = Input::file('imgInp3');
 			//$imgInp=$request->imgInp3;
 
@@ -2822,12 +2959,36 @@ $Woven->save();
 
 if($ProductSubGroupName==11){
 $PrintedLabel=PrintedLabel::create($request->all());
+//sathish 27032018 start **
 
 
 $PrintedLabel->CustomerID = $request->CustomerName;
 $PrintedLabel->TypeofLabelID = $request->TypeofLabels;
+
+$PrintedLabel->SubstrateQualityID = $request->SubstrateQualityName;
+$PrintedLabel->SubstrateReferenceID = $request->SubstrateReferenceName;
+$PrintedLabel->SubstrateColorID = $request->SubstrateColorName;
+
 $PrintedLabel->TypeoffoldID = $request->Typeoffold;
-$PrintedLabel->SewSpaceID = $request->SewSpace;
+
+$PrintedLabel->Width=$request->Width;
+$PrintedLabel->Length=$request->Length;
+
+$PrintedLabel->QualityReference = $request->qty_ref;
+$PrintedLabel->QualityReferencem = $request->qty_chk;
+$PrintedLabel->SewSpaceID =isset($request->SewSpace)?implode(',',$request->SewSpace):'';
+
+$PrintedLabel->FinishedLength = $request->FinishedLength;
+$PrintedLabel->DuraPrint=$request->DuraPrint;
+$PrintedLabel->Calendered=$request->Calendered;
+
+$PrintedLabel->PrintTypeID=$request->PrintType;
+$PrintedLabel->InkColor1=$request->InkColor1;
+$PrintedLabel->InkColor2=$request->InkColor2;
+$PrintedLabel->InkColor3=$request->InkColor3;
+$PrintedLabel->InkColor4=$request->InkColor4;
+$PrintedLabel->FinishingID=$request->FinishingCoatingLabels;
+
 $PrintedLabel->ProductionRegionID1   = $request->ProductionRegions1;
 $PrintedLabel->UniqueFactory1   = isset($request->uniquefactory1)?implode(',',$request->uniquefactory1):'';
 $PrintedLabel->ProductionRegionID2   = $request->ProductionRegions2;
@@ -2835,7 +2996,28 @@ $PrintedLabel->UniqueFactory2   = isset($request->uniquefactory2)?implode(',',$r
 $PrintedLabel->ProductionRegionID3   = $request->ProductionRegions3;
 $PrintedLabel->UniqueFactory3   = isset($request->uniquefactory3)?implode(',',$request->uniquefactory3):'';
 $PrintedLabel->CurrencyID = $request->boxCurrency;
-$PrintedLabel->Sample_costing = $request->woven_Samplecost;
+$PrintedLabel->Sample_costing = $request->printedlabel_Samplecost;
+
+
+$PrintedLabel->LanguageID  = isset($request->LanguageName)?implode('#',$request->LanguageName):'';
+$PrintedLabel->SizeRangeID = isset($request->SizesName)?implode('#',$request->SizesName):'';
+
+$PrintedLabel->SizebyLetter = isset($request->size_by_letter)?implode('#',$request->size_by_letter):'';
+$PrintedLabel->SizebyNumber = isset($request->size_by_number)?implode('#',$request->size_by_number):'';
+$PrintedLabel->BraSizes = isset($request->bra_sizes)?implode('#',$request->bra_sizes):'';
+$PrintedLabel->ToddlerSizes = isset($request->toddler_sizes)?implode('#',$request->toddler_sizes):'';
+$PrintedLabel->PantsSizes = isset($request->pants_sizes)?implode('#',$request->pants_sizes):'';
+
+$PrintedLabel->Sizemaintenance = isset($request->sizemaintenance)?implode('#',$request->sizemaintenance):'';
+$PrintedLabel->CountryofOriginID = $request->CountryofOriginName;
+
+$PrintedLabel->ExclusiveofTrimmings=$request->ExclusiveofTrimmings;
+$PrintedLabel->ExclusiveofDecoration=$request->ExclusiveofDecoration;
+$PrintedLabel->ExclusiveofFindings=$request->ExclusiveofFindings;
+$PrintedLabel->FireWarningLabel=$request->FireWarningLabel;
+
+//** end by sathish 27-03-2018
+
 $imgInp = Input::file('imgInp3');
 			//$imgInp=$request->imgInp3;
 
@@ -2851,6 +3033,82 @@ $imgInp = Input::file('imgInp3');
 
 $PrintedLabel->save();
 }
+
+//27-03-2018
+//Task:HeatTransfer
+//Worked by Sathish
+
+if($ProductSubGroupName==12){
+$HeatTransfer=HeatTransfer::create($request->all());
+
+
+$HeatTransfer->CustomerID = $request->CustomerName;
+
+$HeatTransfer->TypeofLabelID = $request->TypeofLabels;
+$HeatTransfer->TypeofHeatTransfer = $request->TypeofHeatTransferName;
+$HeatTransfer->Qualityreference= $request->QualityReference;
+$HeatTransfer->QualityReferencem = $request->qty_chk;
+$HeatTransfer->FinishID = $request->HeatTransferFinish;
+$HeatTransfer->Width= $request->Width;
+$HeatTransfer->Length= $request->Length;
+$HeatTransfer->PrintColor1= $request->PrintColor1;
+$HeatTransfer->PrintColor2= $request->PrintColor2;
+$HeatTransfer->PrintColor3= $request->PrintColor3;
+$HeatTransfer->PrintColor4= $request->PrintColor4;
+$HeatTransfer->ApplicationName = $request->ApplicationName;
+//sathish 27-03-2018
+$HeatTransfer->LanguageID  = isset($request->LanguageName)?implode('#',$request->LanguageName):'';
+$HeatTransfer->SizeRangeID = isset($request->SizesName)?implode('#',$request->SizesName):'';
+
+$HeatTransfer->SizebyLetter = isset($request->size_by_letter)?implode('#',$request->size_by_letter):'';
+$HeatTransfer->SizebyNumber = isset($request->size_by_number)?implode('#',$request->size_by_number):'';
+$HeatTransfer->BraSizes = isset($request->bra_sizes)?implode('#',$request->bra_sizes):'';
+$HeatTransfer->ToddlerSizes = isset($request->toddler_sizes)?implode('#',$request->toddler_sizes):'';
+$HeatTransfer->PantsSizes = isset($request->pants_sizes)?implode('#',$request->pants_sizes):'';
+
+$HeatTransfer->Sizemaintenance = isset($request->sizemaintenance)?implode('#',$request->sizemaintenance):'';
+$HeatTransfer->CountryofOriginID = $request->CountryofOriginName;
+
+$HeatTransfer->ExclusiveofTrimmings=$request->ExclusiveofTrimmings;
+$HeatTransfer->ExclusiveofDecoration=$request->ExclusiveofDecoration;
+$HeatTransfer->ExclusiveofFindings=$request->ExclusiveofFindings;
+$HeatTransfer->FireWarningLabel=$request->FireWarningLabel;
+
+$HeatTransfer->FinishID = $request->HeatTransferFinish;
+$HeatTransfer->ApplicationName = $request->ApplicationName;
+
+	$HeatTransfer->status   = 1;
+
+//sathish 23-03-2018 added extra fields
+
+	$HeatTransfer->Currency   = $request->boxCurrency;
+	$HeatTransfer->SampleCost   = $request->heat_Samplecost;
+
+	$HeatTransfer->ProductionRegionID1   = $request->ProductionRegions1;
+$HeatTransfer->UniqueFactory1   = isset($request->uniquefactory1)?implode(',',$request->uniquefactory1):'';
+$HeatTransfer->ProductionRegionID2   = $request->ProductionRegions2;
+$HeatTransfer->UniqueFactory2   = isset($request->uniquefactory2)?implode(',',$request->uniquefactory2):'';
+$HeatTransfer->ProductionRegionID3   = $request->ProductionRegions3;
+$HeatTransfer->UniqueFactory3   = isset($request->uniquefactory3)?implode(',',$request->uniquefactory3):'';
+
+$imgInp = Input::file('imgInp3');
+			//$imgInp=$request->imgInp3;
+
+			$path = '/data/product';
+			 if($imgInp!='')
+                {
+             		$destinationPath = $path;
+      				$imgInp_filename=$imgInp->storeAs($destinationPath,$imgInp->getClientOriginalName());      				
+
+				}
+	$HeatTransfer->Artwork  = $imgInp_filename;
+
+
+
+$HeatTransfer->save();
+}
+
+
 //17-3-2018
 //Name: Manimaran R
 //Worked on HangTags
@@ -2897,7 +3155,7 @@ $HangTags->CMYK   =$request->printcolor;
 
 	$HangTags->Width   = $request->Width;
 	$HangTags->Length   = $request->Length;
-	$HangTags->GroundPaperColor   = $request->GroundPaperColor;
+	$HangTags->GroundPaperColor   = $request->GroundPaperColor1;
 
 	$HangTags->Drillholesize   = $request->DrillHoleSize;
 	$HangTags->StringTotalLength   = $request->StringTotalLength;
@@ -3031,7 +3289,7 @@ $ZipperPullers->SampleCosting = $request->zipper_Samplecost;
 
 				$ZipperPullers->Artwork  = $imgInp_filename;
 	$ZipperPullers->status   = 1;
-//print_r($ZipperPullers);exit;
+
 $ZipperPullers->save();
 
 }
@@ -3044,6 +3302,10 @@ $ProductDetails->CustomerID= $request->CustomerName;
 	$ProductDetails->TissuePaperID =isset($Tissuepaper->id)?$Tissuepaper->id:0;
 	$ProductDetails->PackagingStickersID =isset($PackagingStickers->id)?$PackagingStickers->id:0;
 	$ProductDetails->BoxID = isset($Boxes->id)?$Boxes->id:0;
+	//TasK: To heattransfer ID
+     //Done by Sathish
+     //Date :23-03-2018
+	$ProductDetails->HeatTransferLabelID = isset($HeatTransfer->id)?$HeatTransfer->id:0;
 	 //TasK: To pass group ID
      //Done by Rajesh
      //Date :17032018
@@ -3164,6 +3426,19 @@ $ProductDetails->Version=$request->version;
 
 
 $ProductDetails->save();
+//sathish 23-03-2018 HeatTransfer
+if(isset($HeatTransfer->id)){
+$page = HeatTransfer::find($HeatTransfer->id);
+}
+
+if(isset($Woven->id)){
+$page = Woven::find($Woven->id);
+}
+
+if(isset($PrintedLabel->id)){
+	//sathish 27032018
+$page = PrintedLabel::find($PrintedLabel->id);
+}
 
 //TasK: To pass group ID
      //Done by Rajesh
@@ -3200,6 +3475,7 @@ if($page) {
     $page->productID = $ProductDetails->id;
     $page->save();
 }
+
 if(isset($hook->id)){
 $page = Hook::find($hook->id);
 
@@ -3452,11 +3728,17 @@ $productinventorydetails=ProductDetails::where('id','=',$id)->where('status','='
 $hangtagsproduct=HangTags::where('id','=',$productdetails->HangTagsID)->first();
 $tapeproduct=Tapes::where('id','=',$productdetails->TapesID)->first();
 $zipperpullerproduct=ZipperPullers::where('id','=',$productdetails->ZipperPullersID)->first();
+
+//sathish 27-03-2018 heatTransfer Details
+$heattransferdetails=HeatTransfer::where('id','=',$productdetails->HeatTransferLabelID)->first();
+//sathish 28-03-2018
+$wovendetails=Woven::where('id','=',$productdetails->WovenLabelID)->first();
+$printedlabeldetails=PrintedLabel::where('id','=',$productdetails->PrintedLabelID)->first();
 //printf($hangtagsproduct);exit;
 
 //sathis 14-03-2018
 
-        return view('users.edit_productlist', compact('user','usertype','productfielddetails','producthookfields','productdevelopmentsubgroupdetails','prddevsubgrouppackagingdetails','inventorydetails','inven_productfielddetails','invendetails_productfielddetails','quantitydetails','cost_productfielddetails','productdetails','productdevelopmentfields','boxesdetails','hookdetails','tissuepaperdetails','packagingstickersdetails','productinventorydetails','productquotedetails','hangtagsproduct','tapeproduct','zipperpullerproduct'));
+        return view('users.edit_productlist', compact('user','usertype','productfielddetails','producthookfields','productdevelopmentsubgroupdetails','prddevsubgrouppackagingdetails','inventorydetails','inven_productfielddetails','invendetails_productfielddetails','quantitydetails','cost_productfielddetails','productdetails','productdevelopmentfields','boxesdetails','hookdetails','tissuepaperdetails','packagingstickersdetails','productinventorydetails','productquotedetails','hangtagsproduct','tapeproduct','zipperpullerproduct','heattransferdetails','wovendetails','printedlabeldetails'));
 	 
 	  
 		
@@ -3509,6 +3791,11 @@ $path = '/data/product';
 	//sathish 15-03-2018 
 
  $hook->QualityReferencem  = $request->hook_qty_chk;
+//sathish 21-03-2018
+ $hook->Width=$request->Hook_Width;
+ $hook->Thickness=$request->Hook_Thickness;
+ $hook->Length=$request->Hook_Length;
+ $hook->Color=$request->Color;
 
 	$hook->measurement1 = $request->hook_measurement;
 	$hook->MoldCostingCurrency = $request->Currency;
@@ -3599,7 +3886,7 @@ $Tissuepaper->QualityReferencem  = $request->tissueqty_chk;
 	$Tissuepaper->Tissue_CurrencyID = $request->Tissuepaper_Currency;
 	$Tissuepaper->Tissue_Samplecost = $request->Tissue_samplecost;
 	$Tissuepaper->Productstatus   = $request->Tissuepaper_StatusName;
-	$Tissuepaper->Version   = 1;
+	$Tissuepaper->Version   = $Tissuepaper->Version+1;
 	$Tissuepaper->status   = 1;
 	$Tissuepaper->Artwork  = $imgInp_filename;
 
@@ -3626,9 +3913,9 @@ $path = '/data/product';
              		echo $destinationPath = $path;
       				echo $imgInp_filename=$imgInp->storeAs($destinationPath,$imgInp->getClientOriginalName());      				
 
-				}else{
-					if($request->selectimage!=''){
-      				$imgInp_filename=$request->selectimage;     				
+				}else{//sathish 21-03-2018
+					if($request->selectimage2!=''){
+      				$imgInp_filename=$request->selectimage2;     				
 					}else{
 						$imgInp_filename='';
 					}
@@ -3676,7 +3963,7 @@ $path = '/data/product';
 	$PackagingStickers->Pack_Samplecost = $request->Pack_samplecost;
 	$PackagingStickers->Productstatus   = $request->Package_StatusName;
 
-	$PackagingStickers->Version   = 1;
+	$PackagingStickers->Version   = $PackagingStickers->Version+1;
 	$PackagingStickers->status   = 1;
 	$PackagingStickers->Artwork  = $imgInp_filename;
 
@@ -3707,6 +3994,11 @@ $Boxes->CustomerID = $request->CustomerName;
 
 //sathish 14-03-2018	
 $Boxes->CMYK = $request->printcolor;
+//sathish 21-03-2018
+ $Boxes->Width=$request->Width;
+ $Boxes->Thickness=$request->Thickness;
+ $Boxes->Length=$request->Length;
+ $Boxes->Height=$request->Height;
 
 	$Boxes->PrintColor1   = $request->print_color1;
 	$Boxes->PrintColor2   = $request->print_color2;
@@ -3746,6 +4038,257 @@ $path = '/data/product';
 $Boxes->save();
 }
 }
+
+//Sathish 28-03-2018 Woven UpdateFunction 
+
+if(isset($request->wovenlabel_editID)){
+$Woven = Woven::find($request->wovenlabel_editID);
+
+// Make sure you've got the Page model
+if($Woven) {
+
+$Woven->CustomerID = $request->CustomerName;
+$Woven->TypeofLabelID = $request->TypeofLabels;
+$Woven->LoomTypeID = $request->LoomType;
+$Woven->LoomHarnessID = $request->LoomHarness;
+$Woven->WarpID = $request->Warp;
+$Woven->QualityID = $request->Quality;
+$Woven->TypeoffoldID = $request->Typeoffold;
+
+$Woven->Width=$request->Width;
+$Woven->Length=$request->Length;
+$Woven->Brocadecolor1=$request->Brocadecolor1;
+$Woven->Brocadecolor2=$request->Brocadecolor2;
+$Woven->Brocadecolor3=$request->Brocadecolor3;
+$Woven->Brocadecolor4=$request->Brocadecolor4;
+$Woven->Brocadecolor5=$request->Brocadecolor5;
+$Woven->Brocadecolor6=$request->Brocadecolor6;
+$Woven->FinishedLength = $request->FinishedLength;
+$Woven->GroundColor = $request->GroundColor;
+$Woven->QualityReference = $request->qty_ref;
+$Woven->QualityReferencem = $request->qty_chk;
+$Woven->Finishing=$request->FinishingCoatingLabels;
+
+$Woven->SewSpaceID = isset($request->SewSpace)?implode(',',$request->SewSpace):'';
+$Woven->ProductionRegionID1   = $request->ProductionRegions1;
+$Woven->UniqueFactory1   = isset($request->uniquefactory1)?implode(',',$request->uniquefactory1):'';
+$Woven->ProductionRegionID2   = $request->ProductionRegions2;
+$Woven->UniqueFactory2   = isset($request->uniquefactory2)?implode(',',$request->uniquefactory2):'';
+$Woven->ProductionRegionID3   = $request->ProductionRegions3;
+$Woven->UniqueFactory3   = isset($request->uniquefactory3)?implode(',',$request->uniquefactory3):'';
+$Woven->CurrencyID = $request->boxCurrency;
+$Woven->Sample_costing = $request->woven_Samplecost;
+
+$Woven->LanguageID  = isset($request->LanguageName)?implode('#',$request->LanguageName):'';
+$Woven->SizeRangeID = isset($request->SizesName)?implode('#',$request->SizesName):'';
+
+$Woven->SizebyLetter = isset($request->size_by_letter)?implode('#',$request->size_by_letter):'';
+$Woven->SizebyNumber = isset($request->size_by_number)?implode('#',$request->size_by_number):'';
+$Woven->BraSizes = isset($request->bra_sizes)?implode('#',$request->bra_sizes):'';
+$Woven->ToddlerSizes = isset($request->toddler_sizes)?implode('#',$request->toddler_sizes):'';
+$Woven->PantsSizes = isset($request->pants_sizes)?implode('#',$request->pants_sizes):'';
+
+$Woven->CountryofOriginID = $request->CountryofOriginName;
+$Woven->ExclusiveofTrimmings=$request->ExclusiveofTrimmings;
+$Woven->ExclusiveofDecoration=$request->ExclusiveofDecoration;
+$Woven->ExclusiveofFindings=$request->ExclusiveofFindings;
+$Woven->FireWarningLabel=$request->FireWarningLabel;
+
+$imgInp = Input::file('imgInp3');
+			//$imgInp=$request->imgInp3;
+
+			$path = '/data/product';
+			 if($imgInp!='')
+                {
+             		$destinationPath = $path;
+      				$imgInp_filename=$imgInp->storeAs($destinationPath,$imgInp->getClientOriginalName());      				
+
+				}
+
+				else{
+					if($request->selectimage3!=''){
+      				$imgInp_filename=$request->selectimage3;     				
+					}else{
+						$imgInp_filename='';
+					}
+				}
+	$Woven->Artwork  = $imgInp_filename;
+	$Woven->status   = 1;
+
+$Woven->save();
+
+}
+}//end sathish 28-03-2018
+
+//Printed Label Sathish 28-03-2018
+if(isset($request->printedlabel_editID)){
+
+$PrintedLabel=PrintedLabel::find($request->printedlabel_editID);
+
+if($PrintedLabel){
+
+
+$PrintedLabel->CustomerID = $request->CustomerName;
+$PrintedLabel->TypeofLabelID = $request->TypeofLabels;
+
+$PrintedLabel->SubstrateQualityID = $request->SubstrateQualityName;
+$PrintedLabel->SubstrateReferenceID = $request->SubstrateReferenceName;
+$PrintedLabel->SubstrateColorID = $request->SubstrateColorName;
+
+$PrintedLabel->TypeoffoldID = $request->Typeoffold;
+
+$PrintedLabel->Width=$request->Width;
+$PrintedLabel->Length=$request->Length;
+
+$PrintedLabel->QualityReference = $request->qty_ref;
+$PrintedLabel->QualityReferencem = $request->qty_chk;
+$PrintedLabel->SewSpaceID =isset($request->SewSpace)?implode(',',$request->SewSpace):'';
+
+$PrintedLabel->FinishedLength = $request->FinishedLength;
+$PrintedLabel->DuraPrint=$request->DuraPrint;
+$PrintedLabel->Calendered=$request->Calendered;
+
+$PrintedLabel->PrintTypeID=$request->PrintType;
+$PrintedLabel->InkColor1=$request->InkColor1;
+$PrintedLabel->InkColor2=$request->InkColor2;
+$PrintedLabel->InkColor3=$request->InkColor3;
+$PrintedLabel->InkColor4=$request->InkColor4;
+$PrintedLabel->FinishingID=$request->FinishingCoatingLabels;
+
+$PrintedLabel->ProductionRegionID1   = $request->ProductionRegions1;
+$PrintedLabel->UniqueFactory1   = isset($request->uniquefactory1)?implode(',',$request->uniquefactory1):'';
+$PrintedLabel->ProductionRegionID2   = $request->ProductionRegions2;
+$PrintedLabel->UniqueFactory2   = isset($request->uniquefactory2)?implode(',',$request->uniquefactory2):'';
+$PrintedLabel->ProductionRegionID3   = $request->ProductionRegions3;
+$PrintedLabel->UniqueFactory3   = isset($request->uniquefactory3)?implode(',',$request->uniquefactory3):'';
+$PrintedLabel->CurrencyID = $request->boxCurrency;
+$PrintedLabel->Sample_costing = $request->printedlabel_Samplecost;
+
+
+$PrintedLabel->LanguageID  = isset($request->LanguageName)?implode('#',$request->LanguageName):'';
+$PrintedLabel->SizeRangeID = isset($request->SizesName)?implode('#',$request->SizesName):'';
+
+$PrintedLabel->SizebyLetter = isset($request->size_by_letter)?implode('#',$request->size_by_letter):'';
+$PrintedLabel->SizebyNumber = isset($request->size_by_number)?implode('#',$request->size_by_number):'';
+$PrintedLabel->BraSizes = isset($request->bra_sizes)?implode('#',$request->bra_sizes):'';
+$PrintedLabel->ToddlerSizes = isset($request->toddler_sizes)?implode('#',$request->toddler_sizes):'';
+$PrintedLabel->PantsSizes = isset($request->pants_sizes)?implode('#',$request->pants_sizes):'';
+
+$PrintedLabel->CountryofOriginID = $request->CountryofOriginName;
+
+$PrintedLabel->ExclusiveofTrimmings=$request->ExclusiveofTrimmings;
+$PrintedLabel->ExclusiveofDecoration=$request->ExclusiveofDecoration;
+$PrintedLabel->ExclusiveofFindings=$request->ExclusiveofFindings;
+$PrintedLabel->FireWarningLabel=$request->FireWarningLabel;
+
+//** end by sathish 27-03-2018
+
+$imgInp = Input::file('imgInp3');
+			//$imgInp=$request->imgInp3;
+
+			$path = '/data/product';
+			 if($imgInp!='')
+                {
+             		$destinationPath = $path;
+      				$imgInp_filename=$imgInp->storeAs($destinationPath,$imgInp->getClientOriginalName());      				
+
+				}
+				
+				else{
+					if($request->selectimage3!=''){
+      				$imgInp_filename=$request->selectimage3;     				
+					}else{
+						$imgInp_filename='';
+					}
+				}
+	$PrintedLabel->Artwork  = $imgInp_filename;
+	$PrintedLabel->status   = 1;
+
+$PrintedLabel->save();
+}}
+//end
+//sathish 28-03-2018 heattransfer update
+if(isset($request->heattransfer_editID)){
+
+$HeatTransfer=HeatTransfer::find($request->heattransfer_editID);
+
+if($HeatTransfer){
+$HeatTransfer->CustomerID = $request->CustomerName;
+
+$HeatTransfer->TypeofLabelID = $request->TypeofLabels;
+$HeatTransfer->TypeofHeatTransfer = $request->TypeofHeatTransferName;
+//sathish 27-03-2018 changes in quality reference
+$HeatTransfer->Qualityreference= $request->qty_ref;
+$HeatTransfer->QualityReferencem = $request->qty_chk;
+$HeatTransfer->FinishID = $request->HeatTransferFinish;
+$HeatTransfer->Width= $request->Width;
+$HeatTransfer->Length= $request->Length;
+$HeatTransfer->PrintColor1= $request->PrintColor1;
+$HeatTransfer->PrintColor2= $request->PrintColor2;
+$HeatTransfer->PrintColor3= $request->PrintColor3;
+$HeatTransfer->PrintColor4= $request->PrintColor4;
+$HeatTransfer->ApplicationName = $request->ApplicationName;
+//sathish 27-03-2018
+$HeatTransfer->LanguageID  = isset($request->LanguageName)?implode('#',$request->LanguageName):'';
+$HeatTransfer->SizeRangeID = isset($request->SizesName)?implode('#',$request->SizesName):'';
+
+$HeatTransfer->SizebyLetter = isset($request->size_by_letter)?implode('#',$request->size_by_letter):'';
+$HeatTransfer->SizebyNumber = isset($request->size_by_number)?implode('#',$request->size_by_number):'';
+$HeatTransfer->BraSizes = isset($request->bra_sizes)?implode('#',$request->bra_sizes):'';
+$HeatTransfer->ToddlerSizes = isset($request->toddler_sizes)?implode('#',$request->toddler_sizes):'';
+$HeatTransfer->PantsSizes = isset($request->pants_sizes)?implode('#',$request->pants_sizes):'';
+
+$HeatTransfer->CountryofOriginID = $request->CountryofOriginName;
+
+$HeatTransfer->ExclusiveofTrimmings=$request->ExclusiveofTrimmings;
+$HeatTransfer->ExclusiveofDecoration=$request->ExclusiveofDecoration;
+$HeatTransfer->ExclusiveofFindings=$request->ExclusiveofFindings;
+$HeatTransfer->FireWarningLabel=$request->FireWarningLabel;
+
+	$HeatTransfer->status   = 1;
+
+//sathish 23-03-2018 added extra fields
+
+	$HeatTransfer->Currency=$request->boxCurrency;
+	$HeatTransfer->SampleCost=$request->heat_Samplecost;
+
+	$HeatTransfer->ProductionRegionID1   = $request->ProductionRegions1;
+$HeatTransfer->UniqueFactory1   = isset($request->uniquefactory1)?implode(',',$request->uniquefactory1):'';
+$HeatTransfer->ProductionRegionID2   = $request->ProductionRegions2;
+$HeatTransfer->UniqueFactory2   = isset($request->uniquefactory2)?implode(',',$request->uniquefactory2):'';
+$HeatTransfer->ProductionRegionID3   = $request->ProductionRegions3;
+$HeatTransfer->UniqueFactory3   = isset($request->uniquefactory3)?implode(',',$request->uniquefactory3):'';
+
+
+
+$imgInp = Input::file('imgInp3');
+			//$imgInp=$request->imgInp3;
+
+			$path = '/data/product';
+			 if($imgInp!='')
+                {
+             		$destinationPath = $path;
+      				$imgInp_filename=$imgInp->storeAs($destinationPath,$imgInp->getClientOriginalName());      				
+
+				}
+
+				else{
+					if($request->selectimage3!=''){
+      				$imgInp_filename=$request->selectimage3;     				
+					}else{
+						$imgInp_filename='';
+					}
+				}
+	$HeatTransfer->Artwork  = $imgInp_filename;
+
+//end by Sathish 27-03-2018
+
+$HeatTransfer->save();
+}
+}
+
+//End heattransfer
+
 //Hangtags
 //Vidhya:php
 //update function for hangtags
@@ -3792,7 +4335,7 @@ $hangtag->CMYK   =$request->printcolor;
 
 	$hangtag->Width   = $request->Width;
 	$hangtag->Length   = $request->Length;
-	$hangtag->GroundPaperColor   = $request->GroundPaperColor;
+	$hangtag->GroundPaperColor   = $request->GroundPaperColor1;
 
 	$hangtag->Drillholesize   = $request->DrillHoleSize;
 	$hangtag->StringTotalLength   = $request->StringTotalLength;
@@ -4031,7 +4574,7 @@ $ProductDetails->SeasonID=$request->Season;
 */
 $ProductDetails->Season=isset($request->otherSeason)?$request->otherSeason:'';
 $ProductDetails->RemarksInstructions=$request->Remarks;
-$ProductDetails->Version=$request->version;
+$ProductDetails->Version=$request->version+1;
 //end
 
 	$imgInp = Input::file('imgInpsample');
@@ -4044,8 +4587,9 @@ $path = '/data/product';
       				$imgInp_filename=$imgInp->storeAs($destinationPath,$imgInp->getClientOriginalName());      				
 
 				}else{
-					if($request->sampleselectimage3!=''){
-      				$imgInp_filename=$request->sampleselectimage3;     				
+					//sathish 21-03-2018
+					if($request->sampleselectimage!=''){
+      				$imgInp_filename=$request->sampleselectimage;     				
 					}else{
 						$imgInp_filename='';
 					}
@@ -4053,25 +4597,53 @@ $path = '/data/product';
 
 				$ProductDetails->Artworkupload  = $imgInp_filename;
 				$ProductDetails->SampleRequestedDate  = $request->SampleRequestedDate;
-
+//Defect:23-03-18
+         //Name: Bala-PHP Team
+         //Show list of details and send email 
 
 
 $ProductDetails->save();
+$lastinsertid=$ProductDetails->id;
 
 }
 
-		 
-
-$request->session()->flash('success', 'Information Updated successfully.');
-	 
+//Defect:23-03-18
+         //Name: Bala-PHP Team
+         //Show list of details and send email 
 
 if(isset($request->editlistitem)){
-return redirect(url(route('user.developmentlistview'))); 
+//return redirect(url(route('user.developmentlistview'))); 
+
+	if(isset($request->box_editID))
+	{
+	return redirect(url('sendseperateemail/'.$lastinsertid.'/0'));
+	}
+    elseif(isset($request->hook_editID))
+	{
+	return redirect(url('sendseperateemail/'.$lastinsertid.'/1'));
+	}
+	elseif(isset($request->tissuepapereditID))
+	{
+	return redirect(url('sendseperateemail/'.$lastinsertid.'/2'));
+	}
+	elseif(isset($request->packagingeditID))
+	{
+	return redirect(url('sendseperateemail/'.$lastinsertid.'/3'));
+	}
+	elseif(isset($request->hang_editID))
+	{
+	return redirect(url('sendseperateemail/'.$lastinsertid.'/4'));
+	}
+	elseif(isset($request->tape_editID))
+	{
+	return redirect(url('sendseperateemail/'.$lastinsertid.'/5'));
+	}
 
 }else{
-//$request->session()->flash('success', 'Productdetails Updated successfully.');
+$request->session()->flash('success', 'Productdetails Updated successfully.');
 	
-return redirect(url(route('user.developmentlist'))); 
+ return redirect(url('sendemail/'.$lastinsertid));
+
 }
 
 	 }

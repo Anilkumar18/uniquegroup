@@ -762,14 +762,20 @@ float: left;
                 
               
             </div>
-            
+            <?php
+			//echo "hangtagsid".$hangtagsdetails->id; exit;
+			?>
             
           
              <div class="col-sm-12 b-r imagestyles">
              <div class="col-lg-2 imagealign">
              @if($boxesdetails->Artwork)
       <img  src="{{ route('user.productpic', ['id' => $boxesdetails->id]) }}" alt="your image" width="80" height="80" />
-      
+          @elseif($hangtagsdetails->Artwork)
+          
+          <img  src="{{ route('user.hangtagpic', ['id' => $hangtagsdetails->id]) }}" alt="your image" width="80" height="80" />
+           @elseif($tapesdetails->Artwork)
+           <img  src="{{ route('user.tapespic', ['id' => $tapesdetails->id]) }}" alt="your image" width="80" height="80" />
             @endif
              </div>
              <div class="col-lg-2 imagealign">

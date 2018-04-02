@@ -33,11 +33,13 @@ use App\ProductDetailFields;
 
 use App\ProductDetailsCategory;
 
+use App\Zippercolor;
+
 use Illuminate\Support\Facades\Input;
 
 use App\UserType;
 
-
+use Session;
 
 class ProductDetailsController extends Controller
 {
@@ -243,6 +245,31 @@ ADD COLUMN '.$nospacefieldnametextstring.' '.$fielddatatype.' COMMENT "'.$reques
             
                             
         
+    }
+
+    public function getproductmaintenance(Request $request,$id){
+      $customerid=Session::get('customername');
+      //$productdetails=ProductDetails::where('status','=',1)->where('ProductGroupID','=',$id)->where('CustomerID','=',$customerid->id)->get();
+$user = Auth::user();
+      $processid=explode('#',base64_decode($id));
+      $id=$processid[0];
+   $subgroupid=$processid[1];
+  $carestatus=$processid[2];
+        $usertype = UserType::where('id', '=', $user->userTypeID)->first();
+         $ProductionRegions=ProductionRegions::where('status', '=', 1)->get();
+           $productcustomerID=$customerid->id;
+          $usertypeID=$user->userTypeID;
+           $ProductGroupID=$id;
+           
+         
+//echo 'call sp_getcustomerproductdetails('.$ProductGroupID.','.$usertypeID.','.$productcustomerID.','.$subgroupid.','.$carestatus.')';
+         $productdetails=DB::Select('call sp_getcustomerproductdetails('.$ProductGroupID.','.$usertypeID.','.$productcustomerID.','.$subgroupid.','.$carestatus.')');
+
+      
+    $zippercolordetails = Zippercolor::orderBy('id','ASC')->get();
+     $usertype = UserType::where('id', '=', $user->userTypeID)->first();
+      return view('productmaintenance.home', compact('user','usertype','productdetails','zippercolordetails','customerid','carestatus'));
+
     }
     
 }

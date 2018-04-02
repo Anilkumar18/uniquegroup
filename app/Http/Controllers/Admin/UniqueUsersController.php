@@ -42,7 +42,9 @@ public function uniqueusersList()
 	  $user = Auth::user();
 	 $usertype = UserType::where('id', '=', $user->userTypeID)->first();
 	  
-	  $uniqueusers = DB::select('call sp_selectuniqueusers(2,0,1)');
+	  //$uniqueusers = DB::select('call sp_selectuniqueusers(2,0,1)');
+	  
+	   $uniqueusers = DB::select('call sp_selectuniqueusers(4,0,0)');
 	  
 	 // print_r($uniqueusers);exit;
 		
@@ -111,7 +113,7 @@ public function addnewusers (Request $request) {
 				 $OfficeFactoryName=0; 
 			  }
 
-              $user_update = DB::select('call sp_CRUDuniqueusers(2,'.$request->editID.','.$customerID.','.$OfficeFactoryName.','.$request->userType.',"'.$checkBox11.'","'.$request->firstName.'","'.$request->lastName.'","'.$request->phoneNumber.'","'.$request->email.'","'.$request->userName.'","'.$password->password.'",1)');
+              $user_update = DB::select('call sp_CRUDuniqueusers(2,'.$request->editID.','.$customerID.','.$OfficeFactoryName.','.$request->userType.',"'.$checkBox11.'","'.$request->firstName.'","'.$request->lastName.'","'.$request->title.'","'.$request->phoneNumber.'","'.$request->email.'","'.$request->userName.'","'.$password->password.'",1)');
 			  
 			  
 			 $loginupdate = DB::table('users')->where('id', $request->editID)->update(['customerID'=>1,'userTypeID' => $request->userType,'countryID' => $countryID,'addressID'=>$addressID,'is_sys_admin'=>$is_sys_admin,'userName'=>$request->userName,'email'=>$request->email,'password'=>$password->password ,'firstName'=>$request->firstName,'lastName'=>$request->lastName,'phone'=>$request->phoneNumber,'status'=>1]);
@@ -137,7 +139,7 @@ public function addnewusers (Request $request) {
             
             if ($user === null) {
               $password =Hash::make($request->password);
-			  
+                    
 			  if($request->OfficeFactoryName!="")
 			  {
 				 $OfficeFactoryName=$request->OfficeFactoryName;
@@ -148,7 +150,7 @@ public function addnewusers (Request $request) {
 			  }
 			  
                     
-              $user_insert = DB::select('call sp_CRUDuniqueusers(1,0,'.$customerID.','.$OfficeFactoryName.','.$request->userType.',"'.$checkBox11.'","'.$request->firstName.'","'.$request->lastName.'","'.$request->phoneNumber.'","'.$request->email.'","'.$request->userName.'","'.$password.'",1)');  
+              $user_insert = DB::select('call sp_CRUDuniqueusers(1,0,'.$customerID.','.$OfficeFactoryName.','.$request->userType.',"'.$checkBox11.'","'.$request->firstName.'","'.$request->lastName.'","'.$request->title.'","'.$request->phoneNumber.'","'.$request->email.'","'.$request->userName.'","'.$password.'",1)');  
 				
 				
 				 $logininsert = User::create(['customerID'=>1,'userTypeID' => $request->userType,'countryID' => $countryID,'addressID'=>$addressID,'is_sys_admin'=>$is_sys_admin,'userName'=>$request->userName,'email'=>$request->email,'password'=>$password ,'firstName'=>$request->firstName,'lastName'=>$request->lastName,'phone'=>$request->phoneNumber,'status'=>1]);
@@ -198,8 +200,93 @@ $usertype = UserType::where('id', '=', $user->userTypeID)->first();
 return view('admin.adduniqueusers', compact('user','customers','uniqueoffices','edit_val','userType','uniqueUsers','uniquecustomers','usertype'));	                                   
 
 }
+//deactive
+ public function deActivate(Request $request)
+     {
+       
+        $user = Auth::user();       
+		
+		$id=$request->id;
 
-public function delete(Request $request)
+        /*foreach ($request->ChkEvent as $key => $id) {                
+
+            $officer_deactivate = DB::select('call sp_commonprocedure(2,'.$id.',"uniqueusers")');
+			
+			$uniqueUsers=UniqueUsers::where('id','=',$id)->first();
+			
+			
+			$uniqueusersemail=$uniqueUsers->Email;
+			
+			//exit;
+			 //$user_deactivate = DB::select('call sp_commonprocedure(2,'.$id.',"users")');
+			 $productdetailsupdate=DB::table('users')
+            ->where('email',$uniqueusersemail)
+            ->update(['status' =>0 ]);
+ 
+         }*/
+		  $officer_deactivate = DB::select('call sp_commonprocedure(2,'.$id.',"uniqueusers")');
+			
+			$uniqueUsers=UniqueUsers::where('id','=',$id)->first();
+			
+			
+			$uniqueusersemail=$uniqueUsers->Email;
+			
+			//exit;
+			 //$user_deactivate = DB::select('call sp_commonprocedure(2,'.$id.',"users")');
+			 $productdetailsupdate=DB::table('users')
+            ->where('email',$uniqueusersemail)
+            ->update(['status' =>0 ]);
+        
+		
+        $request->session()->flash('success', 'UniqueUser(s) deactivated successfully.');     
+
+        return redirect(url(route('admin.uniqueusers')));   
+
+     }
+
+//active	 
+	 
+public function activate(Request $request)
+     {
+       
+        $user = Auth::user();
+		$id=$request->id;
+
+        /*foreach ($request->ChkEvent as $key => $id) {      
+           
+            $officer_activate = DB::select('call sp_commonprocedure(1,'.$id.',"uniqueusers")');
+		
+		    $uniqueUsers=UniqueUsers::where('id','=',$id)->first();
+			
+			
+			$uniqueusersemail=$uniqueUsers->Email;
+			
+			//exit;
+			 //$user_deactivate = DB::select('call sp_commonprocedure(2,'.$id.',"users")');
+			 $productdetailsupdate=DB::table('users')
+            ->where('email',$uniqueusersemail)
+            ->update(['status' =>1 ]);
+			
+
+        }*/
+		 $officer_activate = DB::select('call sp_commonprocedure(1,'.$id.',"uniqueusers")');
+		
+		    $uniqueUsers=UniqueUsers::where('id','=',$id)->first();
+			
+			$uniqueusersemail=$uniqueUsers->Email;
+			
+			 $productdetailsupdate=DB::table('users')
+            ->where('email',$uniqueusersemail)
+            ->update(['status' =>1 ]);
+        
+        $request->session()->flash('success', 'UniqueUser(s) activated successfully.');     
+
+        return redirect(url(route('admin.uniqueusers')));   
+
+     }
+
+
+/*public function delete(Request $request)
 {
        $user = Auth::user();
 	   $uniqueuserid=$request->id; 
@@ -213,7 +300,22 @@ public function delete(Request $request)
         $request->session()->flash('failure', 'Unique User deleted successfully.');     
 
         return redirect(url(route('admin.uniqueusers')));   
-}
+}*/
+ public function delete(Request $request)
+     {
+       $user = Auth::user();
+
+        foreach ($request->ChkEvent as $key => $id) {        
+          
+
+         $officer_delete = DB::select('call sp_commonprocedure(3,'.$id.',"uniqueusers")'); 
+
+        }
+        
+        $request->session()->flash('failure', 'UniqueUser(s) deleted successfully.');     
+
+        return redirect(url(route('admin.uniqueusers')));   
+    }
 
 public function userCheck(Request $request ,$id)
     {

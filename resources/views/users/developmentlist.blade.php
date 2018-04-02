@@ -149,7 +149,8 @@ error_reporting(0);
                     ?>
 
                     <tr class="gradeX">
-
+<!-- /*vidhya:php
+    //add duplicate changes*/ -->
                         <td class="processdetails">{{$developmentid}}</td>
 
                         <td>@if($list->CustomerID!=''){{$customers->CustomerName}}@endif</td>  
@@ -158,13 +159,13 @@ error_reporting(0);
 
                          <td>{{$list->ProgramName}}</td> 
 
-                        <td>{{$list->CustomerProductName}}</td> 
+                        <td class="duplicatemissing">{{$list->CustomerProductName}}</td> 
 
-                        <td>{{$list->CustomerProductCode}}</td>
+                        <td class="duplicatemissing">{{$list->CustomerProductCode}}</td>
 
                         <!-- <td>{{$list->CustomerProductCode}}</td> -->
 
-                        <td>{{$list->UniqueProductCode}}</td>
+                        <td class="duplicatemissing">{{$list->UniqueProductCode}}</td>
 <!-- vidhya:02032018 -->
                         <td>
                        <?php
@@ -235,9 +236,9 @@ error_reporting(0);
                         //version number change for hangtags and tapes -->
                        <td class="version_duplicate">@if($list->HangTagsID!="" && $list->HangTagsID<>0){{$hangtagproduct->Version}}@elseif($list->TapesID!="" && $list->TapesID<>0){{$tapesproduct->Version}}@else{{$list->Version}}@endif</td>
 
-                        <td>{{$list->SampleRequestedDate}}</td>
+                        <td class="duplicatemissing">{{$list->SampleRequestedDate}}</td>
 
-                        <td>{{$list->NumberOfSamplesRequired}}</td>
+                        <td class="duplicatemissing">{{$list->NumberOfSamplesRequired}}</td>
 
 
 

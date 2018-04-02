@@ -19,3 +19,16 @@
 [13-Feb-2018 04:50:33 UTC] PHP Fatal error:  Class 'App\Http\Controllers\ProductDetail' not found in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/ProductsController.php on line 1125
 [13-Feb-2018 04:53:02 UTC] PHP Fatal error:  Class 'App\Http\Controllers\ProductDetail' not found in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/ProductsController.php on line 1125
 [19-Feb-2018 15:28:09 UTC] PHP Parse error:  syntax error, unexpected 'if' (T_IF), expecting function (T_FUNCTION) in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/ProductGroupsController.php on line 871
+[16-Mar-2018 11:48:08 UTC] PHP Parse error:  syntax error, unexpected 'endforeach' (T_ENDFOREACH) in /home2/aitechin/public_html/laravel/uniquegroup/storage/framework/views/210d926e2f7fe043376fdc25b0c00002d866d9e9.php on line 255
+[16-Mar-2018 11:49:34 UTC] PHP Parse error:  syntax error, unexpected '?' in /home2/aitechin/public_html/laravel/uniquegroup/storage/framework/views/210d926e2f7fe043376fdc25b0c00002d866d9e9.php on line 234
+[20-Mar-2018 11:21:15 UTC] PHP Fatal error:  Class 'Barryvdh\DomPDF\ServiceProvider' not found in /home2/aitechin/public_html/laravel/uniquegroup/vendor/laravel/framework/src/Illuminate/Foundation/ProviderRepository.php on line 208
+[20-Mar-2018 11:21:20 UTC] PHP Fatal error:  Class 'Barryvdh\DomPDF\ServiceProvider' not found in /home2/aitechin/public_html/laravel/uniquegroup/vendor/laravel/framework/src/Illuminate/Foundation/ProviderRepository.php on line 208
+[23-Mar-2018 13:50:15 UTC] PHP Fatal error:  Class 'App\Http\Controllers\HeatTransfer' not found in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/ProductsController.php on line 2937
+[29-Mar-2018 16:24:12 UTC] PHP Fatal error:  Class 'App\Symbolimage' not found in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/Admin/CareInstructionsDryController.php on line 306
+[29-Mar-2018 16:24:12 UTC] PHP Fatal error:  Class 'App\Symbolimage' not found in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/Admin/CareInstructionsDryController.php on line 306
+[29-Mar-2018 16:24:12 UTC] PHP Fatal error:  Class 'App\Symbolimage' not found in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/Admin/CareInstructionsDryController.php on line 306
+[29-Mar-2018 16:24:24 UTC] PHP Fatal error:  Class 'App\Symbolimage' not found in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/Admin/CareInstructionsDryController.php on line 306
+[29-Mar-2018 16:24:24 UTC] PHP Fatal error:  Class 'App\Symbolimage' not found in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/Admin/CareInstructionsDryController.php on line 306
+[29-Mar-2018 16:24:24 UTC] PHP Fatal error:  Class 'App\Symbolimage' not found in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/Admin/CareInstructionsDryController.php on line 306
+[29-Mar-2018 16:26:34 UTC] PHP Fatal error:  Class 'App\Symbolimage' not found in /home2/aitechin/public_html/laravel/uniquegroup/app/Http/Controllers/Admin/SymbolController.php on line 294
+[30-Mar-2018 10:45:04 UTC] PHP Fatal error:  Class 'App\Productstore' not found in /home2/aitechin/public_html/laravel/uniquegroup/storage/framework/views/bfe25f596c2b02d16f23c6cf5f2771ac8bac0117.php on line 321

@@ -172,14 +172,16 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
                         <td>{{$list->Brand}}</td>  
 
                          <td>{{$list->ProgramName}}</td> 
+                         <!-- /*vidhya:php
+    //add duplicate changes*/ -->
 
-                        <td>{{$list->CustomerProductName}}</td> 
+                        <td class="duplicatemissing">{{$list->CustomerProductName}}</td> 
 
-                        <td>{{$list->CustomerProductCode}}</td>
+                        <td class="duplicatemissing">{{$list->CustomerProductCode}}</td>
 
                         <!-- <td>{{$list->CustomerProductCode}}</td> -->
 
-                        <td>{{$list->UniqueProductCode}}</td>
+                        <td class="duplicatemissing">{{$list->UniqueProductCode}}</td>
 
                         <td>{{$productsubgroupdetails->ProductSubGroupName}}
                        </td>
@@ -192,7 +194,7 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
 
                         <td class="version_duplicate">{{$list->Version}}</td>
 
-                        <td>{{$list->SampleRequestedDate}}</td>
+                        <td class="duplicatemissing">{{$list->SampleRequestedDate}}</td>
 
                         <td>{{$uniqueoffices->OfficeFactoryName}}</td>
 <!-- sathish 15-03-2018 -->
@@ -200,7 +202,7 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
                           <?php 
                         if($list->SampleandQuote =='1'){echo "Sample and Quote"; }else{echo "Only Quote" ;} ?> </td>
 
-                        <td>{{$list->NumberOfSamplesRequired}}</td>
+                        <td class="duplicatemissing">{{$list->NumberOfSamplesRequired}}</td>
 
                         <td>{{$list->created_at}}</td>
 
@@ -244,13 +246,13 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
 
                          <td>{{$list->ProgramName}}</td> 
 
-                        <td>{{$list->CustomerProductName}}</td> 
+                        <td class="duplicatemissing">{{$list->CustomerProductName}}</td> 
 
-                        <td>{{$list->CustomerProductCode}}</td>
+                        <td class="duplicatemissing">{{$list->CustomerProductCode}}</td>
 
                         <!-- <td>{{$list->CustomerProductCode}}</td> -->
 
-                        <td>{{$list->UniqueProductCode}}</td>
+                        <td class="duplicatemissing">{{$list->UniqueProductCode}}</td>
 
                         <td>
                        <?php
@@ -267,7 +269,7 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
 
                         <td class="version_duplicate">{{$hooklist->Version}}</td>
 
-                        <td>{{$list->SampleRequestedDate}}</td>
+                        <td class="duplicatemissing">{{$list->SampleRequestedDate}}</td>
 
                        <td>{{$uniqueoffices->OfficeFactoryName}}</td>
 <!-- sathish 15-03-2018 -->
@@ -275,7 +277,7 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
                           <?php 
                         if($list->SampleandQuote =='1'){echo "Sample and Quote"; }else{echo "Only Quote" ;} ?> </td>
 
-                        <td>{{$list->NumberOfSamplesRequired}}</td>
+                        <td class="duplicatemissing">{{$list->NumberOfSamplesRequired}}</td>
 
                         <td>{{$list->created_at}}</td>
 
@@ -323,13 +325,13 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
 
                          <td>{{$list->ProgramName}}</td> 
 
-                        <td>{{$list->CustomerProductName}}</td> 
+                        <td class="duplicatemissing">{{$list->CustomerProductName}}</td> 
 
-                        <td>{{$list->CustomerProductCode}}</td>
+                        <td class="duplicatemissing">{{$list->CustomerProductCode}}</td>
 
                         <!-- <td>{{$list->CustomerProductCode}}</td> -->
 
-                        <td>{{$list->UniqueProductCode}}</td>
+                        <td class="duplicatemissing">{{$list->UniqueProductCode}}</td>
 
                         <td>
                        <?php
@@ -347,7 +349,7 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
 
                         <td class="version_duplicate">{{$tisslist->Version}}</td>
 
-                        <td>{{$list->SampleRequestedDate}}</td>
+                        <td class="duplicatemissing">{{$list->SampleRequestedDate}}</td>
 
                         <td>{{$uniqueoffices->OfficeFactoryName}}</td>
 <!-- sathish 15-03-2018 -->
@@ -355,7 +357,7 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
                           <?php 
                         if($list->SampleandQuote =='1'){echo "Sample and Quote"; }else{echo "Only Quote" ;} ?> </td>
 
-                        <td>{{$list->NumberOfSamplesRequired}}</td>
+                        <td class="duplicatemissing">{{$list->NumberOfSamplesRequired}}</td>
 
                         <td>{{$list->created_at}}</td>
 
@@ -403,13 +405,13 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
 
                          <td>{{$list->ProgramName}}</td> 
 
-                        <td>{{$list->CustomerProductName}}</td> 
+                        <td class="duplicatemissing">{{$list->CustomerProductName}}</td> 
 
-                        <td>{{$list->CustomerProductCode}}</td>
+                        <td class="duplicatemissing">{{$list->CustomerProductCode}}</td>
 
                         <!-- <td>{{$list->CustomerProductCode}}</td> -->
 
-                        <td>{{$list->UniqueProductCode}}</td>
+                        <td class="duplicatemissing">{{$list->UniqueProductCode}}</td>
 
                         <td>
                        <?php
@@ -427,7 +429,7 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
 
                         <td class="version_duplicate">{{$tisslist->Version}}</td>
 
-                        <td>{{$list->SampleRequestedDate}}</td>
+                        <td class="duplicatemissing">{{$list->SampleRequestedDate}}</td>
 
                         <td>{{$uniqueoffices->OfficeFactoryName}}</td>
 <!-- sathish 15-03-2018 -->
@@ -435,7 +437,7 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
                           <?php 
                         if($list->SampleandQuote =='1'){echo "Sample and Quote"; }else{echo "Only Quote" ;} ?> </td>
 
-                        <td>{{$list->NumberOfSamplesRequired}}</td>
+                        <td class="duplicatemissing">{{$list->NumberOfSamplesRequired}}</td>
 
                         <td>{{$list->created_at}}</td>
 
@@ -482,20 +484,20 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
 
                          <td>{{$list->ProgramName}}</td> 
 
-                        <td>{{$list->CustomerProductName}}</td> 
+                        <td class="duplicatemissing">{{$list->CustomerProductName}}</td> 
 
-                        <td>{{$list->CustomerProductCode}}</td>
+                        <td class="duplicatemissing">{{$list->CustomerProductCode}}</td>
 
                         <!-- <td>{{$list->CustomerProductCode}}</td> -->
 
-                        <td>{{$list->UniqueProductCode}}</td>
+                        <td class="duplicatemissing">{{$list->UniqueProductCode}}</td>
 
                         <td>
                        <?php
              
              if($list->HangTagsID!="")
              echo "Hang Tags";echo "<br>";
-             $hangtag =App\Hangtags::where('id','=',$list->HangTagsID)->first(); 
+             $hangtag =App\HangTags::where('id','=',$list->HangTagsID)->first(); 
              ?></td>
 
                         <td><img src="{{ route('user.hangtagpic', ['id' => $list->HangTagsID]) }}" width="100"/></td>
@@ -506,7 +508,7 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
 
                         <td class="version_duplicate">{{$hangtag->Version}}</td>
 
-                        <td>{{$list->SampleRequestedDate}}</td>
+                        <td class="duplicatemissing">{{$list->SampleRequestedDate}}</td>
 
                         <td>{{$uniqueoffices->OfficeFactoryName}}</td>
 <!-- sathish 15-03-2018 -->
@@ -514,7 +516,7 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
                           <?php 
                         if($list->SampleandQuote =='1'){echo "Sample and Quote"; }else{echo "Only Quote" ;} ?> </td>
 
-                        <td>{{$list->NumberOfSamplesRequired}}</td>
+                        <td class="duplicatemissing">{{$list->NumberOfSamplesRequired}}</td>
 
                         <td>{{$list->created_at}}</td>
 
@@ -561,13 +563,13 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
 
                          <td>{{$list->ProgramName}}</td> 
 
-                        <td>{{$list->CustomerProductName}}</td> 
+                        <td class="duplicatemissing">{{$list->CustomerProductName}}</td> 
 
-                        <td>{{$list->CustomerProductCode}}</td>
+                        <td class="duplicatemissing">{{$list->CustomerProductCode}}</td>
 
                         <!-- <td>{{$list->CustomerProductCode}}</td> -->
 
-                        <td>{{$list->UniqueProductCode}}</td>
+                        <td class="duplicatemissing">{{$list->UniqueProductCode}}</td>
 
                         <td>
                        <?php
@@ -585,7 +587,7 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
 
                         <td class="version_duplicate">{{$tape->Version}}</td>
 
-                        <td>{{$list->SampleRequestedDate}}</td>
+                        <td class="duplicatemissing">{{$list->SampleRequestedDate}}</td>
 
                         <td>{{$uniqueoffices->OfficeFactoryName}}</td>
 <!-- sathish 15-03-2018 -->
@@ -593,7 +595,7 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
                           <?php 
                         if($list->SampleandQuote =='1'){echo "Sample and Quote"; }else{echo "Only Quote" ;} ?> </td>
 
-                        <td>{{$list->NumberOfSamplesRequired}}</td>
+                        <td class="duplicatemissing">{{$list->NumberOfSamplesRequired}}</td>
 
                         <td>{{$list->created_at}}</td>
 
@@ -631,7 +633,7 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
                     @if($list->ZipperPullersID!="" && $list->ZipperPullersID<>0)
 
                     <?php  $str = ltrim($developmentid, '0'); ?>
-                     @foreach(explode(',',$list->garmentfabricblk) as $vt)
+                     @foreach(explode(',',$list->ZipperPullersID) as $vz)
 
                     <tr class="gradeX" id="{{$str.'_'.'3'}}">
 
@@ -643,13 +645,13 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
 
                          <td>{{$list->ProgramName}}</td> 
 
-                        <td>{{$list->CustomerProductName}}</td> 
+                        <td class="duplicatemissing">{{$list->CustomerProductName}}</td> 
 
-                        <td>{{$list->CustomerProductCode}}</td>
+                        <td class="duplicatemissing">{{$list->CustomerProductCode}}</td>
 
                         <!-- <td>{{$list->CustomerProductCode}}</td> -->
 
-                        <td>{{$list->UniqueProductCode}}</td>
+                        <td class="duplicatemissing">{{$list->UniqueProductCode}}</td>
 
                         <td>
                        <?php
@@ -667,7 +669,7 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
 
                         <td class="version_duplicate">{{$tape->Version}}</td>
 
-                        <td>{{$list->SampleRequestedDate}}</td>
+                        <td class="duplicatemissing">{{$list->SampleRequestedDate}}</td>
 
                         <td>{{$uniqueoffices->OfficeFactoryName}}</td>
 <!-- sathish 15-03-2018 -->
@@ -675,7 +677,7 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
                           <?php 
                         if($list->SampleandQuote =='1'){echo "Sample and Quote"; }else{echo "Only Quote" ;} ?> </td>
 
-                        <td>{{$list->NumberOfSamplesRequired}}</td>
+                        <td class="duplicatemissing">{{$list->NumberOfSamplesRequired}}</td>
 
                         <td>{{$list->created_at}}</td>
 
@@ -692,12 +694,12 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
                             //Vidhya:php team
                             //customerservice add view page -->
                         @if($user->userTypeID!=14)
-                        <span class="developmentitemduplicate" data-href="{{ url(route('user.developmentitemlistduplicate', ['id' => $list->id.'/'.'6'.'/'.$vt])) }}" onclick="duplicate_develop(this)" ><a href="javascript:;"><img  src="{{ asset('/img/file.png') }}" border="0"  title="Duplicate"/></a></span>                      
+                        <span class="developmentitemduplicate" data-href="{{ url(route('user.developmentitemlistduplicate', ['id' => $list->id.'/'.'6'.'/'.$vz])) }}" onclick="duplicate_develop(this)" ><a href="javascript:;"><img  src="{{ asset('/img/file.png') }}" border="0"  title="Duplicate"/></a></span>                      
                         @endif                     
 
-                        <span class="selectuniqueusers"><a href="{{ url(route('user.developmentitemproductdetails', ['id' => $list->id.'/'.'6'.'/'.$vt])) }}"><img  src="{{ asset('/img/view.png') }}" border="0"  title="View"/></a></span> 
+                        <span class="selectuniqueusers"><a href="{{ url(route('user.developmentitemproductdetails', ['id' => $list->id.'/'.'6'.'/'.$vz])) }}"><img  src="{{ asset('/img/view.png') }}" border="0"  title="View"/></a></span> 
                         @if($user->userTypeID!=14)
-                        <span class="deletedevelopmentitemlist" data-href="{{ url(route('user.developmentitemlistdeletetapes', ['id' => $vt.'/'.$list->id])) }}"><a href="javascript:;"><img  src="{{ asset('/img/delete.png') }}" border="0"  title="Delete"/></a></span>
+                        <span class="deletedevelopmentitemlist" data-href="{{ url(route('user.developmentitemlistdeletezipper', ['id' => $list->ZipperPullersID.'/'.$list->id])) }}"><a href="javascript:;"><img  src="{{ asset('/img/delete.png') }}" border="0"  title="Delete"/></a></span>
                         @endif
                         </td>
 

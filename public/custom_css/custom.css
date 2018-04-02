@@ -98,3 +98,24 @@
 .form-control {height: 26px;margin:0;}
 .form-group input {margin: 0;}
 .companylogo{margin-top:30px; float:left;}
+
+
+.selectlables {
+    
+    height: 250px;
+    border: solid 1px #0199ca;
+    border-radius: 10px;
+    margin: 50px 2.5%;
+    background-color: #ffffff;
+    float: left;
+    margin-left: 4.5%;
+    padding-top: 12px;
+}
+.selectlables img {
+    height: 100px;
+    width: 120px;
+    display: inline-block;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    transition: 0.3s;
+}

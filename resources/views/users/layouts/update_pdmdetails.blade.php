@@ -41,9 +41,17 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+<style type="text/css">
+  
+  .blue{
 
+    padding: 8px 16px;background: #50cc49;
+    color: #fff;
 
-    <!-- Styles -->
+  }
+</style>
+
+    <!-- Styles sathish 21-03-2018 -->
 
    <!--  <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css" > -->
 
@@ -119,7 +127,17 @@
 <script>
         $(document).ready(function(){
             $("#wizard").steps();
+// sathish 21-03-2018 steps           
+$(".wizard").ready(function(){ $(".steps li a").addClass("blue");});
+            //Defect No:61
+            //Vidhya:Php team
+            //Customer product code validation
+            $.validator.addMethod("loginRegex", function(value, element) {
+        return this.optional(element) || /^[a-z0-9\-\s]+$/i.test(value);
+    }, "Product Code must contain only letters, numbers, or dashes.");
             $("#productsadd").steps({
+//sathish 21-03-2018 enable all steps
+               enableAllSteps: true, 
                 bodyTag: "fieldset",
                 onStepChanging: function (event, currentIndex, newIndex)
                 {
@@ -236,8 +254,7 @@
       required: true
     },
   Hook_UniqueProductCode: {
-      required: true,
-      alphanumeric: true
+      required: true
     },
   Hooks_ProductionRegions1: {
       required: true
@@ -285,8 +302,7 @@
       required: true
     },
   Tissuepaper_UniqueProductCode: {
-      required: true,
-      alphanumeric: true
+      required: true
     },
   Tissuepaper_factoryName: {
       required: true
@@ -328,8 +344,7 @@
       required: true
     },
   Package_UniqueProductCode: {
-      required: true,
-      alphanumeric: true
+      required: true
     },
   PackagingStickers_ProductionRegions1: {
       required: true
@@ -369,11 +384,10 @@
     },
     productcode:{
       required:true,
-      digits:true
+      loginRegex: true
     },
     uniqueproductcode:{
-      required:true,
-      alphanumeric: true
+      required:true
     },
     productname:{
       required:true
@@ -450,6 +464,11 @@
   PackagingStickersTypes: {
     required:true
   },imgInpsample: {
+      required: function(element){
+            return $("#sampleimg_selectimage").val().length == 0;}
+  },'LanguageName[]': {
+    required:true
+  },'SizesName[]': {
     required:true
   }
 

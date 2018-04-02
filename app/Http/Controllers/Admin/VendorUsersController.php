@@ -41,9 +41,12 @@ class VendorUsersController extends Controller
 public function vendorusersList()
  {
 	  $user = Auth::user();
-	  $vendorusers = DB::select('call sp_selectvendorusers(2,0,1)');
+	 // $vendorusers = DB::select('call sp_selectvendorusers(2,0,1)');
+	 
+	  $vendorusers = DB::select('call sp_selectvendorusers(4,0,0)');
 	  
-		$usertype = UserType::where('id', '=', $user->userTypeID)->first();
+		$usertype = UserType::where('id', '=', $user->userTypeID)->where('status','=',1)->first();
+		
 	  return view('admin.vendorusers', compact('user','vendorusers','usertype'));	                                   
 	                       
 }
@@ -52,8 +55,7 @@ public function vendorusersListid(Request $request)
  	$vendorid = $request->id;
 	  $user = Auth::user();
 	  $vendorusers = DB::select('call sp_selectvendorusers(3,'.$vendorid.',1)');
-	  $usertype = UserType::where('id', '=', $user->userTypeID)->first();
-		//print_r($vendorusers);exit;
+	  $usertype = UserType::where('id', '=', $user->userTypeID)->where('status','=',1)->first();
 	  return view('admin.vendorusers', compact('user','vendorusers','usertype'));	                                   
 	                       
 }
@@ -170,8 +172,114 @@ $usertype = UserType::where('id', '=', $user->userTypeID)->first();
 return view('admin.addvendorusers', compact('user','customers','vendors','edit_val','userType','vendorUsers','factory','usertype'));	                                   
 
 }
+//Defect:27-03-2018
+	//Bala-Uniquegroup team
+	//active,deactive and delete
+	
+//deactive
+ public function deActivate(Request $request)
+     {
+       
+        $user = Auth::user();   
+		
+		$id=$request->id;    
 
-public function delete(Request $request ,$id)
+        /*foreach ($request->ChkEvent as $key => $id) {                
+
+            $officer_deactivate = DB::select('call sp_commonprocedure(2,'.$id.',"vendorusers")');
+			
+			$vendorUsers=VendorUsers::where('id','=',$id)->first();
+			
+			
+			$vendorusersemail=$vendorUsers->Email;
+			
+			//exit;
+			 //$user_deactivate = DB::select('call sp_commonprocedure(2,'.$id.',"users")');
+			 $productdetailsupdate=DB::table('users')
+            ->where('email',$vendorusersemail)
+            ->update(['status' =>0 ]);
+ 
+         }*/
+		  $officer_deactivate = DB::select('call sp_commonprocedure(2,'.$id.',"vendorusers")');
+			
+			$vendorUsers=VendorUsers::where('id','=',$id)->first();
+			
+			
+			$vendorusersemail=$vendorUsers->Email;
+			
+			//exit;
+			 //$user_deactivate = DB::select('call sp_commonprocedure(2,'.$id.',"users")');
+			 $productdetailsupdate=DB::table('users')
+            ->where('email',$vendorusersemail)
+            ->update(['status' =>0 ]);
+        
+		
+        $request->session()->flash('success', 'VendorUser(s) deactivated successfully.');     
+
+        return redirect(url(route('admin.vendorusers')));   
+
+     }
+
+//active	 
+	 
+public function activate(Request $request)
+     {
+       
+        $user = Auth::user();
+		
+		$id=$request->id;  
+		
+
+       /* foreach ($request->ChkEvent as $key => $id) {      
+           
+            $officer_activate = DB::select('call sp_commonprocedure(1,'.$id.',"vendorusers")');
+		
+		    $vendorUsers=VendorUsers::where('id','=',$id)->first();
+			
+			
+			$vendorusersemail=$vendorUsers->Email;
+			
+			 $productdetailsupdate=DB::table('users')
+            ->where('email',$vendorusersemail)
+            ->update(['status' =>1 ]);
+			
+
+        }*/
+		 $officer_activate = DB::select('call sp_commonprocedure(1,'.$id.',"vendorusers")');
+		
+		    $vendorUsers=VendorUsers::where('id','=',$id)->first();
+			
+			
+			$vendorusersemail=$vendorUsers->Email;
+			
+			 $productdetailsupdate=DB::table('users')
+            ->where('email',$vendorusersemail)
+            ->update(['status' =>1 ]);
+        
+        $request->session()->flash('success', 'VendorUser(s) activated successfully.');     
+
+        return redirect(url(route('admin.vendorusers')));   
+
+     }
+
+//delete
+ public function delete(Request $request)
+     {
+       $user = Auth::user();
+
+        foreach ($request->ChkEvent as $key => $id) {        
+          
+
+         $officer_delete = DB::select('call sp_commonprocedure(3,'.$id.',"vendorusers")'); 
+
+        }
+        
+        $request->session()->flash('failure', 'VendorUser(s) deleted successfully.');     
+
+        return redirect(url(route('admin.vendorusers')));   
+    }
+
+/*public function delete(Request $request ,$id)
 {
        $user = Auth::user();
 	   $vendorUsers =VendorUsers::where('id','=',$id)->first();
@@ -184,8 +292,32 @@ public function delete(Request $request ,$id)
         $request->session()->flash('failure', 'Vendor User deleted successfully.');     
 
         return redirect(url(route('admin.vendorusers')));   
-}
+}*/
 
+//Defect: new users.pdf
+         //Name: Bala-php Team
+         //change customer name depends upon change vendor and factory names as alphabetic order
+		 
+public function selectVendors (Request $request ,$id)
+
+    {
+
+        $vendorDetail = Vendors::where('CustomerID', '=', $id)->orderBy('CompanyName', 'asc')->groupBy('CompanyName')->get();
+		
+
+		 return json_encode(["success" => true, $vendorDetail]);
+
+    }
+	public function selectFactory (Request $request ,$id)
+
+    {
+
+        $factoryDetail = OfficeFactoryAddress::where('id', '=', $id)->orderBy('factoryName', 'asc')->groupBy('factoryName')->get();
+		
+
+		 return json_encode(["success" => true, $factoryDetail]);
+
+    }
 public function userCheck(Request $request ,$id)
     {
 	if($id!=0) {

@@ -49,13 +49,13 @@ error_reporting(0);
                     
  <row class="col-md-12">
 
-                          
+                 
 
                             <div class="form-group clsformelements">
 
                   <label for="userType" class="col-md-3">User Type<span class="mandatory_fields">*</span></label>
 
-                                
+                    
 
                                 <div class="col-md-3">
 
@@ -75,7 +75,7 @@ error_reporting(0);
 
                 </div>
 
-                            
+                          
 
                         </row>
                         <row class="col-md-12">
@@ -210,6 +210,27 @@ error_reporting(0);
                             
 
                         </row>
+                        <row class="col-md-12">
+
+                          
+
+                            <div class="form-group clsformelements">
+
+                  <label for="lastName" class="col-md-3">Title<span class="mandatory_fields">*</span></label>
+
+                                
+
+                                <div class="col-md-3">
+
+                <input type="text" name="title" id="title" placeholder="Title" class="form-control" value="@if($edit_val==1) {{ $uniqueUsers->Title }} @endif">                                
+
+                                </div>
+
+                </div>
+
+                            
+
+                        </row>
 
                      <row class="col-md-12">
 
@@ -302,7 +323,7 @@ error_reporting(0);
                         </row>
 
                      @endif
-                    
+               
 
               <row class="col-md-12">
 

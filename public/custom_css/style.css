@@ -21511,4 +21511,66 @@ a.linkCustomer img { width: 18px; }
 .staticcopycontainer1 .txtboxalign{ padding-right:25px;width:26%;}
 
 .hideaddstillbtn{ display:none;margin-top: -28px;}
+/*Rajesh on step process selct2 design*/
+.select2-container{width: 50% !important;}
+.fabriccompositionblk{ background-color: #cdcdcd;    padding: 20px; }
+.fabriccompositionblk input.form-control.compositionblk {
+    margin: 10px 0;
+}
+.careinformation img{ float: left; }
+.careinformation .label_font{ font-size: 14px; }
+
+.listleft input.compositionblk {
+    display: none !important;
+}
+.listbox {
+    float: left;
+    border: solid 1px #d1d1d1;
+    border-radius: 9px;
+    padding: 15px;
+    height: 200px;
+    overflow-y: scroll;
+    margin-bottom: 15px;
+}
+.listbox label {
+    float: left;
+}
+.listleft label {
+    float: left; width: 100%;
+}
+.subject-info-arrows.text-center input {
+    text-align: center;
+    width: 50%;
+    margin: 5px 25%;
+}
+.listright label {
+    float: left; width: 75%;
+}
+.listright .compositionblk {
+    float: left; width: 25%;
+}
+.garmentfabricblk{
+  background-color: #ada7a7;
+  padding: 10px;
+}
+
+span.garment_title {
+    float: left;
+    text-align: left;
+}
+h4.col-md-5 {
+    float: left;
+    text-align: left;
+    font-size: 18px;
+}
+span.cleargarment {
+    float: left;
+    width: auto;
+    padding: 5px 10px;
+    background: #e44040;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #fff;
+    margin: 0;
+}
 

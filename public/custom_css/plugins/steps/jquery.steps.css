@@ -5,9 +5,9 @@
 .wizard,
 .tabcontrol
 {
-    display: block;
-    width: 100%;
-    overflow: hidden;
+display: block;
+width: 100%;
+overflow: hidden;
 margin-bottom: 7px;
 border-bottom: solid 1px #eee;
 padding-bottom: 15px;
@@ -286,7 +286,9 @@ fieldset .row {margin-right: 0; margin-left: 0;}
 {
     margin: 0 0 0 1em;
 }
-
+/*Defect No:58
+//Vidhya:PHP Team
+//Button color change*/
 .wizard > .actions a,
 .wizard > .actions a:hover,
 .wizard > .actions a:active
@@ -417,7 +419,8 @@ fieldset .row {margin-right: 0; margin-left: 0;}
 .tabcontrol > .content > .body ul > li
 {
     display: list-item;
-}.hideblock{
+}
+.hideblock{
     display: none;
 }
 .wizard > .steps .current a{background: #00adef;}

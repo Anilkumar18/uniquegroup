@@ -210,7 +210,7 @@ pp.find('.factoryselect').html(pscodehtml);
 													}
 													else if(id==2)
 													{
-													var money_name="C$ ";
+													var money_name="CAD ";
 													
 													}
 													else if(id==3)
@@ -336,8 +336,12 @@ quantitychkdiv.find(':checkbox').attr('checked','checked');
 
 $('#ProductSubGroupName').change(function(){
 
-
-
+var selecthref=$("#ProductSubGroupName option:selected").text(); 
+  
+      //alert(selecthref);
+      if(selecthref!=0){
+      	document.getElementById("demoname").innerHTML = ' /  '+selecthref;
+	  }
 var productgroup = $("#ProductGroup").val();
 var productsubgroupid = $("#ProductSubGroupName").val();
 
@@ -372,6 +376,22 @@ $("#Height").keypress(function (e) {
                 return false;
             }
                    });
+
+           $(".mmspecific").keypress(function (e) {
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                return false;
+            }
+                   });
+
+          $('.mmspecific').on('keyup',function(e){
+	
+			var oldstr=$(this).val();
+			var tokens = oldstr.split('mm');
+            var suffix = tokens.pop() + 'mm';
+			$(this).val(tokens+suffix);
+			
+		});
+
 $('#Width').on('keyup',function(e){
 			var oldstr=$('#Width').val();
 			var tokens = oldstr.split('mm');
@@ -535,7 +555,9 @@ $('#Hook').change(function(){
 var productgroups=$('#hookform');
 if(this.checked) {
 	$('#hookform').removeClass('hideblock');
-	
+	var productnamenew=$('#Hook:checked').val();
+//alert(productnamenew);
+document.getElementById("productchecked").innerHTML = ' / '+productnamenew;
 productgroups.find('input').each(function(){
 $(this).removeAttr('disabled');
 });
@@ -547,6 +569,9 @@ $(this).removeAttr('disabled');
 });
 }else{
 $('#hookform').addClass('hideblock');
+var productnamenew=$('#Hook:checked').val();
+
+document.getElementById("productchecked").innerHTML = "";
 	
 productgroups.find('input').each(function(){
 $(this).attr('disabled','disabled');
@@ -558,6 +583,8 @@ productgroups.find('img').each(function(){
 $(this).attr('disabled','disabled');
 });
 
+
+
 }
 
 
@@ -567,7 +594,9 @@ $('#TissuePaper').change(function(){
 var productgroups=$('#tissuepaperform');
 if(this.checked) {
 	$('#tissuepaperform').removeClass('hideblock');
-	
+	var productnamenew=$('#TissuePaper:checked').val();
+//alert(productnamenew);
+document.getElementById("productchecked1").innerHTML = ' / '+productnamenew;
 productgroups.find('input').each(function(){
 $(this).removeAttr('disabled');
 });
@@ -580,7 +609,9 @@ $(this).removeAttr('disabled');
 }else{
 
 	$('#tissuepaperform').addClass('hideblock');
-	
+	var productnamenew=$('#TissuePaper:checked').val();
+
+document.getElementById("productchecked1").innerHTML = "";
 productgroups.find('input').each(function(){
 $(this).attr('disabled','disabled');
 });
@@ -601,7 +632,9 @@ $('#PackagingStickers').change(function(){
 var productgroups=$('#Packagingstickersform');
 if(this.checked) {
 	$('#Packagingstickersform').removeClass('hideblock');
-	
+	var productnamenew=$('#PackagingStickers:checked').val();
+//alert(productnamenew);
+document.getElementById("productchecked2").innerHTML = ' /  '+productnamenew;
 productgroups.find('input').each(function(){
 $(this).removeAttr('disabled');
 });
@@ -614,7 +647,9 @@ $(this).removeAttr('disabled');
 }else{
 
 	$('#Packagingstickersform').addClass('hideblock');
-	
+	var productnamenew=$('#PackagingStickers:checked').val();
+
+document.getElementById("productchecked2").innerHTML = "";
 productgroups.find('input').each(function(){
 $(this).attr('disabled','disabled');
 });
@@ -629,6 +664,133 @@ $(this).attr('disabled','disabled');
 
 
 });
+
+$(".languagename").change(function() { 
+processcaredetails();
+
+ });
+$('#TypeofLabels').change(function() {
+$('.careinformation').html('');
+processcaredetails();
+});
+$('#TypeofLabels1').change(function() {
+	var selecthref=$("#TypeofLabels option:selected").text().toLowerCase();
+	
+var productgroup = 2;
+var productsubgroupid = 13;
+
+			
+			var href=$("#productsubgroupurl").val()+'/getcaredetails/'+productgroup+'/'+productsubgroupid;
+			
+
+			$.ajax({
+                    url: href,
+                    type: "GET",
+                    dataType: "html",
+                    success:function(data) {
+$('.careinformation').html(data);
+var labelprocess=0;
+var selecthref=$("#TypeofLabels option:selected").text().toLowerCase();
+	if(selecthref.indexOf('size') == -1){ labelprocess=labelprocess+1;
+			var careinfblk=$('.careinformation');
+careinfblk.find('.printcolorhidden').each(function(){
+	if($(this).hasClass('processdiv')){
+		careinfblk.find('.label_font').each(function(){
+					var kk=$(this).html();
+						if(kk.indexOf('Sizes') != -1){
+							$(this).parent().remove();
+		                }
+		});
+	}
+});
+}
+if(selecthref.indexOf('coo') == -1){ labelprocess=labelprocess+1;
+			var careinfblk=$('.careinformation');
+careinfblk.find('.printcolorhidden').each(function(){
+	if($(this).hasClass('processdiv')){
+		careinfblk.find('.label_font').each(function(){
+					var kk=$(this).html();
+						if(kk.indexOf('Country of Origin') != -1){
+							$(this).parent().remove();
+		                }
+		});
+	}
+});
+}
+if(selecthref.indexOf('care') == -1){ labelprocess=labelprocess+1;
+			var careinfblk=$('.careinformation');
+careinfblk.find('.printcolorhidden').each(function(){
+	if($(this).hasClass('processdiv')){
+		careinfblk.find('.label_font').each(function(){
+					var kk=$(this).html();
+						if(kk.indexOf('Care') != -1){
+							$(this).parent().remove();
+		                }
+		});
+	}
+});
+}
+
+if(labelprocess==3){
+	$('.careinformation').html('');
+}
+
+var fabriccompositiondiv=$('.fabriccompositiondiv').html();
+$(".languagename").change(function() { fnprocesslanguage(); });
+
+$(".instruction").change(function() { fnprocesslanguage();});
+
+
+
+    
+
+$('.GarmentComponents').change(function() {
+	var lang=$(this).attr('data-lang');
+	var fabrichref=$("#productsubgroupurl").val()+'/getgarmentfabric/'+lang;
+
+ $.ajax({
+                    url: fabrichref,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+debugger;
+var message=data;
+
+var fabrichtml='<div class="row garmentfabricblk"><div class="col-md-12"><span class="garment_title col-md-5">GarmentComponents:</span><h4 class="col-md-5">'+$(".GarmentComponents option:selected").text()+'<input type="hidden" name="GarmentComponentID[]" value="'+$(".GarmentComponents option:selected").val()+'"></h4><span class="cleargarment col-md-2">clear</span></div><label class="col-lg-12 control-label font-noraml text-left label_font">Fabric Composition - '+lang.toUpperCase()+'<span class="required">*</span></label><div class="col-lg-12"><div class="col-md-5 listbox listleft">';
+var fabriclength=message[0]['fabricinfo']['fabric'].length;
+for(var i=0;i<fabriclength;i++){
+	var fabricID=message[0]['fabricinfo']['fabricID'][i];
+	var fabric=message[0]['fabricinfo']['fabric'][i];
+	fabrichtml+='<div class="col-lg-12"><label><input type="checkbox" value="'+fabricID+'" name="garmentfabric'+lang+'[]" id="moveleft" class="moveLeftblk">'+fabric+'</label><input type="text" name="garmentfabriccomposition'+lang+'[]" class="compositionblk"></div>';
+}
+
+fabrichtml+='</div><div class="subject-info-arrows text-center col-md-2"><input type="button" id="moveAllRight" class="1moveAllRight" onclick="fillmoveAllRight(this)" value=">>"><br><input type="button" id="moveRight" class="1moveRight" onclick="fillmoveRight(this)" value=">"><br><input type="button" id="moveLeft" class="1moveLeft" onclick="fillmoveLeft(this)" value="<"><br><input type="button" id="moveAllLeft" class="1moveAllLeft" onclick="fillmoveAllLeft(this)" value="<<"></div><div class="col-md-5 listbox listright"></div></div><div class="col-lg-12"><div class="col-lg-6"></div><div class="col-lg-6">Total<input type="text" name="totalcompositionpercenatge" id="totalcompositionpercenatge" class="form-control totalcompositionpercenatge" value="">%<input type="hidden" id="percen100" class="percen100" value="100"></div></div></div>';
+
+
+$('.garmentcomponentsblk').append(fabrichtml);
+
+$('.cleargarment').click(function(){
+$(this).parent().parent().remove();
+
+});
+                    	}
+                    });
+			
+/*var garmenthtml='<div class="row garmentfabricblk"><div class="col-md-12">GarmentComponents:<h4>'+$(".GarmentComponents option:selected").text()+'</h4></div>'+fabriccompositiondiv+'</div>';*/
+	
+	
+});
+$(".dropdownwidth").select2({
+                placeholder: "Please Select"
+            });
+
+						}
+                    });
+
+});
+$(".dropdownwidth").select2({
+                placeholder: "Please Select"
+            });
 
                     }
                 });
@@ -666,7 +828,9 @@ var inventoryid=$(this).val();
 
 });
 
-
+$(".dropdownwidth").select2({
+                placeholder: "Please Select"
+            });
  });
 
  function imageselect3()
@@ -748,3 +912,283 @@ function readURL3(input) {
         }
     
     }
+// Task for Language 
+//DONE: Rajesh on 19032018
+    function fnprocesslanguage(){ 
+    	var careinfblk=$('.careinformation');
+careinfblk.find('.printcolorhidden').each(function(){
+if($(this).hasClass('processdiv')){
+				$(this).hide();
+			}
+});
+$.each($("input[name='LanguageName[]']:checked"), function(){
+var pp=$(this).parent().parent().parent().parent();
+
+var processlan=$(this).attr('data-lang').split('/');
+for(var kk=0;kk<processlan.length;kk++){
+var lan=processlan[kk];
+			
+	pp.find('.label_font').each(function(){
+		var kk=$(this).html();
+		if(kk.indexOf(lan) != -1){
+			
+			if($("input[name='Instruction[]']:checked").length >0){
+			$.each($("input[name='Instruction[]']:checked"), function(){
+				var pp=$(this).parent().parent().parent().parent();            
+                var ht=$(this).parent().find('p').html().replace(/\s+/g, '_');
+                pp.find('.label_font').each(function(){
+					var kk=$(this).html();
+					if(kk.indexOf('Fabric') != -1){
+						if(kk.indexOf(lan) != -1){
+    						$(this).parent().show();
+    						$(this).parent().addClass('underprocess');
+    						}	
+					}else if(kk.indexOf('Garment') != -1){
+						if(kk.indexOf(lan) != -1){
+    						$(this).parent().show();
+    						$(this).parent().addClass('underprocess');	
+    					}
+					}else if(kk.indexOf(ht) != -1){
+						if(kk.indexOf(lan) != -1){
+    						$(this).parent().show();
+    						$(this).parent().addClass('underprocess');
+    					}
+    				}
+				});
+
+
+            });
+		}else{
+							$(this).parent().show();
+    						$(this).parent().addClass('underprocess');
+		}
+		}
+	});
+}
+});
+
+$('.compositionblk').change(function(){  alert('EEEEE');
+	var compositionpercentage=0;
+$(this).parent().find('.compositionblk').each(function(){ 
+if($(this).val()){
+	var valper=Math.ceil($(this).val()/10)*10;
+	$(this).val(valper);
+	compositionpercentage=parseInt(valper)+parseInt(compositionpercentage)
+}
+});
+
+	$('.totalcompositionpercenatge').val(compositionpercentage);
+
+});
+
+    }
+
+     function fillmoveAllRight(t){
+	var pp=$(t).parent().parent().find('.listleft');
+      var movepp=$(t).parent().parent().find('.listright');  
+
+        pp.find("input[type='checkbox']").each(function(){
+var selectedOpts_pare=$(this).parent().parent();
+movepp.append($(selectedOpts_pare).clone());
+$(selectedOpts_pare).remove();
+});
+$('.compositionblk').change(function(){  
+	var compositionpercentage=0;
+$(this).parent().parent().find('.compositionblk').each(function(){ 
+if($(this).val()){
+	var valper=Math.ceil($(this).val()/10)*10;
+	$(this).val(valper);
+	compositionpercentage=parseInt(valper)+parseInt(compositionpercentage)
+}
+});
+
+$(this).parent().parent().parent().parent().find('.totalcompositionpercenatge').val(compositionpercentage);
+
+});
+        
+    }
+
+     function fillmoveRight(t){ debugger;
+        var pp=$(t).parent().parent().find('.listleft');
+        var movepp=$(t).parent().parent().find('.listright');
+        var selectedOpts = pp.find("input:checked");
+        if (selectedOpts.length == 0) {
+            alert("Nothing to move.");
+            
+        }
+
+        pp.find("input:checked").each(function(){
+var selectedOpts_pare=$(this).parent().parent();
+movepp.append($(selectedOpts_pare).clone());
+$(selectedOpts_pare).remove();
+});
+
+        $('.compositionblk').change(function(){ 
+	var compositionpercentage=0;
+$(this).parent().parent().find('.compositionblk').each(function(){ 
+if($(this).val()){
+	var valper=Math.ceil($(this).val()/10)*10;
+	$(this).val(valper);
+	compositionpercentage=parseInt(valper)+parseInt(compositionpercentage)
+}
+});
+
+$(this).parent().parent().parent().parent().find('.totalcompositionpercenatge').val(compositionpercentage);
+
+});
+        
+    }
+    
+    function fillmoveLeft(t){
+         var pp=$(t).parent().parent().find('.listright');
+         var movepp=$(t).parent().parent().find('.listleft');
+        var selectedOpts = pp.find("input:checked");
+        if (selectedOpts.length == 0) {
+            alert("Nothing to move.");
+            
+        }
+
+        pp.find("input:checked").each(function(){
+var selectedOpts_pare=$(this).parent().parent();
+movepp.append($(selectedOpts_pare).clone());
+$(selectedOpts_pare).remove();
+});
+       
+    }
+    function fillmoveAllLeft(t){
+         var pp=$(t).parent().parent().find('.listright');
+        var movepp=$(t).parent().parent().find('.listleft');
+
+        pp.find("input[type=checkbox]").each(function(){
+var selectedOpts_pare=$(this).parent().parent();
+movepp.append($(selectedOpts_pare).clone());
+$(selectedOpts_pare).remove();
+});
+       
+    }	
+
+    function processcaredetails() {
+var lanlen=$("input[name='LanguageName[]']:checked").length;
+var selecthref=$("#TypeofLabels option:selected").text().toLowerCase();
+var pptxt=$('.languagenameblk');
+if(lanlen>0){
+	$('.careinformation').html('');var co='';
+    	$.each($("input[name='LanguageName[]']:checked"), function(){
+    		co+=$(this).attr('data-lang')+',';
+
+    	});
+    	co = co.replace(/,\s*$/, "");
+    	var pststus=0;
+if(selecthref.indexOf('size') != -1){ pststus=1;
+	var type='sizes';pptxt.show();pptxt.find('input').removeAttr('disabled');
+	
+
+	var href=$("#productsubgroupurl").val()+'/getcaredetails/'+type+'/'+co;
+			
+
+			$.ajax({
+                    url: href,
+                    type: "GET",
+                    dataType: "html",
+                    success:function(data) {
+
+var messagedet = JSON.parse(data);
+var plen=messagedet[0]['details'].length;
+var phtml='<div class="printcolorhidden underprocess" style=""><label class="col-lg-2 control-label font-noraml text-left label_font">Sizes:<span class="required">*</span></label><div class="col-lg-10">';
+for(var i=0;i<plen;i++){
+	phtml+='<div class="col-lg-12"><input type="checkbox" name="sizemaintenance[]" id="sizemaintenance" value="'+messagedet[0]['sizemaintenanceID'][i]+'" data-sizemaintenance="'+messagedet[0]['details'][i].split(' ').join('_').toLowerCase()+'" class="sizemaintenance"><p class="spanval label_font">'+messagedet[0]['details'][i]+'</p></div>';
+}
+phtml+='</div></div>';
+$('.careinformation').append(phtml);
+$(".sizemaintenance").change(function() {
+if($(this).is(':checked')){ 
+	var parentdiv=$(this).parent();
+var maintenancetype=$(this).val();
+var sizename=$(this).attr("data-sizemaintenance");
+var href=$("#productsubgroupurl").val()+'/sizemaintenancedetails/'+maintenancetype+'/'+co;
+$.ajax({
+                    url: href,
+                    type: "GET",
+                    dataType: "html",
+                    success:function(data) {
+
+var messagedet = JSON.parse(data);
+var plen=messagedet[0]['details'].length;
+var phtml='<div class="printcolorhidden sizemaintenancedetails" style=""><label class="col-lg-2 control-label font-noraml text-left label_font">Sizes:<span class="required">*</span></label><div class="col-lg-10"><select id="SizesName" required="" multiple="multiple" name="'+sizename+'[]" class="form-control dropdownwidth"><option value="">Please Select</option>';
+for(var i=0;i<plen;i++){
+	phtml+='<option value="'+messagedet[0]['details'][i]+'">'+messagedet[0]['details'][i]+'</option>';
+}
+phtml+='</select></div></div>';
+parentdiv.append(phtml);
+$(".dropdownwidth").select2({
+                placeholder: "Please Select"
+            });
+
+                    }
+    });
+
+}
+if(!$(this).is(':checked')){
+	$(this).parent().find('.sizemaintenancedetails').remove();
+}
+ });
+
+
+                    }
+                });
+
+
+}
+if(selecthref.indexOf('coo') != -1){ pststus=1;
+	var type='countryoforigin';pptxt.show();pptxt.find('input').removeAttr('disabled');
+	
+debugger;
+	var href=$("#productsubgroupurl").val()+'/getcaredetails/'+type+'/'+co;
+			
+
+			$.ajax({
+                    url: href,
+                    type: "GET",
+                    dataType: "html",
+                    success:function(data) {
+
+var messagedet = JSON.parse(data);
+var plen=messagedet[0]['details'].length;
+var phtml='<div class="printcolorhidden underprocess" style=""><label class="col-lg-2 control-label font-noraml text-left label_font">CountryofOriginName:<span class="required">*</span></label><div class="col-lg-10"><select id="CountryofOriginName" required="" name="CountryofOriginName" class="form-control dropdownwidth"><option value="">Please Select</option>';
+for(var i=0;i<plen;i++){
+	phtml+='<option value="'+messagedet[0]['details'][i]+'">'+messagedet[0]['details'][i]+'</option>';
+}
+phtml+='</select></div></div>';
+$('.careinformation').append(phtml);
+$(".dropdownwidth").select2({
+                placeholder: "Please Select"
+            });
+                    }
+                });
+
+
+}
+if(selecthref.indexOf('care') != -1){ 
+    	var phtml='<div class="printcolorhidden"><label class="col-lg-2 control-label font-noraml text-left label_font">Exclusive of Trimmings</label><div class="col-lg-5 checkboxdiv"><input type="checkbox" name="ExclusiveofTrimmings" id="ExclusiveofTrimmings" value="1"></div></div><div class="printcolorhidden"><label class="col-lg-2 control-label font-noraml text-left label_font">Exclusive of Decoration</label><div class="col-lg-5 checkboxdiv"><input type="checkbox" name="ExclusiveofDecoration" id="ExclusiveofDecoration" value="1"></div></div><div class="printcolorhidden"><label class="col-lg-2 control-label font-noraml text-left label_font">Exclusive of Findings</label><div class="col-lg-5 checkboxdiv"><input type="checkbox" name="ExclusiveofFindings" id="ExclusiveofFindings" value="1"></div></div><div class="printcolorhidden"><label class="col-lg-2 control-label font-noraml text-left label_font">Fire Warning Label</label><div class="col-lg-5 checkboxdiv"><input type="checkbox" name="FireWarningLabel" id="FireWarningLabel" value="1"></div></div>';
+    	$('.careinformation').append(phtml);
+    }
+if(pststus==0){
+	pptxt.find('input').attr('disabled','disabled');
+    	pptxt.hide();
+}
+
+    }else{
+    	var selecthref=$("#TypeofLabels option:selected").text().toLowerCase();
+
+if(selecthref.indexOf('size') == -1 && selecthref.indexOf('coo') == -1){
+    	pptxt.find('input').attr('disabled','disabled');
+    	pptxt.hide();
+    }else if(selecthref.indexOf('care') != -1){ $('.careinformation').html('');
+    	var phtml='<div class="printcolorhidden"><label class="col-lg-2 control-label font-noraml text-left label_font">Exclusive of Trimmings</label><div class="col-lg-5 checkboxdiv"><input type="checkbox" name="ExclusiveofTrimmings" id="ExclusiveofTrimmings" value="1"></div></div><div class="printcolorhidden"><label class="col-lg-2 control-label font-noraml text-left label_font">Exclusive of Decoration</label><div class="col-lg-5 checkboxdiv"><input type="checkbox" name="ExclusiveofDecoration" id="ExclusiveofDecoration" value="1"></div></div><div class="printcolorhidden"><label class="col-lg-2 control-label font-noraml text-left label_font">Exclusive of Findings</label><div class="col-lg-5 checkboxdiv"><input type="checkbox" name="ExclusiveofFindings" id="ExclusiveofFindings" value="1"></div></div><div class="printcolorhidden"><label class="col-lg-2 control-label font-noraml text-left label_font">Fire Warning Label</label><div class="col-lg-5 checkboxdiv"><input type="checkbox" name="FireWarningLabel" id="FireWarningLabel" value="1"></div></div>';
+    	$('.careinformation').append(phtml);
+    }else{
+    	pptxt.find('input').removeAttr('disabled');
+    	pptxt.show();
+    }
+    }
+}

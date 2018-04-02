@@ -98,6 +98,7 @@ error_reporting(0);
                     <tr>
 
                        <!-- <th><input name="select_all" value="1" type="checkbox"></th>-->
+                        
 
                         <th>Customer</th>                        
 
@@ -116,6 +117,8 @@ error_reporting(0);
                         <!-- <th>Customer Warehouse Name</th> -->
 
                         <th>User Type</th>
+                        
+                         <th>Status</th>
 
                         <th>Actions</th>
 
@@ -146,6 +149,7 @@ error_reporting(0);
                     ?>
 
                     <tr class="gradeX">
+                     <!-- <td><?php /*?><?php echo '<input type="checkbox" name="ChkEvent[]" id="ChkEvent[]" value="'.$customers_list->id.'" class="hobbies_class">'; ?><?php */?></td>-->
 
                         <td>@if($customers_list->CustomerID!=0){{ $customer->CustomerName }}@endif</td>
 
@@ -163,7 +167,14 @@ error_reporting(0);
 
                         <!-- <td>{{ $customers_list->Warehouse_Name }}</td> -->
 
-                        <td>@if($customers_list->UserTypeID!=0){{ $UserType->userType }}@endif</td>                                   
+                        <td>@if($customers_list->UserTypeID!=0){{ $UserType->userType }}@endif</td>
+                          
+                          
+                          <td> @if ($customers_list->status==1)
+                          <img  src="{{ asset('/img/active.gif') }}" border="0"  title="Active"/>
+                          @else
+                          <img  src="{{ asset('/img/deactive.gif') }}" border="0"  title="Deactive"/>
+                          @endif  </td>                                      
 
                         <td>
 
@@ -171,7 +182,12 @@ error_reporting(0);
 
                         <span class="selectcustomerusers"><a href="{{ url(route('admin.customerusersdetails', ['id' => $customers_list->id])) }}"><img  src="{{ asset('/img/view.png') }}" border="0"  title="View"/></a></span> 
 
-                        <span class="deletecustomerusers" data-href="{{ url(route('customeruser.delete', ['id' => $customers_list->id])) }}"><a href="javascript:;"><img  src="{{ asset('/img/delete.png') }}" border="0"  title="Delete"/></a></span>
+                        <!--<span class="deletecustomerusers" data-href="{{ url(route('customeruser.delete', ['id' => $customers_list->id])) }}"><a href="javascript:;"><img  src="{{ asset('/img/delete.png') }}" border="0"  title="Delete"/></a></span>-->            @if ($customers_list->status==0)
+                        
+                        <span class="activatcustomeruser"><a data-href="{{ url(route('customeruser.activate',['id' => $customers_list->id])) }}"><img  src="{{ asset('/img/active.png') }}" border="0"  title="Activate"/></a></span> 
+                        @else
+                         <span class="deactivatecustomeruser"><a data-href="{{ url(route('customeruser.deactivate',['id' => $customers_list->id])) }}"><img  src="{{ asset('/img/deactive.png') }}" border="0"  title="DeActivate"/></a></span> 
+                         @endif
 
                         
 
@@ -192,6 +208,27 @@ error_reporting(0);
                     <tr class="gradeC"><td colspan="5">No Customer User(s) Found</td></tr>
 
                     @endif
+                    
+                    <!--<tr class="gradeX">
+                    <th colspan="11">
+                   
+                       <div class="col-lg-1" style="width: 110px;"> <a data-href="{{ url(route('customeruser.activate')) }}" href="javascript:;" class="btn btn-primary activatcustomeruser" style="width: 100px;">
+                        <i class="fa fa-check"></i><span class="bold">&nbsp;Activate</span></a>
+                        </div>
+                        
+                        <div class="col-lg-1" style="width: 110px;">
+                        
+                        <a data-href="{{ url(route('customeruser.deactivate')) }}" href="javascript:;" class="btn btn-warning deactivatecustomeruser" style="width: 100px;">
+                        <i class="fa fa-warning"></i><span class="bold">&nbsp;Deactivate</span></a>
+                        </div>
+                        <div class="col-lg-1" style="width: 110px;">
+                        
+                        <a data-href="{{ url(route('customeruser.delete')) }}" href="javascript:;" class="btn btn-danger deletecustomeruser" style="width: 100px;">
+                        <i class="fa fa-warning"></i><span class="bold">&nbsp;Delete</span></a>
+                        </div>
+                       
+                        </th>
+                        </tr>-->
 
 
 

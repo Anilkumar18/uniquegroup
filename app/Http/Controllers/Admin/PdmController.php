@@ -47,6 +47,11 @@ class PdmController extends Controller
         return view('admin.develop_home', compact('user','usertype','productgrouplist'));
     }
 
+ public function pdmmaintanencenew(){
+     $user = Auth::user();
+      $usertype = UserType::where('id', '=', $user->userTypeID)->first();
+    return view('admin.pdmnew', compact('user','usertype'));
+ }
 
 
 

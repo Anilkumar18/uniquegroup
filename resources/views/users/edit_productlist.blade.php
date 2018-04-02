@@ -125,7 +125,7 @@
                     <div class="col-lg-12">
                    <br />
                     <?php
-                      $productgroupid=1;
+                      $productgroupid=$productdetails->ProductGroupID;
                        $productgroupdetails=App\ProductGroup::where('status','=',1)->where('id','=',$productgroupid)->first();
                        
                        $productsubgroupdetails=App\ProductSubGroup::where('Product_groupID','=',$productgroupid)->first();
@@ -135,10 +135,10 @@
                      
                       <li>Edit Development<strong></strong></li>
                       <li>
-                     Packaging
+                     {{$productgroupdetails->ProductGroup}}
                       </li>
                       <li>
-                     </li>
+                      </li>
                       
                     </ol>
                   </div>
@@ -583,7 +583,7 @@ if ($productdetails->SeasonID==5) {
                                 </fieldset>
                                 <h1>Product Details</h1>
                                 <fieldset>
-                                                                      
+                                    
                                     <div class="row">
 <?php $otherproduct=1; ?>
 
@@ -1677,6 +1677,15 @@ if ($productdetails->SeasonID==5) {
               
                 </div>
                 </div>
+                @elseif($list->columnfieldname=="GroundPaperColor")
+                 <div class="printcolorhidden">
+                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                 <div class="col-lg-5">
+                
+                      <input type="text" name="GroundPaperColor1" id="GroundPaperColor1" value="{{$hangtagsproduct->GroundPaperColor}}" class="form-control boxthickwidheightcls"/>                   
+              
+                </div>
+                </div>
                 <!-- Defect:pdf march14:page5
                //Vidhya: PHP Team
                //Yes, No alignment -->
@@ -2499,6 +2508,34 @@ if ($productdetails->SeasonID==5) {
 
 <?php } ?>
 
+<!-- sathish 28-03-2018 Woven Edit -->
+
+
+<!-- Woven edit -->
+@elseif(isset($wovendetails->id))
+<?php if(isset($wovendetails->id)) {?>
+<?php $otherproduct=0; ?> 
+@include('product.woven')
+<?php } ?>
+<!-- end woven by sathish -->
+
+<!-- sathish 28-03-2018 Printed Label Edit-->
+@elseif(isset($printedlabeldetails->id))
+<?php if(isset($printedlabeldetails->id)) {?>
+<?php $otherproduct=0; ?> 
+@include('product.printedlabel');
+<?php } ?>
+<!-- end Printed Label by Sathish -->
+
+<!-- sathish HeatTransfer Edit 27-03-2018 -->
+
+<!-- HeatTransfer edit -->
+@elseif(isset($heattransferdetails->id))
+<?php if(isset($heattransferdetails->id)) {?>
+<?php $otherproduct=0; ?> 
+@include('product.heattransferlabel');
+
+<?php } //End HeatTransfer By Sathish?>
 
 @elseif(isset($hookdetails->id))
 <?php if(isset($hookdetails->id)){  ?>
@@ -2767,9 +2804,9 @@ if ($productdetails->SeasonID==5) {
                     @elseif($list->uploadimage!="")
                  <div class="printcolorhidden">
                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{$list->fieldname}}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
-                 
+                 <!-- sathish 21-03-2018 -->
                   <div class="col-lg-5">
-                 <input type="file" class="fbfile" name="imgInp" id="imgInp" value="{{$hookdetails->Artwork}}"  onchange="imageselect();"/>
+                 <input type="file" class="fbfile" name="imgInp" id="imgInp" value="{{$hookdetails->Artwork}}"  onchange="uploadimageselect(this,'hooklist');"/>
                  <input type="hidden" name="selectimage" id="selectimage" class="form-control selectimage" value="{{$hookdetails->Artwork}}"   readonly="readonly">
                   <input type="hidden" name="selectimageid" id="selectimageid" class="form-control" value="{{$hookdetails->Artwork}}"  readonly="readonly">
                   </div>
@@ -2788,8 +2825,8 @@ if ($productdetails->SeasonID==5) {
                  
                 <input type="hidden" id="existingimage" name="existingimage" value="{{$hookdetails->Artwork}}" />
                
-                
-                 <img id="blah" src="{{ route('user.producthookpic', ['id' => $hookdetails->id]) }}" alt="your image" width="80" height="80" />
+                <!-- sathish 21-03-2018 -->
+                 <img id="hooklist" src="{{ route('user.producthookpic', ['id' => $hookdetails->id]) }}" alt="your image" width="80" height="80" />
                 
                   
                    
@@ -3998,8 +4035,8 @@ if ($productdetails->SeasonID==5) {
                  <div class="printcolorhidden">
                  <label class="col-lg-2 control-label font-noraml text-left label_font">{{ $list->fieldname }}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
                  <div class="col-lg-5 Thicknessdiv">
-                
-                      <input type="text" name="Thickness" id="Thickness"  value="{{$hookdetails->Thickness}}" class="form-control"/>                   
+                <!-- sathish 21-03-2018 -->
+                      <input type="text" name="Hook_Thickness" id="Hook_Thickness"  value="{{$hookdetails->Thickness}}" class="form-control"/>                   
               
                 </div>
                 
@@ -4026,9 +4063,9 @@ if ($productdetails->SeasonID==5) {
                     @elseif($list->uploadimage!="")
                  <div class="printcolorhidden">
                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{$list->fieldname}}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
-                 
+                 <!-- sathish 21-03-2018 -->
                   <div class="col-lg-5">
-                 <input type="file" class="fbfile" name="imgInp" id="imgInp" value="{{$hookdetails->Artwork}}"  onchange="imageselect();"/>
+                 <input type="file" class="fbfile" name="imgInp" id="imgInp" value="{{$hookdetails->Artwork}}"  onchange="uploadimageselect(this,'hooklist');"/>
                  <input type="hidden" name="selectimage" id="selectimage" class="form-control selectimage" value="{{$hookdetails->Artwork}}"   readonly="readonly">
                   <input type="hidden" name="selectimageid" id="selectimageid" class="form-control" value="{{$hookdetails->Artwork}}"  readonly="readonly">
                   </div>
@@ -4046,9 +4083,9 @@ if ($productdetails->SeasonID==5) {
                  <img id="blah" src="storage/data/product/" alt="" width="80" height="80" /> 
                  
                 <input type="hidden" id="existingimage" name="existingimage" value="{{$hookdetails->Artwork}}" />
+               <!-- sathish 21-03-2018 -->
                
-                
-                 <img id="blah" src="{{ route('user.producthookpic', ['id' => $hookdetails->id]) }}" alt="your image" width="80" height="80" />
+                 <img id="hooklist" src="{{ route('user.producthookpic', ['id' => $hookdetails->id]) }}" alt="your image" width="80" height="80" />
                 
                   
                    
@@ -5667,7 +5704,7 @@ if ($productdetails->SeasonID==5) {
                 <label class="col-lg-2 control-label font-noraml text-left label_font">{{$list->fieldname}}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
                   <div class="col-lg-5">
                  <input type="file" class="fbfile" name="imgInpsample" id="imgInpsample" value="{{$productdetails->Artworkupload}}" onchange="uploadimageselect(this,'sampleimg');"/>
-                 <input type="hidden" name="selectimage" id="sampleimg_selectimage" class="form-control selectimage" value="{{$productdetails->Artworkupload}}" readonly="readonly">
+                 <input type="hidden" name="sampleselectimage" id="sampleimg_selectimage" class="form-control selectimage" value="{{$productdetails->Artworkupload}}" readonly="readonly">
                   <input type="hidden" name="selectimageid" id="selectimageid" class="form-control" readonly="readonly">
                   </div>
                       

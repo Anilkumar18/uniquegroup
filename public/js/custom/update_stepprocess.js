@@ -1,6 +1,7 @@
  $(document).ready(function() { 
 
  productionregiontrigger();
+ processcaredetails();
 var productgroups=$('#productgroups');
 productgroups.find('input').each(function(){
 var processid=$(this).attr('id');
@@ -327,7 +328,7 @@ pp.find('.factoryselect').html(pscodehtml);
 													}
 													else if(id==2)
 													{
-													var money_name="C$ ";
+													var money_name="CAD ";
 													
 													}
 													else if(id==3)
@@ -667,6 +668,140 @@ function readURL3(input) {
         }
     
     }
+    //sathish 28-03-2018
+
+    function processcaredetails() {
+var lanlen=$("input[name='LanguageName[]']:checked").length;
+var selecthref=$("#TypeofLabels option:selected").text().toLowerCase();
+var pptxt=$('.languagenameblk');
+if(lanlen>0){
+	$('.careinformation').html('');var co='';
+    	$.each($("input[name='LanguageName[]']:checked"), function(){
+    		co+=$(this).attr('data-lang')+',';
+
+    	});
+    	co = co.replace(/,\s*$/, "");
+    	var pststus=0;
+if(selecthref.indexOf('size') != -1){ pststus=1;
+	var type='sizes';pptxt.show();pptxt.find('input').removeAttr('disabled');
+	
+
+	var href=$("#productsubgroupurl").val()+'/getcaredetails/'+type+'/'+co;
+			
+
+			$.ajax({
+                    url: href,
+                    type: "GET",
+                    dataType: "html",
+                    success:function(data) {
+debugger;
+var messagedet = JSON.parse(data);
+var plen=messagedet[0]['details'].length;
+var phtml='<div class="printcolorhidden underprocess" style=""><label class="col-lg-2 control-label font-noraml text-left label_font">Sizes:<span class="required">*</span></label><div class="col-lg-10"><select id="SizesName" name="SizesName[]" class="form-control dropdownwidth" multiple="multiple"><option value="">Please Select</option>';
+
+var array = $('#valsizes').val().split("#");
+
+
+/*var $spans = $( "#valsizes" );
+  $spans.eq( 0 ).text($jQuery.inArray( $spans, array ) );*/
+
+for(var i=0;i<plen;i++){
+
+var selectedtxt='';debugger;
+//alert(array[i]);
+//if(array[i]==messagedet[0]['details'][i]){
+if(array.indexOf(messagedet[0]['details'][i])!=-1)	{	
+		selectedtxt='selected="selected"';}else{selectedtxt=''; }
+
+		
+
+	phtml+='<option value="'+messagedet[0]['details'][i]+'" '+selectedtxt+'>'+messagedet[0]['details'][i]+'</option>';
+}
+phtml+='</select></div></div>';
+$('.careinformation').append(phtml);
+
+                    }
+                });
+
+
+}
+if(selecthref.indexOf('coo') != -1){ pststus=1;
+	var type='countryoforigin';pptxt.show();pptxt.find('input').removeAttr('disabled');
+	
+debugger;
+	var href=$("#productsubgroupurl").val()+'/getcaredetails/'+type+'/'+co;
+			
+
+			$.ajax({
+                    url: href,
+                    type: "GET",
+                    dataType: "html",
+                    success:function(data) {
+
+var messagedet = JSON.parse(data);
+var plen=messagedet[0]['details'].length;
+var valcountry=$('#valcountryoforigin').val();
+var phtml='<div class="printcolorhidden underprocess" style=""><label class="col-lg-2 control-label font-noraml text-left label_font">CountryofOriginName:<span class="required">*</span></label><div class="col-lg-10"><select id="CountryofOriginName" required="" name="CountryofOriginName" class="form-control dropdownwidth"><option value="">Please Select</option>';
+for(var i=0;i<plen;i++){
+	var selectedtxt='';
+	if(valcountry==messagedet[0]['details'][i]){
+		
+		selectedtxt='selected="selected"';}
+	phtml+='<option value="'+messagedet[0]['details'][i]+'" '+selectedtxt+'>'+messagedet[0]['details'][i]+'</option>';
+}
+phtml+='</select></div></div>';
+$('.careinformation').append(phtml);
+$(".dropdownwidth").select2({
+                placeholder: "Please Select"
+            });
+                    }
+                });
+
+
+}
+if(selecthref.indexOf('care') != -1){ 
+var checkedtxt=''
+	var exclusivetrim=$('#exclusiveoftrim').val();
+	var exclusivedec=$('#exclusiveofdec').val();
+	var exclusivefind=$('#exclusiveoffind').val();
+	var firewarninglab=$('#firewarninglabl').val();
+	if (exclusivetrim==1) {
+checkedtxt='checked="checked"';
+	}
+		if (exclusivedec==1) {
+checkedtxt1='checked="checked"';
+	}
+		if (exclusivefind==1) {
+checkedtxt2='checked="checked"';
+	}
+		if (firewarninglab==1) {
+checkedtxt3='checked="checked"';
+	}
+
+    	var phtml='<div class="printcolorhidden"><label class="col-lg-2 control-label font-noraml text-left label_font">Exclusive of Trimmings</label><div class="col-lg-5 checkboxdiv"><input type="checkbox" name="ExclusiveofTrimmings" id="ExclusiveofTrimmings" value="1" '+checkedtxt+'" ></div></div><div class="printcolorhidden"><label class="col-lg-2 control-label font-noraml text-left label_font">Exclusive of Decoration</label><div class="col-lg-5 checkboxdiv"><input type="checkbox" name="ExclusiveofDecoration" id="ExclusiveofDecoration" value="1" '+checkedtxt1+'></div></div><div class="printcolorhidden"><label class="col-lg-2 control-label font-noraml text-left label_font">Exclusive of Findings</label><div class="col-lg-5 checkboxdiv"><input type="checkbox" name="ExclusiveofFindings" id="ExclusiveofFindings" value="1" '+checkedtxt2+'></div></div><div class="printcolorhidden"><label class="col-lg-2 control-label font-noraml text-left label_font">Fire Warning Label</label><div class="col-lg-5 checkboxdiv"><input type="checkbox" name="FireWarningLabel" id="FireWarningLabel" value="1" '+checkedtxt3+'></div></div>';
+    	$('.careinformation').append(phtml);
+    }
+if(pststus==0){
+	pptxt.find('input').attr('disabled','disabled');
+    	pptxt.hide();
+}
+
+    }else{
+    	var selecthref=$("#TypeofLabels option:selected").text().toLowerCase();
+
+if(selecthref.indexOf('size') == -1 && selecthref.indexOf('coo') == -1){
+    	pptxt.find('input').attr('disabled','disabled');
+    	pptxt.hide();
+    }else if(selecthref.indexOf('care') != -1){ $('.careinformation').html('');
+    	var phtml='<div class="printcolorhidden"><label class="col-lg-2 control-label font-noraml text-left label_font">Exclusive of Trimmings</label><div class="col-lg-5 checkboxdiv"><input type="checkbox" name="ExclusiveofTrimmings" id="ExclusiveofTrimmings" value="1"></div></div><div class="printcolorhidden"><label class="col-lg-2 control-label font-noraml text-left label_font">Exclusive of Decoration</label><div class="col-lg-5 checkboxdiv"><input type="checkbox" name="ExclusiveofDecoration" id="ExclusiveofDecoration" value="1"></div></div><div class="printcolorhidden"><label class="col-lg-2 control-label font-noraml text-left label_font">Exclusive of Findings</label><div class="col-lg-5 checkboxdiv"><input type="checkbox" name="ExclusiveofFindings" id="ExclusiveofFindings" value="1"></div></div><div class="printcolorhidden"><label class="col-lg-2 control-label font-noraml text-left label_font">Fire Warning Label</label><div class="col-lg-5 checkboxdiv"><input type="checkbox" name="FireWarningLabel" id="FireWarningLabel" value="1"></div></div>';
+    	$('.careinformation').append(phtml);
+    }else{
+    	pptxt.find('input').removeAttr('disabled');
+    	pptxt.show();
+    }
+    }
+}
+    //end
     function productionregiontrigger()
 			 {
 $('.regionselect').each(function(){

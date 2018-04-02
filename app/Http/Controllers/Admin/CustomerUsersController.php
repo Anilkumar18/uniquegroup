@@ -44,7 +44,9 @@ public function customerusersList(Request $request)
 	  $accountmanagerID=$user->id;
 	  $usertypeID=$user->userTypeID;
 	  $usertype = UserType::where('id', '=', $user->userTypeID)->first();
-	  $customerusers = DB::select('call sp_selectcustomerusers(2,0,1,'.$accountmanagerID.','.$usertypeID.')');
+	  //$customerusers = DB::select('call sp_selectcustomerusers(2,0,1,'.$accountmanagerID.','.$usertypeID.')');
+	  
+	   $customerusers = DB::select('call sp_selectcustomerusers(5,0,0,'.$accountmanagerID.','.$usertypeID.')');
 		
 	  return view('admin.customerusers', compact('user','customerusers','usertype'));	                                   
 	                       
@@ -201,8 +203,111 @@ $edit_val = 1;
 return view('admin.addcustomerusers', compact('user','customers','countries_details','edit_val','userType','customersUsers','state','usertype'));	                                   
 
 }
+//Defect:27-03-2018
+	//Bala-Uniquegroup team
+	//active,deactive and delete
+	
+//deactive
+ public function deActivate(Request $request)
+     {
+       
+        $user = Auth::user(); 
+		$id=$request->id;      
 
-public function delete(Request $request ,$id)
+       /* foreach ($request->ChkEvent as $key => $id) {                
+
+            $officer_deactivate = DB::select('call sp_commonprocedure(2,'.$id.',"customerusers")');
+			
+			$customerUsers=CustomerUsers::where('id','=',$id)->first();
+			
+			
+			$customerusersemail=$customerUsers->Email;
+			
+			//exit;
+			 //$user_deactivate = DB::select('call sp_commonprocedure(2,'.$id.',"users")');
+			 $productdetailsupdate=DB::table('users')
+            ->where('email',$customerusersemail)
+            ->update(['status' =>0 ]);
+ 
+         }*/
+		 $officer_deactivate = DB::select('call sp_commonprocedure(2,'.$id.',"customerusers")');
+			
+			$customerUsers=CustomerUsers::where('id','=',$id)->first();
+			
+			
+			$customerusersemail=$customerUsers->Email;
+			
+			//exit;
+			 //$user_deactivate = DB::select('call sp_commonprocedure(2,'.$id.',"users")');
+			 $productdetailsupdate=DB::table('users')
+            ->where('email',$customerusersemail)
+            ->update(['status' =>0 ]);
+        
+		
+        $request->session()->flash('success', 'CustomerUser(s) deactivated successfully.');     
+
+        return redirect(url(route('admin.customerusers')));   
+
+     }
+
+//active	 
+	 
+public function activate(Request $request)
+     {
+       
+        $user = Auth::user();
+		$id=$request->id;
+
+        /*foreach ($request->ChkEvent as $key => $id) {      
+           
+            $officer_activate = DB::select('call sp_commonprocedure(1,'.$id.',"customerusers")');
+		
+		    $customerUsers=CustomerUsers::where('id','=',$id)->first();
+			
+			
+			$customerusersemail=$customerUsers->Email;
+			
+			 $productdetailsupdate=DB::table('users')
+            ->where('email',$customerusersemail)
+            ->update(['status' =>1 ]);
+			
+
+        }*/
+		 $officer_activate = DB::select('call sp_commonprocedure(1,'.$id.',"customerusers")');
+		
+		    $customerUsers=CustomerUsers::where('id','=',$id)->first();
+			
+			
+			$customerusersemail=$customerUsers->Email;
+			
+			 $productdetailsupdate=DB::table('users')
+            ->where('email',$customerusersemail)
+            ->update(['status' =>1 ]);
+        
+        $request->session()->flash('success', 'CustomerUser(s) activated successfully.');     
+
+        return redirect(url(route('admin.customerusers')));   
+
+     }
+
+//delete
+ public function delete(Request $request)
+     {
+       $user = Auth::user();
+
+        foreach ($request->ChkEvent as $key => $id) {        
+          
+
+         $officer_delete = DB::select('call sp_commonprocedure(3,'.$id.',"customerusers")'); 
+
+        }
+        
+        $request->session()->flash('failure', 'CustomerUser(s) deleted successfully.');     
+
+        return redirect(url(route('admin.customerusers')));   
+    }
+
+/*public function delete(Request $request ,$id)
 {
        $user = Auth::user();
 	   $customersUsers = CustomerUsers::where('id','=',$id)->first();
@@ -215,6 +320,7 @@ public function delete(Request $request ,$id)
 
         return redirect(url(route('admin.customerusers')));   
 }
+*/
 }
 
 

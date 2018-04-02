@@ -39,13 +39,13 @@
 
                                 <div class="col-md-3">
 
-    				 <select name="customerName" id="customerName" class="form-control">
+    				 <select name="customerName" id="customerName" class="form-control" onchange="customerChange();">
 
                      <option value="">Please select a Customer</option>
 
                      @foreach ($customers as $customers_list)
 
-                     <option value="{{ $customers_list->id}}" "@if($edit_val==1) {{$vendorUsers->CustomerID == $customers_list->id ? 'selected' : ''}} @endif">{{$customers_list->CustomerName}}</option>
+                     <option value="{{ $customers_list->id}}" "@if($edit_val==1) {{$vendorUsers->CustomerID == $customers_list->id ? 'selected' : ''}} @endif" drop-data="{{ url(route('admin.selectvendors', ['id' => $customers_list->id])) }}">{{$customers_list->CustomerName}}</option>
 
                      @endforeach
 
@@ -58,6 +58,9 @@
                             
 
                         </row>
+          <!-- Defect: new users.pdf
+         Name: Bala-php Team
+         change customer name depends upon change vendor and factory names as alphabetic order-->
 
                     <row class="col-md-12">
 
@@ -66,12 +69,12 @@
                             <div class="form-group clsformelements">
 
     							<label for="companyName" class="col-md-3">Vendor Name<span class="mandatory_fields">*</span></label>
-
-                                
+<span class="spandiv" style="display:none"><?php echo url(route('admin.selectfactory')); ?></span>
+                                <div class="vendordisplay">
 
                                 <div class="col-md-3">
 
-    				 <select name="companyName" id="companyName" class="form-control">
+    				 <select name="companyName" id="companyName" class="form-control" >
 
                      <option value="">Please select a Vendor</option>
 
@@ -83,6 +86,8 @@
 
                      </select>
 
+                                </div>
+                                
                                 </div>
 
   							</div>
@@ -99,7 +104,7 @@
 
     							<label for="factoryName" class="col-md-3">Factory Name<span class="mandatory_fields">*</span></label>
 
-                                
+                                <div class="factorydisplay">
 
                                 <div class="col-md-3">
 
@@ -116,12 +121,17 @@
                      </select>
 
                                 </div>
+                                
+                                </div>
 
   							</div>
 
                             
 
-                        </row>                    
+                        </row>       
+                         <!-- Defect: new users.pdf
+                         Name: Bala-php Team
+                       end here-->             
 
                      <row class="col-md-12">
 
@@ -279,7 +289,7 @@
 
                                 @foreach ($userType as $type_list)
 
-                                <option value="{{ $type_list->id}}" "@if($edit_val==1) {{$vendorUsers->UsertypeID == $type_list->id ? 'selected' : ''}} @endif">{{$type_list->userType}}</option>
+                                <option value="{{$type_list->id}}" "@if($edit_val==1) {{$vendorUsers->UsertypeID == $type_list->id ? 'selected' : ''}} @endif">@if($type_list->id!='18'){{$type_list->userType}}@endif</option>
 
                                 @endforeach
 

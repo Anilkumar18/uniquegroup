@@ -1,0 +1,59 @@
+fieldset h2{text-align: left;}
+#productimg img{ width: 250px; height: 250px; }
+#productimg .zippercolorimg img{ width: 200px; height: 50px; }
+
+.listleft input.compositionblk {display: none !important;}
+.listbox {float: left; border: solid 1px #d1d1d1; border-radius: 9px; padding: 15px; height: 200px; overflow-y: scroll; margin-bottom: 15px;}
+.listbox label {float: left;}
+.listleft label {float: left; width: 100%;}
+.subject-info-arrows.text-center input {text-align: center; width: 50%; margin: 5px 25%;}
+.listright label {float: left; width: 75%;}
+.listright .compositionblk {float: left; width: 25%;}
+.garmentfabricblk{background-color: #ada7a7; padding: 10px;}
+span.garment_title {float: left; text-align: left;}
+h4.col-md-5 {float: left; text-align: left; font-size: 18px;}
+span.cleargarment {float: left; width: auto; padding: 5px 10px; background: #e44040; border-radius: 5px; cursor: pointer; color: #fff; margin: 0;}
+
+.wizard > .content {border-radius: 0 !important; margin-top:10px;}
+.wrapper.wrapper-content.animated.fadeInRight {padding: 20px 10px 0px;}
+.clsprodhomedd .wizard > .steps .current a {background: #1ab394;}
+.clsprodhomedd .wizard > .steps .current a:hover {background: #129c80;}
+.headerlink {padding: 15px 0 5px 15px;}
+.clsprodhomedd .wizard > .steps > ul > li {min-width: 15%;}
+.ibox-content {padding: 15px 0;}
+.footer {padding: 10px 10px; margin: 10px;}
+.clsprodhomedd .font-noraml {font-weight: 700; color: #777; font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif; margin-left: 15px; font-size: 13px;}
+.clsprodhomedd .productsubgroup {width: 25%; position: relative; left: -10px;}
+.clsprodhomedd .dropdownwidth {background-color: #FFFFFF; background-image: none; border: 1px solid #e5e6e7; border-radius: 0px; color: inherit; display: block; padding: 0; transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s; width:100%; font-size: 14px; margin-left: 15px;}
+.clsprodhomedd .select2-container--default .select2-selection--single {border:none !important; height: 34px !important;}
+.clsprodhomedd .select2-container--default .select2-selection--single .select2-selection__rendered {line-height: 34px !important; text-align: left;}
+.clsprodhomedd .select2-container--default .select2-selection--single .select2-selection__arrow {height: 32px !important; width: 32px !important;}
+.clsprodhomedd div#example1_length select {float: none !important; width: auto !important; margin-right: 0 !important;}
+.clsprodhomedd div#example1_length label {font-weight:400; font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif; color: #777;}
+.clsprodhomedd table.dataTable.unique_user_detail_table {border: 1px solid #EBEBEB;}
+.clsprodhomedd table.dataTable thead th, table.dataTable thead td {border-bottom: 1px solid #EBEBEB !important;}
+.clsprodhomedd table.dataTable.no-footer {border-bottom:none !important;}
+.clsprodhomedd table.dataTable tbody th, table.dataTable tbody td {text-align: left; padding-left: 20px !important;}
+.clsprodhomedd td.sorting_1 input {width: auto !important;}
+.clsprodhomedd table.dataTable th {font-weight:400; font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif; color: #777;}
+.clsprodhomedd table.dataTable td {font-weight:400; font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif; color: #777;}
+.wizard > .actions a, .wizard > .actions a:active {background: #1ab394;}
+.wizard > .actions a:hover {background: #129c80;}
+.clsprodhomedd .wizard > .steps .done a, .wizard > .steps .done a:hover, .wizard > .steps .done a:active {background: rgba(26,179,148,.5); color: #fff;}
+fieldset .col-lg-2 {padding-left:0; padding-right:0;}
+.form-group h4 {text-align: left; font-weight:600; font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif; color: #777;}
+.form-group label {text-align: left; float: left; width: 100%; font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif; color: #777;}
+fieldset#form-p-1 .col-lg-4 {padding: 0;}
+fieldset .form-control {height: 34px; width: 94% !important; margin-right: 6%;}
+table#colortable {background-color: #fff; width: 64.66%;;}
+fieldset .col-lg-12 {padding:0;     text-align: left;}
+table#colortable th {width: 40%; font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif; color: #777;}
+tr.gradeX td input {width: 100% !important;}
+fieldset .col-lg-3 {padding:0;}
+.wash h3 {text-align: left;color: #777;}
+.radio.radio-info.radio-inline.col-lg-10 input {width: 20px; margin: 4px -20px;}
+label.col-lg-4.control-label.font-bold {float: left; width: 25%; height: 34px;}
+label.col-lg-4.control-label.font-bold strong {font-weight: 700; padding: 8px 0; height: 34px; float: left;}
+.row.margiontop input {float: left; width: 20px; margin: 4px 15px 4px 0;}
+input#continue_select, input#finish_select {margin-right: 15px;}
+fieldset label {font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif; color: #777;}

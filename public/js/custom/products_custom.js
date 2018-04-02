@@ -361,7 +361,10 @@ imgInp:{
 									  }
 			
 		});
-	 // sathish 15-03-2018 
+ <!-- //Defect: newpdf no:4
+                       //Name: Sathish-PHP Team
+                        //Working for the season -->
+                        
 	    $('select[name="Season"]').on('change', function() {
 															 //alert("Testing");
 															 var season=$(this).val();
@@ -369,13 +372,14 @@ imgInp:{
 															 
 															 if(season==5)
 															 {
-
-			 	$(this).parent().append('<input name="Season" type="text" />');
-
-				 
+			 	$(this).parent().append('<input name="otherSeason" type="text"  value="" id="otherseason"/>');
 																 
 															 }
-															 
+			 else{
+			 	//sathish 16-03-2018
+			 	$(this).parent();
+			 	$("#otherseason").remove();
+			 }
 															 
 															 
 															 });
@@ -687,6 +691,18 @@ function CustomerChange()
         
     });
   }  
+  //Defect: newpdf no:57
+         //Name: Vidhya-PHP Team
+         //Working for the breadcrumb name change
+  function subgroupname()
+  { 
+    
+	$('#ProductSubGroupName').on('change',function(e){
+
+	debugger;
+  
+  });
+  } 
 function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -809,9 +825,12 @@ function readURL1(input) {
 							 $(".productsubgroup").show(); 
 							 $(".productsubgroupnotification").html("");
                             $('select[name="ProductSubGroupName"]').empty();
+					   // //TasK: To pass group ID
+     //Done by Rajesh
+     //Date :17032018
 					   
-					   
-					   
+					   var optihtml='<option>Please Select </option>';
+					   $('select[name="ProductSubGroupName"]').append('<option>Please Select </option>');
                         $.each(data, function(key, value) {
                         
 							 $('select[name="ProductSubGroupName"]').append(''+'<option value="'+ key +'">'+ value +'</option>');
@@ -821,6 +840,7 @@ function readURL1(input) {
 						 {
 							$(".productsubgroup").hide(); 
 							$(".productsubgroupnotification").html("<h5>Subgroup Not Available for This Product</h5>");
+							$('#ProductSubGroupName').trigger('change');
 						 }
 
                     }

@@ -125,7 +125,10 @@
                     <div class="col-lg-12">
                    <br />
                     <?php
-                      $productgroupid=1;
+                    //TasK: To pass group ID
+     //Done by Rajesh
+     //Date :17032018
+                      $productgroupid=$id;
                        $productgroupdetails=App\ProductGroup::where('status','=',1)->where('id','=',$productgroupid)->first();
                        
                        $productsubgroupdetails=App\ProductSubGroup::where('Product_groupID','=',$productgroupid)->first();
@@ -135,9 +138,22 @@
                      
                       <li>New Development<strong></strong></li>
                       <li>
-                     Packaging
+                     {{$productgroupdetails->ProductGroup}}
                       </li>
-                      <li>
+                      <!-- Defect:57
+                      //Vidhya:PHP
+                      //Breadcrumb name change -->
+                        <span id="demoname"></span>
+                          
+                      
+                        <span id="productchecked"></span>
+                      
+                        
+                         <span id="productchecked1"></span>
+                      
+                         <span id="productchecked2"></span> 
+                        
+                        
                           
                       </li>
                     </ol>
@@ -340,7 +356,7 @@
                 
                           
                          <div class="col-lg-5 productsubgroup">
-                        <select id="{{$fieldname}}" name="{{$fieldname}}" class="form-control dropdownwidth"<?php if($list->isvalid==1){ echo 'required'; } ?>>
+                        <select id="{{$fieldname}}" name="{{$fieldname}}" onchange="subgroupname();" class="form-control dropdownwidth"<?php if($list->isvalid==1){ echo 'required'; } ?>>
                         <option value="">Please Select</option>
                          @foreach ($fielddetailslist as $fielddetails)
                          <option value="{{$fielddetails->id}}">{{ $fielddetails->$fieldname }}</option>
@@ -349,17 +365,39 @@
                         </div>
                         <div class="col-lg-5 productsubgroupnotification"></div>
                         </div>
+                        @elseif(count($productgroupdetails)>0)
+                       <!--  //17-3-2018
+                       //Name: Manimaran R
+                       //Worked on HangTags -->
+                          <div class="form-group">
+                  <label class="col-lg-3 control-label font-noraml text-left label_font">{{$list->fieldname}}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
+                
+                          
+                         <div class="col-lg-5 productsubgroup">
+                        <select id="ProductSubGroupName" name="ProductSubGroupName" class="form-control dropdownwidth"<?php if($list->isvalid==1){ echo 'required'; } ?>>
+                         <option value="0">0</option>  
+                        </select>
+                        </div>
+                        <div class="col-lg-5 productsubgroupnotification"></div>
+                        </div>
+                        <input type="hidden" name="ProductSubGroupName" id="ProductSubGroupName" value="0" />
                         @endif
                      @elseif($fieldname=="CustomerName")
                      <div class="form-group">
                       <label class="col-lg-3 control-label font-noraml text-left label_font">{{$list->fieldname}}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
                  
                           
-                         <div class="col-lg-5 productsubgroup">
-                        <select id="{{$fieldname}}" name="{{$fieldname}}" class="form-control dropdownwidth" <?php if($list->isvalid==1){ echo 'required'; } ?>>
+                         <div class="col-lg-5 productsubgroup1">
+                        <select id="{{$fieldname}}" name="{{$fieldname}}" onchange="CustomerChange();" class="form-control dropdownwidth" <?php if($list->isvalid==1){ echo 'required'; } ?>>
                         <option value="">Please Select</option>
                          @foreach ($fielddetailslist as $fielddetails)
-                         <option value="{{$fielddetails->id}}">{{ $fielddetails->$fieldname }}</option>
+                         @if($user->userTypeID==1)
+                         <option value="{{$fielddetails->id}}" drop-data="{{url(route('user.selectcustomer', ['id' => $fielddetails->id]))}}">{{ $fielddetails->$fieldname }}</option>
+                         @elseif($fielddetails->AccountManagerID==$user->id && $user->userTypeID==9)
+                         <option value="{{$fielddetails->id}}" drop-data="{{url(route('user.selectcustomer', ['id' => $fielddetails->id]))}}">{{ $fielddetails->$fieldname }}</option>
+                         @else
+                         <option value="{{$fielddetails->id}}" drop-data="{{url(route('user.selectcustomer', ['id' => $fielddetails->id]))}}">{{ $fielddetails->$fieldname }}</option>
+                            @endif
                            @endforeach                                    
                         </select>
                         </div>
@@ -368,7 +406,7 @@
                      <div class="form-group">
                       <label class="col-lg-3 control-label font-noraml text-left label_font">{{$list->fieldname}}:@if($list->isvalid==1)<span class="required">*</span>@endif</label>
                  <?php //echo $table;print_r($fielddetailslist); ?>
-                          
+                          <div class="statedisplay">
                          <div class="col-lg-5 productsubgroup">
                         <select id="{{$fieldname}}" name="{{$fieldname}}" class="form-control dropdownwidth" <?php if($list->isvalid==1){ echo 'required'; } ?>>
                         <option value="">Please Select</option>
@@ -377,7 +415,7 @@
                            @endforeach                                    
                         </select>
                         </div>
-                        </div>
+                        </div></div>
                         
                 @elseif($fieldname=="StatusName")
                 <div class="form-group">
@@ -1663,14 +1701,17 @@
                     </div>
                      <label class="col-lg-2 control-label font-noraml text-left label_font">Fright Cost</label>
                      <div class="col-lg-5 divwidthforexworks">
-                <input type="text"  name="frightcost" id="frightcost"  class="frightcost" @if($usertype->id==9) readonly="readonly" @endif" />
+                <input type="text"  name="frightcost" id="frightcost"  class="frightcost" @if($usertype->id==9) readonly="readonly" @endif />
               
                 
                     </div>
                      <label class="col-lg-2 control-label font-noraml text-left label_font">Currency</label>
                     <div class="col-lg-5 divwidthforexworks">
-                    <select style="margin-top: 13%;" disabled="disabled">
-                    <option></option>
+                    <select name="currency" style="margin-top: 13%;" @if($usertype->id==9)disabled="disabled" @endif>
+                    <option value="">Please Select</option>
+                 @foreach ($fielddetailslist as $fielddetails)
+                 <option value="{{$fielddetails->id}}" >{{ $fielddetails->$fieldname }}</option>
+                   @endforeach   
                     </select>
               
                 
@@ -1692,8 +1733,11 @@
                     </div>
                      <label class="col-lg-2 control-label font-noraml text-left label_font">Currency</label>
                     <div class="col-lg-5 divwidthforexworks">
-                    <select style="margin-top: 13%;" disabled="disabled">
-                    <option></option>
+                    <select style="margin-top: 13%;" name="currency" @if($usertype->id==9) disabled="disabled" @endif>
+                    <option value="">Please Select</option>
+                 @foreach ($fielddetailslist as $fielddetails)
+                 <option value="{{$fielddetails->id}}" >{{ $fielddetails->$fieldname }}</option>
+                   @endforeach 
                     </select>
               
                 
@@ -1746,13 +1790,14 @@
                                 </fieldset>
                                 <h1>Selling Price</h1>
                                 <fieldset>
-Unit of Measurement:
-<div class="pricemethod"></div>
+<!-- 16-03-2018 sathish unit of measurement -->                                  
+<!-- sathish 15-03-2018 -->
+<div style=' float:left; '>Unit of Measurement: <b>&nbsp;<div style=" float:right;" class="pricemethod"></div></b></div><br>
 
 
-<div>  Margin :</div> 
-                                    <div class="col-sm-12 b-r">
-              <span class="required">*</span><input type="text" class="quantitychk1 margin123" name="input0" id="input0"  onkeyup="margin(this)" value="35">%
+<!-- sathish 16-03-2018 div tag  -->
+<div class="col-sm-12 b-r">
+              <span class="required">*</span><div style='float: left;'>  Margin :</div><input type="text" class="quantitychk1 margin123" name="input0" id="input0"  onkeyup="margin(this)" value="35">%
             @foreach($invendetails_productfielddetails as $list)
              
                 

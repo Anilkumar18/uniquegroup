@@ -7,10 +7,12 @@ if (array_intersect($pageurlarray, $productarray)) {
 echo $getUserRoleName=\App\UserRole::getUserRoleNameByID();
 
 }
-?>
+?><!-- Defect No:60 
+//Vidhya:php team
+//customerservice add view page -->
 @elseif($usertype->id == 10 || $usertype->id == 14)
 <?php
-$productarray=array('developmentlist','developmentitemlist','currentorder','completeorder','dashboard','editdevelopmentitemlist','editproductdetails');
+$productarray=array('developmentlist','developmentitemlist','currentorder','completeorder','dashboard','editdevelopmentitemlist','editproductdetails','viewdevelopment','viewdevelopmentitemlist');
 if (array_intersect($pageurlarray, $productarray)) {
 }else{
 echo $getUserRoleName=\App\UserRole::getUserRoleNameByID();

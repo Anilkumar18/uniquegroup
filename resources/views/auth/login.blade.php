@@ -106,7 +106,7 @@
                                         <button type="button" class="close" data-dismiss="modal" onclick="close_form()">
                                         <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <h4 class="modal-title title_bar">Forget Password</h4>
-                                           <p>Just fill in your Quantity details and we'll help you..</p>
+                                           <p>Just fill in your Email details and we'll help you..</p>
                                             <small class="font-bold"></small>
                                         </div>
                       <form name="forgetpassword" id="forgetpassword" method="post" action="{{ url('/password/email') }}"  
@@ -117,7 +117,7 @@
                                        
                                        <div class="row otherquantitydiv">
                                         <div class="col-sm-12">
-                                         <label class="col-lg-2 control-label font-noraml text-left">Email ID:</label>
+                                         <label class="col-lg-2 control-label font-noraml text-left">Email:</label>
                                          <div class="col-lg-5">
                                          <input type="email" name="email" id="email" class="form-control" required />
                                         </div>

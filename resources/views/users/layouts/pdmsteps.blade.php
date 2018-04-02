@@ -31,6 +31,7 @@
     <link href="{{ asset("/custom_css/newdevelopment.css")}}" rel="stylesheet">
 
 <link href="{{ asset("/css/plugins/steps/jquery.steps.css")}}" rel="stylesheet">
+<link href="{{ asset("/css/plugins/select2/select2.min.css")}}" rel="stylesheet">
 
     <!-- CSRF Token -->
 
@@ -125,6 +126,13 @@
                 event.preventDefault();
             }
         });
+            //Defect No:61
+            //Vidhya:Php team
+            //Customer product code validation
+            $.validator.addMethod("loginRegex", function(value, element) {
+        return this.optional(element) || /^[a-z0-9\-\s]+$/i.test(value);
+    }, "Product Code must contain only letters, numbers, or dashes.");
+
             $("#productsadd").steps({
                 bodyTag: "fieldset",
                 onStepChanging: function (event, currentIndex, newIndex)
@@ -356,8 +364,7 @@
       required: true
     },
   Hook_UniqueProductCode: {
-    required: true,
-      alphanumeric: true
+    required: true
     },
   Hooks_ProductionRegions1: {
       required: true
@@ -403,8 +410,7 @@
       required: true
     },
   Tissuepaper_UniqueProductCode: {
-      required: true,
-      alphanumeric: true
+      required: true
     },
   Tissuepaper_factoryName: {
       required: true
@@ -444,8 +450,7 @@
       required: true
     },
   Package_UniqueProductCode: {
-      required: true,
-      alphanumeric: true
+      required: true
     },
   PackagingStickers_ProductionRegions1: {
       required: true
@@ -483,11 +488,10 @@
     },
     productcode:{
       required:true,
-      digits:true
+      loginRegex: true
     },
     uniqueproductcode:{
-      required:true,
-      alphanumeric: true
+      required:true
     },
     productname:{
       required:true
@@ -502,10 +506,6 @@
      required: function(element){
             return $("#Inventory").val()== 1;
         },
-      digits:true
-    },
-    MoldCosting:{
-      required:true,
       digits:true
     },
     inventoryMinimumpiecesonstock:{
@@ -566,6 +566,9 @@
     required:true
   },imgInpsample: {
     required:true
+  },totalcompositionpercenatge:{
+    required:true,
+   equalTo:'#percen100'
   }
 
 
@@ -611,6 +614,9 @@
                          ProductionLeadTime: {
                           required: "Please Enter Production Lead Time",
                          digits: "Please Enter the Valid Number"
+                         },
+                         totalcompositionpercenatge:{
+                          equalTo:"Composition Percenatge Must be 100!"
                          }
                         }
                     });

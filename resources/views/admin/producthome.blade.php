@@ -82,98 +82,82 @@ Session::put('customername', $customername);
 </div>
 <div class="ibox-title productibox-title">
 <div class="col-lg-12 clsprodhomedd">
-<?php
-if($customername->id==3)
-{
-?>
-<img src="<?php echo asset('img/marks_logo.png') ?>" width="100px" />
+
+
 
 </div>
 <div class="col-lg-12 clsprodhomedd">
-<div class="clsdropdown">
-  <button class="clsdropbtn">Packaging &nbsp;<span class=" fa fa-chevron-down"></span></button>
-  <div class="clsdropdown-content">
-    
-  </div>
-</div>
-</div>
-<div class="col-lg-12 clsprodhomedd">
-<div class="clsdropdown">
-  <button class="clsdropbtn">Labels &nbsp;<span class="fa fa-chevron-down"></span></button>
-  <div class="clsdropdown-content">
-   <!-- <a href="#">Printed Labels</a>
-    <a href="#">Care Labels</a>
-    <a href="{{ url(route('admin.heattransfers'))}}">Heat Transfers</a>-->
-     <?php
- $subgroupdetails=App\ProductSubGroup::where('Product_groupID','=',2)->get();
+  
+  <?php
+ $subgroupdetails=App\ProductGroup::where('status','=',1)->get();
  ?>
+ <div class="dropdown row"><center>
+                          <!--onclick="event.preventDefault()-->
+ <button class="dropbtn" type="button">Labels&nbsp;<span class="fa fa-chevron-down"></span></button>
+                          <div class="dropdown-content dasboardlabel" align="center" id="dropdownbox">
+                            
+                           <?php
+$str = base64_encode('0#0#1');
+  
+  ?>
+
+                           <a href="{{ url(route('product.productmaintenance', ['id' =>$str])) }}"><div class="button_wrapper btn btn-w-m" style="max-width:149px;height:30px;">Care Labels<div class="tooltip2"><img src="{{ asset('/img/care1.png') }}"></div></div></a>
+                           <?php
+$str = base64_encode('0#11#0');
+  
+  ?>
+                            <a href="{{ url(route('product.productmaintenance', ['id' =>$str])) }}"><div class="button_wrapper btn btn-w-m" style="max-width:149px;  height:30px;">Printed Labels<div class="tooltip2"><img src="{{ asset('/img/printed1.png') }}"></div></div></a>
+                            <?php
+$str = base64_encode('0#12#0');
+  
+  ?>
+                            <a href="{{ url(route('product.productmaintenance', ['id' =>$str])) }}"><div class="button_wrapper btn btn-w-m" style="max-width:149px; height:30px;">Heat Transfer<div class="tooltip2"><img src="{{ asset('/img/heat1.png') }}"></div></div></a>
+                          </div>
+</center>
+                        </div><br><br>
+ <!-- <div class="row"><center><a href="javascript:;"><div class="button_wrapper btn btn-w-m btn-success" style="max-width:149px; background-color:#0099CC; height:30px;">Care Labels<div class="tooltip2"><img src="{{ asset('/img/care1.png') }}"></div></div></a></center></div>
+<br>
+  <div class="row"><center><a href="javascript:;"><div class="button_wrapper btn btn-w-m btn-success" style="max-width:149px; background-color:#0099CC; height:30px;">Printed Labels<div class="tooltip2"><img src="{{ asset('/img/printed1.png') }}"></div></div></a></center></div>
+<br>
+  <div class="row"><center><a href="javascript:;"><div class="button_wrapper btn btn-w-m btn-success" style="max-width:149px; background-color:#0099CC;height:30px;">Heat Transfer<div class="tooltip2"><img src="{{ asset('/img/heat1.png') }}"></div></div></a></center></div>
+<br> -->
+<?php
+$str = base64_encode('3#0#0');
+  
+  ?>
+  <div class="row"><center><a href="{{ url(route('product.productmaintenance', ['id' =>$str])) }}"><div class="button_wrapper btn btn-w-m btn-success" style="max-width:149px; background-color:#0099CC;height:30px;">Hangtags<div class="tooltip2"><img src="{{ asset('/img/hangtag1.png') }}"></div></div></a></center></div>
+<br>
+  <div class="row"><center><a href="javascript:;"><div class="button_wrapper btn btn-w-m btn-success" style="max-width:149px; background-color:#0099CC;height:30px;">Price Sticker<div class="tooltip2"><img src="{{ asset('/img/variabe.png') }}"></div></div></a></center></div>
+<br>
+  <div class="row"><center><a href="javascript:;"><div class="button_wrapper btn btn-w-m btn-success" style="max-width:149px; background-color:#0099CC;height:30px;">Other products<div class="tooltip2"><img src="{{ asset('/img/other1.png') }}"></div></div></a></center></div>
+<br>
+<?php
+$str = base64_encode('12#0#0');
+  
+  ?>
+  <div class="row"><center><a href="{{ url(route('product.productmaintenance', ['id' =>$str])) }}"><div class="button_wrapper btn btn-w-m btn-success" style="max-width:149px; background-color:#0099CC;height:30px;">Zipper Pulls<div class="tooltip2"><img src="{{ asset('/img/zipper.png') }}"></div></div></a></center></div>
+
+
  <?php
  foreach($subgroupdetails as $subgrouplist)
  {
+     $productdetails=App\ProductDetails::where('CustomerID','=',$sidebarid)->where('ProductGroupID','=',$subgrouplist->id)->get();
      
+     if(count($productdetails)){
  ?>
- <a href="{{ url(route('admin.heattransfers',['id'=>$subgrouplist->id]))}}">{{$subgrouplist->ProductSubGroupName}}</a>
+ <!-- <div class="selectlables col-md-4">
+                 <a href="{{ url(route('product.productmaintenance', ['id' => $subgrouplist->id])) }}"><center><img src="{{ asset('/img/image-sample.jpg') }}"></center>
+                 <h5>{{$subgrouplist->ProductGroup}}</h5></a>
+                 </div> -->
  
-	 
- <?php
+   
+ <?php }
  }
  ?>
-  </div>
-</div>
-</div>
-
-
-
-<div class="col-lg-12 clsprodhomedd">
-
-<div class="clsdropdown">
-  <button class="clsdropbtn">Hang Tags</button>
 
 </div>
 
-</div>
-
-<div class="col-lg-12 clsprodhomedd">
-
-<div class="clsdropdown">
-  <button class="clsdropbtn">Taps</button>
 
 </div>
 
-</div>
-
-<div class="col-lg-12 clsprodhomedd">
-
-<div class="clsdropdown">
-  <button class="clsdropbtn">Zipper Pullers</button>
-</div>
-
-</div>
-
-<div class="col-lg-12 clsprodhomedd">
-
-<div class="clsdropdown">
-  <button class="clsdropbtn">Variable Data<span class=" fa fa-chevron-down"></span></button>
-  <div class="clsdropdown-content">
-    <a href="#">Price Stickers</a>
-  </div>
-</div>
-
-</div>
-
-<div class="col-lg-12 clsprodhomedd">
-
-<div class="clsdropdown">
-  <button class="clsdropbtn">Miscellaneous<span class=" fa fa-chevron-down"></span></button>
-  <div class="clsdropdown-content">
-    <a href="#">Hanger With Size</a>
-  </div>
-</div>
-
-</div>
-
-</div>
-<?php
-}
-?>
 @endsection 

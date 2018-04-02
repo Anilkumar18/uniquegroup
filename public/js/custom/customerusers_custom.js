@@ -218,6 +218,149 @@ var pp=$(this).parent().parent().parent().parent().parent();
 
 
 });
+
+ //Defect: 27-03-18 & 29-03-18
+//Name: Bala-Uniquegroup Team
+//Active and deactive account
+
+ $(".activatcustomeruser").click(function(){
+	 //alert("activated");
+
+	  // var href=$(this).data("href");	
+	   var href=$(this).find('a').data("href"); 
+	   
+	   if(href)
+	   {
+	    swal({
+  		title: "Are you sure to activate the selected CustomerUser(s)?",
+  		type: "warning",
+  		showCancelButton: true,
+  		confirmButtonColor: "#DD6B55",
+  		confirmButtonText: "Yes, do it!",
+  		closeOnConfirm: false
+		},
+		function(){
+  		document.thisForm.action=href;
+		document.thisForm.submit();
+		}); 
+	   }
+	  /* var activateval = [];
+ 		$('.hobbies_class:checked').each(function() {
+   		activateval.push($(this).val());
+	  });
+	    if(activateval=="")
+	   {
+	   swal({
+                
+                title: "Please select the CustomerUser(s) to activate",
+				 type: "error"
+            });
+	   }
+	   
+	   else 
+	   {
+	   swal({
+  		title: "Are you sure to activate the selected CustomerUser(s)?",
+  		type: "warning",
+  		showCancelButton: true,
+  		confirmButtonColor: "#DD6B55",
+  		confirmButtonText: "Yes, do it!",
+  		closeOnConfirm: false
+		},
+		function(){
+  		document.thisForm.action=href;
+		document.thisForm.submit();
+		});
+	}*/
+ 	
+ 	}); 
+	
+	$(".deactivatecustomeruser").click(function(){
+		
+		//alert("deactivated");
+
+		//var href=$(this).data("href");
+		 var href=$(this).find('a').data("href"); 
+		 if(href)
+		 {
+		 	swal({
+  		title: "Are you sure to deactivate the selected Customer user(s)?",
+  		type: "warning",
+  		showCancelButton: true,
+  		confirmButtonColor: "#DD6B55",
+  		confirmButtonText: "Yes, do it!",
+  		closeOnConfirm: false
+		},
+		function(){
+  		document.thisForm.action=href;
+		document.thisForm.submit();
+		});
+		 }
+		 
+	   /*var deactivateval = [];
+	   $('.hobbies_class:checked').each(function() {
+   		deactivateval.push($(this).val());
+	  });
+	    if(deactivateval=="")
+	   {
+	   swal({
+                
+                title: "Please select the Customer user(s) to deactivate",
+				 type: "error"
+            });
+	   }
+	   
+	   else
+	   {	   	
+	   	swal({
+  		title: "Are you sure to deactivate the selected Customer user(s)?",
+  		type: "warning",
+  		showCancelButton: true,
+  		confirmButtonColor: "#DD6B55",
+  		confirmButtonText: "Yes, do it!",
+  		closeOnConfirm: false
+		},
+		function(){
+  		document.thisForm.action=href;
+		document.thisForm.submit();
+		});
+		}*/
+ 	});
+	
+	$(".deletecustomeruser").click(function(){
+											
+
+		var href=$(this).data("href");
+	   var deleteval = [];
+	   $('.hobbies_class:checked').each(function() {
+   		deleteval.push($(this).val());
+	  });
+	    if(deleteval=="")
+	   {
+	   swal({
+                
+                title: "Please select the CustomerUser(s) to delete",
+				 type: "error"
+            });
+	   }
+	   
+	   else
+	   {	   	
+		   	swal({
+	  		title: "Are you sure to delete the selected CustomerUser(s)?",
+	  		type: "warning",
+	  		showCancelButton: true,
+	  		confirmButtonColor: "#DD6B55",
+	  		confirmButtonText: "Yes, do it!",
+	  		closeOnConfirm: false
+			},
+			function(){
+	  		document.thisForm.action=href;
+			document.thisForm.submit();
+			});
+			}
+ 	});
+	
  //Defect: 39
 //Name: Vidhya-PHP Team
 //Phone number validation-accept 11 digit

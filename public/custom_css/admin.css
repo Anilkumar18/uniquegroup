@@ -21609,3 +21609,85 @@ a.linkCustomer img { width: 18px; }
 /*pdm maintenance*/
 
 .hidemenu{ display: none !important; }
+.dasboardlabel .button_wrapper {width: 120px; background: none;}
+.dasboardlabel.dropdown-content a {color: #fff;}
+.clsprodhomedd .dropbtn {background-color: #09c;}
+.wrapper.wrapper-content.animated.fadeInRight h2 {float: left; width: 100%; background-color: #fff; padding: 15px 0 10px 30px; margin: 0;}
+.clsbreadcrumb {float: left; background-color: #fff; width: 100%; margin-top: 0 !important;}
+.clsbreadcrumb span {padding: 10px;}
+.clsaddnewvendorform {padding: 0;}
+.clsaddnewvendorform .col-lg-12 {padding: 0; margin-top: 15px;}
+
+
+/*  View PDM details in customer product maintanace   */
+
+.ecommerce-maintenance .right-cont
+  {
+  margin-top:20px;
+  }
+  .ecommerce-maintenance .left-cont ul li
+  {
+  list-style-type:none;
+  float:left;
+  margin:30px 2px;
+  }
+  .ecommerce-maintenance .csv-opt,.ecommerce-maintenance .excel-opt,.ecommerce-maintenance .pdf-opt,.ecommerce-maintenance .print-opt
+  {
+  background:#00ADEF;
+  padding:5px 25px;
+  border:none;
+  border-radius:5px;
+  font-size:12px
+  }
+  .ecommerce-maintenance .right-cont
+  {
+  float:left;
+  }
+  .ecommerce-maintenance .back-cont, .edit-cont
+  {
+  padding:20px 0px;
+  }
+  .ecommerce-maintenance .back-opt ,.edit-opt
+  {
+  padding:5px 10px;
+  width:120px;
+  border:none;
+  float:right
+  }
+  .ecommerce-maintenance .panel
+  {
+  background:#00ADEF;
+  color:#fff;
+  font-weight:600;
+  }
+    .ecommerce-maintenance .costing-requirement
+  {
+  background:#e7e7e7;
+  margin-bottom:20px;
+  }
+  .ecommerce-maintenance .costing-requirement h4
+  {
+  color:#00ADEF;
+  }
+  .ecommerce-maintenance .checkbox
+  {
+  padding-left:50px !important;
+  }
+  .ecommerce-maintenance .control-label
+  {
+  text-align:left;
+  padding-left:20px !important;
+  font-weight:normal;
+  }
+  .ecommerce-maintenance .unit-measurement
+  {
+  background:#e7e7e7;
+  }
+
+  .ecommerce-maintenance .blkform-group{
+    margin-bottom: 15px;
+  }
+  .form-horizontal .blkform-group {
+    margin-right: -15px;
+    margin-left: -15px;
+}

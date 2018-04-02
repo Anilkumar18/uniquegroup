@@ -87,7 +87,7 @@ $pageurlarray=explode('/', Request::fullUrl());
 
 //$maintenancearray=array('dashboard','customers','addnewcustomer','customersdetails','addcustomer','addcustomers','customer_delete','selectcustomer','customerusers','addcustomerusers','selectcustomerusers','customerusersdetails','customeruser_delete');
 $productarray=array('productdetails','update_productsdetails','developmentlist','productimg','developmentlist_delete','viewdevelopment','duplicatedevelopment','developmentitemlist','productimgtissue','productimghook','productimgpackage','viewdevelopmentitemlist','developmentitemlist_delete','developmentitemlisthook_delete','developmentitemlisttissue_delete','developmentitemlistpackage_delete','duplicatedevelopmentitem','add_productsdetails','add_productsgroupdetails','add_season','add_quantity','add_region','add_inventorydetails','add_productquoteinfo','add_costinfo','add_costingandrequirements','addproductgroups','add_products','add_productsgroupdetails1','development','editdevelopmentitemlist','editproductdetails','accounts_productdetails');
-$ecomercearray=array('completeorderlist','orderlist');
+$ecomercearray=array('completeorder','orderlist','placeorder','placeorderlist','currentorder');
 
 
 $maintenancemenu='showmenu';
@@ -97,7 +97,7 @@ $productmenuclass='hidemenu';
 if (array_intersect($pageurlarray, $productarray)) {
     $productmenuclass='showmenu';$maintenancemenu='hidemenu';
 }elseif (array_intersect($pageurlarray, $ecomercearray)) {
-    $ecomercemenuclass='showmenu';$maintenancemenu='hidemenu';
+    $ecomercemenuclass='showmenu';$maintenancemenu='hidemenu';$productmenuclass='hidemenu';
 }
 //if (array_intersect($pageurlarray, $ecomercearray)) {$ecomercemenuclass='showmenu';}else{$ecomercemenuclass='hidemenu';}
 ?>
@@ -146,7 +146,7 @@ if(Request::is('admin/facilities') || Request::is('admin/addnewfacility') || Req
 $pdm='';
 
 if(Request::is('admin/countries') || Request::is('admin/states') || Request::is('admin/addstate') || Request::is('admin/statedetails') || Request::is('admin/pdmmaintenance/dashboard') ||  Request::is('admin/pdmmaintenance/productgroupandsubgroup')|| Request::is('admin/pdmmaintenance/mktproductionregions')
-|| Request::is('admin/pdmmaintenance/productionregions') || Request::is('admin/pdmmaintenance/productdetails') || Request::is('admin/pdmmaintenance/productdevelopment/*') || Request::is('admin/pdmmaintenance/dashboard')
+|| Request::is('admin/pdmmaintenance/productionregions') || Request::is('admin/pdmmaintenance/productdetails') ||Request::is('admin/pdmmaintenance/countryoforigin')|| Request::is('admin/pdmmaintenance/productdevelopment/*') || Request::is('admin/pdmmaintenance/dashboard')
 )
   {
     $pdm='active';
@@ -362,6 +362,33 @@ if(Request::is('admin/development/dashboard') || Request::is('developmentlist') 
                              <li {{{ (Request::is('admin/pdmmaintenance/productdetails') ? 'class=active' : '') }}}><a href="{{ url(route('admin.productdetails')) }}">Production Details</a></li>      
                             
                              <li {{{ (Request::is('admin/pdmmaintenance/productdevelopment/*') ? 'class=active' : '') }}}><a href="{{ url(route('admin.productdevelopmenthome'))}}">Product Development</a></li> 
+                              
+
+
+
+                        </ul>
+
+                    </li>
+                    <li class="<?php echo $pdm;?> sidebarmenu maintenancemenu <?php echo $maintenancemenu; ?>" id="pdmmaintenance">
+                      
+          
+                       
+                       <a href="{{ url(route('admin.pdmhome')) }}"> <span class="nav-label">Ecommerce Product Maintenance</span>
+                        <span class="fa arrow"></span></a>
+
+                        <ul class="nav nav-second-level collapse">
+                        
+                       <li {{{ (Request::is('admin/pdmmaintenance/productdevelopment/*') ? 'class=active' : '') }}}><a href="{{ url(route('admin.drysymbollist'))}}">Care Instructions Dry</a></li> 
+                               <li {{{ (Request::is('admin/pdmmaintenance/productdevelopment/*') ? 'class=active' : '') }}}><a href="{{ url(route('admin.washsymbollist'))}}">Care Instructions Wash</a></li> 
+                                <li {{{ (Request::is('admin/pdmmaintenance/productdevelopment/*') ? 'class=active' : '') }}}><a href="{{ url(route('admin.bleachsymbollist'))}}">Care Instructions Bleach</a></li> 
+                                 <li {{{ (Request::is('admin/pdmmaintenance/productdevelopment/*') ? 'class=active' : '') }}}><a href="{{ url(route('admin.ironsymbollist'))}}">Care Instructions Iron</a></li> 
+                                   <li {{{ (Request::is('admin/pdmmaintenance/productdevelopment/*') ? 'class=active' : '') }}}><a href="{{ url(route('admin.drycleansymbollist'))}}">Care Instructions DryClean</a></li> 
+                                     <li {{{ (Request::is('admin/pdmmaintenance/countryoforigin/*') ? 'class=active' : '') }}}><a href="{{ url(route('admin.countryoforigin'))}}"> Country of Origin <br> Maintenance</a></li>
+                                   
+                                        <li {{{ (Request::is('admin/pdmmaintenance/countryoforigin/*') ? 'class=active' : '') }}}><a href="{{ url(route('admin.pdmnew')) }}">Price sticker Maintanence</a></li>
+
+                           
+                             
 
 
 
@@ -426,7 +453,7 @@ if(Request::is('admin/development/dashboard') || Request::is('developmentlist') 
                                 @endforeach
                         </li>
 
-                                <li class="sidebarmenu ecommercemenu <?php echo $ecomercemenuclass; ?>" id="currentorders"><a href="javascript:;">Place Orders</a></li>
+                                <li class="sidebarmenu ecommercemenu <?php echo $ecomercemenuclass; ?>" id="currentorders"><a href="{{url(route('user.placeorderview')) }}">Place Orders</a></li>
                                 <li class="sidebarmenu ecommercemenu <?php echo $ecomercemenuclass; ?>" id="currentorders"><a href="{{url(route('user.orderlistview')) }}">Current Orders</a></li>
                                 <li class="sidebarmenu ecommercemenu <?php echo $ecomercemenuclass; ?>" id="completedorders"><a href="{{url(route('user.completeorderlistview')) }}">Completed Orders</a></li>
           @endif
@@ -449,9 +476,9 @@ if(Request::is('admin/development/dashboard') || Request::is('developmentlist') 
 
 
                         @if($usertype->id == 12)
-                        <li class="sidebarmenu productmenu "><a href="{{url(route('user.developmentlist')) }}">Development List</a></li>
-                            <li class="sidebarmenu "><a href="{{url(route('user.developmentlistview')) }}">Development Item List</a></li>
-                        <li class="productlist">
+                        <li class="sidebarmenu productmenu <?php echo $productmenuclass; ?>"><a href="{{url(route('user.developmentlist')) }}">Development List</a></li>
+                            <li class="sidebarmenu <?php echo $productmenuclass; ?>"><a href="{{url(route('user.developmentlistview')) }}">Development Item List</a></li>
+                        <li class="productlist sidebarmenu productmenu <?php echo $productmenuclass; ?>">
 
                             <a href=""><span class="nav-label">Products</span><span class="fa arrow"></span></a>
                              <!-- <?php
@@ -479,7 +506,7 @@ if(Request::is('admin/development/dashboard') || Request::is('developmentlist') 
                                     @endif
                             </ul>
                                 @endforeach -->
-                               <li class="sidebarmenu ecommercemenu <?php echo $ecomercemenuclass; ?>"><a href="javascript:;">Place Orders</a></li>
+                               <li class="sidebarmenu ecommercemenu <?php echo $ecomercemenuclass; ?>"><a href="{{url(route('user.placeorderview')) }}">Place Orders</a></li>
                                <li class="sidebarmenu ecommercemenu <?php echo $ecomercemenuclass; ?>"><a href="{{url(route('user.orderlistview')) }}">Current Orders</a></li>
                                   <li class="sidebarmenu ecommercemenu <?php echo $ecomercemenuclass; ?>"><a href="{{url(route('user.completeorderlistview')) }}">Completed Orders</a></li>  
                         </li>
