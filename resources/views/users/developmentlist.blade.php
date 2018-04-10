@@ -203,6 +203,11 @@ error_reporting(0);
 
 					   echo "Packaging Stickers";echo "<br>";
              }
+             if($list->HeatTransferLabelID!="" && $list->HeatTransferLabelID<>0)
+             {
+
+             echo "Heat Transfer Labels";echo "<br>";
+             }
                //TasK: To pass label name
      //Done by Rajesh
      //Date :19032018 
@@ -211,11 +216,7 @@ error_reporting(0);
 
                        echo "Woven Label";echo "<br>";
              }
-             if($list->HeatTransferID<>0)
-             {
-
-                       echo "Heat Transfer Label";echo "<br>";
-             }
+             
              if($list->PrintedLabelID<>0)
              {
 

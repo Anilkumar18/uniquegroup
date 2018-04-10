@@ -71,7 +71,7 @@ error_reporting(0);
                     //print_r($uniqueview->id);
 					$i++;  		
 					$factoryname=App\UniqueOffices::where('id','=',$uniqueview->FactoryID)->first();
-
+          $customer=\App\Customers::where('id', $uniqueview->CustomerID)->first();
 					$usertypedetails=App\UserType::where('id','=',$uniqueview->UsertypeID)->first();				
                     ?> 
                      <th>@if($uniqueview->FactoryID!=0){{$factoryname->Factory1OfficeFactoryName}}@endif</th>
@@ -97,8 +97,12 @@ error_reporting(0);
                     <td class="unique_user_detail_bgclr">{{$uniqueview->userName}}</td>
                     </tr>
                      <tr>
+                      <!-- //vidhya-31-03-2018
+//show password -->
                     <td>Password</td>
-                    <td>****</td>
+                    <?php $output=\app\Customers::getuserpassword($uniqueview->Email); ?>
+                    <td><input type="password" id="pwd" value="{{$output}}">
+<button onclick=showpwd() type="button"><img src="https://i.stack.imgur.com/Oyk1g.png" id="EYE"></button></td>
                     </tr>
                      <tr>
                     <td class="unique_user_detail_bgclr">UserType</td>

@@ -25,7 +25,7 @@ use App\Vendors;
 use App\VendorUsers;
 use App\OfficeFactoryAddress;
 use App\UserType;
-
+use Illuminate\Support\Facades\Crypt;
 class VendorUsersController extends Controller
 {
     public function __construct()
@@ -78,7 +78,8 @@ $customers = DB::select('call sp_selectCustomers(2,0,1,'.$accountmanagerID.','.$
        
 	  
 	} 
-
+//vidhya-31-03-2018
+//show password
 public function addnewusers(Request $request) {
 	//echo "dfgdf";exit;
 	 $user = Auth::user();
@@ -120,11 +121,13 @@ public function addnewusers(Request $request) {
              $user = User::where('userName', '=', $request->userName)->first();       
             
             if ($user === null) {
+            	$pwd = $request->password;
+            	$value = Crypt::encrypt($pwd);
               $password=Hash::make($request->password);
                     
-                $user_insert = DB::select('call sp_CRUDvendorusers(1,0,'.$request->customerName.','.$request->companyName.','.$request->factoryName.','.$request->userType.',"'.$request->firstName.'","'.$request->lastName.'","'.$request->phoneNumber.'","'.$request->email.'","'.$request->userName.'","'.$password.'",1)');  
+                $user_insert = DB::select('call sp_CRUDvendorusers(1,0,'.$request->customerName.','.$request->companyName.','.$request->factoryName.','.$request->userType.',"'.$request->firstName.'","'.$request->lastName.'","'.$request->phoneNumber.'","'.$request->email.'","'.$request->userName.'","'.$password.'","'.$value.'",1)');  
 				
-				$logininsert = User::create(['customerID'=>$request->customerName,'userTypeID' => $request->userType,'countryID' => $countryID,'addressID'=>$addressID,'is_sys_admin'=>$is_sys_admin,'userName'=>$request->userName,'email'=>$request->email,'password'=>$password ,'firstName'=>$request->firstName,'lastName'=>$request->lastName,'phone'=>$request->phoneNumber,'status'=>1]);
+				$logininsert = User::create(['customerID'=>$request->customerName,'userTypeID' => $request->userType,'countryID' => $countryID,'addressID'=>$addressID,'is_sys_admin'=>$is_sys_admin,'userName'=>$request->userName,'email'=>$request->email,'password'=>$password ,'Visible_password'=>$value,'firstName'=>$request->firstName,'lastName'=>$request->lastName,'phone'=>$request->phoneNumber,'status'=>1]);
                 
     			$logininsert->save(); 
 
@@ -140,18 +143,24 @@ public function addnewusers(Request $request) {
         } 
 
 }	
-
+//vidhya-31-03-2018
+//show password
 public function vendorusersDetails(Request $request)
 	 {
 	     
 	  $user = Auth::user();
+	  $usertype = UserType::where('id', '=', $user->userTypeID)->where('status','=',1)->first();
       $vendorusersid=$request->id;
    
       $vendorusersviewlist = DB::select('call sp_selectvendorusers(1,'.$vendorusersid.',1)');
+	foreach($vendorusersviewlist as $list)
+	//print_r($list->Visible_password);
+$pwd =$list->Visible_password;
+	
+	      $output = Crypt::decrypt($pwd);
 	
 	
-	
-   return view('admin.vendorusersdetails', compact('user','vendorusersviewlist'));	                                 
+   return view('admin.vendorusersdetails', compact('user','usertype','vendorusersviewlist','output'));	                                 
 	                       
 	 }
 	 

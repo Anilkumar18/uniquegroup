@@ -24,7 +24,7 @@ $.ajaxSetup({
 
 
 
-	 $(".activatsymbol").click(function(){
+	 /*$(".activatsymbol").click(function(){
 
 	   var href=$(this).data("href");	   
 	   var activateval = [];
@@ -56,10 +56,62 @@ $.ajaxSetup({
 		});
 	}
  	
+ 	}); */
+	
+	 $(".activatsymbol").click(function(){
+
+	  // var href=$(this).data("href");	   
+	   /*var activateval = [];
+ 		$('.hobbies_class:checked').each(function() {
+   		activateval.push($(this).val());
+	  });
+	    if(activateval=="")
+	   {
+	   swal({
+                
+                title: "Please select the Symbol(s) to activate",
+				 type: "error"
+            });
+	   }
+	   
+	   else 
+	   {
+	   swal({
+  		title: "Are you sure to activate the selected Symbol(s)?",
+  		type: "warning",
+  		showCancelButton: true,
+  		confirmButtonColor: "#DD6B55",
+  		confirmButtonText: "Yes, do it!",
+  		closeOnConfirm: false
+		},
+		function(){
+  		document.thisForm.action=href;
+		document.thisForm.submit();
+		});
+	}*/
+	 var href=$(this).find('a').data("href");
+	 if(href)
+	 {
+		 swal({
+  		title: "Are you sure to activate the selected Symbol(s)?",
+  		type: "warning",
+  		showCancelButton: true,
+  		confirmButtonColor: "#DD6B55",
+  		confirmButtonText: "Yes, do it!",
+  		closeOnConfirm: false
+		},
+		function(){
+  		document.thisForm.action=href;
+		document.thisForm.submit();
+		}); 
+		 
+	 }
+	
+ 	
  	}); 
 
 
-	$(".deactivatesymbol").click(function(){
+	/*$(".deactivatesymbol").click(function(){
 											 
 											
 
@@ -92,9 +144,60 @@ $.ajaxSetup({
 		document.thisForm.submit();
 		});
 		}
+ 	});*/
+	$(".deactivatesymbol").click(function(){
+											 
+											
+
+		/*var href=$(this).data("href");
+	   var deactivateval = [];
+	   $('.hobbies_class:checked').each(function() {
+   		deactivateval.push($(this).val());
+	  });
+	    if(deactivateval=="")
+	   {
+	   swal({
+                
+                title: "Please select the Symbol(s) to deactivate",
+				 type: "error"
+            });
+	   }
+	   
+	   else
+	   {	   	
+	   	swal({
+  		title: "Are you sure to deactivate the selected Symbol(s)?",
+  		type: "warning",
+  		showCancelButton: true,
+  		confirmButtonColor: "#DD6B55",
+  		confirmButtonText: "Yes, do it!",
+  		closeOnConfirm: false
+		},
+		function(){
+  		document.thisForm.action=href;
+		document.thisForm.submit();
+		});
+		}*/
+		var href=$(this).find('a').data("href");
+		if(href)
+		{
+		swal({
+  		title: "Are you sure to deactivate the selected Symbol(s)?",
+  		type: "warning",
+  		showCancelButton: true,
+  		confirmButtonColor: "#DD6B55",
+  		confirmButtonText: "Yes, do it!",
+  		closeOnConfirm: false
+		},
+		function(){
+  		document.thisForm.action=href;
+		document.thisForm.submit();
+		});	
+			
+		}
  	});
 
-	$(".deletesymbol").click(function(){
+	/*$(".deletesymbol").click(function(){
 											
 
 		var href=$(this).data("href");
@@ -126,6 +229,24 @@ $.ajaxSetup({
 			document.thisForm.submit();
 			});
 			}
+ 	});*/
+	$(".deletesymbol").click(function(){
+											
+
+		var href=$(this).data("href");
+			swal({
+	  		title: "Are you sure to delete the Symbol(s)?",
+	  		type: "warning",
+	  		showCancelButton: true,
+	  		confirmButtonColor: "#DD6B55",
+	  		confirmButtonText: "Yes, do it!",
+	  		closeOnConfirm: false
+			},
+			function(){
+	  		document.thisForm.action=href;
+			document.thisForm.submit();
+			});
+	  
  	});
 
 	 $('.dataTables-example').DataTable({
@@ -247,15 +368,78 @@ function readURL(input) {
 				var message = JSON.parse(data);
 				$('#editID').val(message[0]['id']);
 				$('#EditchainID').val(message[0]['chainID']);
-				$('#descriptionEnglish').val(message[0]['descriptionEnglish']);
-				$('#descriptionFrench').val(message[0]['descriptionFrench']);
-				$('#descriptionSpanish').val(message[0]['descriptionSpanish']);
-				$('#descriptionPolish').val(message[0]['descriptionPolish']);
-				$('#descriptionChinese').val(message[0]['descriptionChinese']);
-				$('#descriptionRomanian').val(message[0]['descriptionRomanian']);
-				$('#descriptionTurkish').val(message[0]['descriptionTurkish']);
-				$('#descriptionPortuguese').val(message[0]['descriptionPortuguese']);
-				$('#descriptionRussian').val(message[0]['descriptionRussian']);
+				$('#descriptionEnglish').val(message[0]['descEnglish']);
+				$('#descriptionFrench').val(message[0]['descFrench']);
+				$('#descriptionSpanish').val(message[0]['descSpanish']);
+				$('#descriptionPolish').val(message[0]['descPolish']);
+				$('#descriptionChinese').val(message[0]['descChinese']);
+				$('#descriptionRomanian').val(message[0]['descRomanian']);
+				$('#descriptionTurkish').val(message[0]['descTurkish']);
+				$('#descriptionPortuguese').val(message[0]['descPortuguese']);
+				$('#descriptionRussian').val(message[0]['descRussian']);
+				
+				$('#selectimage').val(message[0]['imageName']);
+				$('#selectimageid').val(message[0]['imageID']);
+				
+				$('#suspendedCarePhrase').val(message[0]['status']);
+				if(message['symbolType']==0){message[0]['symbolType']='';}
+				$('#symbolType').val(message[0]['symbolType']);
+				
+				$('select[name="symbolType"] option[value="'+message[0]['symbolType']+'"]').attr("selected","selected");
+				$('#selimage').empty();
+				if(message[0]['imageID']>0)
+				{
+				 var html='<img src="'+selecturl+'/'+message[0]['imageID']+'" style="width:150px;height:150px;" />';
+				}else
+				{
+					var html='<img src="../img/image-sample.jpg" style="width:width:150px;height:150px;" />';
+				}
+
+				$('#selimage').html(html);
+	
+				$('#siteurl').attr("value","editSymbol");
+				
+				$('select[name="customerID"] option[value="'+message['customerID']+'"]').attr("selected","selected");
+				$('select[name="customerID"]').attr("disabled","disabled");
+				
+				}
+				
+		});
+	  });
+	  
+	  $(".ViewSymbol").click(function(){
+		  //alert("EditSymbols");
+	  var id=$(this).data("valueid");
+	    //alert(id);
+	  var selecthref=$(this).data("selecthref");
+	  //alert(selecthref);	
+	  $("#symbolmaintenanceadd")[0].reset();
+	  //var path=$("#imagepath").val();
+	  //var path1=path.slice(0,-6);
+	 
+	 
+	  $.ajax({			   
+				url      : selecthref,
+				type     : 'post',
+				cache    : false,
+				success  : function(data){
+					
+			    var selecturl=$(".spandiv").html();
+				//alert(selecturl);
+				//alert("Testing");
+				
+				var message = JSON.parse(data);
+				$('#editID').val(message[0]['id']);
+				$('#EditchainID').val(message[0]['chainID']);
+				$('#descriptionEnglish1').val(message[0]['descEnglish']);
+				$('#descriptionFrench1').val(message[0]['descFrench']);
+				$('#descriptionSpanish1').val(message[0]['descSpanish']);
+				$('#descriptionPolish1').val(message[0]['descPolish']);
+				$('#descriptionChinese1').val(message[0]['descChinese']);
+				$('#descriptionRomanian1').val(message[0]['descRomanian']);
+				$('#descriptionTurkish1').val(message[0]['descTurkish']);
+				$('#descriptionPortuguese1').val(message[0]['descPortuguese']);
+				$('#descriptionRussian1').val(message[0]['descRussian']);
 				
 				$('#selectimage').val(message[0]['imageName']);
 				$('#selectimageid').val(message[0]['imageID']);

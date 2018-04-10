@@ -57,3 +57,33 @@ label.col-lg-4.control-label.font-bold strong {font-weight: 700; padding: 8px 0;
 .row.margiontop input {float: left; width: 20px; margin: 4px 15px 4px 0;}
 input#continue_select, input#finish_select {margin-right: 15px;}
 fieldset label {font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif; color: #777;}
+
+.modal-vlg{ width: 1100px !important; }
+.fibgarmenthead {
+    color: #7B7B7B;
+    font-size: 18px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-align: left;
+}
+.selectedfibrePer,.SelFibreval{float: left;}
+.SelFibreval{margin-left: 15px;}
+.select2{width: 98% !important;}
+.fabriccompositiondynamic {float: left;width: 100%; height: 70px; margin-bottom: 15px; border-bottom: solid 1px #e1e1e1; padding-bottom: 15px;}
+.garmentcompositiondynamic {float: left; width: 100%;}
+.row.garmenthead .col-lg-6 {float: left; text-align: left; font-size: 18px; font-weight: bold;  color: #757575;}
+.row.garmenthead .col-lg-5 {float: left; text-align: left; font-size: 18px; font-weight: bold;  color: #757575;}
+.row.GarmentDetailshow .garmenttitle {float: left; text-align: left; font-size: 14px; font-weight: 400 !important;}
+.row.GarmentDetailshow .col-lg-12 {float: left; text-align: left; font-size: 14px; font-weight: 400 !important;}
+.row.GarmentDetailshow button {position: relative; top: -18px;}
+.fabriccompositiondynamic button {position: relative; top: -18px;}
+.wrapper.wrapper-content fieldset h2 {background-color: #eee !important;}
+#deliveryinstradd .form-group label.col-lg-4{width: 33.33333333%;}
+.select2-container--default.select2-container--disabled .select2-selection--single {
+     background-color:#bbb7b7 !important; 
+    cursor: default;
+}
+ul.dropdown-menu.dropdown-messages {
+    height: 250px;
+    overflow-y: scroll;
+}

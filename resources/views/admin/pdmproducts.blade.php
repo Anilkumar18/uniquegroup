@@ -36,6 +36,30 @@ error_reporting(0);
 
 
                       <div>
+                      @if($id==13)
+                        <div class="col-lg-2"> 
+                          <div class="dropdown form-group maintenance">
+                          <!--onclick="event.preventDefault()-->
+
+    <button class="dropbtn" type="button">Master Date Maintenance&nbsp;<span class="fa fa-chevron-down"></span></button>
+  
+    
+
+                          <div class="dropdown-content" align="center" id="dropdownbox">
+                            
+
+                           
+
+
+    <a href="{{ url(route('admin.viewcarelist'))}}" id="pdm">Master Date Maintenance</a>
+
+                            <a href="javascript:;" onClick="" id="ecommerce">Ecommerce</a>
+
+                          </div>
+
+                        </div>
+                        </div>
+                        @endif
                         <div class="col-lg-2" style="float: right;"> 
                           <button class="button" onclick="location.href='{{ url(route('admin.productdevelopmenthome'))}}'">Home</button>
                         </div>

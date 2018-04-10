@@ -59,7 +59,7 @@
      <link href="{{ asset("/custom_css/responsive.css")}}" rel="stylesheet">
 
     
-
+<link href="{{ asset('/css/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet">
 
 
 <link rel="stylesheet" href="{{ asset("/custom_css/custom_style.css")}}">
@@ -290,22 +290,40 @@
                             confirm: {
                                 equalTo: "#password"
                             },
-                            wash:{
+                            careWash:{
                                  required: true
                             },
-                            bleach:{
+                            careBleach:{
                                  required: true
                             },
-                            dry_clean:{
+                            careDryClean:{
                                  required: true
                             },
-                            dry:{
+                            careDry:{
                                  required: true
                             },
-                            iron:{
+                            careIron:{
                                  required: true
+                            },
+                            styleNo:{
+                                required:true
+                            },
+                            season:{
+                                required:true
+                            },
+                            countryOfOrigin:{
+                                required:true
+                            },
+                            fabriccompositionstatus:
+                            {
+                                required:true
                             }
-                        }
+                        },
+          messages: {
+                fabriccompositionstatus: {
+                    required: "Fabric Composition should be 100%"
+                }
+            }
                     });
        });
 

@@ -1068,12 +1068,12 @@ $(selectedOpts_pare).remove();
     }	
 
     function processcaredetails() {
-var lanlen=$("input[name='LanguageName[]']:checked").length;
+var lanlen=$("#LanguageName :selected").length;
 var selecthref=$("#TypeofLabels option:selected").text().toLowerCase();
 var pptxt=$('.languagenameblk');
 if(lanlen>0){
 	$('.careinformation').html('');var co='';
-    	$.each($("input[name='LanguageName[]']:checked"), function(){
+    	$.each($("#LanguageName option:selected"), function(){
     		co+=$(this).attr('data-lang')+',';
 
     	});

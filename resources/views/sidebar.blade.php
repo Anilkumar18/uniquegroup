@@ -61,8 +61,55 @@ function selectpdm(t)
 		
 		
 	   }
-	   function checkurl()
-	   {}
+	   function cartDelete(id)
+     {
+
+       
+
+     swal({
+      title: "Are you sure to Delete the selected Order?",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Yes, do it!",
+      closeOnConfirm: false
+    },
+    function(){
+        debugger;
+        var href=$('#removeorderurl').val()+'/'+id;
+
+        $.ajax({
+                    url: href,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        swal({
+  title: "",
+  text: "Deleted Successfully!",
+  type: "warning",
+  showCancelButton: false,
+  confirmButtonClass: "btn-danger",
+  confirmButtonText: "OK!",
+  closeOnConfirm: false
+},
+function(){
+  location.reload();
+});
+
+
+                    },
+            error: function (jqXHR, textStatus, errorThrown) {
+            alert('Not Able to Delete An Order!');
+            event.preventDefault();
+            }
+
+        });
+      
+    }); 
+     
+   
+
+       }
 </script>
 
 </head>
@@ -150,6 +197,12 @@ if(Request::is('admin/countries') || Request::is('admin/states') || Request::is(
 )
   {
     $pdm='active';
+   }
+   
+   $ecommerce='';
+if(Request::is('ecommercemaintenance/dry/symbollist')  || Request::is('ecommercemaintenance/wash/symbollist')|| Request::is('ecommercemaintenance/bleach/symbollist') || Request::is('ecommercemaintenance/iron/symbollist')|| Request::is('ecommercemaintenance/dryclean/symbollist') || Request::is('ecommercemaintenance/countryoforigin') || Request::is('EcommerceMaintenance/pricestickermaintanence') || Request::is('ecommercemaintenance/fabric') || Request::is('EcommerceMaintenance/garmentcomponentmaintenance')|| Request::is('EcommerceMaintenance/pricestickermaintanence'))
+{
+    $ecommerce='active';
    }
 
 $prodevmgmt='';
@@ -369,32 +422,7 @@ if(Request::is('admin/development/dashboard') || Request::is('developmentlist') 
                         </ul>
 
                     </li>
-                    <li class="<?php echo $pdm;?> sidebarmenu maintenancemenu <?php echo $maintenancemenu; ?>" id="pdmmaintenance">
-                      
-          
-                       
-                       <a href="{{ url(route('admin.pdmhome')) }}"> <span class="nav-label">Ecommerce Product Maintenance</span>
-                        <span class="fa arrow"></span></a>
-
-                        <ul class="nav nav-second-level collapse">
-                        
-                       <li {{{ (Request::is('admin/pdmmaintenance/productdevelopment/*') ? 'class=active' : '') }}}><a href="{{ url(route('admin.drysymbollist'))}}">Care Instructions Dry</a></li> 
-                               <li {{{ (Request::is('admin/pdmmaintenance/productdevelopment/*') ? 'class=active' : '') }}}><a href="{{ url(route('admin.washsymbollist'))}}">Care Instructions Wash</a></li> 
-                                <li {{{ (Request::is('admin/pdmmaintenance/productdevelopment/*') ? 'class=active' : '') }}}><a href="{{ url(route('admin.bleachsymbollist'))}}">Care Instructions Bleach</a></li> 
-                                 <li {{{ (Request::is('admin/pdmmaintenance/productdevelopment/*') ? 'class=active' : '') }}}><a href="{{ url(route('admin.ironsymbollist'))}}">Care Instructions Iron</a></li> 
-                                   <li {{{ (Request::is('admin/pdmmaintenance/productdevelopment/*') ? 'class=active' : '') }}}><a href="{{ url(route('admin.drycleansymbollist'))}}">Care Instructions DryClean</a></li> 
-                                     <li {{{ (Request::is('admin/pdmmaintenance/countryoforigin/*') ? 'class=active' : '') }}}><a href="{{ url(route('admin.countryoforigin'))}}"> Country of Origin <br> Maintenance</a></li>
-                                   
-                                        <li {{{ (Request::is('admin/pdmmaintenance/countryoforigin/*') ? 'class=active' : '') }}}><a href="{{ url(route('admin.pdmnew')) }}">Price sticker Maintanence</a></li>
-
-                           
-                             
-
-
-
-                        </ul>
-
-                    </li>
+                    
                     
                     <?php
 					}
@@ -412,6 +440,51 @@ if(Request::is('admin/development/dashboard') || Request::is('developmentlist') 
 					}
 					
 				   ?>
+                  <!-- <li class="<?php echo $ecommerce;?> sidebarmenu maintenancemenu <?php echo $maintenancemenu; ?>" id="pdmmaintenance">
+                      
+          
+                       
+                       <a href="{{ url(route('ecommercemaintenance.home')) }}"> <span class="nav-label">Ecommerce Product Maintenance</span>
+                        <span class="fa arrow"></span></a>
+                         <ul class="nav nav-second-level collapse">
+
+                             
+
+                          <li><a href="">Size Maintenance</a></li>                          
+
+                            <li {{{ (Request::is('ecommercemaintenance/countryoforigin') ? 'class=active' : '') }}}><a href="{{ url(route('ecommercemaintenance.countryoforigin'))}}">Country of Origin Maintenance</a></li>  
+                            
+                             <li {{{ (Request::is('ecommercemaintenance/dry/symbollist') ? 'class=active' : '') }}}><a href="{{ url(route('admin.drysymbollist')) }}">Care Instructions Dry</a></li> 
+                             
+                             <li {{{ (Request::is('ecommercemaintenance/wash/symbollist') ? 'class=active' : '') }}}><a href="{{ url(route('admin.washsymbollist')) }}">Care Instructions Wash</a></li> 
+                             
+                              <li {{{ (Request::is('ecommercemaintenance/bleach/symbollist') ? 'class=active' : '') }}}><a href="{{ url(route('admin.bleachsymbollist')) }}">Care Instructions Bleach</a></li> 
+                              
+                              <li {{{ (Request::is('ecommercemaintenance/iron/symbollist') ? 'class=active' : '') }}}><a href="{{ url(route('admin.ironsymbollist')) }}">Care Instructions Iron</a></li> 
+                              
+                              <li {{{ (Request::is('ecommercemaintenance/dryclean/symbollist') ? 'class=active' : '') }}}><a href="{{ url(route('admin.drycleansymbollist')) }}">Care Instructions Dry Clean</a></li>
+                              
+                               <li {{{ (Request::is('ecommercemaintenance/fabric') ? 'class=active' : '') }}}><a href="{{ url(route('ecommercemaintenance.fabric'))}}">Fabric Composition Maintenance</a></li>
+                               
+                                <li {{{ (Request::is('EcommerceMaintenance/garmentcomponentmaintenance') ? 'class=active' : '') }}}><a href="{{ url(route('admin.garmentmaintenance'))}}">Garment Components Maintenance</a></li>
+                                
+                                 <li {{{ (Request::is('EcommerceMaintenance/pricestickermaintanence') ? 'class=active' : '') }}}><a href="{{ url(route('admin.pricesticker')) }}">Price sticker Maintanence</a></li>
+                                
+                                 <li><a href="#">Care Sets Maintenance</a></li>
+                                 
+                                 <li><a href="#">Caution Maintenance</a></li>
+                                 
+                                  <li><a href="#">Copyright Maintenance</a></li>
+                                  
+                                   <li><a href="#">Special Instructions Maintenance</a></li>
+                              
+                              
+                            
+
+                        </ul>
+                        
+
+                    </li>-->
            <li class="sidebarmenu productmenu <?php echo $prodevmgmt; ?> <?php echo $productmenuclass; ?>" id="pdmproductdevelopment">
              <a href=""><span class="nav-label">Product Development Management</span>
                         <span class="fa arrow"></span></a>

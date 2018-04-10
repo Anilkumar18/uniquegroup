@@ -9,6 +9,7 @@ function refresh()
 	window.location="{{ url(route('dashboard')) }}";
 }
 </script>
+
 <style>
 /*.dropbtn1 {
 
@@ -185,7 +186,55 @@ if (array_intersect($pageurlarray, $productarray)) { ?>
                     <span class="m-r-sm text-muted welcome-message">Welcome to Theuniquegroup Admin Dashboard.</span>
 
                 </li>-->
-
+<li class="dropdown shownotification">
+  <?php 
+ $ProductDetails=DB::Select('call sp_getcheckoutdetails()');
+ 
+?>
+                    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                        <i class="fa fa-shopping-cart fa-2x saveicon"></i>  <span class="label label-warning"><?php echo count($ProductDetails); ?></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-messages">
+                      <li>
+                            <div class="text-center 1link-block">
+                                <a href="{{url(route('order.checkout')) }}" class="btn btn-primary fa fa-shopping-cart">
+                                Checkout
+                                </a>
+                            </div>
+                        </li>
+                      <?php foreach ($ProductDetails as $Productlist) { ?>
+                        <li>
+                          <input type="text" id="removeorderurl" style="display: none;" value=" {{url(route('order.remove', ['id' =>''])) }}">
+                           
+                         
+                            <div class="dropdown-messages-box">
+                                <a href="profile.html" class="pull-left">
+                                    <img alt="image" class="img-circle" src="{{ route('user.productpic', ['id' =>$Productlist->id]) }}">
+                                </a>
+                                <div class="media-body">
+                                    <!--<p>Order ID:&nbsp;&nbsp;<strong>22</strong></p>-->
+                                    <p>PO Number:&nbsp;&nbsp;<strong><?php echo $Productlist->poNumber ?></strong>
+                                    </p><div class="cartactions">
+                                    <span><a href="{{ route('order.edit', ['id' =>$Productlist->placeorderID]) }}"><img src="{{ asset('/img/edit.png') }}" border="0" title="Edit Order"></a></span>
+                                    <span><a href="{{url(route('order.checkout')) }}"><img src="{{ asset('/img/view.png') }}" border="0" title="View Order"></a></span>
+                                     <span><a href="javascript:;"><img src="{{ asset('/img/delete.png') }}" border="0" title="Delete Order" onclick="cartDelete(<?php echo $Productlist->placeorderID; ?>);"></a></span>
+                                     </div>
+                                    <p></p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="divider"></li>
+                        <?php } ?>
+                        <li>
+                            <div class="text-center 1link-block">
+                                <a href="{{url(route('order.checkout')) }}" class="btn btn-primary fa fa-shopping-cart">
+                                Checkout
+                                </a>
+                            </div>
+                        </li>
+                        
+                    </ul>
+                </li>
 
 
                     <li>

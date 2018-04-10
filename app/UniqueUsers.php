@@ -10,6 +10,6 @@ class UniqueUsers extends Model
 	protected $table = "uniqueusers";
 
   protected $fillable = [
-    'CustomerID','FactoryID','UsertypeID','firstName','lastName','phoneNumber','Email','Password','status'
+    'CustomerID','FactoryID','UsertypeID','firstName','lastName','Title','phoneNumber','Email','Password','Visible_password','status'
   ];
 }

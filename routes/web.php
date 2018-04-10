@@ -525,106 +525,149 @@ Route::get('/admin/pdmmaintenance/dashboard', 'Admin\PdmController@index')->name
 
 //symobol 
 
- Route::get('admin/symbollist','Admin\SymbolController@SymbolList')->name('admin.symbollist');
+ Route::get('ecommercemaintenance/symbollist','EcommerceMaintenance\SymbolController@SymbolList')->name('admin.symbollist');
  
- Route::post('admin/add_symbollist', 'Admin\SymbolController@addSymbollist')->name('admin.add_symbolist');
+ Route::post('ecommercemaintenance/add_symbollist', 'EcommerceMaintenance\SymbolController@addSymbollist')->name('admin.add_symbolist');
  
- Route::post('admin/symbolist_activate','Admin\SymbolController@Symbolactivate')->name('admin.symbolactive');
+ Route::post('ecommercemaintenance/symbolist_activate','EcommerceMaintenance\SymbolController@Symbolactivate')->name('admin.symbolactive');
  
- Route::post('admin/symbolist_deactivate/', 'Admin\SymbolController@SymboldeActivate')->name('admin.symboldeactive');
+ Route::post('ecommercemaintenance/symbolist_deactivate/', 'EcommerceMaintenance\SymbolController@SymboldeActivate')->name('admin.symboldeactive');
  
- Route::post('admin/symbolist_delete/', 'Admin\SymbolController@delete')->name('admin.symboldelete');
+ Route::post('ecommercemaintenance/symbolist_delete/', 'EcommerceMaintenance\SymbolController@delete')->name('admin.symboldelete');
  
- Route::post('admin/add_symbollist/{id}', 'Admin\SymbolController@Symbol_Select')->name('admin.symbolselect');
+ Route::post('ecommercemaintenance/add_symbollist/{id}', 'EcommerceMaintenance\SymbolController@Symbol_Select')->name('admin.symbolselect');
  
- Route::get('admin/symbolimg/{id}', 'Admin\SymbolController@getsymbolimg')->name('admin.symbolimage');
+ Route::get('ecommercemaintenance/symbolimg/{id}', 'EcommerceMaintenance\SymbolController@getsymbolimg')->name('admin.symbolimage');
  
  //Defect: 29-03-2018 & 30-03-2018
          //Name: Bala-Uniquegroup Team
          //Add Care Instructions Dry maintenance page
    
  //Care Instructions-dry maintenance
- Route::get('admin/dry/symbollist','Admin\CareInstructionsDryController@DrySymbolList')->name('admin.drysymbollist');
  
- Route::post('admin/dry/add_symbollist', 'Admin\CareInstructionsDryController@addDrySymbollist')->name('admin.dryadd_symbolist');
+ Route::get('/ecommercemaintenance/dashboard', 'EcommerceMaintenance\EcommerceController@index')->name('ecommercemaintenance.home');
  
- Route::post('admin/dry/symbolist_activate/{id}','Admin\CareInstructionsDryController@DrySymbolactivate')->name('admin.drysymbolactive');
+ Route::get('ecommercemaintenance/dry/symbollist','EcommerceMaintenance\CareInstructionsDryController@DrySymbolList')->name('admin.drysymbollist');
  
- Route::post('admin/dry/symbolist_deactivate/{id}', 'Admin\CareInstructionsDryController@DrySymboldeActivate')->name('admin.drysymboldeactive');
+ Route::post('ecommercemaintenance/dry/add_symbollist', 'EcommerceMaintenance\CareInstructionsDryController@addDrySymbollist')->name('admin.dryadd_symbolist');
  
- Route::post('admin/dry/symbolist_delete/{id}', 'Admin\CareInstructionsDryController@delete')->name('admin.drysymboldelete');
+ Route::post('ecommercemaintenance/dry/symbolist_activate/{id}','EcommerceMaintenance\CareInstructionsDryController@DrySymbolactivate')->name('admin.drysymbolactive');
  
- Route::post('admin/dry/add_symbollist/{id}', 'Admin\CareInstructionsDryController@DrySymbol_Select')->name('admin.drysymbolselect');
+ Route::post('ecommercemaintenance/dry/symbolist_deactivate/{id}', 'EcommerceMaintenance\CareInstructionsDryController@DrySymboldeActivate')->name('admin.drysymboldeactive');
  
- Route::get('admin/dry/symbolimg/{id}', 'Admin\CareInstructionsDryController@getsymbolimg')->name('admin.drysymbolimage');
+ Route::post('ecommercemaintenance/dry/symbolist_delete/{id}', 'EcommerceMaintenance\CareInstructionsDryController@delete')->name('admin.drysymboldelete');
+ 
+ Route::post('ecommercemaintenance/dry/add_symbollist/{id}', 'EcommerceMaintenance\CareInstructionsDryController@DrySymbol_Select')->name('admin.drysymbolselect');
+ 
+ Route::get('ecommercemaintenance/dry/symbolimg/{id}', 'EcommerceMaintenance\CareInstructionsDryController@getsymbolimg')->name('admin.drysymbolimage');
  
  
  
  //Care Instructions-wash maintenance
- Route::get('admin/wash/symbollist','Admin\CareInstructionsWashController@WashSymbolList')->name('admin.washsymbollist');
+ Route::get('ecommercemaintenance/wash/symbollist','EcommerceMaintenance\CareInstructionsWashController@WashSymbolList')->name('admin.washsymbollist');
  
- Route::post('admin/wash/add_symbollist', 'Admin\CareInstructionsWashController@addWashSymbollist')->name('admin.washadd_symbolist');
+ Route::post('ecommercemaintenance/wash/add_symbollist', 'EcommerceMaintenance\CareInstructionsWashController@addWashSymbollist')->name('admin.washadd_symbolist');
  
- Route::post('admin/wash/symbolist_activate/{id}','Admin\CareInstructionsWashController@WashSymbolactivate')->name('admin.washsymbolactive');
+ Route::post('ecommercemaintenance/wash/symbolist_activate/{id}','EcommerceMaintenance\CareInstructionsWashController@WashSymbolactivate')->name('admin.washsymbolactive');
  
- Route::post('admin/wash/symbolist_deactivate/{id}', 'Admin\CareInstructionsWashController@WashSymboldeActivate')->name('admin.washsymboldeactive');
+ Route::post('ecommercemaintenance/wash/symbolist_deactivate/{id}', 'EcommerceMaintenance\CareInstructionsWashController@WashSymboldeActivate')->name('admin.washsymboldeactive');
  
- Route::post('admin/wash/symbolist_delete/{id}', 'Admin\CareInstructionsWashController@delete')->name('admin.washsymboldelete');
+ Route::post('ecommercemaintenance/wash/symbolist_delete/{id}', 'EcommerceMaintenance\CareInstructionsWashController@delete')->name('admin.washsymboldelete');
  
- Route::post('admin/wash/add_symbollist/{id}', 'Admin\CareInstructionsWashController@WashSymbol_Select')->name('admin.washsymbolselect');
+ Route::post('ecommercemaintenance/wash/add_symbollist/{id}', 'EcommerceMaintenance\CareInstructionsWashController@WashSymbol_Select')->name('admin.washsymbolselect');
  
- Route::get('admin/wash/symbolimg/{id}', 'Admin\CareInstructionsWashController@getsymbolimg')->name('admin.washsymbolimage');
+ Route::get('ecommercemaintenance/wash/symbolimg/{id}', 'EcommerceMaintenance\CareInstructionsWashController@getsymbolimg')->name('admin.washsymbolimage');
  
  
  
   //Care Instructions-bleach maintenance
- Route::get('admin/bleach/symbollist','Admin\CareInstructionsBleachController@BleachSymbolList')->name('admin.bleachsymbollist');
+ Route::get('ecommercemaintenance/bleach/symbollist','EcommerceMaintenance\CareInstructionsBleachController@BleachSymbolList')->name('admin.bleachsymbollist');
  
- Route::post('admin/bleach/add_symbollist', 'Admin\CareInstructionsBleachController@addBleachSymbollist')->name('admin.bleachadd_symbolist');
+ Route::post('ecommercemaintenance/bleach/add_symbollist', 'EcommerceMaintenance\CareInstructionsBleachController@addBleachSymbollist')->name('admin.bleachadd_symbolist');
  
- Route::post('admin/bleach/symbolist_activate/{id}','Admin\CareInstructionsBleachController@BleachSymbolactivate')->name('admin.bleachsymbolactive');
+ Route::post('ecommercemaintenance/bleach/symbolist_activate/{id}','EcommerceMaintenance\CareInstructionsBleachController@BleachSymbolactivate')->name('admin.bleachsymbolactive');
  
- Route::post('admin/bleach/symbolist_deactivate/{id}', 'Admin\CareInstructionsBleachController@BleachSymboldeActivate')->name('admin.bleachsymboldeactive');
+ Route::post('ecommercemaintenance/bleach/symbolist_deactivate/{id}', 'EcommerceMaintenance\CareInstructionsBleachController@BleachSymboldeActivate')->name('admin.bleachsymboldeactive');
  
- Route::post('admin/bleach/symbolist_delete/{id}', 'Admin\CareInstructionsBleachController@delete')->name('admin.bleachsymboldelete');
+ Route::post('ecommercemaintenance/bleach/symbolist_delete/{id}', 'EcommerceMaintenance\CareInstructionsBleachController@delete')->name('admin.bleachsymboldelete');
  
- Route::post('admin/bleach/add_symbollist/{id}', 'Admin\CareInstructionsBleachController@BleachSymbol_Select')->name('admin.bleachsymbolselect');
+ Route::post('ecommercemaintenance/bleach/add_symbollist/{id}', 'EcommerceMaintenance\CareInstructionsBleachController@BleachSymbol_Select')->name('admin.bleachsymbolselect');
  
- Route::get('admin/bleach/symbolimg/{id}', 'Admin\CareInstructionsBleachController@getsymbolimg')->name('admin.bleachsymbolimage');
+ Route::get('ecommercemaintenance/bleach/symbolimg/{id}', 'EcommerceMaintenance\CareInstructionsBleachController@getsymbolimg')->name('admin.bleachsymbolimage');
  
  //Care Instructions-Iron maintenance
- Route::get('admin/iron/symbollist','Admin\CareInstructionsIronController@IronSymbolList')->name('admin.ironsymbollist');
+ Route::get('ecommercemaintenance/iron/symbollist','EcommerceMaintenance\CareInstructionsIronController@IronSymbolList')->name('admin.ironsymbollist');
  
- Route::post('admin/iron/add_symbollist', 'Admin\CareInstructionsIronController@addIronSymbollist')->name('admin.ironadd_symbolist');
+ Route::post('ecommercemaintenance/iron/add_symbollist', 'EcommerceMaintenance\CareInstructionsIronController@addIronSymbollist')->name('admin.ironadd_symbolist');
  
- Route::post('admin/iron/symbolist_activate/{id}','Admin\CareInstructionsIronController@IronSymbolactivate')->name('admin.ironsymbolactive');
+ Route::post('ecommercemaintenance/iron/symbolist_activate/{id}','EcommerceMaintenance\CareInstructionsIronController@IronSymbolactivate')->name('admin.ironsymbolactive');
  
- Route::post('admin/iron/symbolist_deactivate/{id}', 'Admin\CareInstructionsIronController@IronSymboldeActivate')->name('admin.ironsymboldeactive');
+ Route::post('ecommercemaintenance/iron/symbolist_deactivate/{id}', 'EcommerceMaintenance\CareInstructionsIronController@IronSymboldeActivate')->name('admin.ironsymboldeactive');
  
- Route::post('admin/iron/symbolist_delete/{id}', 'Admin\CareInstructionsIronController@delete')->name('admin.ironsymboldelete');
+ Route::post('ecommercemaintenance/iron/symbolist_delete/{id}', 'EcommerceMaintenance\CareInstructionsIronController@delete')->name('admin.ironsymboldelete');
  
- Route::post('admin/iron/add_symbollist/{id}', 'Admin\CareInstructionsIronController@IronSymbol_Select')->name('admin.ironsymbolselect');
+ Route::post('ecommercemaintenance/iron/add_symbollist/{id}', 'EcommerceMaintenance\CareInstructionsIronController@IronSymbol_Select')->name('admin.ironsymbolselect');
  
- Route::get('admin/iron/symbolimg/{id}', 'Admin\CareInstructionsIronController@getsymbolimg')->name('admin.ironsymbolimage');
+ Route::get('ecommercemaintenance/iron/symbolimg/{id}', 'EcommerceMaintenance\CareInstructionsIronController@getsymbolimg')->name('admin.ironsymbolimage');
  
  
  //Care Instructions-dryclean maintenance
- Route::get('admin/dryclean/symbollist','Admin\CareInstructionsDryCleanController@DryCleanSymbolList')->name('admin.drycleansymbollist');
+ Route::get('ecommercemaintenance/dryclean/symbollist','EcommerceMaintenance\CareInstructionsDryCleanController@DryCleanSymbolList')->name('admin.drycleansymbollist');
  
- Route::post('admin/dryclean/add_symbollist', 'Admin\CareInstructionsDryCleanController@addDryCleanSymbollist')->name('admin.drycleanadd_symbolist');
+ Route::post('ecommercemaintenance/dryclean/add_symbollist', 'EcommerceMaintenance\CareInstructionsDryCleanController@addDryCleanSymbollist')->name('admin.drycleanadd_symbolist');
  
- Route::post('admin/dryclean/symbolist_activate/{id}','Admin\CareInstructionsDryCleanController@DryCleanSymbolactivate')->name('admin.drycleansymbolactive');
+ Route::post('ecommercemaintenance/dryclean/symbolist_activate/{id}','EcommerceMaintenance\CareInstructionsDryCleanController@DryCleanSymbolactivate')->name('admin.drycleansymbolactive');
  
- Route::post('admin/dryclean/symbolist_deactivate/{id}', 'Admin\CareInstructionsDryCleanController@DryCleanSymboldeActivate')->name('admin.drycleansymboldeactive');
+ Route::post('ecommercemaintenance/dryclean/symbolist_deactivate/{id}', 'EcommerceMaintenance\CareInstructionsDryCleanController@DryCleanSymboldeActivate')->name('admin.drycleansymboldeactive');
  
- Route::post('admin/dryclean/symbolist_delete/{id}', 'Admin\CareInstructionsDryCleanController@delete')->name('admin.drycleansymboldelete');
+ Route::post('ecommercemaintenance/dryclean/symbolist_delete/{id}', 'EcommerceMaintenance\CareInstructionsDryCleanController@delete')->name('admin.drycleansymboldelete');
  
- Route::post('admin/dryclean/add_symbollist/{id}', 'Admin\CareInstructionsDryCleanController@DryCleanSymbol_Select')->name('admin.drycleansymbolselect');
+ Route::post('ecommercemaintenance/dryclean/add_symbollist/{id}', 'EcommerceMaintenance\CareInstructionsDryCleanController@DryCleanSymbol_Select')->name('admin.drycleansymbolselect');
  
- Route::get('admin/dryclean/symbolimg/{id}', 'Admin\CareInstructionsDryCleanController@getsymbolimg')->name('admin.drycleansymbolimage');
+ Route::get('ecommercemaintenance/dryclean/symbolimg/{id}', 'EcommerceMaintenance\CareInstructionsDryCleanController@getsymbolimg')->name('admin.drycleansymbolimage');
 
- 
+ //Defect: 30-03-2018
+         //Name: purushotham-Uniquegroup Team
+         //price sticker Maintenance
 
+Route::get('/EcommerceMaintenance/pricestickermaintanence', 'EcommerceMaintenance\PricestickermaintainController@pricestickermaintanence')->name('admin.pricesticker');
+
+Route::post('EcommerceMaintenance/add_productstore','EcommerceMaintenance\PricestickerController@addProductstorelist')->name('admin.add_productstore');
+
+
+Route::get('EcommerceMaintenance/edit_pricestickercolor/{id}', 'EcommerceMaintenance\PricestickerController@getpricestickerdetails')->name('admin.get_pricestickercolor');
+
+
+Route::get('EcommerceMaintenance/delete_pricestickercolor/{id}', 'EcommerceMaintenance\PricestickerController@deletepricestickerdetails')->name('admin.delete_pricestickercolor');
+
+Route::get('EcommerceMaintenance/stickersymbolactivate/{id}','EcommerceMaintenance\PricestickerController@stickersymbolactivate')->name('admin.stickersymbolactive');
+
+Route::get('EcommerceMaintenance/stickersymboldeactivate/{id}','EcommerceMaintenance\PricestickerController@stickersymboldeactivate')->name('admin.stickersymboldeactive');
+
+
+Route::get('/EcommerceMaintenance/view_pricestickermaintenance/{id}','EcommerceMaintenance\PricestickerController@viewpricestickermaintenance')->name('admin.view_pricestickermaintenance');
+
+
+
+//Defect: 31-03-2018
+         //Name: purushotham-Uniquegroup Team
+         //Garment Component Maintenance
+
+Route::get('/EcommerceMaintenance/garmentcomponentmaintenance','EcommerceMaintenance\GarmentmaintenanceController@garmentmaintenance')->name('admin.garmentmaintenance');
+
+Route::post('/EcommerceMaintenance/add_garmentcomponentmaintenance','EcommerceMaintenance\GarmentmaintenanceController@addgarmentmaintenance')->name('admin.add_garmentmaintenance');
+
+Route::get('/EcommerceMaintenance/delete_garmentcomponentmaintenance/{id}', 'EcommerceMaintenance\GarmentmaintenanceController@deletegarmentmaintenance')->name('admin.delete_garmentmaintenance');
+
+Route::get('/EcommerceMaintenance/edit_garmentcomponentmaintenance/{id}','EcommerceMaintenance\GarmentmaintenanceController@getgarmentmaintenance')->name('admin.edit_garmentmaintenance');
+
+Route::get('EcommerceMaintenance/garmentstickersymbolactivate/{id}','EcommerceMaintenance\GarmentmaintenanceController@garmentstickersymbolactivate')->name('admin.garmentstickersymbolactive');
+
+Route::get('EcommerceMaintenance/garmentstickersymboldeactivate/{id}','EcommerceMaintenance\GarmentmaintenanceController@garmentstickersymboldeactivate')->name('admin.garmentstickersymboldeactive');
+
+Route::get('/EcommerceMaintenance/view_garmentcomponentmaintenance/{id}','EcommerceMaintenance\GarmentmaintenanceController@viewgarmentmaintenance')->name('admin.view_garmentmaintenance');
+
+Route::get('getcaredetails/{id}','EcommerceMaintenance\CareInstructionsController@getcaredetails')->name('careinstruction.getcaredetails');
 
 //product group
 
@@ -692,6 +735,11 @@ Route::post('/admin/add_productdetails','Admin\ProductDetailsController@addProdu
   
    Route::post('/admin/pdmmaintenance/productdevelopment/{id}/delete', 'Admin\ProductDevelopmentController@delete')->name('listofproducts.delete');
    
+//Rajesh 07042018
+   Route::get('/admin/pdmmaintenance/careinstruction/master', 'EcommerceMaintenance\CareInstructionsController@viewcarelist')->name('admin.viewcarelist');
+   Route::get('/admin/pdmmaintenance/careinstruction/data', 'EcommerceMaintenance\CareInstructionsController@getcarelist')->name('admin.getcarelist');
+
+
    /*dropdownoptions*/
   
    Route::post('/admin/pdmmaintenance/productdevelopment/editproductsdropdownoptions/', 'Admin\ProductDevelopmentController@addDropdownOptions')->name('editproductsdropdownoptions.edit');
@@ -941,13 +989,20 @@ Route::get('/productmaintenance/{id}', 'Admin\ProductDetailsController@getproduc
 //productmaintenance view
 Route::get('/productmaintenance/view/{id}', 'ProductMaintenance\PDMDetailsController@ProductDetailSelect')->name('product.viewpdmdetailsmaintenance');
 
+Route::get('productmaintenance/printedimg/{id}', 'ProductMaintenance\PDMDetailsController@getprintedimg')->name('product.printedlabelimage');
+
+/*vidhya:05-04-2018*/
+
+Route::get('productmaintenance/editcustomerproduct/{id}', 'ProductMaintenance\PDMDetailsController@editcustomerproduct')->name('productmaintenance.editcustomerproduct');
+
+Route::post('productmaintenance/update_customerproductsdetails','ProductMaintenance\PDMDetailsController@Updateprocessproductsdetails')->name('productmaintenance.update_customerproductsdetails');
+
+/*Vidhya:31-03-2018
+Fabric composition*/
+Route::post('/ecommercemaintenance/coodelete/{id}', 'EcommerceMaintenance\CountryofOriginController@deletecoo')->name('ecommercemaintenance.coodelete');
 
 
-
-
-
-//,,Route::get('login', 'Auth\LoginController@showLoginForm');
-
+Route::post('/ecommercemaintenance/addnewcoodetails','EcommerceMaintenance\CountryofOriginController@addcoo')->name('ecommercemaintenance.addnewcoo');
 
 
 //Route::post('login', 'Auth\LoginController@login');
@@ -956,42 +1011,31 @@ Route::get('/productmaintenance/view/{id}', 'ProductMaintenance\PDMDetailsContro
 /*Vidhya:30-03-2018
 Country of origin*/
 
-Route::post('/productmaintenance/coodelete/{id}', 'countryoforiginController@deletecoo')->name('product.coodelete');
+Route::get('/ecommercemaintenance/countryoforigin', 'EcommerceMaintenance\CountryofOriginController@countryoforigin')->name('ecommercemaintenance.countryoforigin');
+Route::post('/ecommercemaintenance/addnewfabric','EcommerceMaintenance\FabricCompositionController@addfabric')->name('ecommercemaintenance.addnewfabric');
 
-//,,Route::get('login', 'Auth\LoginController@showLoginForm');
-Route::post('/productmaintenance/addnewcoodetails','countryoforiginController@addcoo')->name('product.addnewcoo');
+Route::get('/ecommercemaintenance/fabric', 'EcommerceMaintenance\FabricCompositionController@fabriccomp')->name('ecommercemaintenance.fabric');
+
+Route::post('/ecommercemaintenance/fabricedit/{id}', 'EcommerceMaintenance\FabricCompositionController@editfabric')->name('ecommercemaintenance.editfabricdetails');
+
+Route::post('/ecommercemaintenance/fabricdelete/{id}', 'EcommerceMaintenance\FabricCompositionController@deletefabric')->name('ecommercemaintenance.fabricdelete');
+
+Route::post('ecommercemaintenance/fabric_activate/','EcommerceMaintenance\FabricCompositionController@fabricactivate')->name('ecommercemaintenance.fabricactivenew');
+
+Route::post('ecommercemaintenance/fabric_deactivate/', 'EcommerceMaintenance\FabricCompositionController@fabricdeActivate')->name('ecommercemaintenance.fabricdeactivenew');
 
 
+Route::post('/ecommercemaintenance/cooedit/{id}', 'EcommerceMaintenance\CountryofOriginController@editcoo')->name('ecommercemaintenance.editcoodetails');
 
-//Route::post('login', 'Auth\LoginController@login');
-
-
-
-
-Route::post('/productmaintenance/cooedit/{id}', 'countryoforiginController@editcoo')->name('product.editcoodetails');
-
-Route::post('coo/coo_activate/','countryoforiginController@cooactivate')->name('product.cooactivenew');
+Route::post('coo/coo_activate/','EcommerceMaintenance\CountryofOriginController@cooactivate')->name('ecommercemaintenance.cooactivenew');
  
- Route::post('coo/coo_deactivate/', 'countryoforiginController@coodeActivate')->name('product.coodeactivenew');
+ Route::post('coo/coo_deactivate/', 'EcommerceMaintenance\CountryofOriginController@coodeActivate')->name('ecommercemaintenance.coodeactivenew');
+
+Route::post('zip/zip_activate/','EcommerceMaintenance\CountryofOriginController@zipactivate')->name('ecommercemaintenance.zipactivenew');
  
- Route::post('zip/zip_activate/','ProductMaintenance\ZipperColorController@zipactivate')->name('product.zipactivenew');
- 
- 
-Route::post('zip/zip_deactivate/', 'ProductMaintenance\ZipperColorController@zipdeActivate')->name('product.zipdeactivenew');
-
-
-
-
+ Route::post('zip/zip_deactivate/', 'EcommerceMaintenance\CountryofOriginController@zipdeActivate')->name('ecommercemaintenance.zipdeactivenew');
 
 });
-
-
-
-
-
-
-
-
 
 
 
@@ -2506,6 +2550,16 @@ Route::get('/printcarelabelcheckout/{id}', 'CarelabelsController@printcarelabelc
 	 Route::post('/developmentlist_delete/{id}', 'DevelopmentListController@delete')->name('user.developmentlistdelete');
 
   Route::get('/viewdevelopment/{id}','DevelopmentListController@viewdevelopmentlist')->name('user.developmentproductdetails');
+  
+  //sathish 30-03-2018
+  Route::get('/downloadpdfdevelopment/{id}','DevelopmentListController@dowloadpdfviewdevelopment')->name('user.developmentproductdetails1');
+  
+  
+   //Defect:04-04-2018
+   //Name: Bala-Uniquegroup Team
+   //Desc.Development Item list- click view to show pdf on seperate products
+   
+ Route::get('/downloadpdfdevelopmentitemlist/{id}/{typeid}','DevelopmentItemListController@dowloadpdfviewdevelopment')->name('user.pdfdevelopmentitemlist');
 
 
  
@@ -2514,6 +2568,8 @@ Route::get('/printcarelabelcheckout/{id}', 'CarelabelsController@printcarelabelc
   // new development Item List
   Route::get('/developmentitemlist','DevelopmentItemListController@developmentlistviewdetails')->name('user.developmentlistview');
     Route::get('/productimg/{id}', 'DevelopmentItemListController@getproductimg')->name('user.productpic');
+	
+	Route::get('/productboximg/{id}', 'DevelopmentItemListController@getboximg')->name('user.boxpic');
 
     Route::get('/producthangimg/{id}', 'DevelopmentItemListController@gethangimg')->name('user.hangtagpic');
 
@@ -2570,6 +2626,31 @@ Route::get('/zipercolorimg/{id}', 'OrderController@gezippercolorimg')->name('pro
 Route::get('/symboltype/{id}', 'OrderController@getsymbolimg')->name('product.symbolcolor');
 Route::get('/getzippercolorId/ajax/{id}', 'OrderController@getproductzippercolorid')->name('product.productzippercolorid');
 Route::get('/getcaredetails/ajax/{id}', 'OrderController@getcaredetails')->name('order.getcaredetails');
+Route::get('/getfabricdetails/ajax/{id}', 'OrderController@getfabricdetails')->name('order.getfabricdetails');
+Route::post('/order/addneworder', 'OrderController@addneworder')->name('order.addneworder');
+
+Route::get('/order/checkout', 'OrderController@checkout')->name('order.checkout');
+Route::get('/order/delivery/instruction', 'OrderController@deliveryinstruction')->name('order.delivery');
+Route::get('/order/address', 'OrderController@deliveryaddresssave')->name('order.addressdelivery');
+
+Route::get('/order/billaddress', 'OrderController@billaddresssave')->name('order.addressbill');
+
+Route::get('/order/deliverymethod', 'OrderController@deliverymethodsave')->name('order.deliverymethodorder');
+
+Route::get('/order/deliveryaccount', 'OrderController@deliveryaccountsave')->name('order.deliveryaccount');
+/*vidhya:06-04-2014*/
+Route::get('/order/deliveryaddressdelete', 'OrderController@deliveryaddressdel')->name('order.deletedeliveryadddress');
+
+Route::get('/order/billaddressdelete', 'OrderController@billaddressdel')->name('order.deletebilladddress');
+
+Route::get('/order/deliverymethoddelete', 'OrderController@deliverymethoddel')->name('order.deletedeliverymethod');
+
+Route::get('/order/deliveryaccountdelete', 'OrderController@deliveryaccountdel')->name('order.deletedeliveryaccount');
+
+Route::post('/order/adddeliveryins', 'OrderController@deliveryinstructionadd')->name('order.deliveryinstruction');
+
+Route::get('/order/remove/{id}', 'OrderController@removeOrder')->name('order.remove');
+Route::get('/order/edit/{id}', 'OrderController@editOrder')->name('order.edit');
   //Route::get('/getcaredetails/{productgroup}/{productsubgroupid?}','CareController@getproductdetailsitemlist')->name('user.getcaredetails');
 //to get size and coo 
 //By rajesh 24032018
@@ -2590,6 +2671,10 @@ Route::post('/productmaintenance/zippercoloredit/{id}', 'ProductMaintenance\Zipp
 
 Route::post('/productmaintenance/zippercolordelete/{id}', 'ProductMaintenance\ZipperColorController@deletezippercolor')->name('product.zippercolordelete');
 
+Route::post('zip/zip_activate/','ProductMaintenance\ZipperColorController@zipactivate')->name('product.zipactivenew');
+ 
+ 
+Route::post('zip/zip_deactivate/', 'ProductMaintenance\ZipperColorController@zipdeActivate')->name('product.zipdeactivenew');
 //New design ends
    
     //Defect:
@@ -2617,6 +2702,15 @@ Route::post('/productmaintenance/zippercolordelete/{id}', 'ProductMaintenance\Zi
    Route::post('/developmentitemlistzipper_delete/{id}/{productpid?}', 'DevelopmentItemListController@deletezipper')->name('user.developmentitemlistdeletezipper');
 
    Route::post('/developmentitemlisthangtags_delete/{id}/{productpid?}', 'DevelopmentItemListController@deletehangtags')->name('user.developmentitemlistdeletehangtags');
+
+   /*vidhya:09-04-2018*/
+
+
+   Route::post('/developmentitemlistheat_delete/{id}/{productpid?}', 'DevelopmentItemListController@deleteheat')->name('user.developmentitemlistdeleteheat');
+
+   Route::post('/developmentitemlistprinted_delete/{id}/{productpid?}', 'DevelopmentItemListController@deleteprintedlabel')->name('user.developmentitemlistdeleteprintedlab');
+
+   Route::post('/developmentitemlistwovwn_delete/{id}/{productpid?}', 'DevelopmentItemListController@deletewoven')->name('user.developmentitemlistdeletewoven');
 
     Route::get('/duplicatedevelopmentitem/{id}/{duplicateid?}/{hookid?}','DevelopmentItemListController@developmentitemlistduplicate')->name('user.developmentitemlistduplicate');
   

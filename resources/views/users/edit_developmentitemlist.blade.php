@@ -964,7 +964,7 @@
                 <img id="blah3" src="storage/data/product/" alt="" width="80" height="80" /> 
                
               
-             <img id="blah3" src="{{ route('user.productpic', ['id' => $boxesdetails->id]) }}" alt="your image" width="80" height="80" />
+             <img id="blah3" src="{{ route('user.boxpic', ['id' => $boxesdetails->id]) }}" alt="your image" width="80" height="80" />
                  
                  
                

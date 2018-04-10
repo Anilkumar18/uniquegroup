@@ -2,6 +2,12 @@
 
  productionregiontrigger();
  processcaredetails();
+
+ $(".dropdownwidth").select2({
+                placeholder: "Please Select"
+            });
+
+ 
 var productgroups=$('#productgroups');
 productgroups.find('input').each(function(){
 var processid=$(this).attr('id');

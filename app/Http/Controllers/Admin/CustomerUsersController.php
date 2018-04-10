@@ -24,6 +24,8 @@ use App\Country;
 use App\State;
 
 
+use Illuminate\Support\Facades\Crypt;
+
 class CustomerUsersController extends Controller
 {
     public function __construct()
@@ -88,12 +90,15 @@ $usertype = UserType::where('id', '=', $user->userTypeID)->first();
        
 	  
 	} 
-
+//vidhya-31-03-2018
+	//encrypt and decrypt password
 public function addnewusers (Request $request) {
 	 $user = Auth::user();
      $addressID=0;
      $is_sys_admin=0;
 	 $token=0;
+	 //vidhya-31-03-2018
+//show password
 				if($request->editID!='')
         {
            $customeruser = CustomerUsers::where('UserName', '=', $request->userName)->where('id', '!=', $request->editID)->first();       
@@ -123,13 +128,15 @@ public function addnewusers (Request $request) {
               $user = User::where('userName', '=', $request->userName)->first();
             
             if ($user === null) {
-            	print_r($request->Warehouse_StateID);
+            	//print_r($request->password);exit;
+            	$pwd = $request->password;
+            	$value = Crypt::encrypt($pwd);
             	
             	$password =Hash::make($request->password);
                     
-                $user_insert = DB::select('call sp_CRUDcustomerusers(1,0,'.$request->customerName.','.$request->country.','.$request->state.','.$request->userType.',"'.$request->firstName.'","'.$request->lastName.'","'.$request->phoneNumber.'","'.$request->email.'","'.$request->suite.'","'.$request->street.'","'.$request->city.'","'.$request->zipcode.'","'.$request->userName.'","'.$password.'","",'.$is_sys_admin.',1)');
+                $user_insert = DB::select('call sp_CRUDcustomerusers(1,0,'.$request->customerName.','.$request->country.','.$request->state.','.$request->userType.',"'.$request->firstName.'","'.$request->lastName.'","'.$request->phoneNumber.'","'.$request->email.'","'.$request->suite.'","'.$request->street.'","'.$request->city.'","'.$request->zipcode.'","'.$request->userName.'","'.$password.'","'.$value.'","'.$token.'",'.$is_sys_admin.',1)');
 				
-				$logininsert = User::create(['customerID'=>$request->customerName,'userTypeID' => $request->userType,'countryID' => $request->country,'addressID'=>$addressID,'is_sys_admin'=>$is_sys_admin,'userName'=>$request->userName,'email'=>$request->email,'password'=>$password ,'firstName'=>$request->firstName,'lastName'=>$request->lastName,'phone'=>$request->phoneNumber,'status'=>1]);
+				 $logininsert = User::create(['customerID'=>$request->customerName,'userTypeID' => $request->userType,'countryID' => $request->country,'addressID'=>$addressID,'is_sys_admin'=>$is_sys_admin,'userName'=>$request->userName,'email'=>$request->email,'password'=>$password ,'Visible_password'=>$value,'firstName'=>$request->firstName,'lastName'=>$request->lastName,'phone'=>$request->phoneNumber,'status'=>1]);
                 
     			$logininsert->save(); 
 
@@ -163,7 +170,8 @@ public function addnewusers (Request $request) {
     }
 	  public function customerusersDetails(Request $request)
 	 {
-	     
+	   //vidhya-31-03-2018
+//show password  
 	  $user = Auth::user();
       $customerusersid=$request->id;
     $accountmanagerID=$user->id;
@@ -171,8 +179,15 @@ public function addnewusers (Request $request) {
       $customerusersviewlist = DB::select('call sp_selectcustomerusers(1,'.$customerusersid.',1,'.$accountmanagerID.','.$usertypeID.')');
 	
 	$usertype = UserType::where('id', '=', $user->userTypeID)->first();
+foreach($customerusersviewlist as $list)
+	//print_r($list->Visible_password);
+$pwd =$list->Visible_password;
 	
-   return view('admin.customerusersdetails', compact('user','customerusersviewlist','usertype'));	                                 
+	      $output = Crypt::decrypt($pwd);     	
+            	
+            	
+	
+   return view('admin.customerusersdetails', compact('user','customerusersviewlist','usertype','output'));	                                 
 	                       
 	 }
 

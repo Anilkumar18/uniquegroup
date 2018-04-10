@@ -87,21 +87,34 @@ echo $carestatus!=0?'Care':'';
  ?>
 <div class="ibox-content">
                            
+<?php 
 
-                            <form id="form" action="#" class="wizard-big">
+
+
+//echo '<pre>';print_r($FabricCompositionarray);echo '</pre>';
+?>
+                            <form id="form" action="{{url(route('order.addneworder'))}}" method="post" class="wizard-big">
+                                {{ csrf_field() }}
                                 <h1>Product Option</h1>
                                 <fieldset>
                                     <h2>Product Information</h2>
                                     <div class="row">
                                         <div class="form-group">
-                  <label class="col-lg-12 control-label font-noraml text-left label_font">Product Region:<span class="required" aria-required="true">*</span></label>
+                                            <input type="hidden" name="userID" value="<?php echo $user->id; ?>">
+                  <label class="col-lg-12 control-label font-noraml text-left label_font">Production Region:<span class="required" aria-required="true">*</span></label>
                 <input type="hidden" name="pageurl" id="pageurl" value="<?php echo url('/');?>">
-                          
+                          <?php 
+                                         $productRegionId=0;
+                            if(isset($Orderdetails->productRegion))
+                            { 
+                                    $productRegionId=isset($Orderdetails->productRegion)?$Orderdetails->productRegion:''; 
+                            }
+                                                  ?>
                          <div class="col-lg-5 productsubgroup">
-                        <select id="ProductRegion" name="ProductRegion" class="form-control dropdownwidth" required="required">
+                        <select id="ProductRegion" name="productRegion" class="form-control dropdownwidth" required="required">
                             <option></option>
                             @foreach($ProductionRegions as $Regions)
-                                <option value="{{$Regions->id}}">{{$Regions->ProductionRegions}}</option>
+                                <option value="{{$Regions->id}}" @if($productRegionId==$Regions->id) selected="selected" @endif>{{$Regions->ProductionRegions}}</option>
 
                             @endforeach
                         </select>
@@ -140,7 +153,7 @@ echo $carestatus!=0?'Care':'';
 
                     @foreach($productlist as $productdetailss_list)                        
 <tr>
-    <td><input type="radio" required="required" value="{{ $productdetailss_list->id }}" name="producttype" class="producttype" data-producttxt="{{ $productdetailss_list->UniqueProductCode }}"></td>
+    <td><input type="radio" required="required" value="{{ $productdetailss_list->id }}" name="productID" id="producttype" class="producttype" data-producttxt="{{ $productdetailss_list->UniqueProductCode }}"></td>
                     <td>{{ $productdetailss_list->UniqueProductCode }}</td>
                     
                     <td>{{ $productdetailss_list->Description }}</td>
@@ -197,7 +210,7 @@ echo $carestatus!=0?'Care':'';
                                        <div class="col-lg-12">
                                        
                                             <label for="continue_select">
-                                            <input type="radio" id="continue_select" name="continue_select" value="Continue" class="" onclick="continueclick()"><strong>Continue Shopping</strong></label>
+                                            <input type="radio" id="continue_select" name="orderstatus" value="0" class=""><strong>Continue Shopping</strong></label>
                                             
                                     
                                     </div>
@@ -207,7 +220,7 @@ echo $carestatus!=0?'Care':'';
                                     
                                    
                                             <label for="finish_select">
-                                            <input type="radio" id="finish_select" name="continue_select" value="Finish" class="" onclick="termsclick()"><strong>Add to Cart</strong></label> <br> 
+                                            <input type="radio" id="finish_select" name="orderstatus" value="1" class=""><strong>Add to Cart</strong></label> <br> 
                                           
                                          
                                   

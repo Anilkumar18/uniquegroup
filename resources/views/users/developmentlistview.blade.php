@@ -658,7 +658,7 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
              
              if($list->ZipperPullersID!="")
              echo "Zipper Pullers";echo "<br>";
-             $tape =App\ZipperPullers::where('id','=',$list->ZipperPullersID)->first(); 
+             $zipperpull =App\ZipperPullers::where('id','=',$list->ZipperPullersID)->first(); 
              ?></td>
 
                         <td><img src="{{ route('user.zipperpic', ['id' => $list->ZipperPullersID]) }}" width="100"/></td>
@@ -667,7 +667,7 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
 
                         <!-- <td>@if($list->ProductProcessID!=''){{$productprocess->ProductProcess}}@endif</td> -->
 
-                        <td class="version_duplicate">{{$tape->Version}}</td>
+                        <td class="version_duplicate">{{$zipperpull->Version}}</td>
 
                         <td class="duplicatemissing">{{$list->SampleRequestedDate}}</td>
 
@@ -707,7 +707,246 @@ $uniqueoffices =App\UniqueOffices::where('id','=',$list->CustomerID)->first();
 
                     </tr>
                     @endforeach
+
+
+                     
                     
+                    @endif
+
+                    @if($list->WovenLabelID!="" && $list->WovenLabelID<>0)
+
+                    <?php  $str = ltrim($developmentid, '0'); ?>
+                     @foreach(explode(',',$list->WovenLabelID) as $vz)
+
+                    <tr class="gradeX" id="{{$str.'_'.'3'}}">
+
+                        <td class="processdetails">{{$developmentid}}</td>
+
+                        <td>@if($list->CustomerID!=''){{$customers->CustomerName}}@endif</td>  
+
+                        <td>{{$list->Brand}}</td>  
+
+                         <td>{{$list->ProgramName}}</td> 
+
+                        <td class="duplicatemissing">{{$list->CustomerProductName}}</td> 
+
+                        <td class="duplicatemissing">{{$list->CustomerProductCode}}</td>
+
+                        <!-- <td>{{$list->CustomerProductCode}}</td> -->
+
+                        <td class="duplicatemissing">{{$list->UniqueProductCode}}</td>
+
+                        <td>
+                       <?php
+             
+             if($list->WovenLabelID!="")
+             echo "Woven";echo "<br>";
+             $wovenlabe =App\Woven::where('id','=',$list->WovenLabelID)->first(); 
+             ?></td>
+
+                        <td><img src="{{ route('user.wovenlabelpic', ['id' => $list->WovenLabelID]) }}" width="100"/></td>
+
+                        <td>@if($list->status!=''){{$status->StatusName}}@endif</td>
+
+                        <!-- <td>@if($list->ProductProcessID!=''){{$productprocess->ProductProcess}}@endif</td> -->
+
+                        <td class="version_duplicate">{{$wovenlabe->Version}}</td>
+
+                        <td class="duplicatemissing">{{$list->SampleRequestedDate}}</td>
+
+                        <td>{{$uniqueoffices->OfficeFactoryName}}</td>
+<!-- sathish 15-03-2018 -->
+                        <td>
+                          <?php 
+                        if($list->SampleandQuote =='1'){echo "Sample and Quote"; }else{echo "Only Quote" ;} ?> </td>
+
+                        <td class="duplicatemissing">{{$list->NumberOfSamplesRequired}}</td>
+
+                        <td>{{$list->created_at}}</td>
+
+                        <td>
+                        {{$list->Remarks}}
+                       
+                        </td>
+
+
+                        <td class="processdetails">
+<!-- For only edit link by Rajesh -->
+                        <a class="edituniqueusers" href="{{ url(route('user.editdevelopmentitemproductdetails', ['id' => $list->id.'/'.'7'])) }}" ><img  src="{{ asset('/img/edit.png') }}" border="0"  title="Edit"/></a>  
+                        <!-- Defect No:60 
+                            //Vidhya:php team
+                            //customerservice add view page -->
+                        @if($user->userTypeID!=14)
+                        <span class="developmentitemduplicate" data-href="{{ url(route('user.developmentitemlistduplicate', ['id' => $list->id.'/'.'7'.'/'.$vz])) }}" onclick="duplicate_develop(this)" ><a href="javascript:;"><img  src="{{ asset('/img/file.png') }}" border="0"  title="Duplicate"/></a></span>                      
+                        @endif                     
+
+                        <span class="selectuniqueusers"><a href="{{ url(route('user.developmentitemproductdetails', ['id' => $list->id.'/'.'7'.'/'.$vz])) }}"><img  src="{{ asset('/img/view.png') }}" border="0"  title="View"/></a></span> 
+                        @if($user->userTypeID!=14)
+                        <span class="deletedevelopmentitemlist" data-href="{{ url(route('user.developmentitemlistdeletewoven', ['id' => $list->WovenLabelID.'/'.$list->id])) }}"><a href="javascript:;"><img  src="{{ asset('/img/delete.png') }}" border="0"  title="Delete"/></a></span>
+                        @endif
+                        </td>
+
+                        
+
+                    </tr>
+                    @endforeach
+                    @endif
+
+
+                    <!-- vidhya:09-04-2018 -->
+                    @if($list->HeatTransferLabelID!="" && $list->HeatTransferLabelID<>0)
+
+                    <?php  $str = ltrim($developmentid, '0'); ?>
+                     @foreach(explode(',',$list->HeatTransferLabelID) as $vhe)
+
+                    <tr class="gradeX" id="{{$str.'_'.'3'}}">
+
+                        <td class="processdetails">{{$developmentid}}</td>
+
+                        <td>@if($list->CustomerID!=''){{$customers->CustomerName}}@endif</td>  
+
+                        <td>{{$list->Brand}}</td>  
+
+                         <td>{{$list->ProgramName}}</td> 
+
+                        <td class="duplicatemissing">{{$list->CustomerProductName}}</td> 
+
+                        <td class="duplicatemissing">{{$list->CustomerProductCode}}</td>
+
+                        <!-- <td>{{$list->CustomerProductCode}}</td> -->
+
+                        <td class="duplicatemissing">{{$list->UniqueProductCode}}</td>
+
+                        <td>
+                       <?php
+             
+             if($list->HeatTransferLabelID!="")
+             echo "Heat Transfer";echo "<br>";
+             $heattran =App\HeatTransfer::where('id','=',$list->HeatTransferLabelID)->first(); 
+             ?></td>
+
+                        <td><img src="{{ route('user.heattransferpic', ['id' => $list->HeatTransferLabelID]) }}" width="100"/></td>
+
+                        <td>@if($list->status!=''){{$status->StatusName}}@endif</td>
+
+                        <!-- <td>@if($list->ProductProcessID!=''){{$productprocess->ProductProcess}}@endif</td> -->
+
+                        <td class="version_duplicate">{{$heattran->Version}}</td>
+
+                        <td class="duplicatemissing">{{$list->SampleRequestedDate}}</td>
+
+                        <td>{{$uniqueoffices->OfficeFactoryName}}</td>
+
+                        <td>
+                          <?php 
+                        if($list->SampleandQuote =='1'){echo "Sample and Quote"; }else{echo "Only Quote" ;} ?> </td>
+
+                        <td class="duplicatemissing">{{$list->NumberOfSamplesRequired}}</td>
+
+                        <td>{{$list->created_at}}</td>
+
+                        <td>
+                        {{$list->Remarks}}
+                       
+                        </td>
+
+
+                        <td class="processdetails">
+
+                        <a class="edituniqueusers" href="{{ url(route('user.editdevelopmentitemproductdetails', ['id' => $list->id.'/'.'8'])) }}" ><img  src="{{ asset('/img/edit.png') }}" border="0"  title="Edit"/></a>  
+                        
+                        @if($user->userTypeID!=14)
+                        <span class="developmentitemduplicate" data-href="{{ url(route('user.developmentitemlistduplicate', ['id' => $list->id.'/'.'8'.'/'.$vhe])) }}" onclick="duplicate_develop(this)" ><a href="javascript:;"><img  src="{{ asset('/img/file.png') }}" border="0"  title="Duplicate"/></a></span>                      
+                        @endif                     
+
+                        <span class="selectuniqueusers"><a href="{{ url(route('user.developmentitemproductdetails', ['id' => $list->id.'/'.'8'.'/'.$vhe])) }}"><img  src="{{ asset('/img/view.png') }}" border="0"  title="View"/></a></span> 
+                        @if($user->userTypeID!=14)
+                        <span class="deletedevelopmentitemlist" data-href="{{ url(route('user.developmentitemlistdeleteheat', ['id' => $list->HeatTransferLabelID.'/'.$list->id])) }}"><a href="javascript:;"><img  src="{{ asset('/img/delete.png') }}" border="0"  title="Delete"/></a></span>
+                        @endif
+                        </td>
+
+                        
+
+                    </tr>
+                    @endforeach
+                    @endif
+
+                    <!-- vidhya:09-04-2018 -->
+                    @if($list->PrintedLabelID!="" && $list->PrintedLabelID<>0)
+
+                    <?php  $str = ltrim($developmentid, '0'); ?>
+                     @foreach(explode(',',$list->PrintedLabelID) as $vpl)
+
+                    <tr class="gradeX" id="{{$str.'_'.'3'}}">
+
+                        <td class="processdetails">{{$developmentid}}</td>
+
+                        <td>@if($list->CustomerID!=''){{$customers->CustomerName}}@endif</td>  
+
+                        <td>{{$list->Brand}}</td>  
+
+                         <td>{{$list->ProgramName}}</td> 
+
+                        <td class="duplicatemissing">{{$list->CustomerProductName}}</td> 
+
+                        <td class="duplicatemissing">{{$list->CustomerProductCode}}</td>
+
+                        <!-- <td>{{$list->CustomerProductCode}}</td> -->
+
+                        <td class="duplicatemissing">{{$list->UniqueProductCode}}</td>
+
+                        <td>
+                       <?php
+             
+             if($list->PrintedLabelID!="")
+             echo "Printed label";echo "<br>";
+             $tape =App\PrintedLabel::where('id','=',$list->PrintedLabelID)->first(); 
+             ?></td>
+
+                        <td><img src="{{ route('user.printedlabelpic', ['id' => $list->PrintedLabelID]) }}" width="100"/></td>
+
+                        <td>@if($list->status!=''){{$status->StatusName}}@endif</td>
+
+                        <!-- <td>@if($list->ProductProcessID!=''){{$productprocess->ProductProcess}}@endif</td> -->
+
+                        <td class="version_duplicate">{{$tape->Version}}</td>
+
+                        <td class="duplicatemissing">{{$list->SampleRequestedDate}}</td>
+
+                        <td>{{$uniqueoffices->OfficeFactoryName}}</td>
+
+                        <td>
+                          <?php 
+                        if($list->SampleandQuote =='1'){echo "Sample and Quote"; }else{echo "Only Quote" ;} ?> </td>
+
+                        <td class="duplicatemissing">{{$list->NumberOfSamplesRequired}}</td>
+
+                        <td>{{$list->created_at}}</td>
+
+                        <td>
+                        {{$list->Remarks}}
+                       
+                        </td>
+
+
+                        <td class="processdetails">
+
+                        <a class="edituniqueusers" href="{{ url(route('user.editdevelopmentitemproductdetails', ['id' => $list->id.'/'.'9'])) }}" ><img  src="{{ asset('/img/edit.png') }}" border="0"  title="Edit"/></a>  
+                        
+                        @if($user->userTypeID!=14)
+                        <span class="developmentitemduplicate" data-href="{{ url(route('user.developmentitemlistduplicate', ['id' => $list->id.'/'.'9'.'/'.$vpl])) }}" onclick="duplicate_develop(this)" ><a href="javascript:;"><img  src="{{ asset('/img/file.png') }}" border="0"  title="Duplicate"/></a></span>                      
+                        @endif                     
+
+                        <span class="selectuniqueusers"><a href="{{ url(route('user.developmentitemproductdetails', ['id' => $list->id.'/'.'9'.'/'.$vpl])) }}"><img  src="{{ asset('/img/view.png') }}" border="0"  title="View"/></a></span> 
+                        @if($user->userTypeID!=14)
+                        <span class="deletedevelopmentitemlist" data-href="{{ url(route('user.developmentitemlistdeleteprintedlab', ['id' => $list->PrintedLabelID.'/'.$list->id])) }}"><a href="javascript:;"><img  src="{{ asset('/img/delete.png') }}" border="0"  title="Delete"/></a></span>
+                        @endif
+                        </td>
+
+                        
+
+                    </tr>
+                    @endforeach
                     @endif
 
                     @endforeach

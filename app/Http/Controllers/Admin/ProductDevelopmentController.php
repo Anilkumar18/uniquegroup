@@ -61,8 +61,8 @@ class ProductDevelopmentController extends Controller
 		
 		$productgroupdetails=ProductGroup::where('id','=',$productsubgroupdetails->Product_groupID)->where('status','=',1)->first();
 		$usertype = UserType::where('id', '=', $user->userTypeID)->first();
-		 
-        return view('admin.pdmproducts', compact('user','columnsname','productsubgroupdetails','productgroupdetails','usertype'));
+		 //Rajesh 07042018 
+        return view('admin.pdmproducts', compact('id','user','columnsname','productsubgroupdetails','productgroupdetails','usertype'));
     }
 
     public function viewgrouplist(Request $request,$id) 
@@ -193,7 +193,94 @@ class ProductDevelopmentController extends Controller
 
 			 if($data['tablecontent'][$i]!="" && $data['tablecontentid'][$i]=="")
 			{	
-			
+			if($tablename=='language'){
+			$lanvalue=$data['tablecontent'][$i];
+			$languset=strtolower(substr($lanvalue, 0, 3));
+     		$drytable='dry'.$languset;
+     		$drycleaningtable='drycleaning'.$languset;
+     		$bleachtable='bleach'.$languset;
+     		$countryoforiginetable='countryoforigin'.$languset;
+     		$fabriccompositiontable='fabriccomposition'.$languset;
+     		$garmentcomponentstable='garmentcomponents'.$languset;
+     		$irontable='iron'.$languset;
+     		$sizestable='sizes'.$languset;
+     		$washtable='wash'.$languset;
+     		//Fieldname
+     		$drytable_field='CareInstruction-Dry '.strtoupper($languset);
+     		$drycleaningtable_field='Care Instruction - Dry Clean '.strtoupper($languset);
+     		$bleachtable_field='Care Instruction - Bleach '.strtoupper($languset);
+     		$countryoforiginetable_field='Country of Origin-'.strtoupper($languset);
+     		$fabriccompositiontable_field='Fabric Composition - '.strtoupper($languset);
+     		$garmentcomponentstable_field='Garment Components- '.strtoupper($languset);
+     		$irontable_field='Care Instruction - Iron'.strtoupper($languset);
+     		$sizestable_field='Sizes-'.strtoupper($languset);
+     		$washtable_field='Care Instruction - Wash'.strtoupper($languset);
+
+
+					DB::statement('CREATE TABLE '.$drytable.' LIKE `dryeng`');
+					DB::statement("INSERT INTO productdevelopmentfields (ProductSubGroupID, fieldname,tablename,columnfieldname,isvalid,hide,dropdown,popup,status)
+SELECT ProductSubGroupID, 
+       '".$drytable_field."','".$drytable."',columnfieldname,isvalid,hide,dropdown,popup,status
+  FROM productdevelopmentfields
+ WHERE tablename  = 'dryeng'");
+
+					DB::statement('CREATE TABLE '.$drycleaningtable.' LIKE `drycleaningeng`');
+					DB::statement("INSERT INTO productdevelopmentfields (ProductSubGroupID, fieldname,tablename,columnfieldname,isvalid,hide,dropdown,popup,status)
+SELECT ProductSubGroupID, 
+       '".$drycleaningtable_field."','".$drycleaningtable."',columnfieldname,isvalid,hide,dropdown,popup,status
+  FROM productdevelopmentfields
+ WHERE tablename  = 'drycleaningeng'");
+
+					DB::statement('CREATE TABLE '.$bleachtable.' LIKE `bleacheng`');
+					DB::statement("INSERT INTO productdevelopmentfields (ProductSubGroupID, fieldname,tablename,columnfieldname,isvalid,hide,dropdown,popup,status)
+SELECT ProductSubGroupID, 
+       '".$bleachtable_field."','".$bleachtable."',columnfieldname,isvalid,hide,dropdown,popup,status
+  FROM productdevelopmentfields
+ WHERE tablename  = 'bleacheng'");
+
+					DB::statement('CREATE TABLE '.$countryoforiginetable.' LIKE `countryoforigineng`');
+					DB::statement("INSERT INTO productdevelopmentfields (ProductSubGroupID, fieldname,tablename,columnfieldname,isvalid,hide,dropdown,popup,status)
+SELECT ProductSubGroupID, 
+       '".$countryoforiginetable_field."','".$countryoforiginetable."',columnfieldname,isvalid,hide,dropdown,popup,status
+  FROM productdevelopmentfields
+ WHERE tablename  = 'countryoforigineng'");
+
+					DB::statement('CREATE TABLE '.$fabriccompositiontable.' LIKE `fabriccompositioneng`');
+					DB::statement("INSERT INTO productdevelopmentfields (ProductSubGroupID, fieldname,tablename,columnfieldname,isvalid,hide,dropdown,popup,status)
+SELECT ProductSubGroupID, 
+       '".$fabriccompositiontable_field."','".$fabriccompositiontable."',columnfieldname,isvalid,hide,dropdown,popup,status
+  FROM productdevelopmentfields
+ WHERE tablename  = 'fabriccompositioneng'");
+
+					DB::statement('CREATE TABLE '.$garmentcomponentstable.' LIKE `garmentcomponentseng`');
+					DB::statement("INSERT INTO productdevelopmentfields (ProductSubGroupID, fieldname,tablename,columnfieldname,isvalid,hide,dropdown,popup,status)
+SELECT ProductSubGroupID, 
+       '".$garmentcomponentstable_field."','".$garmentcomponentstable."',columnfieldname,isvalid,hide,dropdown,popup,status
+  FROM productdevelopmentfields
+ WHERE tablename  = 'garmentcomponentseng'");
+
+					DB::statement('CREATE TABLE '.$irontable.' LIKE `ironeng`');
+					DB::statement("INSERT INTO productdevelopmentfields (ProductSubGroupID, fieldname,tablename,columnfieldname,isvalid,hide,dropdown,popup,status)
+SELECT ProductSubGroupID, 
+       '".$irontable_field."','".$irontable."',columnfieldname,isvalid,hide,dropdown,popup,status
+  FROM productdevelopmentfields
+ WHERE tablename  = 'ironeng'");
+
+					DB::statement('CREATE TABLE '.$sizestable.' LIKE `sizeseng`');
+					DB::statement("INSERT INTO productdevelopmentfields (ProductSubGroupID, fieldname,tablename,columnfieldname,isvalid,hide,dropdown,popup,status)
+SELECT ProductSubGroupID, 
+       '".$sizestable_field."','".$sizestable."',columnfieldname,isvalid,hide,dropdown,popup,status
+  FROM productdevelopmentfields
+ WHERE tablename  = 'sizeseng'");
+
+					DB::statement('CREATE TABLE '.$washtable.' LIKE `washeng`');
+					DB::statement("INSERT INTO productdevelopmentfields (ProductSubGroupID, fieldname,tablename,columnfieldname,isvalid,hide,dropdown,popup,status)
+SELECT ProductSubGroupID, 
+       '".$washtable_field."','".$washtable."',columnfieldname,isvalid,hide,dropdown,popup,status
+  FROM productdevelopmentfields
+ WHERE tablename  = 'washeng'");
+
+			}
 			/*$dropdownoptionsupdations=DB::Select('call sp_commonupdateprocedure(1,'.$data['tablecontentid'][$i].',"'.$tablename.'","'.$tablenamecolumn.'",\'"'.$data['tablecontent'][$i].'"\')');*/
 
 			$dropdownoptionsinsertions=DB::Select('call sp_commonupdateprocedure(2,0,"'.$tablename.'","'.$tablenamecolumn.'",\'"'.$data['tablecontent'][$i].'"\')');

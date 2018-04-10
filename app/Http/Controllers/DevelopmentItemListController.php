@@ -95,7 +95,7 @@ use Intervention\Image\Facades\Image as Image;
 
 use Illuminate\Http\UploadedFile;
 
-
+use PDF;
 use File;
 use URL;
 use Mail;
@@ -202,10 +202,20 @@ if (Mail::failures()) {
     }
 
     public function getproductimg(Request $request, $id) {
-
+//sathish 29-03-2018 
       $productid = ProductDetails::find($id);
 
       $filePath = base_path()."/storage/app/".$productid->Artworkupload; 
+        header('Content-type: image/jpeg');
+        $img = Image::make($filePath);
+        return $img->response('jpg');
+
+  }
+   public function getboximg(Request $request, $id) {
+
+      $productid = Boxes::find($id);
+
+      $filePath = base_path()."/storage/app/".$productid->Artwork; 
         header('Content-type: image/jpeg');
         $img = Image::make($filePath);
         return $img->response('jpg');
@@ -442,6 +452,57 @@ public function deletezipper(Request $request ,$id, $productpid)
 
         return redirect(url(route('user.developmentlistview')));      
 }
+/*vidhya:09-04-2018
+Heat Transfer delete*/
+public function deleteheat(Request $request ,$id, $productpid)
+{
+      
+       $user = Auth::user();
+       
+       $developmentlist_delete = HeatTransfer::where('id','=',$id)->first();
+      $developmentlist_delete->delete();
+      $developmentproductdel = ProductDetails::where('id','=',$productpid)->first();
+      $developmentproductdel->delete();
+
+        $request->session()->flash('failure', 'Development Product Heat Transfer deleted successfully.');     
+
+        return redirect(url(route('user.developmentlistview')));      
+}
+
+/*vidhya:09-04-2018
+Printed Label delete*/
+public function deleteprintedlabel(Request $request ,$id, $productpid)
+{
+      
+       $user = Auth::user();
+       
+       $developmentlist_delete = PrintedLabel::where('id','=',$id)->first();
+      $developmentlist_delete->delete();
+      $developmentproductdel = ProductDetails::where('id','=',$productpid)->first();
+      $developmentproductdel->delete();
+
+        $request->session()->flash('failure', 'Development Product Printed Labels deleted successfully.');     
+
+        return redirect(url(route('user.developmentlistview')));      
+}
+
+/*vidhya:09-04-2018
+Woven delete*/
+public function deletewoven(Request $request ,$id, $productpid)
+{
+      
+       $user = Auth::user();
+       
+       $developmentlist_delete = Woven::where('id','=',$id)->first();
+      $developmentlist_delete->delete();
+      $developmentproductdel = ProductDetails::where('id','=',$productpid)->first();
+      $developmentproductdel->delete();
+
+        $request->session()->flash('failure', 'Development Product Woven Labels deleted successfully.');     
+
+        return redirect(url(route('user.developmentlistview')));      
+}
+
 
 public function viewdevelopmentitemlist(Request $request, $id, $typeid, $productid)
 
@@ -469,15 +530,82 @@ public function viewdevelopmentitemlist(Request $request, $id, $typeid, $product
 
     //sathish 20-03-2018 
 
-  $productdetails = ProductDetails::where('id','=',$id)->first();
+  /*$productdetails = ProductDetails::where('id','=',$id)->first();
   $boxesdetails=Boxes::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
   $hookdetails=Hook::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
   $tissuepaperdetails=Tissuepaper::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+   $packagingstickersdetails=PackagingStickers::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();*/
+   
+   //Defect:04-04-2018
+         //Name: Bala-php Team
+         //View the Product details of boxes,hooks,tissuepaper
+   
+        $typeiddetails=$typeid; 
+		
+		$productdetails = ProductDetails::where('id','=',$id)->first();
+	   
+	   if($typeiddetails==0)
+	   {
+	   
+	   $boxesdetails=Boxes::where('ProductID','=',$productid)->where('status','=',1)->first();
+	  // echo "boxesdetails"; exit;
+	   }
+	    elseif($typeiddetails==1)
+	   {
+	   
+	  $hookdetails=Hook::where('ProductID','=',$productid)->where('status','=',1)->first();
+	  // echo "hookdetails"; exit;
+	   }
+	    elseif($typeiddetails==2)
+	   {
+	 $tissuepaperdetails=Tissuepaper::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+	   //echo "tissuepaperdetails"; exit;
+	   }
+	  elseif($typeiddetails==3)
+	   {
+		   
    $packagingstickersdetails=PackagingStickers::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+	   //print_r($packagingstickersdetails);exit;
+	    //echo "packagingstickersdetails"; exit;
+	   }
+	   elseif($typeiddetails==4)
+	   {
+		$hangtagsdetails=HangTags::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+	    //echo "hangtagsdetails"; exit;
+	   }
+	    elseif($typeiddetails==5)
+	   {
+		$tapesdetails=Tapes::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+		//echo "tapesdetails"; exit;
+	   }
+	   elseif($typeiddetails==6)
+	   {
+		$zipperdetails=ZipperPullers::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+		//echo "zipperpullers"; exit;
+	   }
+	   elseif($typeiddetails==7)
+	   {
+		$wovendetails=Woven::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+		
+		
+	   }
+     elseif($typeiddetails==8)
+     {
+     $heatdetails=HeatTransfer::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+    
+     }
+     elseif($typeiddetails==9)
+     {
+    $printedlabeldetails=PrintedLabel::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+    
+     }
 
+	   
+	   
     
 
-   return view('users.view_developmentitemlist', compact('user','productdevlopmentlist','customers','status','usertype','producttype','productview','productdetails','boxesdetails','hookdetails','tissuepaperdetails','packagingstickersdetails'));    
+   return view('users.view_developmentitemlist', compact('user','productdevlopmentlist','customers','status','usertype','producttype','productview','productdetails','boxesdetails','hookdetails','tissuepaperdetails','packagingstickersdetails','hangtagsdetails',
+'tapesdetails','typeiddetails','id','zipperdetails','tapesdetails','wovendetails','heatdetails','printedlabeldetails'));    
 
 //end sathish 20-03-2018
    }
@@ -1333,6 +1461,104 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
     
      
       }
+	   public function dowloadpdfviewdevelopment(Request $request,$id,$typeid)
+   {
+       $user = Auth::user();
+
+       $usertype = UserType::where('id', '=', $user->userTypeID)->first();
+
+       $productid=$id;
+
+       $productdetails = ProductDetails::where('id','=',$id)->first();
+
+       $customers=App\Customers::where('id','=',$productdetails->CustomerID)->first();
+
+        $status=App\Status::where('id','=',$productdetails->status)->first();
+		
+		  $typeiddetails=$typeid; 
+	   
+	   if($typeiddetails==0)
+	   {
+	   
+	   $boxesdetails=Boxes::where('ProductID','=',$productid)->where('status','=',1)->first();
+	
+	   }
+	    elseif($typeiddetails==1)
+	   {
+	   
+	  $hookdetails=Hook::where('ProductID','=',$productid)->where('status','=',1)->first();
+	   }
+	    elseif($typeiddetails==2)
+	   {
+	 $tissuepaperdetails=Tissuepaper::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+	   }
+	  elseif($typeiddetails==3)
+	   {
+	   $packagingstickersdetails=PackagingStickers::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+	   }
+	   elseif($typeiddetails==4)
+	   {
+		$hangtagsdetails=HangTags::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+	    //echo "hangtagsdetails"; exit;
+	   }
+	    elseif($typeiddetails==5)
+	   {
+		$tapesdetails=Tapes::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+		//echo "tapesdetails"; exit;
+	   }
+	   elseif($typeiddetails==6)
+	   {
+		$zipperdetails=ZipperPullers::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+		//echo "zipperpullers"; exit;
+	   }
+		elseif($typeiddetails==7)
+	   {
+		$wovendetails=Woven::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+		
+		
+	   }
+		/*vidhya:09-04-2018*/
+		 elseif($typeiddetails==8)
+     {
+     $heatdetails=HeatTransfer::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+    
+     }
+     elseif($typeiddetails==9)
+     {
+    $printedlabeldetails=PrintedLabel::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+    
+     }
+		
+		
+		
+		
+
+
+      /* $boxesdetails=Boxes::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+       
+     
+      $hookdetails=Hook::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+      
+      $tissuepaperdetails=Tissuepaper::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+      
+      $packagingstickersdetails=PackagingStickers::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();*/
+	  
+      
+
+  $path=storage_path();
+  $pdfimage="";
+$pdf=PDF::loadView('users.view_pdf_download');
+    $pdf->setPaper('a4', 'portrait');
+             $pdfimage=PDF::loadView('users.view_Itemlistpdf_download',compact('user','productdetails','customers','status','usertype','boxesdetails','hookdetails','tissuepaperdetails','packagingstickersdetails','hangtagsdetails','zipperdetails','tapesdetails','wovendetails','heatdetails','printedlabeldetails'));    
+
+             //$pdfimage->download($path.'/app/data/product/'.'downloadfile.pdf'); 
+
+             return $pdfimage->download('pdfview.pdf');
+			 //return $pdfimage->stream('pdfview.pdf');
+
+             // return back();
+
+   }
 
 
       public function updateboxitemlist(Request $request)
@@ -2276,6 +2502,298 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
          $version_new=$zipperlastduplicateid->Version;
 
          }
+         //vidhya:09-04-2018
+         //Heat Transfer duplicate function
+         elseif($producttypeid==8)
+         {
+          if($duplicaterecord->HeatTransferLabelID!= null && $duplicaterecord->HeatTransferLabelID <> 0)
+          {
+            $heatprod = HeatTransfer::where('id','=',$hookid)->first();
+            //printf($hangprod);exit;
+
+            $heatduplicatedrecord=DB::select('call sp_CRUDheattransfer(1,'.$duplicaterecord->HeatTransferLabelID.')');
+            $heatlastduplicateid = HeatTransfer::orderby('id','desc')->first();
+            $heatduplicateid= $heatlastduplicateid->id;
+          }else
+          {
+            $heatduplicateid=0;
+          }
+            $data['boxduplicate'][]=8;
+          $productdetails_insert = ProductDetails::create([
+     'CustomerID'=>$duplicaterecord->CustomerID,
+     'CustomerWareHouseID'=>$duplicaterecord->CustomerWareHouseID,
+        'ProductGroupID' => $duplicaterecord->ProductGroupID,
+        'ProductSubGroupID'=>$duplicaterecord->ProductSubGroupID,
+        'HookID' =>0,
+        'TissuePaperID' =>0,
+        'PackagingStickersID' =>0,
+        'BoxID' => 0,
+        'HangTagsID' =>0,
+        'TapesID' =>0,
+        'ZipperPullersID' =>0,
+        'PrintedLabelID' =>0,
+        'HeatTransferLabelID' => $heatduplicateid,
+        'SeasonID'=>NULL,
+        'ProductStatusID'=>1,
+        'ProductProcessID'=>$duplicaterecord->ProductProcessID,
+        'ProductionRegionID1'=>$duplicaterecord->ProductionRegionID1,
+        'ProductionRegionID2'=>$duplicaterecord->ProductionRegionID2,
+        'ProductionRegionID3'=>$duplicaterecord->ProductionRegionID3,
+        'ProductionRegionID4'=>$duplicaterecord->ProductionRegionID4,
+        'ProductionRegionID5'=>$duplicaterecord->ProductionRegionID5,
+        'ProductionRegionID6'=>$duplicaterecord->ProductionRegionID6,
+        'ProductionRegionID7'=>$duplicaterecord->ProductionRegionID7,
+        'ProductionRegionID8'=>$duplicaterecord->ProductionRegionID8,
+        'PricingMethod'=>NULL,
+        'CurrencyID'=>NULL,
+        'UnitofMeasurementID'=>NULL,
+        'InventoryID'=>$duplicaterecord->InventoryID,
+        'InventoryName'=>$duplicaterecord->InventoryName,
+        'UniqueFactory1'=>$duplicaterecord->UniqueFactory1,
+        'UniqueFactory2'=>$duplicaterecord->UniqueFactory2,
+        'UniqueFactory3'=>$duplicaterecord->UniqueFactory3,
+        'UniqueFactory4'=>$duplicaterecord->UniqueFactory4,
+        'UniqueFactory5'=>$duplicaterecord->UniqueFactory5,
+        'UniqueFactory6'=>$duplicaterecord->UniqueFactory6,
+        'UniqueFactory7'=>$duplicaterecord->UniqueFactory7,
+        'UniqueFactory8'=>$duplicaterecord->UniqueFactory8,
+        'Brand'=>$duplicaterecord->Brand,
+        'ProgramName'=>$duplicaterecord->ProgramName,
+        'CustomerProductName'=>NULL,
+        'CustomerProductCode'=>NULL,
+        'UniqueProductCode'=>NULL,
+                'Description'=>NULL,
+                'StyleNumber'=>NULL,
+                'Version'=>1,
+        'SampleandQuote'=>$duplicaterecord->SampleandQuote,
+                'MinimumOrderQuantity'=>NULL,
+                'MinimumOrderValue'=>NULL,
+                'PackSize'=>NULL,
+                'SellingPrice'=>NULL,
+                'SampleRequestedDate' =>NULL,
+                'SampleRequestNumber' =>$duplicaterecord->SampleRequestNumber,
+                'NumberOfSamplesRequired' =>NULL,
+        'QuantityMOQ'=>NULL,
+        'Cost'=>NULL,
+        'Suggested_price'=>NULL,
+        'Margin'=>NULL,
+                'Artworkupload' =>$duplicaterecord->Artworkupload,
+                'QuoteRequiredchk' =>$duplicaterecord->QuoteRequiredchk,
+                'QuoteRequired' =>$duplicaterecord->QuoteRequired,
+                'SampleLeadTime' =>NULL,
+                'ProductionLeadTime'=>NULL,
+                'RemarksInstructions' =>$duplicaterecord->RemarksInstructions,
+                'QuoteRequired' =>$duplicaterecord->QuoteRequired,
+                'ReferenceFileUpload' =>$duplicaterecord->ReferenceFileUpload,
+                'QualityReference' =>$duplicaterecord->QualityReference,
+                'Projection' =>NULL,
+                'UniqueFactory1Inventory' =>$duplicaterecord->UniqueFactory1Inventory,
+                'UniqueFactory2Inventory' =>$duplicaterecord->UniqueFactory2Inventory,
+                'Maximumpiecesonstock' =>$duplicaterecord->Maximumpiecesonstock,
+                'Minimumpiecesonstock' =>$duplicaterecord->Minimumpiecesonstock,
+        'ExWorks'=>NULL,
+        'FOB'=>NULL,
+                'status'=>1
+                ]);
+          $version_old=$heatprod->Version;
+         $version_new=$heatlastduplicateid->Version;
+
+         }
+          //vidhya:09-04-2018
+         //Heat Transfer duplicate function
+         elseif($producttypeid==9)
+         {
+          if($duplicaterecord->PrintedLabelID!= null && $duplicaterecord->PrintedLabelID <> 0)
+          {
+            $printedprod = PrintedLabel::where('id','=',$hookid)->first();
+            //printf($hangprod);exit;
+
+            $printedduplicatedrecord=DB::select('call sp_CRUDprintedlabel(1,'.$duplicaterecord->PrintedLabelID.')');
+            $printedlastduplicateid = PrintedLabel::orderby('id','desc')->first();
+            $printedduplicateid= $printedlastduplicateid->id;
+          }else
+          {
+            $printedduplicateid=0;
+          }
+            $data['boxduplicate'][]=9;
+          $productdetails_insert = ProductDetails::create([
+     'CustomerID'=>$duplicaterecord->CustomerID,
+     'CustomerWareHouseID'=>$duplicaterecord->CustomerWareHouseID,
+        'ProductGroupID' => $duplicaterecord->ProductGroupID,
+        'ProductSubGroupID'=>$duplicaterecord->ProductSubGroupID,
+        'HookID' =>0,
+        'TissuePaperID' =>0,
+        'PackagingStickersID' =>0,
+        'BoxID' => 0,
+        'HangTagsID' =>0,
+        'TapesID' =>0,
+        'ZipperPullersID' =>0,
+        'PrintedLabelID' =>$printedduplicateid,
+        'HeatTransferLabelID' => 0,
+        'SeasonID'=>NULL,
+        'ProductStatusID'=>1,
+        'ProductProcessID'=>$duplicaterecord->ProductProcessID,
+        'ProductionRegionID1'=>$duplicaterecord->ProductionRegionID1,
+        'ProductionRegionID2'=>$duplicaterecord->ProductionRegionID2,
+        'ProductionRegionID3'=>$duplicaterecord->ProductionRegionID3,
+        'ProductionRegionID4'=>$duplicaterecord->ProductionRegionID4,
+        'ProductionRegionID5'=>$duplicaterecord->ProductionRegionID5,
+        'ProductionRegionID6'=>$duplicaterecord->ProductionRegionID6,
+        'ProductionRegionID7'=>$duplicaterecord->ProductionRegionID7,
+        'ProductionRegionID8'=>$duplicaterecord->ProductionRegionID8,
+        'PricingMethod'=>NULL,
+        'CurrencyID'=>NULL,
+        'UnitofMeasurementID'=>NULL,
+        'InventoryID'=>$duplicaterecord->InventoryID,
+        'InventoryName'=>$duplicaterecord->InventoryName,
+        'UniqueFactory1'=>$duplicaterecord->UniqueFactory1,
+        'UniqueFactory2'=>$duplicaterecord->UniqueFactory2,
+        'UniqueFactory3'=>$duplicaterecord->UniqueFactory3,
+        'UniqueFactory4'=>$duplicaterecord->UniqueFactory4,
+        'UniqueFactory5'=>$duplicaterecord->UniqueFactory5,
+        'UniqueFactory6'=>$duplicaterecord->UniqueFactory6,
+        'UniqueFactory7'=>$duplicaterecord->UniqueFactory7,
+        'UniqueFactory8'=>$duplicaterecord->UniqueFactory8,
+        'Brand'=>$duplicaterecord->Brand,
+        'ProgramName'=>$duplicaterecord->ProgramName,
+        'CustomerProductName'=>NULL,
+        'CustomerProductCode'=>NULL,
+        'UniqueProductCode'=>NULL,
+                'Description'=>NULL,
+                'StyleNumber'=>NULL,
+                'Version'=>1,
+        'SampleandQuote'=>$duplicaterecord->SampleandQuote,
+                'MinimumOrderQuantity'=>NULL,
+                'MinimumOrderValue'=>NULL,
+                'PackSize'=>NULL,
+                'SellingPrice'=>NULL,
+                'SampleRequestedDate' =>NULL,
+                'SampleRequestNumber' =>$duplicaterecord->SampleRequestNumber,
+                'NumberOfSamplesRequired' =>NULL,
+        'QuantityMOQ'=>NULL,
+        'Cost'=>NULL,
+        'Suggested_price'=>NULL,
+        'Margin'=>NULL,
+                'Artworkupload' =>$duplicaterecord->Artworkupload,
+                'QuoteRequiredchk' =>$duplicaterecord->QuoteRequiredchk,
+                'QuoteRequired' =>$duplicaterecord->QuoteRequired,
+                'SampleLeadTime' =>NULL,
+                'ProductionLeadTime'=>NULL,
+                'RemarksInstructions' =>$duplicaterecord->RemarksInstructions,
+                'QuoteRequired' =>$duplicaterecord->QuoteRequired,
+                'ReferenceFileUpload' =>$duplicaterecord->ReferenceFileUpload,
+                'QualityReference' =>$duplicaterecord->QualityReference,
+                'Projection' =>NULL,
+                'UniqueFactory1Inventory' =>$duplicaterecord->UniqueFactory1Inventory,
+                'UniqueFactory2Inventory' =>$duplicaterecord->UniqueFactory2Inventory,
+                'Maximumpiecesonstock' =>$duplicaterecord->Maximumpiecesonstock,
+                'Minimumpiecesonstock' =>$duplicaterecord->Minimumpiecesonstock,
+        'ExWorks'=>NULL,
+        'FOB'=>NULL,
+                'status'=>1
+                ]);
+          $version_old=$printedprod->Version;
+         $version_new=$printedlastduplicateid->Version;
+
+         }
+         //vidhya:09-04-2018
+         //Woven duplicate function
+         elseif($producttypeid==7)
+         {
+          if($duplicaterecord->WovenLabelID!= null && $duplicaterecord->WovenLabelID <> 0)
+          {
+            $wovenprod = Woven::where('id','=',$hookid)->first();
+            //printf($hangprod);exit;
+
+            $wovenduplicatedrecord=DB::select('call sp_CRUDwovenlabel(1,'.$duplicaterecord->WovenLabelID.')');
+            $wovenlastduplicateid = Woven::orderby('id','desc')->first();
+            $wovenduplicateid= $wovenlastduplicateid->id;
+          }else
+          {
+            $wovenduplicateid=0;
+          }
+            $data['boxduplicate'][]=9;
+          $productdetails_insert = ProductDetails::create([
+     'CustomerID'=>$duplicaterecord->CustomerID,
+     'CustomerWareHouseID'=>$duplicaterecord->CustomerWareHouseID,
+        'ProductGroupID' => $duplicaterecord->ProductGroupID,
+        'ProductSubGroupID'=>$duplicaterecord->ProductSubGroupID,
+        'HookID' =>0,
+        'TissuePaperID' =>0,
+        'PackagingStickersID' =>0,
+        'BoxID' => 0,
+        'HangTagsID' =>0,
+        'TapesID' =>0,
+        'ZipperPullersID' =>0,
+        'WovenLabelID' =>$wovenduplicateid,
+        'PrintedLabelID' =>0,
+        'HeatTransferLabelID' => 0,
+        'SeasonID'=>NULL,
+        'ProductStatusID'=>1,
+        'ProductProcessID'=>$duplicaterecord->ProductProcessID,
+        'ProductionRegionID1'=>$duplicaterecord->ProductionRegionID1,
+        'ProductionRegionID2'=>$duplicaterecord->ProductionRegionID2,
+        'ProductionRegionID3'=>$duplicaterecord->ProductionRegionID3,
+        'ProductionRegionID4'=>$duplicaterecord->ProductionRegionID4,
+        'ProductionRegionID5'=>$duplicaterecord->ProductionRegionID5,
+        'ProductionRegionID6'=>$duplicaterecord->ProductionRegionID6,
+        'ProductionRegionID7'=>$duplicaterecord->ProductionRegionID7,
+        'ProductionRegionID8'=>$duplicaterecord->ProductionRegionID8,
+        'PricingMethod'=>NULL,
+        'CurrencyID'=>NULL,
+        'UnitofMeasurementID'=>NULL,
+        'InventoryID'=>$duplicaterecord->InventoryID,
+        'InventoryName'=>$duplicaterecord->InventoryName,
+        'UniqueFactory1'=>$duplicaterecord->UniqueFactory1,
+        'UniqueFactory2'=>$duplicaterecord->UniqueFactory2,
+        'UniqueFactory3'=>$duplicaterecord->UniqueFactory3,
+        'UniqueFactory4'=>$duplicaterecord->UniqueFactory4,
+        'UniqueFactory5'=>$duplicaterecord->UniqueFactory5,
+        'UniqueFactory6'=>$duplicaterecord->UniqueFactory6,
+        'UniqueFactory7'=>$duplicaterecord->UniqueFactory7,
+        'UniqueFactory8'=>$duplicaterecord->UniqueFactory8,
+        'Brand'=>$duplicaterecord->Brand,
+        'ProgramName'=>$duplicaterecord->ProgramName,
+        'CustomerProductName'=>NULL,
+        'CustomerProductCode'=>NULL,
+        'UniqueProductCode'=>NULL,
+                'Description'=>NULL,
+                'StyleNumber'=>NULL,
+                'Version'=>1,
+        'SampleandQuote'=>$duplicaterecord->SampleandQuote,
+                'MinimumOrderQuantity'=>NULL,
+                'MinimumOrderValue'=>NULL,
+                'PackSize'=>NULL,
+                'SellingPrice'=>NULL,
+                'SampleRequestedDate' =>NULL,
+                'SampleRequestNumber' =>$duplicaterecord->SampleRequestNumber,
+                'NumberOfSamplesRequired' =>NULL,
+        'QuantityMOQ'=>NULL,
+        'Cost'=>NULL,
+        'Suggested_price'=>NULL,
+        'Margin'=>NULL,
+                'Artworkupload' =>$duplicaterecord->Artworkupload,
+                'QuoteRequiredchk' =>$duplicaterecord->QuoteRequiredchk,
+                'QuoteRequired' =>$duplicaterecord->QuoteRequired,
+                'SampleLeadTime' =>NULL,
+                'ProductionLeadTime'=>NULL,
+                'RemarksInstructions' =>$duplicaterecord->RemarksInstructions,
+                'QuoteRequired' =>$duplicaterecord->QuoteRequired,
+                'ReferenceFileUpload' =>$duplicaterecord->ReferenceFileUpload,
+                'QualityReference' =>$duplicaterecord->QualityReference,
+                'Projection' =>NULL,
+                'UniqueFactory1Inventory' =>$duplicaterecord->UniqueFactory1Inventory,
+                'UniqueFactory2Inventory' =>$duplicaterecord->UniqueFactory2Inventory,
+                'Maximumpiecesonstock' =>$duplicaterecord->Maximumpiecesonstock,
+                'Minimumpiecesonstock' =>$duplicaterecord->Minimumpiecesonstock,
+        'ExWorks'=>NULL,
+        'FOB'=>NULL,
+                'status'=>1
+                ]);
+          $version_old=$wovenprod->Version;
+         $version_new=$wovenlastduplicateid->Version;
+
+         }
          elseif ($producttypeid==3) {
 
             if($duplicaterecord->PackagingStickersID!= "")
@@ -2462,6 +2980,36 @@ $productboxeslastrecordid=DB::select('call sp_CRUDboxes(3,0,0,0,0,0,0,0,0,0,0,0,
       {
        $productdetailsupdate=DB::table('zipperpullers')
             ->where('id',$zipperduplicateid)
+            ->update(['ProductID' =>$productdetails_get->id,
+      ]);
+      }
+    }
+    if($producttypeid==8)
+      {
+      if($heatduplicateid!="" || $heatduplicateid!=NULL || $heatduplicateid<>0)
+      {
+       $productdetailsupdate=DB::table('heattransfer')
+            ->where('id',$heatduplicateid)
+            ->update(['ProductID' =>$productdetails_get->id,
+      ]);
+      }
+    }
+    if($producttypeid==9)
+      {
+      if($printedduplicateid!="" || $printedduplicateid!=NULL || $printedduplicateid<>0)
+      {
+       $productdetailsupdate=DB::table('labelsprinted')
+            ->where('id',$printedduplicateid)
+            ->update(['ProductID' =>$productdetails_get->id,
+      ]);
+      }
+    }
+    if($producttypeid==7)
+      {
+      if($wovenduplicateid!="" || $wovenduplicateid!=NULL || $wovenduplicateid<>0)
+      {
+       $productdetailsupdate=DB::table('labelswoven')
+            ->where('id',$wovenduplicateid)
             ->update(['ProductID' =>$productdetails_get->id,
       ]);
       }

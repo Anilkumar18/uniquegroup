@@ -20,7 +20,7 @@ class User extends Authenticatable
 
     protected $fillable = [
         'customerID', 'userTypeID', 'countryID', 'regionID', 'addressID', 'is_sys_admin', 'userName',
-        'email', 'is_sys_admin', 'is_sys_admin', 'email', 'password', 'companyName',
+        'email', 'is_sys_admin', 'is_sys_admin', 'email', 'password','Visible_password', 'companyName',
         'firstName', 'lastName', 'phone', 'status'
     ];
 

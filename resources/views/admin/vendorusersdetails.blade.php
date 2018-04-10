@@ -97,8 +97,12 @@
                     <td class="table_user">{{$users_list->userName}}</td>
                     </tr>
                     <tr>
+                        <!-- //vidhya-31-03-2018
+//show password -->
                     <td>Password</td>
-                    <td >****</td>
+                    <?php $output=\app\Customers::getuserpassword($users_list->Email); ?>
+                    <td><input type="password" id="pwd" value="{{$output}}">
+<button onclick=showpwd() type="button"><img src="https://i.stack.imgur.com/Oyk1g.png" id="EYE"></button></td>
                     </tr>
                     <tr>
                     <td class="table_user">User Type</td>

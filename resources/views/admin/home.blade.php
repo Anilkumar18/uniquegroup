@@ -3,121 +3,12 @@
 
 @section('content')
 
+
 <style>
-
-.dashboard-mainimg {
-
-    width: 100%;
-
-    height: auto;
-
-}
-
-.dropbtn {
-
-    background-color: #00AEEF;
-
-    color: white;
-
-    padding: 4px;
-
-    font-size: 13px;
-
-    border: none;
-
-    cursor: pointer;
-
-	width: 160px;
-
-	height:32px;
-
-	border-radius: 5px;
-
-	padding: 4px;
-
-	margin-top: 12px;
-
-}
-
-
-
-.dropdown {
-
-    position: relative;
-
-    display: inline-block;
-
-}
-
-
-
-.dropdown-content {
-
-    display: none;
-
-    position: absolute;
-
-    background-color: #0095cd;
-
-    min-width: 160px;
-
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-
-    z-index: 1;
-
-	color:white;
-
-}
-
-
-
-.dropdown-content a {
-
-    color: black;
-
-    padding: 4px 16px;
-
-    text-decoration: none;
-
-    display: block;
-
-	font-size: 13px;
-
-}
-
-
-
-.dropdown-content a:hover {background-color: #00AEEF}
-
-
-
-.dropdown:hover .dropdown-content {
-
-    display: block;
-
-}
-
-
-
-.dropdown:hover .dropbtn {
-
-    background-color: #00AEEF;
-
-}
-
-.dropdown-content.drop a {
-
-    color: #fff;
-
-}
-
-.dropdown-content.drop a:hover{
-
-	background-color:#457093;
-
-}
+.form-group .dropdown {margin: 0 1.33%;	font-size: 12px; padding: 2px; line-height: 14px;}
 
 </style>
+
 
 <?php
 $productgrouplist=App\ProductGroup::where('status','=',1)->orderBy('id','ASC')->get();
@@ -136,7 +27,7 @@ $productgrouplist=App\ProductGroup::where('status','=',1)->orderBy('id','ASC')->
 
            <div class="form-group">
 
-              <div class="dropdown col-lg-2">
+              <div class="dropdown col-lg-3">
 
              
 
@@ -188,7 +79,7 @@ $productgrouplist=App\ProductGroup::where('status','=',1)->orderBy('id','ASC')->
 
              
 
-                          <button class="dropbtn">Product Maintenance &nbsp; <span class="fa fa-chevron-down"></span></button>
+                          <button class="dropbtn">Customer Product Maintenance &nbsp; <span class="fa fa-chevron-down"></span></button>
 
                           <div class="dropdown-content drop" align="center">
 
@@ -214,7 +105,7 @@ $productgrouplist=App\ProductGroup::where('status','=',1)->orderBy('id','ASC')->
 
               </div>
 
-              <div class="dropdown col-lg-2">
+              <div class="dropdown col-lg-3">
 
                     <a href="{{  url(route('admin.productdevelopmenthome')) }}"><button class="dropbtn">PDM Maintenance&nbsp; <span class="fa fa-chevron-down"></span></button></a>
 
@@ -235,6 +126,21 @@ $productgrouplist=App\ProductGroup::where('status','=',1)->orderBy('id','ASC')->
                                              
 
               </div>
+              <!--<div class="dropdown col-lg-2">
+
+             
+
+                          <button class="dropbtn">Ecommerce Product Maintenance &nbsp; <span class="fa fa-chevron-down"></span></button>
+
+                          <div class="dropdown-content drop" align="center">
+                             
+                              @foreach($productgrouplist as $groupdetails)
+                         <a href="{{url(route('ecommercemaintenance.home'))}}">{{$groupdetails->ProductGroup}}</a>
+                         @endforeach
+
+                          </div>                      
+
+              </div>-->
 
            </div>
            

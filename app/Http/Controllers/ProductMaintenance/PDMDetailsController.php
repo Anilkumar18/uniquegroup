@@ -39,7 +39,48 @@ use Illuminate\Support\Facades\Input;
 
 use App\UserType;
 
+use App\PrintedLabel;
+
+use App\ProductGroup;
+
+use App\ProductDevelopmentFields;
+
 use Session;
+
+
+use App\Inventory;
+
+use App\UniqueOffices;
+
+use App\Quote;
+
+use App\Boxes;
+
+use App\Hook;
+
+use App\Tissuepaper;
+
+use App\PackagingStickers;
+
+use App\Tapes;
+
+use App\ZipperPullers;
+
+use App\ProductSubGroup;
+
+use App\HangTags;
+
+use Intervention\Image\Facades\Image as Image;
+
+use Illuminate\Http\UploadedFile;
+
+
+use File;
+use URL;
+
+use App\Woven;
+
+use App\HeatTransfer;
 
 class PDMDetailsController extends Controller
 {
@@ -80,7 +121,8 @@ class PDMDetailsController extends Controller
 
         return view('admin.pdmproductdetails', compact('user','mktdetails','productdetaillist','columnsname','usertype'));
     }
-
+/*vidhya-03-04-2018
+viewprinted label*/
 public function ProductDetailSelect(Request $request ,$id)
     {
      
@@ -90,8 +132,8 @@ public function ProductDetailSelect(Request $request ,$id)
        
         $productdetails_data = ProductDetailFields::where('id', '=', $id)->first();
       
-
-       return view('productmaintenance.viewpdmdetails', compact('user','productdetails_data','usertype'));
+        $productdetails_view = ProductDetails::where('id','=',$id)->first();
+       return view('productmaintenance.viewpdmdetails', compact('user','productdetails_data','usertype','productdetails_view'));
     }
 
     public function ProductDetaildelete(Request $request)
@@ -270,5 +312,154 @@ $user = Auth::user();
       return view('productmaintenance.home', compact('user','usertype','productdetails','zippercolordetails','customerid','carestatus'));
 
     }
+
+    /*vidhya:03-04-2018
+    image printed label*/
+    
+  public function getprintedimg(Request $request, $id) {
+
+      $productid = PrintedLabel::find($id);
+
+      $filePath = base_path()."/storage/app/".$productid->Artwork; 
+        header('Content-type: image/jpeg');
+        $img = Image::make($filePath);
+        return $img->response('jpg');
+
+  }
+
+  public function editcustomerproduct(Request $request,$id)
+  {
+   $user = Auth::user();
+         $usertype = UserType::where('id', '=', $user->userTypeID)->first();
+      
+        $productdetails_data = ProductDetailFields::where('id', '=', $id)->first();
+      
+        $productdetails_view = ProductDetails::where('id','=',$id)->first();
+       return view('productmaintenance.edit_customerproductlist', compact('user','productdetails_data','usertype','productdetails_view'));
+
+          
+    
+    
+  }
+
+  public function Updateprocessproductsdetails(Request $request)
+  {
+    $user = Auth::user();
+  
+   $usertype = UserType::where('id', '=', $user->userTypeID)->first();
+    
+   $input = Input::all();
+
+   if(isset($request->productid)){
+
+  $printed = PrintedLabel::find($request->productid);
+
+
+if($printed) {
+ 
+$path = '/data/product';
+
+        File::isDirectory($path) or File::makeDirectory($path, 0777, true, true);
+
+
+         $imgInp = Input::file('imgInpsample');
+
+        if($imgInp!='')
+                {
+                echo $destinationPath = $path;
+              echo $imgInp_filename=$imgInp->storeAs($destinationPath,$imgInp->getClientOriginalName());              
+
+        }else{
+          if($request->existingimage){
+               $imgInp_filename=$request->existingimage;              
+
+          }else{
+               $imgInp_filename='';             
+
+     }
+        }
+
+  
+ 
+ $printed->Width=$request->width;
+
+
+ $printed->SewSpaceID =isset($request->SewSpace)?implode(',',$request->SewSpace):'';
+ $printed->Length=$request->length;
+ $printed->InkColor1=$request->inkcolor1;
+ $printed->InkColor2=$request->inkcolor2;
+ $printed->InkColor3=$request->inkcolor3;
+ $printed->InkColor4=$request->inkcolor4;
+
+  
+  $printed->PrinttypeID=$request->printtypeID1;
+
+  
+    
+  $printed->Artwork  = $imgInp_filename;
+
+
+    $printed->save();
+}
+}
+ $ProductDetails = ProductDetails::find($request->editID);
+
+// Make sure you've got the Page model
+if($ProductDetails) {
+
+  $ProductDetails->SeasonID=$request->Seasonname;
+
+
+  $ProductDetails->ProductProcessID = $request->Productprocess;
+  
+  $ProductDetails->UnitofMeasurementID = $request->unitofmeasurement;
+  $ProductDetails->InventoryID  = $request->Inventory;
+$ProductDetails->Brand  = $request->brand;
+
+  $ProductDetails->CustomerProductName  = $request->customerproductname;
+  $ProductDetails->CustomerProductCode  = $request->customerproductcode;
+  $ProductDetails->UniqueProductCode  = $request->Unique_Product;
+  $ProductDetails->Description   = $request->description;
+  $ProductDetails->ProgramName  = $request->program_name;
+
+  $ProductDetails->Maximumpiecesonstock=$request->maximumstock;
+  $ProductDetails->Minimumpiecesonstock=$request->minimumstock;
+  $ProductDetails->ProductionRegionID1=$request->inventoryProductionRegions1;
+
+  $ProductDetails->UniqueFactory1= $request->inventoryuniquefactory1;
+
+  
+
+  $ProductDetails->ProductionRegionID2=$request->inventoryProductionRegions2;
+
+$ProductDetails->UniqueFactory2= $request->inventoryuniquefactory2;
+
+  
+
+  $ProductDetails->ProductionRegionID3=$request->inventoryProductionRegions3;
+
+  $ProductDetails->UniqueFactory3= $request->inventoryuniquefactory3;
+
+  $ProductDetails->CurrencyID = $request->Currency;
+
+
+
+  $ProductDetails->MinimumOrderQuantity= $request->mininumorderqua;
+  $ProductDetails->MinimumOrderValue= $request->minimumorderval;
+  $ProductDetails->PackSize= $request->packsize;
+  $ProductDetails->SellingPrice= $request->samplecost;
+  $ProductDetails->Projection = $request->projection;
+  
+  $ProductDetails->ProductstatusID  = $request->statusid;
+//$productdetails->Version = $request->version+1;
+
+$ProductDetails->save();
+$lastinsertid=$ProductDetails->id;
+
+}  
+$request->session()->flash('success', 'CustomerProductdetails Updated successfully.');
+  
+ return redirect()->back();
+  }
     
 }

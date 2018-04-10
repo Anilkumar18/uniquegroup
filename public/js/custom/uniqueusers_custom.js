@@ -264,6 +264,21 @@ function usertypetrigger()
 			}	
 	 
  	});
+ 	//vidhya-02-04-2018
+//show password
+  function showpwd() {
+
+var a=document.getElementById("pwd");
+var b=document.getElementById("EYE");
+if (a.type=="password")  {
+a.type="text";
+b.src="https://i.stack.imgur.com/waw4z.png";
+}
+else {
+a.type="password";
+b.src="https://i.stack.imgur.com/Oyk1g.png";
+}
+} 
 	/*
 	$(".deactivateuniqueuser").click(function(){
 		

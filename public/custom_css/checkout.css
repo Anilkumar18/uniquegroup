@@ -1,0 +1,49 @@
+.tabs-container .panel-body {
+    background: #fff !important;
+    border: 1px solid #1ab394 !important;
+    border-radius: 2px !important;
+    padding: 20px !important;
+    position: relative !important;
+	//border-top: none !important;
+}
+/*.tabs-container .nav-tabs {
+    border-bottom: 1px solid #1ab394 !important;
+} */
+.tabs-container .nav-tabs > li.active > a, .tabs-container .nav-tabs > li.active > a:hover, .tabs-container .nav-tabs > li.active > a:focus {
+    border: 1px solid #1ab394 !important;
+    border-bottom-color: transparent !important;
+}
+.tabs-container .nav-tabs > li a:hover {
+    background: transparent !important;
+    border-color: transparent !important;
+    background: #1ab394 !important;
+    color: white !important;
+}
+.nav-tabs > li > a {
+    font-weight: 600 !important;
+    padding: 10px 20px 10px 25px !important;
+    border: solid 1px #1ab394 !important;	
+	color:#2d2d2d !important;
+	position: relative !important;
+    top: 2px !important;
+}
+.nav-tabs > li.active > a {
+    color: white !important;
+    font-weight: 600 !important;
+    background: #1ab394 !important;
+    padding: 10px 20px 10px 25px !important;
+}
+
+.margiontopnew {
+    margin-top: 7px !important;
+}
+
+.seperater{
+       margin: 25px;
+    border-bottom: 1px dotted #18446d;
+}
+
+.panel-body.panel_orderlist .fontsize {font-size: 21px; font-weight: 600; color: #353535; line-height: 48px;}
+.sub_heading.margiontop {margin-top: 15px; float: left; width: 100%; font-size: 16px; font-weight: 800; color: #888; padding-left:15px; line-height: 48px;}
+.row.margiontop .col-xs-8 .margiontop {position: relative; left: -15px;}
+.step-content .row {margin-bottom: 15px;}

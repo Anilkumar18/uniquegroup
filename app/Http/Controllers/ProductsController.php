@@ -2521,6 +2521,26 @@ $inven_productfielddetails=ProductDetailFields::where('status','=',1)->where('ca
                 $fielddetailslist = DB::table($table)->get();
                 $fieldname=$list->columnfieldname;
                 $listoffieldname=$list->fieldname;
+                if($list->columnfieldname=='LanguageName'){ ?>
+<div class="printcolorhidden <?php echo strtolower($list->columnfieldname).'blk'; ?>" <?php if($list->hide==2){?> style="display: none;" <?php } ?>><label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo $listoffieldname; ?>:<?php if($list->isvalid==1) {?><span class="required">*</span><?php } ?></label>
+                   <div class="col-lg-10">
+                 <select multiple="multiple" id="<?php echo $list->columnfieldname; ?>" <?php if($list->isvalid==1){ ?> required <?php } ?> name="<?php echo $list->columnfieldname; ?>[]" class="form-control dropdownwidth <?php echo strtolower($list->columnfieldname); ?>">
+                  <?php foreach ($fielddetailslist as $fielddetails){ ?>
+                           
+                         
+                         
+<?php $processlan=explode('/', $fielddetails->$fieldname);$languset='';
+foreach ($processlan as $lanvalue) {
+	$languset.=strtoupper(substr($lanvalue, 0, 3)).',';
+}
+ ?>
+              
+              <option value="<?php echo $fielddetails->id; ?>" data-lang="<?php echo rtrim($languset,','); ?>"><?php echo $fielddetails->$fieldname; ?></option>
+                          <?php } ?>
+</select>
+                </div></div>
+
+                <?php }else{
                  ?>
 
                  <div class="printcolorhidden <?php echo strtolower($list->columnfieldname).'blk'; ?>" <?php if($list->hide==2){?> style="display: none;" <?php } ?>><label class="col-lg-2 control-label font-noraml text-left label_font"><?php echo $listoffieldname; ?>:<?php if($list->isvalid==1) {?><span class="required">*</span><?php } ?></label>
@@ -2540,7 +2560,7 @@ foreach ($processlan as $lanvalue) {
                           <?php } ?>
 
                 </div></div>
-                <?php
+                <?php }
                 }else if($list->checkbox!="" && $list->checkboxvalue!=''){ ?>
 
 <div class="printcolorhidden">

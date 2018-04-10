@@ -1,10 +1,49 @@
  $(document).ready(function() { 
 
+var deliveryvalidator =$( "#deliveryinstradd" ).validate({
+  rules: {
+     customerOrdernum : {
+    required: true
+  },
+ 
+   payingParty : {
+    required: true
+  },
+deliveryTo : {
+    required: true
+  },
+  billtoAddress : {
+    required: true
+  },
+  contact : {
+    required: true
+  },
+ emailAddress : {
+    required: true
+  },
+  deliveryMethod : {
+    required: true
+  },
+  confirmdetails : {
+    required: true
+  },
+  acceptTerms : {
+    required: true
+  },
+
+deliveryDate:{
+   required: true
+}
+}
+}); 
+
 $(".dropdownwidth").select2({
                 placeholder: "Please Select"
             });
 
-$('#example1').DataTable();
+$('#example1').DataTable({
+            "pageLength": 25
+        });
 
 $('.quantitycls').change(function(){
 	var tt=$(this).val();
@@ -49,7 +88,7 @@ var phtml='<table id="colortable" class="table table-bordered" style="background
 for(var i=0;i<plen;i++){
 var phtm=$('#zipperimgsrc').html()+'/'+messagedet[0]['zipcolorid'][i];
 	
-	phtml+='<tr class="gradeX"><td class="zippercolorimg colorimg" id="colorimg"><img width="200px" height="30px" src="'+phtm+'"></td><td><input id="zipperColor" name="zipperColor[]" type="hidden" class="form-control" value="1">'+messagedet[0]['zipcolorcolor'][i]+'</td><td><input id="quantity" name="quantity[]" type="text" class="form-control quantitycls"></td></tr>';
+	phtml+='<tr class="gradeX"><td class="zippercolorimg colorimg" id="colorimg"><img width="200px" height="30px" src="'+phtm+'"></td><td><input id="zipperColor" name="zipperColor[]" type="hidden" class="form-control" value="1">'+messagedet[0]['zipcolorcolor'][i]+'</td><td><input id="quantity" name="sizeQuanity[]" type="text" class="form-control quantitycls"></td></tr>';
 
 
 }
@@ -72,15 +111,29 @@ $(this).val(tt);
 }
 
 if(('#careenable').length){
+    fngetfabriccompositiondetails($(this).val());
     var href=$("#pageurl").val()+'/getcaredetails/ajax/'+$(this).val();
           $.ajax({
                     url: href,
                     type: "GET",
                     dataType: "json",
                     success:function(data) {
+                        
 var messagedet=data;
 var Exclusive='';
-$('#countryoforigin').val(messagedet[0]['CountryofOriginID']);
+if(messagedet[0]['CountryofOriginID']){
+var phtml='<option></option>';
+for(var i=0;i<data[0]['CountryofOriginID'].length;i++){
+
+    
+    phtml+='<option value="'+data[0]['CountryofOriginID'][i]+'">'+data[0]['CountryofOriginID'][i]+'</option>';
+
+
+}
+}
+$('#countryOfOrigin').html(phtml);
+
+//$('#countryoforigin').val(messagedet[0]['CountryofOriginID']);
 if(messagedet[0]['ExclusiveofTrimmings']!=''){
 Exclusive+='<div class="col-sm-6"><div class="form-group" style="padding-left:0px;"><label class="col-lg-4 control-label font-bold" style="margin-left: -14px;"><strong>Exclusive Of Trims</strong></label><div class="col-lg-2"><input type="hidden" id="trim" name="ExclusiveofTrimmings" value="1"><input type="text" id="trimval" name="trimval" value="YES" disabled="disabled" class="form-control trimtxtbox"></div></div></div>';
 }
@@ -105,7 +158,7 @@ if(letersizearray.length>0){phtml+='<tr class="gradeX"><td class="" id="" colspa
 for(var i=0;i<letersizearray.length;i++){
 
     
-    phtml+='<tr class="gradeX"><td class="" id="">'+letersizearray[i]+'</td><td><input id="quantity" name="quantity[]" type="text" class="form-control quantitycls"></td></tr>';
+    phtml+='<tr class="gradeX"><td class="" id="">'+letersizearray[i]+'</td><td><input id="quantity" name="sizeQuanity[]" type="text" class="form-control quantitycls"></td></tr>';
 
 
 }
@@ -116,7 +169,7 @@ if(numbersizearray.length>0){phtml+='<tr class="gradeX"><td class="" id="" colsp
 for(var i=0;i<numbersizearray.length;i++){
 
     
-    phtml+='<tr class="gradeX"><td class="" id="">'+numbersizearray[i]+'</td><td><input id="quantity" name="quantity[]" type="text" class="form-control quantitycls"></td></tr>';
+    phtml+='<tr class="gradeX"><td class="" id="">'+numbersizearray[i]+'</td><td><input id="quantity" name="sizeQuanity[]" type="text" class="form-control quantitycls"></td></tr>';
 
 
 }
@@ -127,7 +180,7 @@ if(brasizearray.length>0){phtml+='<tr class="gradeX"><td class="" id="" colspan=
 for(var i=0;i<brasizearray.length;i++){
 
     
-    phtml+='<tr class="gradeX"><td class="" id="">'+brasizearray[i]+'</td><td><input id="quantity" name="quantity[]" type="text" class="form-control quantitycls"></td></tr>';
+    phtml+='<tr class="gradeX"><td class="" id="">'+brasizearray[i]+'</td><td><input id="quantity" name="sizeQuanity[]" type="text" class="form-control quantitycls"></td></tr>';
 
 
 }
@@ -138,18 +191,18 @@ if(toddlersizearray.length>0){phtml+='<tr class="gradeX"><td class="" id="" cols
 for(var i=0;i<toddlersizearray.length;i++){
 
     
-    phtml+='<tr class="gradeX"><td class="" id="">'+toddlersizearray[i]+'</td><td><input id="quantity" name="quantity[]" type="text" class="form-control quantitycls"></td></tr>';
+    phtml+='<tr class="gradeX"><td class="" id="">'+toddlersizearray[i]+'</td><td><input id="quantity" name="sizeQuanity[]" type="text" class="form-control quantitycls"></td></tr>';
 
 
 }
 }
 if(messagedet[0]['PantsSizes']){
 var pantsizearray = messagedet[0]['PantsSizes'].split('#');
-if(pantsizearray.length>0){phtml+='<tr class="gradeX"><td class="" id="" colspan="2"><b>Pants Size</b></td>></tr>';}
+if(pantsizearray.length>0){phtml+='<tr class="gradeX"><td class="" id="" colspan="2"><b>Pants Size</b></td></tr>';}
 for(var i=0;i<pantsizearray.length;i++){
 
     
-    phtml+='<tr class="gradeX"><td class="" id="">'+pantsizearray[i]+'</td><td><input id="quantity" name="quantity[]" type="text" class="form-control quantitycls"></td></tr>';
+    phtml+='<tr class="gradeX"><td class="" id="">'+pantsizearray[i]+'</td><td><input id="quantity" name="sizeQuanity[]" type="text" class="form-control quantitycls"></td></tr>';
 
 
 }
@@ -176,25 +229,33 @@ $(this).val(tt);
 
 $('#materical_select').click(function(){
 if($(this).is(':checked')){
-$('.fabricdetails').show();
+$('#fibremyModallink').modal('show');
+$('#garmentstatus').val('');
+$('#garmenttext').val('');
 }
-if(!$(this).is(':checked')){
-$('.fabricdetails').hide();
+if(!$(this).is(':checked')){ $('#fabriccompositionstatus').val('');
+var fabpopdiv=$('#fibremyModallink');
+fabpopdiv.find('.selectedfabric').val('');
+fabpopdiv.find('.checkdecimal').val('0').attr('readonly','readonly');
+fabpopdiv.find('#GarmentFibrePerctotal').val('0').attr('readonly','readonly');
+fabpopdiv.find("option:selected").prop("selected", false);
 }
 });
-
+$('#garmentfibrebtn').click(function(){
+    $('#fibremyModallink').modal('show');
+});
 
 $('#materical_garselect').click(function(){
 if($(this).is(':checked')){
-$('.garmentdetails').show();
+$('#garmentselectdiv').show();
 }
 if(!$(this).is(':checked')){
-$('.garmentdetails').hide();
+$('#garmentselectdiv').hide();
 }
 });
 
 
- $('.GarmentComponents').change(function() {
+ $('.GarmentComponents1').change(function() {
     var lang=$('#languset').val();
     var fabrichref=$("#pageurl").val()+'/getgarmentfabric/'+lang;
 
@@ -231,6 +292,409 @@ $(this).parent().parent().remove();
     
 });
 
+ $('.checkdecimal').change(function(){
+var valtotal=0;
+
+$('.checkdecimal').each(function() {
+
+var inputn = $(this);
+  valtotal= (isNaN(parseInt(inputn.val()))) ? 0 : parseInt(inputn.val())+parseInt(valtotal);
+
+});
+if(valtotal==100){
+  
+        $("#GarmentFibrePerctotal").css("background-color", "green");
+        $("#GarmentFibrePerctotal").css("color", "white");
+  
+    }else{
+     
+      $("#GarmentFibrePerctotal").css("background-color", "#ff6532");
+      $("#GarmentFibrePerctotal").css("color", "white");
+      
+      }
+
+$('#GarmentFibrePerctotal').val(valtotal);
+ });
+$(".removegarmentfibre").click(function(){
+
+var pp=$(this).parent().parent();
+        //$('#GarmentFibrePerc1').val('');
+        //$('#GarmentFibrePerc1').val(0);
+        
+   pp.find('.selectedfabric').val('');     
+        var input1 = (isNaN(parseInt(pp.find('.checkdecimal').val()))) ? 0 : parseInt(pp.find('.checkdecimal').val());
+        var firsttotl=parseInt($('#GarmentFibrePerctotal').val());
+        var firsttotlres1=firsttotl - input1;
+        if(isNaN(firsttotlres1)) {
+        $('#GarmentFibrePerctotal').val('');
+        }
+        else{
+        $('#GarmentFibrePerctotal').val(firsttotlres1);
+        }
+pp.find('.checkdecimal').val(0).attr('readonly','readonly');
+    });
+
+$("#garmentcomponentbtn").click(function(){
+$('.divgarmentselect').show();
+
+});
+
+$('#GarmentComponents').change(function(){
+    if($(this).val()){ 
+$('#fibremyModallink').modal('show');
+var fabpopdiv=$('#fibremyModallink');
+fabpopdiv.find('.selectedfabric').val('');
+fabpopdiv.find('.checkdecimal').val('0').attr('readonly','readonly');
+fabpopdiv.find('#GarmentFibrePerctotal').val('0').attr('readonly','readonly');
+fabpopdiv.find("option:selected").prop("selected", false);
+fabpopdiv.find('#garmentstatus').val(1);
+fabpopdiv.find('#garmenttext').val($('#GarmentComponents option:selected').text());
+}
+});
+
+$('.garfibdelete').click(function(){ 
+    var type=$(this).attr('data-type');
+    if(type=='fabric'){$('#fabriccompositionstatus').val('');}
+    $(this).parent().parent().html('');
+    var fabpopdiv=$('#fibremyModallink');
+fabpopdiv.find('.selectedfabric').val('');
+fabpopdiv.find('.checkdecimal').val('0').attr('readonly','readonly');
+fabpopdiv.find('#GarmentFibrePerctotal').val('0').attr('readonly','readonly');
+fabpopdiv.find("option:selected").prop("selected", false);
+$('#materical_select').attr('checked',false);
+fngetfabriccompositiondetails($('#producttype').val());
+});
+
+/*vidhya:06-04-2018*/
+
+ $("#addresssubmit").click(function(){ 
+    
+    var href=$('#addressurl').val();  
+    
+    var deliveryaddress=$('#deliveryaddress').val();    
+    
+
+    $.ajax({               
+                url      : href,
+                type     : 'get',
+                data     : {deliveryaddress:deliveryaddress},
+                cache    : false,
+                success  : function(data){
+                   
+                var message = JSON.parse(data);     
+                var pLen,i;
+                pLen=message[0].length;             
+                $('.logoutSucc').text('Delivery address added successfully');
+                $(".logoutSucc").addClass("box-success");
+                $(".logoutSucc").removeClass("box_warning");
+                
+               debugger;
+               var pscodehtml='<div class="form-group"><div class="col-lg-12 add_addresss"><select name="deliveryTo" id="deliveryTo" class="form-control empty_textbox dropdownwidth"><option value="">Please select a Delivery Address</option>';
+                                 
+                for (i=0;i<pLen;i++){
+                    if(message[0][i]['DeliveryAddress']!='') {
+                    pscodehtml+='<option value="'+message[0][i]['id']+'">'+message[0][i]['DeliveryAddress']+'</option>';
+                    }     
+                }
+                debugger;
+                pscodehtml+='</select></div></div>';
+                $('.add_addresss').html(pscodehtml);
+                $('#deliveryTo').val(deliveryaddress);
+                    $(".dropdownwidth").select2({
+                placeholder: "Please Select"
+            });            
+                }
+                
+        });
+
+    });
+
+    $("#billsubmit").click(function(){ 
+    
+    var href=$('#addressurl1').val();  
+    
+    var billaddress=$('#billaddress').val();    
+    
+
+    $.ajax({               
+                url      : href,
+                type     : 'get',
+                data     : {billaddress:billaddress},
+                cache    : false,
+                success  : function(data){
+                   
+                var message = JSON.parse(data);     
+                var pLen,i;
+                pLen=message[0].length;             
+                $('.logoutSucc').text('Bill address added successfully');
+                
+                debugger;
+               var pscodehtml='<div class="form-group"><div class="col-lg-12 add_addresss"><select name="billtoAddress" id="billtoAddress" class="form-control empty_textbox dropdownwidth"><option value="">Please select a Bill Address</option>';
+               
+                for (i=0;i<pLen;i++){
+                    if(message[0][i]['BillAddress']!='') {
+                    pscodehtml+='<option value="'+message[0][i]['id']+'">'+message[0][i]['BillAddress']+'</option>';
+                    }     
+                }
+                debugger;
+                pscodehtml+='</select></div></div>';
+                $('.add_billaddress').html(pscodehtml);
+                $('#billtoAddress').val(billaddress);
+                    $(".dropdownwidth").select2({
+                placeholder: "Please Select"
+            });                 
+                }
+                
+        });
+
+    });
+
+    $("#dmethodsubmit").click(function(){ 
+    
+    var href=$('#addressurl2').val();  
+    
+    var dmethod=$('#dmethod').val();    
+    
+
+    $.ajax({               
+                url      : href,
+                type     : 'get',
+                data     : {dmethod:dmethod},
+                cache    : false,
+                success  : function(data){
+                   
+                var message = JSON.parse(data);     
+                var pLen,i;
+                pLen=message[0].length;             
+                $('.logoutSucc').text('Delivery Method added successfully');
+                
+                debugger;
+               var pscodehtml='<div class="form-group"><div class="col-lg-12 add_addresss"><select name="deliveryMethod" id="deliveryMethod" class="form-control empty_textbox dropdownwidth"><option value="">Please select a Delivery method</option>';
+               
+                for (i=0;i<pLen;i++){
+                    if(message[0][i]['OrderDeliveryMethod']!='') {
+                    pscodehtml+='<option value="'+message[0][i]['id']+'">'+message[0][i]['OrderDeliveryMethod']+'</option>';
+                    }     
+                }
+                debugger;
+                pscodehtml+='</select></div></div>';
+                $('.dmethod_field').html(pscodehtml);
+                $('#deliveryMethod').val(dmethod);
+                    $(".dropdownwidth").select2({
+                placeholder: "Please Select"
+            });    
+                
+                                 
+                }
+                
+        });
+
+    });
+
+    $("#AccNosubmit").click(function(){ 
+    
+    var href=$('#addressurl3').val();  
+    
+    var DelaccNo=$('#DelaccNo').val();    
+    
+
+    $.ajax({               
+                url      : href,
+                type     : 'get',
+                data     : {DelaccNo:DelaccNo},
+                cache    : false,
+                success  : function(data){
+                   
+                var message = JSON.parse(data);     
+                var pLen,i;
+                pLen=message[0].length;             
+                $('.logoutSucc').text('Delivery Account Number added successfully');
+                
+               debugger;
+               var pscodehtml='<div class="form-group"><div class="col-lg-12 add_addresss"><select name="deliveryAccountNo" id="deliveryAccountNo" class="form-control empty_textbox dropdownwidth"><option value="">Please select a Delivery Account No</option>';
+               
+                for (i=0;i<pLen;i++){
+                    if(message[0][i]['DeliveryAccountNo']!='') {
+                    pscodehtml+='<option value="'+message[0][i]['id']+'">'+message[0][i]['DeliveryAccountNo']+'</option>';
+                    }     
+                }
+                debugger;
+                pscodehtml+='</select></div></div>';
+                $('.accno_field').html(pscodehtml);
+                $('#deliveryAccountNo').val(DelaccNo);
+                   $(".dropdownwidth").select2({
+                placeholder: "Please Select"
+            }); 
+                
+                                 
+                }
+                
+        });
+
+    });
+
+
+
+    $(".deleteaddress").click(function(){
+        var ID=$('#deliveryTo :selected').val();
+
+        var href=$(this).data("href");
+        
+        debugger;
+     $.ajax({              
+                url      : href,
+                type     : 'get',
+                data     : {ID:ID},
+                cache    : false,
+                success  : function(data){
+                var message = JSON.parse(data);
+                var pLen,i;
+                pLen=message[0].length;
+                debugger
+                $('.logoutSucc').text('Address deleted successfully.');
+                $(".logoutSucc").addClass("box_warning");
+                $('.add_addresss').empty();
+                debugger
+                var pscodehtml='<div class="form-group"><div class="col-lg-12"><select name="deliveryTo" id="deliveryTo" class="form-control empty_textbox dropdownwidth"> <option value="">Please select a Delivery Address</option>';
+                for (i=0;i<pLen;i++){
+                    if(message[0][i]['DeliveryAddress']!='') {
+                    pscodehtml+='<option value="'+message[0][i]['id']+'">'+message[0][i]['DeliveryAddress']+'</option>';
+                    }
+                }debugger
+                pscodehtml+='</select></div></div>';
+                
+                
+                $('.add_addresss').html(pscodehtml);           
+                $('#deliveryTo').val('');  
+                $(".dropdownwidth").select2({
+                placeholder: "Please Select"
+            });           
+                }
+            }); 
+        
+        
+      });
+
+    $(".deleteaddressB").click(function(){
+        var ID=$('#billtoAddress :selected').val();
+
+        var href=$(this).data("href");
+        
+        debugger;
+     $.ajax({              
+                url      : href,
+                type     : 'get',
+                data     : {ID:ID},
+                cache    : false,
+                success  : function(data){
+                var message = JSON.parse(data);
+                var pLen,i;
+                pLen=message[0].length;
+                debugger
+                $('.logoutSucc').text('Bill Address deleted successfully.');
+                $(".logoutSucc").addClass("box_warning");
+                $('.add_billaddress').empty();
+                debugger
+                var pscodehtml='<div class="form-group"><div class="col-lg-12"><select name="billtoAddress" id="billtoAddress" class="form-control empty_textbox dropdownwidth"> <option value="">Please select a Delivery Address</option>';
+                for (i=0;i<pLen;i++){
+                    if(message[0][i]['BillAddress']!='') {
+                    pscodehtml+='<option value="'+message[0][i]['id']+'">'+message[0][i]['BillAddress']+'</option>';
+                    }
+                }debugger
+                pscodehtml+='</select></div></div>';
+                
+                
+                $('.add_billaddress').html(pscodehtml);           
+                $('#billtoAddress').val('');  
+                $(".dropdownwidth").select2({
+                placeholder: "Please Select"
+            });           
+                }
+            }); 
+        
+        
+      });
+
+    $(".deletemethod").click(function(){
+        var ID=$('#deliveryMethod :selected').val();
+
+        var href=$(this).data("href");
+        
+        debugger;
+     $.ajax({              
+                url      : href,
+                type     : 'get',
+                data     : {ID:ID},
+                cache    : false,
+                success  : function(data){
+                var message = JSON.parse(data);
+                var pLen,i;
+                pLen=message[0].length;
+                debugger
+                $('.logoutSucc').text('Delivery Method deleted successfully.');
+                $(".logoutSucc").addClass("box_warning");
+                $('.dmethod_field').empty();
+                debugger
+                var pscodehtml='<div class="form-group"><div class="col-lg-12"><select name="deliveryMethod" id="deliveryMethod" class="form-control empty_textbox dropdownwidth"> <option value="">Please select a Delivery Address</option>';
+                for (i=0;i<pLen;i++){
+                    if(message[0][i]['OrderDeliveryMethod']!='') {
+                    pscodehtml+='<option value="'+message[0][i]['id']+'">'+message[0][i]['OrderDeliveryMethod']+'</option>';
+                    }
+                }debugger
+                pscodehtml+='</select></div></div>';
+                
+                
+                $('.dmethod_field').html(pscodehtml);           
+                $('#deliveryMethod').val('');  
+                $(".dropdownwidth").select2({
+                placeholder: "Please Select"
+            });           
+                }
+            }); 
+        
+        
+      });
+
+    $(".deleteaccno").click(function(){
+        var ID=$('#deliveryAccountNo :selected').val();
+
+        var href=$(this).data("href");
+        
+        debugger;
+     $.ajax({              
+                url      : href,
+                type     : 'get',
+                data     : {ID:ID},
+                cache    : false,
+                success  : function(data){
+                var message = JSON.parse(data);
+                var pLen,i;
+                pLen=message[0].length;
+                debugger
+                $('.logoutSucc').text('Delivery Account Number deleted successfully.');
+                $(".logoutSucc").addClass("box_warning");
+                $('.accno_field').empty();
+                debugger
+                var pscodehtml='<div class="form-group"><div class="col-lg-12"><select name="deliveryAccountNo" id="deliveryAccountNo" class="form-control empty_textbox dropdownwidth"> <option value="">Please select a Delivery Address</option>';
+                for (i=0;i<pLen;i++){
+                    if(message[0][i]['DeliveryAccountNo']!='') {
+                    pscodehtml+='<option value="'+message[0][i]['id']+'">'+message[0][i]['DeliveryAccountNo']+'</option>';
+                    }
+                }debugger
+                pscodehtml+='</select></div></div>';
+                
+                
+                $('.accno_field').html(pscodehtml);           
+                $('#deliveryAccountNo').val('');  
+                $(".dropdownwidth").select2({
+                placeholder: "Please Select"
+            });           
+                }
+            }); 
+        
+        
+      });
+
  $('#data_1 .input-group.date').datepicker({
                 todayBtn: "linked",
                 keyboardNavigation: false,
@@ -242,86 +706,226 @@ $(this).parent().parent().remove();
 });
 
  
-     function fillmoveAllRight(t){
-    var pp=$(t).parent().parent().find('.listleft');
-      var movepp=$(t).parent().parent().find('.listright');  
+     
 
-        pp.find("input[type='checkbox']").each(function(){
-var selectedOpts_pare=$(this).parent().parent();
-movepp.append($(selectedOpts_pare).clone());
-$(selectedOpts_pare).remove();
-});
-$('.compositionblk').change(function(){  
-    var compositionpercentage=0;
-$(this).parent().parent().find('.compositionblk').each(function(){ 
-if($(this).val()){
-    var valper=Math.ceil($(this).val()/10)*10;
-    $(this).val(valper);
-    compositionpercentage=parseInt(valper)+parseInt(compositionpercentage)
-}
-});
-
-$(this).parent().parent().parent().parent().find('.totalcompositionpercenatge').val(compositionpercentage);
-
-});
+    function garmentfacbricclosefunc()
+    {
         
+        
+        $('#SelectedGarmentFibre1').val('');
+        $("#SelGarmentFibreID1").val(''); 
+        $('#GarmentFibrePerc1').val('');
+        $('#GarmentFibrePerc1').val(0);
+        $("#GarmentFibrePerc1").attr('readonly', 'readonly');
+        
+        $('#SelectedGarmentFibre2').val('');
+        $("#SelGarmentFibreID2").val(''); 
+        $('#GarmentFibrePerc2').val('');
+        $('#GarmentFibrePerc2').val(0);
+        $("#GarmentFibrePerc2").attr('readonly', 'readonly');
+        
+        
+        $('#SelectedGarmentFibre3').val('');
+        $("#SelGarmentFibreID3").val(''); 
+        $('#GarmentFibrePerc3').val('');
+        $('#GarmentFibrePerc3').val(0);
+        $("#GarmentFibrePerc3").attr('readonly', 'readonly');
+        
+        $('#SelectedGarmentFibre4').val('');
+        $("#SelGarmentFibreID4").val(''); 
+        $('#GarmentFibrePerc4').val('');
+        $('#GarmentFibrePerc4').val(0);
+        $("#GarmentFibrePerc4").attr('readonly', 'readonly');
+        
+        $('#SelectedGarmentFibre5').val('');
+        $("#SelGarmentFibreID5").val(''); 
+        $('#GarmentFibrePerc5').val('');
+        $('#GarmentFibrePerc5').val(0);
+        $("#GarmentFibrePerc5").attr('readonly', 'readonly');
+        
+        $('#SelectedGarmentFibre6').val('');
+        $("#SelGarmentFibreID6").val(''); 
+        $('#GarmentFibrePerc6').val('');
+        $('#GarmentFibrePerc6').val(0);
+        $("#GarmentFibrePerc6").attr('readonly', 'readonly');
+        
+        
+        $('#SelectedGarmentFibre7').val('');
+        $("#SelGarmentFibreID7").val(''); 
+        $('#GarmentFibrePerc7').val('');
+        $('#GarmentFibrePerc7').val(0);
+        $("#GarmentFibrePerc7").attr('readonly', 'readonly');
+        
+        $('#SelectedGarmentFibre8').val('');
+        $("#SelGarmentFibreID8").val(''); 
+        $('#GarmentFibrePerc8').val('');
+        $('#GarmentFibrePerc8').val(0);
+        $("#GarmentFibrePerc8").attr('readonly', 'readonly');
+        
+        
+        $('#GarmentFibrePerctotal').val('');
+        $("#GarmentFibrePerctotal").css("background-color", "#eee");
+        $("#GarmentFibrePerctotal").attr('readonly', 'readonly');
+        
+        $("#orderfibrecontent1").val('')
+        $('#fibremyModallink').modal('hide');
+        
+    
     }
 
-     function fillmoveRight(t){ debugger;
-        var pp=$(t).parent().parent().find('.listleft');
-        var movepp=$(t).parent().parent().find('.listright');
-        var selectedOpts = pp.find("input:checked");
-        if (selectedOpts.length == 0) {
-            alert("Nothing to move.");
-            
-        }
+    function garmentfibresaveclick()
+{
 
-        pp.find("input:checked").each(function(){
-var selectedOpts_pare=$(this).parent().parent();
-movepp.append($(selectedOpts_pare).clone());
-$(selectedOpts_pare).remove();
-});
-
-        $('.compositionblk').change(function(){ 
-    var compositionpercentage=0;
-$(this).parent().parent().find('.compositionblk').each(function(){ 
-if($(this).val()){
-    var valper=Math.ceil($(this).val()/10)*10;
-    $(this).val(valper);
-    compositionpercentage=parseInt(valper)+parseInt(compositionpercentage)
-}
-});
-
-$(this).parent().parent().parent().parent().find('.totalcompositionpercenatge').val(compositionpercentage);
-
-});
+var inputn = $('[name="GarmentFibrePerctotal"]');
+  var valtotal = (isNaN(parseInt(inputn.val()))) ? 0 : parseInt(inputn.val());
+  var i=1;j=0;
+  
+    if(valtotal>100)
+    {
+    alert("The fibre contents total percentage should be 100%");
+    }
+    else if(valtotal<100){
+    alert("Fibre content total percentage should be 100%");
+    }else if(valtotal==100)
+    {
         
+        
+        $('#fibremyModallink').modal('hide');
     }
     
-    function fillmoveLeft(t){
-         var pp=$(t).parent().parent().find('.listright');
-         var movepp=$(t).parent().parent().find('.listleft');
-        var selectedOpts = pp.find("input:checked");
-        if (selectedOpts.length == 0) {
-            alert("Nothing to move.");
-            
-        }
+    if($('#garmentstatus').val()){
+        var fillhtml='<div class="row GarmentDetailshow" style=""><div class="row garmenthead" style="display: block;"><div class="col-lg-6"> Garment Component</div><div class="col-lg-6">Component Fibre</div></div><div class="col-lg-6"><label class="garmenttitle"><input type="hidden" class="selectedgarment" value="'+$('#garmenttext').val()+'" name="garmentID[]">'+$('#garmenttext').val()+'</label></div><div class="col-lg-5">';
+   
 
-        pp.find("input:checked").each(function(){
-var selectedOpts_pare=$(this).parent().parent();
-movepp.append($(selectedOpts_pare).clone());
-$(selectedOpts_pare).remove();
-});
-       
-    }
-    function fillmoveAllLeft(t){
-         var pp=$(t).parent().parent().find('.listright');
-        var movepp=$(t).parent().parent().find('.listleft');
+var procesdet=$('.processdetails');
 
-        pp.find("input[type=checkbox]").each(function(){
-var selectedOpts_pare=$(this).parent().parent();
-movepp.append($(selectedOpts_pare).clone());
-$(selectedOpts_pare).remove();
+procesdet.find('.checkdecimal').each(function() {
+var percen=(isNaN(parseInt($(this).val()))) ? 0 : parseInt($(this).val());
+if(percen>0){
+var percentxt=$(this).parent().parent().find('.selectedfabric').val();
+fillhtml+='<div class="col-lg-12"><span id="selectedfibrePer1" class="selectedfibrePer">'+percen+'%<input type="hidden" value="'+percentxt+'" name="garmentfabricID[]"></span><span id="SelFibreval" class="SelFibreval">'+percentxt+'<input type="hidden" value="'+percen+'" name="garmentfabricComposition[]"></span></div>';
+}else{
+var percentxt='';
+}
+
 });
-       
-    }
+fillhtml+='<input type="hidden" class="selectedgarment" value="$" name="garmentID[]"><input type="hidden" value="$" name="garmentfabricID[]"><input type="hidden" value="$" name="garmentfabricComposition[]"></div><div class="col-lg-1"><button type="button" id="garfibdelete" data-type="garment" class="btn btn-sm btn-danger garfibdelete" style="margin-bottom: -16px;">Delete</button></div></div>';
+$('.garmentcompositiondynamic').append(fillhtml);
+ fngetfabriccompositiondetails($('#producttype').val());
+    }else{
+        var fillhtml='<div class="row fibgarmenthead" style="display: block;"><div class="col-lg-6">Garment Fibre</div></div><div class="col-lg-11">';
+    $('#fabriccompositionstatus').val(1);
+var procesdet=$('.processdetails');
+
+procesdet.find('.checkdecimal').each(function() {
+var percen=(isNaN(parseInt($(this).val()))) ? 0 : parseInt($(this).val());
+if(percen>0){
+var percentxt=$(this).parent().parent().find('.selectedfabric').val();
+fillhtml+='<div class="col-lg-12"><span id="selectedfibrePer1" class="selectedfibrePer">'+percen+'%<input type="hidden" value="'+percentxt+'" name="fabricID[]"></span><span id="SelFibreval" class="SelFibreval">'+percentxt+'<input type="hidden" value="'+percen+'" name="fabricComposition[]"></span></div>';
+}else{
+var percentxt='';
+}
+
+});
+fillhtml+='</div><div class="col-lg-1"><button type="button" id="garfibdelete" data-type="fabric"  class="btn btn-sm btn-danger garfibdelete" style="margin-bottom: -16px;">Delete</button></div>';
+$('.fabriccompositiondynamic').html(fillhtml);
+}
+$('#garmentfibrebtn').attr('disabled','disabled');
+$('#garmentcomponentbtn').removeAttr('disabled');
+
+$('.garfibdelete').click(function(){ 
+    var type=$(this).attr('data-type');
+    if(type=='fabric'){$('#fabriccompositionstatus').val('');}
+    $(this).parent().parent().html('');
+    var fabpopdiv=$('#fibremyModallink');
+fabpopdiv.find('.selectedfabric').val('');
+fabpopdiv.find('.checkdecimal').val('0').attr('readonly','readonly');
+fabpopdiv.find('#GarmentFibrePerctotal').val('0').attr('readonly','readonly');
+fabpopdiv.find("option:selected").prop("selected", false);
+$('#materical_select').attr('checked',false);
+fngetfabriccompositiondetails($('#producttype').val());
+});
+
+}
+
+function AddGarmentFibre()
+ {
+
+        
+        var activateval = [];
+        var activatevalText = [];
+        
+        $('#orderfibrecontent1 option:selected').each(function() {
+        activateval.push($(this).val());
+        
+        activatevalText.push($(this).text());
+    
+      });
+      
+        
+        for (var i =0 ; i < activateval.length; i++) 
+         
+         {
+             var NUM=0;
+             //$('#Fibre'+[i]+').val(activatevalText[i]);
+             for (var j = 1; j < 9; j++) 
+             {
+                if($("#SelectedGarmentFibre"+j).val()=="" && NUM==0)
+                    {
+                        
+                        $("#SelectedGarmentFibre"+j).val(activatevalText[i]);
+                         $("#SelectedGarmentFibre"+j).attr('readonly', 'readonly');
+                         $("#SelGarmentFibreID"+j).val(activateval[i]);
+                         
+                         $("#selectedGarmentfibID"+j).val(activateval[i]);
+                         $("#GarmentFibrePerc"+j).attr('readonly', false);
+                         NUM=NUM+1;
+                        
+                    } 
+             }
+             
+             
+         }
+        
+        
+}
+function fngetfabriccompositiondetails(id){
+    var href=$("#pageurl").val()+'/getfabricdetails/ajax/'+id;
+          $.ajax({
+                    url: href,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+
+if(data[0]['fabricdetails']){
+var phtml='';
+for(var i=0;i<data[0]['fabricdetails'].length;i++){
+
+    
+    phtml+='<option value="'+data[0]['fabricdetails']+'">'+data[0]['fabricdetails'][i]+'</option>';
+
+
+}
+$('#orderfibrecontent1').html(phtml);
+
+var phtml='<option>Please Select Garment</option>';
+for(var i=0;i<data[0]['garmentdetails'].length;i++){ debugger;
+    var selectedgarment=[];
+$('.selectedgarment').each(function() {
+selectedgarment.push($(this).val());
+});
+var selectoption='';
+    if($.inArray( data[0]['garmentdetails'][i], selectedgarment )!=-1){selectoption=' disabled="disabled"';}
+    phtml+='<option value="'+data[0]['garmentdetails'][i]+'" '+selectoption+'>'+data[0]['garmentdetails'][i]+'</option>';
+
+
+}
+$('#GarmentComponents').html(phtml);
+$("#GarmentComponents").select2({
+                placeholder: "Please Select Garment"
+            });
+}
+
+                    }
+                });
+}

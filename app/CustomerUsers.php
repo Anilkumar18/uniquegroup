@@ -11,6 +11,6 @@ class CustomerUsers extends Model
 
   protected $fillable = [
     'CustomerID', '	CountryID', 'StateID','	UserTypeID','FirstName','LastName','PhoneNumber','Email','Suite','Street','City','ZIPcode',
-	'UserName','Password','remember_token','is_sys_admin','status'
+	'UserName','Password','Visible_password','remember_token','is_sys_admin','status'
   ];
 }

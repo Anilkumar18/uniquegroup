@@ -24,6 +24,7 @@ use App\UniqueOffices;
 use App\Vendors;
 use App\UniqueUsers;
 use App\UserType;
+use Illuminate\Support\Facades\Crypt;
 
 class UniqueUsersController extends Controller
 {
@@ -66,7 +67,8 @@ public function uniqueusersList()
        
 	  
 	} 
-
+//vidhya-31-03-2018
+//show password
 public function addnewusers (Request $request) {
 	 $user = Auth::user();
      $addressID=0;
@@ -138,6 +140,9 @@ public function addnewusers (Request $request) {
               $user = UniqueUsers::where('userName','=', $request->userName)->where('CustomerID', '=',1)->first();
             
             if ($user === null) {
+
+            	$pwd = $request->password;
+            	$value = Crypt::encrypt($pwd);
               $password =Hash::make($request->password);
                     
 			  if($request->OfficeFactoryName!="")
@@ -150,10 +155,10 @@ public function addnewusers (Request $request) {
 			  }
 			  
                     
-              $user_insert = DB::select('call sp_CRUDuniqueusers(1,0,'.$customerID.','.$OfficeFactoryName.','.$request->userType.',"'.$checkBox11.'","'.$request->firstName.'","'.$request->lastName.'","'.$request->title.'","'.$request->phoneNumber.'","'.$request->email.'","'.$request->userName.'","'.$password.'",1)');  
+            $user_insert = DB::select('call sp_CRUDuniqueusers(1,0,'.$customerID.','.$OfficeFactoryName.','.$request->userType.',"'.$checkBox11.'","'.$request->firstName.'","'.$request->lastName.'","'.$request->title.'","'.$request->phoneNumber.'","'.$request->email.'","'.$request->userName.'","'.$password.'","'.$value.'",1)');  
 				
 				
-				 $logininsert = User::create(['customerID'=>1,'userTypeID' => $request->userType,'countryID' => $countryID,'addressID'=>$addressID,'is_sys_admin'=>$is_sys_admin,'userName'=>$request->userName,'email'=>$request->email,'password'=>$password ,'firstName'=>$request->firstName,'lastName'=>$request->lastName,'phone'=>$request->phoneNumber,'status'=>1]);
+				 $logininsert = User::create(['customerID'=>1,'userTypeID' => $request->userType,'countryID' => $countryID,'addressID'=>$addressID,'is_sys_admin'=>$is_sys_admin,'userName'=>$request->userName,'email'=>$request->email,'password'=>$password ,'Visible_password'=>$value,'firstName'=>$request->firstName,'lastName'=>$request->lastName,'phone'=>$request->phoneNumber,'status'=>1]);
                 
     			$logininsert->save(); 
 
@@ -169,7 +174,8 @@ public function addnewusers (Request $request) {
         } 
 
 }	
-
+//vidhya-31-03-2018
+//show password
 public function uniqueusersDetails(Request $request)
 	 {
 	  $user = Auth::user();
@@ -179,8 +185,12 @@ public function uniqueusersDetails(Request $request)
 	     //print_r($uniqueusersviewlist);exit;
 	
 	$usertype = UserType::where('id', '=', $user->userTypeID)->first();
+	foreach($uniqueusersviewlist as $list)
+	//print_r($list->Visible_password);
+$pwd =$list->Visible_password;
 	
-   return view('admin.uniqueusersdetails', compact('user','uniqueusersviewlist','usertype'));	                                 
+	      $output = Crypt::decrypt($pwd);    
+   return view('admin.uniqueusersdetails', compact('user','uniqueusersviewlist','usertype','output'));	                                 
 	                       
 	 }
 	 

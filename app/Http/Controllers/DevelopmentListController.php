@@ -83,6 +83,13 @@ use App\PackagingStickers;
 
 use App\Tissuepaper;
 
+/*bala-06-04-2018*/
+use App\Woven;
+
+use App\PrintedLabel;
+
+use App\HeatTransfer;
+
 use DB;
 
 use Illuminate\Support\Facades\Input;
@@ -90,6 +97,9 @@ use Illuminate\Support\Facades\Input;
 use Intervention\Image\Facades\Image as Image;
 
 use Illuminate\Http\UploadedFile;
+
+//sathish 29-03-2018
+use PDF;
 
 
 use File;
@@ -190,7 +200,36 @@ class DevelopmentListController extends Controller
          {
             $boxduplicateid=0;
          }
+         /*vidhya:09-04-2018*/
+         if($duplicaterecord->PrintedLabelID != null && $duplicaterecord->PrintedLabelID <> 0)
+        {
+            $printedlabelsduplicatedrecord=DB::select('call sp_CRUDprintedlabel(1,'.$duplicaterecord->PrintedLabelID.')');
+            $printedlabellastduplicateid = PrintedLabel::orderby('id','desc')->first();
+            $printedduplicateid= $printedlabellastduplicateid->id;
+        }else
+        {
+            $printedduplicateid=0;
+        }
 
+        if($duplicaterecord->HeatTransferLabelID != null && $duplicaterecord->HeatTransferLabelID <> 0)
+        {
+            $heattransferduplicatedrecord=DB::select('call sp_CRUDheattransfer(1,'.$duplicaterecord->HeatTransferLabelID.')');
+            $heattransferlastduplicateid = HeatTransfer::orderby('id','desc')->first();
+            $heatduplicateid= $heattransferlastduplicateid->id;
+        }else
+        {
+            $heatduplicateid=0;
+        }
+
+        if($duplicaterecord->WovenLabelID != null && $duplicaterecord->WovenLabelID <> 0)
+        {
+            $wovenduplicatedrecord=DB::select('call sp_CRUDwovenlabel(1,'.$duplicaterecord->WovenLabelID.')');
+            $wovenlastduplicateid = Woven::orderby('id','desc')->first();
+            $wovenduplicateid= $wovenlastduplicateid->id;
+        }else
+        {
+            $wovenduplicateid=0;
+        }
 
         if($duplicaterecord->HangTagsID != null && $duplicaterecord->HangTagsID <> 0)
         {
@@ -338,12 +377,12 @@ class DevelopmentListController extends Controller
             
          }
     
-            //Defect: PDF march05
+         //Defect: PDF march05
          //Name: Vidhya-uniquegroup Team
          //Duplicate Development list fields change
 
 
-         $productdetails_insert = ProductDetails::create([
+ $productdetails_insert = ProductDetails::create([
 		 'CustomerID'=>$duplicaterecord->CustomerID,
 		 'CustomerWareHouseID'=>$duplicaterecord->CustomerWareHouseID,
         'ProductGroupID' => $duplicaterecord->ProductGroupID,
@@ -354,7 +393,10 @@ class DevelopmentListController extends Controller
         'BoxID' => $boxduplicateid,
         'HangTagsID' =>$hangduplicateid,
         'TapesID' =>$tapesduplicateid,
+        'WovenLabelID' => $wovenduplicateid,
         'ZipperPullersID' =>$zipperduplicateid,
+        'PrintedLabelID' =>$printedduplicateid,
+        'HeatTransferLabelID' =>$heatduplicateid,
         'SeasonID'=>NULL,
         'ProductStatusID'=>1,
         'ProductProcessID'=>$duplicaterecord->ProductProcessID,
@@ -472,6 +514,27 @@ class DevelopmentListController extends Controller
             ->update(['ProductID' =>$productdetails_get->id,
             ]);
           }
+           if($printedduplicateid!="" || $printedduplicateid!=NULL || $printedduplicateid<>0)
+          {
+           $productdetailsupdate=DB::table('labelsprinted')
+            ->where('id',$printedduplicateid)
+            ->update(['ProductID' =>$productdetails_get->id,
+            ]);
+          }
+          if($heatduplicateid!="" || $heatduplicateid!=NULL || $heatduplicateid<>0)
+          {
+           $productdetailsupdate=DB::table('heattransfer')
+            ->where('id',$heatduplicateid)
+            ->update(['ProductID' =>$productdetails_get->id,
+            ]);
+          }
+          if($wovenduplicateid!="" || $wovenduplicateid!=NULL || $wovenduplicateid<>0)
+          {
+           $productdetailsupdate=DB::table('labelswoven')
+            ->where('id',$wovenduplicateid)
+            ->update(['ProductID' =>$productdetails_get->id,
+            ]);
+          }
 
 		  
          //$data = $productdetails_insert->id '.' $id;
@@ -527,12 +590,80 @@ class DevelopmentListController extends Controller
       
       $packagingstickersdetails=PackagingStickers::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
       
+	  $zipperdetails=ZipperPullers::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+	  
+	 $tapesdetails=Tapes::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+	 
+	 $wovendetails=Woven::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
 
+     //vidhya:09-04-2018
+     $printedlabeldetails=PrintedLabel::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+	 
+	 $heatdetails=HeatTransfer::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+	  
 
-
-   return view('users.view_developmentlist', compact('user','productdetails','customers','status','usertype','boxesdetails','hookdetails','tissuepaperdetails','packagingstickersdetails'));    
+   return view('users.view_developmentlist', compact('user','productdetails','customers','status','usertype','boxesdetails','hookdetails','tissuepaperdetails','packagingstickersdetails','zipperdetails','tapesdetails','wovendetails','printedlabeldetails','heatdetails','id'));    
 
    }
+   //sathish 30-03-2018 for pdf download pages..
+   public function dowloadpdfviewdevelopment(Request $request, $id)
+   {
+$user = Auth::user();
+
+   $usertype = UserType::where('id', '=', $user->userTypeID)->first();
+
+   $productid=$id;
+
+ 
+
+   $productdetails = ProductDetails::where('id','=',$id)->first();
+
+  
+  
+
+    $customers=App\Customers::where('id','=',$productdetails->CustomerID)->first();
+
+    $status=App\Status::where('id','=',$productdetails->status)->first();
+
+
+       $boxesdetails=Boxes::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+       
+     
+      $hookdetails=Hook::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+      
+      $tissuepaperdetails=Tissuepaper::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+      
+      $packagingstickersdetails=PackagingStickers::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+      
+	  $hangtagsdetails=HangTags::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+	  
+	  $zipperdetails=ZipperPullers::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+	  
+	   $tapesdetails=Tapes::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+	   
+	   
+	    $wovendetails=Woven::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+	   /*vidhya:09-04-2018*/
+	  $printedlabeldetails=PrintedLabel::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+     
+     $heatdetails=HeatTransfer::where('ProductID','=',$productdetails->id)->where('status','=',1)->first();
+      
+
+  $path=storage_path();
+  $pdfimage="";
+$pdf=PDF::loadView('users.view_pdf_download');
+    $pdf->setPaper('a4', 'portrait');
+             $pdfimage=PDF::loadView('users.view_pdf_download',compact('user','productdetails','customers','status','usertype','boxesdetails','hookdetails','tissuepaperdetails','packagingstickersdetails','hangtagsdetails','zipperdetails','tapesdetails','wovendetails','printedlabeldetails','heatdetails'));    
+
+             //$pdfimage->download($path.'/app/data/product/'.'downloadfile.pdf'); 
+
+             return $pdfimage->download('pdfview.pdf');
+			 //return $pdfimage->stream('pdfview.pdf');
+
+             // return back();
+
+   }//end sathish
+
    /*Vidhya:PHP
    //Delete function for all new products*/
 
@@ -569,6 +700,18 @@ class DevelopmentListController extends Controller
        }
        if ($developmentlist_delete->ZipperPullersID!=0) {
          $deletehangproduct = ZipperPullers::where('id','=',$developmentlist_delete->ZipperPullersID)->first();
+        $deletehangproduct->delete();  
+       }
+       if ($developmentlist_delete->PrintedLabelID!=0) {
+         $deletehangproduct = PrintedLabel::where('id','=',$developmentlist_delete->PrintedLabelID)->first();
+        $deletehangproduct->delete();  
+       }
+       if ($developmentlist_delete->HeatTransferLabelID!=0) {
+         $deletehangproduct = HeatTransfer::where('id','=',$developmentlist_delete->HeatTransferLabelID)->first();
+        $deletehangproduct->delete();  
+       }
+       if ($developmentlist_delete->WovenLabelID!=0) {
+         $deletehangproduct = Woven::where('id','=',$developmentlist_delete->WovenLabelID)->first();
         $deletehangproduct->delete();  
        }
        
